@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./provinciaLocalitzacio.js"></script>
+    <title>Llistat de provincies</title>
+</head>
+
+<body>
+
+    <h1>Llistat de provincies</h1>
+    <h2 id="id">País seleccionat:</h2>
+
+        <input type="text" id="province" placeholder="Alacant" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+        <span id="mensajeError" style="color:red"></span>
+
+        <button id="afegir"></button>
+
+    <ol id="llista">
+        <!-- Ací ensenyem els països -->
+    </ol>
+
+    <input type="hidden" id="index" value="-1">
+    <a href="../indexLocalitzacio.html"><button id="torna">Torna</button></a>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta d'Usuaris</title>
+    <!-- Inclou el fitxer JavaScript extern que gestionarà la lògica del formulari -->
+    <script type="text/javascript" src="altaUsuaris.js"></script>
+</head>
+<body>
+    <h1>Alta d'Usuaris</h1>
+    
+    <!-- Botó per tornar a la pàgina de llista d'usuaris -->
+    <button onclick="window.location.href='usuaris.html'">Tornar a la Llista</button>
+    
+    <!-- Formulari principal per donar d'alta usuaris -->
+    <form id="formulariUsuari">
+        <table>
+            <tr>
+                <td>Nom d'usuari:</td>
+                <td>
+                    <!-- Camp amb validació per nom d'usuari (2-15 lletres) -->
+                    <input type="text" name="nomUsuari" id="nomUsuari" maxlength="15" 
+                           pattern="[A-Za-z\s]{2,15}" 
+                           title="Introdueix entre 2 i 15 lletres" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Nom:</td>
+                <td>
+                    <!-- Camp per al nom real amb la mateixa validació que nomUsuari -->
+                    <input type="text" name="nom" id="nom" maxlength="15" 
+                           pattern="[A-Za-z\s]{2,15}" 
+                           title="Introdueix entre 2 i 15 lletres" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Correu:</td>
+                <td>
+                    <!-- Camp de correu electrònic amb validació nativa d'HTML5 -->
+                    <input type="email" name="correu" id="correu" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Contrasenya:</td>
+                <td>
+                    <!-- Camp de contrasenya amb botó per mostrar/amagar -->
+                    <input type="password" name="contrasenya" id="contrasenya" 
+                           maxlength="15" required/>
+                    <button type="button" id="botoContrasenya">👁️</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Rol:</td>
+                <td>
+                    <!-- Selector de rol (Usuari/Admin) -->
+                    <select id="rol">
+                    <option value="Usuari">Usuari</option>
+                    <option value="Admin">Admin</option>                    
+                    </select>
+                </td> 
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <!-- Botons per enviar i reiniciar el formulari -->
+                    <input type="submit" name="enviar" id="enviar" value="Enviar"/>
+                    <input type="reset" name="limpiar" id="limpiar" value="Reiniciar"/>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Àrea per mostrar missatges d'error a l'usuari -->
+        <div id="missatgeError"></div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./poblacioLocalitzacio.js"></script>
+    <title>Llistat de poblacions</title>
+</head>
+<body>
+
+    <h1>Llistat de poblacions</h1>
+    <h2 id="id_country">País seleccionat:</h2>
+    <h2 id="id_province">Provincia seleccionada:</h2>
+
+    <input type="text" id="city" placeholder="Pego" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+    <button id="afegir"></button>
+    <span id="mensajeError" style="color: red;"></span>
+
+    <ol id="llista">
+        <!-- Ací ensenyem els països -->
+    </ol>
+    <input type="hidden" id="index" value="-1">
+    <button id="torna">Torna</button>
+
+</body>
+</html>

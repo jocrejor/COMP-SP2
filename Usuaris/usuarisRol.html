@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestió de Rols</title>
+    <!-- Inclou el fitxer JavaScript que gestionarà la lògica dels rols -->
+    <script type="text/javascript" src="usuarisRol.js"></script>
+</head>
+<body>
+    <h1>Gestió de Rols</h1>
+    
+    <!-- Botó per tornar a la llista principal d'usuaris -->
+    <button onclick="window.location.href='usuaris.html'">Tornar a la Llista</button>
+    
+    <div>
+        <h2>Afegir Nou Rol</h2>
+        <!-- Formulari per afegir nous rols al sistema -->
+        <form id="formulariRol">
+            <input type="text" id="nouRol" placeholder="Nom del nou rol" required>
+            <button type="submit">Afegir Rol</button>
+        </form>
+    </div>
+    
+    <div>
+        <h2>Rols Disponibles</h2>
+        <!-- lista on es mostraran dinàmicament tots els rols existents -->
+        <!-- El JavaScript usuarisRol.js s'encarregarà d'omplir aquesta llista -->
+        <ul id="llistaRols">
+            <!-- Aquí es mostraran els rols -->
+        </ul>
+    </div>
+</body>
+</html>

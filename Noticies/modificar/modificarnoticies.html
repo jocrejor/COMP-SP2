@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticies</title>
+    <script src="./modificarnoticies.js"></script>
+</head>
+<body>
+    <h1>News</h1>
+    <form  id="elFormulari">
+        <div> 
+    <label for="titol">Title</label>
+    <input type="text" name="titol" id="titol" maxlength="15"
+        pattern="[A-Za-zÀ-ÿñÑ\s]{2,15}" 
+        title="Introdueix entre 2 i 15 lletres" 
+        required/>
+
+ </div>
+  <div> 
+    <label for="subtitol">Description</label>
+
+    <input type="text" name="subtitol" id="subtitol" maxlength="15" pattern="[A-Za-z\s]{2,15}" title="Introdueix entre 2 i 15 lletres" required/>
+    </div>
+    <div> 
+    <label for="contingut">Body</label>
+
+    <textarea type="text" name="contingut" id="contingut" maxlength="255" pattern="[A-Za-z\s]{2,255}" title="Introdueix entre 2 i 255 lletres" required ></textarea>
+    </div>
+    <div> 
+    <label for="data">Date</label>
+    <input type="date" name="data" id="data" 
+        pattern="\d{2}-\d{2}-\d{4}" 
+        placeholder="dd/mm/yy" 
+        required>
+    </div>
+
+<div> 
+    <input type="submit" name="enviar" id="enviar"  value="Modificar"/>
+    </div>
+        <p id="missatgeError"></p>
+        </form>
+
+   
+
+</body>
+</html>

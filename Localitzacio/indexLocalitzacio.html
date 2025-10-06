@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./indexLocalitzacio.js"></script>
+    <title>Llistar localització</title>
+</head>
+<body>
+    <h1 id="id">Llistat de països</h1>
+
+    <input type="text" id="country" placeholder="Espanya" minlength="3" maxlength="30" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+    <span id="mensajeError" style="color:red"></span>
+    <button id="afegir"></button>
+
+    <ol id="llista">
+        <!-- Ací ensenyem els països -->
+    </ol>
+    <input type="hidden" id="index" value="-1">
+</body>
+</html>

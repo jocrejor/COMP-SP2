@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llista d'Usuaris</title>
+    <!-- Inclou el fitxer JavaScript que gestionarà la llista d'usuaris -->
+    <script type="text/javascript" src="usuaris.js"></script>
+</head>
+<body>
+    <h1>Llista d'Usuaris</h1>
+    
+    <div>
+        <!-- Botó per anar al formulari d'alta d'usuaris -->
+        <button onclick="window.location.href='altaUsuaris.html'">Afegir Usuari</button>
+        
+        <!-- Botó per gestionar els rols dels usuaris -->
+        <button onclick="window.location.href='usuarisRol.html'">Gestionar Rols</button>
+    </div>
+    
+    <hr>
+    
+    <!-- Div on es renderitzarà dinàmicament la llista d'usuaris -->
+    <!-- El JavaScript usuaris.js s'encarregarà d'omplir aquest contenidor -->
+    <div id="llistaUsuaris">
+        <!-- Ací es mostraran els usuaris afegits -->
+    </div>
+</body>
+</html>

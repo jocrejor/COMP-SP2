@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulari Alta Families</title>
+    <script src="altaFamilia.js" defer></script>
+    <style>
+        .error { border: 2px solid red; }
+    </style>
+</head>
+<body>
+    <h1>Formulari Families</h1>
+    <table border>
+        <thead>
+            <tr>
+                <th>Imatge</th>
+                <th>Nom</th>
+                <th>Descripció</th>
+                <th>Familia de:</th>
+                <th>Accions</th>
+            </tr>
+        </thead>
+        <tbody id="taulaFamilia"></tbody>
+    </table>
+    <br>
+
+    <input type="hidden" id="index" value="-1">
+
+    <input 
+        type="text" id="nom" 
+        placeholder="Nova familia" 
+        required minlength="3" maxlength="100"
+        pattern="^[A-Za-z0-9áéíóúàèìòùäëïöüñÁÉÍÓÚÀÈÌÒÙÄËÏÖÜÑ\s'’]+$"
+    >
+
+    <label>Familia de: </label>
+    <select id="familia_de">
+        <option value=""></option>
+    </select>
+
+    <input type="file" id="imatge" accept="image/*"><br><br>
+
+    <textarea 
+        id="descripcio" 
+        rows="3" cols="50" 
+        placeholder="Descripció de la familia" 
+        required minlength="3" maxlength="250"
+    ></textarea><br><br>
+
+    <button id="afegir">Afegir</button>
+    <p id="alerta" style="color:red"></p>
+</body>
+</html>
