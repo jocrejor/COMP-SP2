@@ -91,7 +91,7 @@ CREATE TABLE User (
     password VARCHAR(30) NOT NULL,
     rol_id INT NOT NULL,
     CONSTRAINT fk_user_rol FOREIGN KEY (rol_id) REFERENCES Rol(id)
-);
+);veureMissatge
 
 
 /* JSON de valors de pais- provincia - ciutat    
