@@ -76,7 +76,7 @@ function main(){
     console.log("hola " + nameFromLocalStorage)  // Se imprime en consola para depuración
 
     if(nameFromLocalStorage.length > 0){
-      container.innerHTML = "Caregoria correctamety introduida"
+      container.innerHTML = "Caregoria correctament introduida"
     } else {
       container.innerHTML = "No hi han dades"
     }
