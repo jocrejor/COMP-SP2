@@ -144,7 +144,7 @@ Productimage = [
 { "id": 6,"name":"rtx4080_backplate", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 3,"product_id": 47},
 { "id": 7,"name":"inno3d_4080_front", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 1,"product_id": 47},
 { "id": 8,"name":"inno3d_4080_angle", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 2,"product_id": 47},
-{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47};
+{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47}
 ]
 
 let Orders = [
