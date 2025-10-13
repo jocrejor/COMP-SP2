@@ -132,9 +132,10 @@ let Product = [
   { "id": 48, "name": "Fuente de alimentación Corsair RM750x", "price": 129.00, "description": "Fuente modular de 750W con certificación Gold.", "family_id": 1 },
   { "id": 49, "name": "Memoria RAM Kingston Fury 32GB", "price": 149.00, "description": "Kit DDR5 de alto rendimiento.", "family_id": 1 },
   { "id": 50, "name": "SSD Samsung 990 PRO 1TB", "price": 189.99, "description": "Unidad de almacenamiento NVMe de última generación.", "family_id": 1 }
-]
+];
 
-Productimage = [
+
+let Productimage = [
 
 { "id": 1,"name":"p_pavilion_15_front", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 1,"product_id": 1},
 { "id": 2,"name":"hp_pavilion_15_side", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 2,"product_id": 1},
@@ -144,8 +145,102 @@ Productimage = [
 { "id": 6,"name":"rtx4080_backplate", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 3,"product_id": 47},
 { "id": 7,"name":"inno3d_4080_front", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 1,"product_id": 47},
 { "id": 8,"name":"inno3d_4080_angle", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 2,"product_id": 47},
-{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47};
+{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47}
 ]
 
+let Order = [
+  { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 101 },
+  { "id": 2, "date": "2025-10-05 09:15", "payment": "PayPal", "total_amount": 75.99, "shipping_amount": 0.00, "client_id": 102 },
+  { "id": 3, "date": "2025-10-07 18:45", "payment": "Bizum", "total_amount": 230.00, "shipping_amount": 10.00, "client_id": 103 },
+  { "id": 4, "date": "2025-10-09 11:00", "payment": "Bank Transfer", "total_amount": 150.75, "shipping_amount": 7.50, "client_id": 104 },
+  { "id": 5, "date": "2025-10-11 16:20", "payment": "Credit Card", "total_amount": 89.90, "shipping_amount": 0.00, "client_id": 105 },
+  { "id": 6, "date": "2025-10-12 19:05", "payment": "PayPal", "total_amount": 300.00, "shipping_amount": 15.00, "client_id": 106 }
+];
 
+let Orderdetail = [
+  { "id": 1, "order_id": 1, "product_id": 201, "discount": 0.00, "quantity": 2, "price": 25.00 },
+  { "id": 2, "order_id": 1, "product_id": 202, "discount": 5.00, "quantity": 1, "price": 75.50 },
+  { "id": 3, "order_id": 2, "product_id": 203, "discount": 0.00, "quantity": 3, "price": 20.00 },
+  { "id": 4, "order_id": 3, "product_id": 201, "discount": 10.00, "quantity": 5, "price": 25.00 },
+  { "id": 5, "order_id": 3, "product_id": 204, "discount": 0.00, "quantity": 2, "price": 50.00 }
+];
+
+
+let Client = [
+  {
+    "id": 1,
+    "taxidtype": "DNI",
+    "taxid": "12345678A",
+    "name": "Jose",
+    "surname": "López",
+    "email": "jose@example.com",
+    "phone": "+34600111222",
+    "birth_date": "1995-05-15",
+    "address": "Calle Mayor 12",
+    "cp": "28013",
+    "country_id": 1,
+    "province_id": 1,
+    "city_id": 1
+  },
+  {
+    "id": 2,
+    "taxidtype": "NIE",
+    "taxid": "X2345678B",
+    "name": "Alejandro",
+    "surname": "Pérez",
+    "email": "alex@example.com",
+    "phone": "+34600333444",
+    "birth_date": "1990-09-22",
+    "address": "Avenida del Sol 45",
+    "cp": "08021",
+    "country_id": 1,
+    "province_id": 2,
+    "city_id": 3
+  },
+  {
+    "id": 3,
+    "taxidtype": "DNI",
+    "taxid": "87654321C",
+    "name": "Marta",
+    "surname": "Sánchez",
+    "email": "marta@example.com",
+    "phone": "+34600555666",
+    "birth_date": "1988-12-01",
+    "address": "Plaza España 7",
+    "cp": "41001",
+    "country_id": 1,
+    "province_id": 3,
+    "city_id": 5
+  },
+  {
+    "id": 4,
+    "taxidtype": "DNI",
+    "taxid": "23456789D",
+    "name": "Carlos",
+    "surname": "Díaz",
+    "email": "carlos@example.com",
+    "phone": "+34600777888",
+    "birth_date": "1992-03-10",
+    "address": "Calle Luna 9",
+    "cp": "46002",
+    "country_id": 1,
+    "province_id": 4,
+    "city_id": 7
+  },
+  {
+    "id": 5,
+    "taxidtype": "NIE",
+    "taxid": "Y3456789E",
+    "name": "Lucía",
+    "surname": "Fernández",
+    "email": "lucia@example.com",
+    "phone": "+34600999000",
+    "birth_date": "1998-07-25",
+    "address": "Calle Estrella 21",
+    "cp": "50001",
+    "country_id": 1,
+    "province_id": 5,
+    "city_id": 9
+  }
+];
 
