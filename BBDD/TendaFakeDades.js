@@ -146,6 +146,10 @@ Productimage = [
 { "id": 8,"name":"inno3d_4080_angle", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 2,"product_id": 47},
 { "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47};
 ]
-
+CategoriesNoticia = [
+  {id:1, name:"Nova Versió"},
+  {id:2, name:"Cas d' èxit"},
+  {id:3, name:"Esdeveniments"};
+]
 
 
