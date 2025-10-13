@@ -36,6 +36,7 @@ function validarvalor () {
 }
 
 
+
     function validar (e) {
     esborrarError ();
     if (validarnom()  && validarvalor () && confirm("Confirma si vols enviar el formulari") ){
