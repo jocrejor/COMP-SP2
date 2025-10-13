@@ -165,3 +165,82 @@ let Orderdetail = [
   { "id": 5, "order_id": 3, "product_id": 204, "discount": 0.00, "quantity": 2, "price": 50.00 }
 ];
 
+
+let Client = [
+  {
+    "id": 1,
+    "taxidtype": "DNI",
+    "taxid": "12345678A",
+    "name": "Jose",
+    "surname": "López",
+    "email": "jose@example.com",
+    "phone": "+34600111222",
+    "birth_date": "1995-05-15",
+    "address": "Calle Mayor 12",
+    "cp": "28013",
+    "country_id": 1,
+    "province_id": 1,
+    "city_id": 1
+  },
+  {
+    "id": 2,
+    "taxidtype": "NIE",
+    "taxid": "X2345678B",
+    "name": "Alejandro",
+    "surname": "Pérez",
+    "email": "alex@example.com",
+    "phone": "+34600333444",
+    "birth_date": "1990-09-22",
+    "address": "Avenida del Sol 45",
+    "cp": "08021",
+    "country_id": 1,
+    "province_id": 2,
+    "city_id": 3
+  },
+  {
+    "id": 3,
+    "taxidtype": "DNI",
+    "taxid": "87654321C",
+    "name": "Marta",
+    "surname": "Sánchez",
+    "email": "marta@example.com",
+    "phone": "+34600555666",
+    "birth_date": "1988-12-01",
+    "address": "Plaza España 7",
+    "cp": "41001",
+    "country_id": 1,
+    "province_id": 3,
+    "city_id": 5
+  },
+  {
+    "id": 4,
+    "taxidtype": "DNI",
+    "taxid": "23456789D",
+    "name": "Carlos",
+    "surname": "Díaz",
+    "email": "carlos@example.com",
+    "phone": "+34600777888",
+    "birth_date": "1992-03-10",
+    "address": "Calle Luna 9",
+    "cp": "46002",
+    "country_id": 1,
+    "province_id": 4,
+    "city_id": 7
+  },
+  {
+    "id": 5,
+    "taxidtype": "NIE",
+    "taxid": "Y3456789E",
+    "name": "Lucía",
+    "surname": "Fernández",
+    "email": "lucia@example.com",
+    "phone": "+34600999000",
+    "birth_date": "1998-07-25",
+    "address": "Calle Estrella 21",
+    "cp": "50001",
+    "country_id": 1,
+    "province_id": 5,
+    "city_id": 9
+  }
+];
+
