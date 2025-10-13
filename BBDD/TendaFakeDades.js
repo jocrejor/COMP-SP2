@@ -147,7 +147,7 @@ Productimage = [
 { "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47}
 ]
 
-let Orders = [
+let Order = [
   { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 101 },
   { "id": 2, "date": "2025-10-05 09:15", "payment": "PayPal", "total_amount": 75.99, "shipping_amount": 0.00, "client_id": 102 },
   { "id": 3, "date": "2025-10-07 18:45", "payment": "Bizum", "total_amount": 230.00, "shipping_amount": 10.00, "client_id": 103 },
@@ -156,7 +156,7 @@ let Orders = [
   { "id": 6, "date": "2025-10-12 19:05", "payment": "PayPal", "total_amount": 300.00, "shipping_amount": 15.00, "client_id": 106 }
 ];
 
-let OrderItems = [
+let Orderdetail = [
   { "id": 1, "order_id": 1, "product_id": 201, "discount": 0.00, "quantity": 2, "price": 25.00 },
   { "id": 2, "order_id": 1, "product_id": 202, "discount": 5.00, "quantity": 1, "price": 75.50 },
   { "id": 3, "order_id": 2, "product_id": 203, "discount": 0.00, "quantity": 3, "price": 20.00 },
