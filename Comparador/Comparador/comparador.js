@@ -8,7 +8,7 @@ function main() {
     // Obtenir l'index del producte a través de la URL
     const params = new URLSearchParams(window.location.search);
     const index = params.get('index');
-
+    
     if (index !== null && productes[index]) {
         const product = productes[index]
 

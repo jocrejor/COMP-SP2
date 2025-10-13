@@ -8,10 +8,10 @@ let indexEdicio = null;
 
 // Funció per mostrar els registres a la taula
 function mostrarTaula() {
-  const tbody = document.querySelector("#taulaResultat tbody");
+  const tbody = document.querySelector("#taulaResultat tbody");//selecciona el cos de la taula
   tbody.innerHTML = "";
 
-  const registres = JSON.parse(localStorage.getItem("registres")) || [];
+  const registres = JSON.parse(localStorage.getItem("registres")) || [];//carrega del localStorage el registres guardats anteriorment
 
   registres.forEach((registre, index) => {
     const fila = document.createElement("tr");
@@ -30,20 +30,17 @@ function mostrarTaula() {
       </td>
     `;
 
-    tbody.appendChild(fila);
+    tbody.appendChild(fila);//afegir la fila a la taula com a fill
   });
 }
 
 // Quan s’envia el formulari
-document
-  .getElementById("formulariRegistre")
-  .addEventListener("submit", function (e) {
+document.getElementById("formulariRegistre").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const dadesRegistre = {
       session_id: sessionStorage.getItem("session_id"),
-      user_agent:
-        document.getElementById("user_agent").value || navigator.userAgent,
+      user_agent: document.getElementById("user_agent").value || navigator.userAgent,
       client_id: document.getElementById("client_id").value,
       comparator_id: document.getElementById("comparator_id").value,
       favorite_id: document.getElementById("favorite_id").value,
