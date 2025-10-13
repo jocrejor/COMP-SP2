@@ -132,9 +132,10 @@ let Product = [
   { "id": 48, "name": "Fuente de alimentación Corsair RM750x", "price": 129.00, "description": "Fuente modular de 750W con certificación Gold.", "family_id": 1 },
   { "id": 49, "name": "Memoria RAM Kingston Fury 32GB", "price": 149.00, "description": "Kit DDR5 de alto rendimiento.", "family_id": 1 },
   { "id": 50, "name": "SSD Samsung 990 PRO 1TB", "price": 189.99, "description": "Unidad de almacenamiento NVMe de última generación.", "family_id": 1 }
-]
+];
 
-Productimage = [
+
+let Productimage = [
 
 { "id": 1,"name":"p_pavilion_15_front", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 1,"product_id": 1},
 { "id": 2,"name":"hp_pavilion_15_side", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 2,"product_id": 1},
@@ -144,8 +145,8 @@ Productimage = [
 { "id": 6,"name":"rtx4080_backplate", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 3,"product_id": 47},
 { "id": 7,"name":"inno3d_4080_front", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 1,"product_id": 47},
 { "id": 8,"name":"inno3d_4080_angle", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 2,"product_id": 47},
-{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47}
-]
+{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47},
+];
 
 let Order = [
   { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 101 },
