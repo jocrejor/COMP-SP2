@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Gestió de Característiques </title>
+     <script src="./caracteristica.js"></script>
+</head>
+<body>
+    
+    <form  id="elFormulari">
+        <div> 
+    <label for="nom">Nom de la característica</label>
+    <input type="text" name="nom" id="nom" maxlength="15"
+        pattern="[A-Za-zÀ-ÿñÑ\s]{2,20}" 
+        title="Introdueix entre 2 i 20 lletres" 
+        required/>
+
+ </div>
+  <div> 
+    <label for="valor">Valor</label>
+
+    <input type="text" name="valor" id="valor" maxlength="20" pattern="[A-Za-z\s]{2,20}" title="Introdueix entre 2 i 15 lletres" required/>
+    </div>
+ 
+
+    <div> 
+    <input type="submit" name="enviar" id="enviar"  value="Crear"/>
+    </div>
+        <p id="missatgeError"></p>
+        </form>
+
+
+</body>
+</html>
