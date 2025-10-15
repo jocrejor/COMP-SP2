@@ -18,53 +18,78 @@ function carregarUsuaris() {
 // Funció per mostrar tots els usuaris en una taula HTML.
 function mostrarUsuaris() {
     const llista = document.getElementById('llistaUsuaris');
-    
-    // Comprovar si no hi ha usuaris
+
+    // 🧹 Buidar contingut anterior sense usar innerHTML
+    llista.replaceChildren();
+
+    // Si no hi ha usuaris
     if (usuaris.length === 0) {
-        llista.innerHTML = '<p>No hi ha usuaris registrats</p>';
+        const missatge = document.createElement('p');
+        missatge.textContent = 'No hi ha usuaris registrats';
+        llista.appendChild(missatge);
         return;
     }
-    
-    // Crear la taula HTML dinàmicament
-    let html = '<table border="1" width="80%">';
-    html += '<tr><th>ID</th><th>Nom Usuari</th><th>Correu</th><th>Nom</th><th>Rol</th><th>Accions</th></tr>';
-    
-    // Recórrer tots els usuaris i crear files de la taula
-    for (let i = 0; i < usuaris.length; i++) {
-        const usuari = usuaris[i];
-        html += `
-            <tr>
-                <td>${usuari.id}</td>
-                <td>${usuari.nomUsuari}</td>
-                <td>${usuari.correu}</td>
-                <td>${usuari.nom}</td>
-                <td>${usuari.rol}</td>
-                <td>
-                    <!-- Botons d'acció amb els IDs corresponents -->
-                    <button onclick="editarUsuari(${usuari.id})">Editar</button>
-                    <button onclick="eliminarUsuari(${usuari.id})">Eliminar</button>
-                </td>
-            </tr>
-        `;
-    }
-    
-    html += '</table>';
-    llista.innerHTML = html;
+
+    // Crear taula
+    const taula = document.createElement('table');
+    taula.border = '1';
+    taula.cellPadding = '5px';
+
+    // Crear capçalera
+    const header = document.createElement('tr');
+    const columnes = ['ID', 'Nom Usuari', 'Correu', 'Nom', 'Rol', 'Accions'];
+    columnes.forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        header.appendChild(th);
+    });
+    taula.appendChild(header);
+
+    // Crear files per a cada usuari
+    usuaris.forEach(usuari => {
+        const fila = document.createElement('tr');
+
+        // Camps bàsics
+        ['id', 'nomUsuari', 'correu', 'nom', 'rol'].forEach(clau => {
+            const td = document.createElement('td');
+            td.textContent = usuari[clau];
+            fila.appendChild(td);
+        });
+
+        // Cel·la d'accions
+        const accionsTd = document.createElement('td');
+
+        // Botó editar
+        const botoEditar = document.createElement('button');
+        botoEditar.textContent = 'Editar';
+        botoEditar.addEventListener('click', () => editarUsuari(usuari.id));
+        accionsTd.appendChild(botoEditar);
+
+        // Botó eliminar
+        const botoEliminar = document.createElement('button');
+        botoEliminar.textContent = 'Eliminar';
+        botoEliminar.addEventListener('click', () => eliminarUsuari(usuari.id));
+        accionsTd.appendChild(botoEliminar);
+
+        fila.appendChild(accionsTd);
+        taula.appendChild(fila);
+    });
+
+    // Afegir taula al contenidor
+    llista.appendChild(taula);
 }
 
 // Funció per eliminar un usuari amb confirmació.
 function eliminarUsuari(id) {
     if (confirm("Estàs segur que vols eliminar aquest usuari?")) {
-        // Filtrar l'array per eliminar l'usuari amb la ID especificada
         usuaris = usuaris.filter(usuari => usuari.id !== id);
         guardarUsuaris();
-        mostrarUsuaris(); // Actualitzar la visualització
+        mostrarUsuaris(); // Actualitzar vista
     }
 }
 
 // Funció per editar un usuari - redirigeix al formulari d'edició.
 function editarUsuari(id) {
-    // Redirigir a la pàgina d'alta d'usuaris amb l'ID com a paràmetre URL
     window.location.href = `altaUsuaris.html?editar=${id}`;
 }
 
