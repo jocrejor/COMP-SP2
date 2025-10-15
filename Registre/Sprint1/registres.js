@@ -152,7 +152,7 @@ function carregarFormulari(index) {
   document.getElementById("phone").value = client.phone;
   document.getElementById("user_name").value = client.user_name;
   document.getElementById("email").value = client.email;
-  document.getElementById("adress").value = client.address;
+  document.getElementById("address").value = client.address;
   document.getElementById("cp").value = client.cp;
   document.getElementById("country_id").value = client.country;
   document.getElementById("province_id").value = client.province;
@@ -171,7 +171,7 @@ function crearClient() {
   let phone = document.getElementById("phone").value;
   let user_name = document.getElementById("user_name").value;
   let email = document.getElementById("email").value;
-  let address = document.getElementById("adress").value; 
+  let address = document.getElementById("address").value; 
   let cp = document.getElementById("cp").value;
   let country = document.getElementById("country_id").value;
   let province = document.getElementById("province_id").value;
@@ -243,7 +243,7 @@ function actualitzarClient() {
   let phone = document.getElementById("phone").value;
   let user_name = document.getElementById("user_name").value;
   let email = document.getElementById("email").value;
-  let address = document.getElementById("adress").value; 
+  let address = document.getElementById("address").value; 
   let cp = document.getElementById("cp").value;
   let country = document.getElementById("country_id").value;
   let province = document.getElementById("province_id").value;
@@ -307,7 +307,7 @@ function netejarFormulari() {
   document.getElementById("phone").value = "";
   document.getElementById("user_name").value = "";
   document.getElementById("email").value = "";
-  document.getElementById("adress").value = ""; 
+  document.getElementById("address").value = ""; 
   document.getElementById("cp").value = "";   
   document.getElementById("country_id").value = "";
   document.getElementById("province_id").value = "";

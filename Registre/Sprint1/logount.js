@@ -1,15 +1,9 @@
+let botoEixir = document.getElementById('logount'); 
 
-//Boto de logount
-let botoEixir = document.getElementById('logount');
+botoEixir.addEventListener('click', function() {
+    // Borra l'usuari actiu
+    sessionStorage.removeItem("usuariActiu");
 
-botoEixir.addEventListener('click', function(){
-    // Esborrem dades d'usuari de la sessió
-    sessionStorage.clear();
-
-    // Tornem al login
+    // Torna a llistar
     window.location.href = "informacio.html";
 });
-function logout() {
-  sessionStorage.removeItem("usuariActiu");
-  window.location.href = "informacio.html"; 
-}
