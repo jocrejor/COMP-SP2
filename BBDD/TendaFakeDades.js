@@ -781,8 +781,6 @@ const Productattribute = [
   { product_id: 25, attribute_id: 9, value: "USA" }
 ];
 
-<<<<<<< HEAD
-=======
 const Sale = [
   { id: 1, description: "Descuento en HP Pavilion 15", discount_percent: 15.00, coupon: "HP15SALE", start_date: "2025-10-10 00:00:00", end_date: "2025-10-20 23:59:59", created_at: "2025-10-01 00:00:00" },
   { id: 2, description: "Rebaja en Lenovo IdeaPad 3", discount_percent: 10.00, coupon: "LEN10", start_date: "2025-10-12 00:00:00", end_date: "2025-10-22 23:59:59", created_at: "2025-10-02 00:00:00" },
@@ -815,7 +813,6 @@ const Sale = [
   { id: 29, description: "Geekom Mini IT13", discount_percent: 10.00, coupon: "GEEK10", start_date: "2025-10-13 00:00:00", end_date: "2025-10-23 23:59:59", created_at: "2025-10-29 00:00:00" },
   { id: 30, description: "CHUWI HeroBox Pro", discount_percent: 7.50, coupon: "CHUWI7", start_date: "2025-10-14 00:00:00", end_date: "2025-10-24 23:59:59", created_at: "2025-10-30 00:00:00" }
 ];
->>>>>>> origin/main
 
 
 
