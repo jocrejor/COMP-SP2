@@ -43,29 +43,54 @@ function getProductId() {
 
 // --- Mostrar los datos del producto ---
 function showProduct() {
-  const id = getProductId();
+  const id = getProductId(); // Debes tener esta función que obtiene el ID del producto
   const product = products.find(p => p.id === id);
 
+  const container = document.getElementById("productDetail");
+  container.replaceChildren(); // Limpiar contenido anterior
+
   if (!product) {
-    document.getElementById("productDetail").innerHTML = "<p>Producto no encontrado.</p>";
+    const p = document.createElement("p");
+    p.textContent = "Producto no encontrado.";
+    container.appendChild(p);
     return;
   }
 
   // Buscar la familia
   const family = families.find(f => f.id === product.family_id);
 
-  // Construir HTML del detalle
-  const html = `
-    <div>
-      <img src="${product.image}" alt="${product.name}" width="300">
-      <h2>${product.name}</h2>
-      <p><strong>Precio:</strong> $${product.price}</p>
-      <p><strong>Descripción:</strong> ${product.description}</p>
-      <p><strong>Familia:</strong> ${family ? family.name : "Desconocida"}</p>
-    </div>
-  `;
+  // Contenedor del producto
+  const div = document.createElement("div");
 
-  document.getElementById("productDetail").innerHTML = html;
+  // Imagen
+  const img = document.createElement("img");
+  img.src = product.image;
+  img.alt = product.name;
+  img.width = 300;
+  div.appendChild(img);
+
+  // Nombre
+  const h2 = document.createElement("h2");
+  h2.textContent = product.name;
+  div.appendChild(h2);
+
+  // Precio
+  const pPrice = document.createElement("p");
+  pPrice.appendChild(document.createTextNode("Precio: $" + product.price));
+  div.appendChild(pPrice);
+
+  // Descripción
+  const pDesc = document.createElement("p");
+  pDesc.appendChild(document.createTextNode("Descripción: " + product.description));
+  div.appendChild(pDesc);
+
+  // Familia
+  const pFam = document.createElement("p");
+  pFam.appendChild(document.createTextNode("Familia: " + (family ? family.name : "Desconocida")));
+  div.appendChild(pFam);
+
+  // Añadir el producto al contenedor principal
+  container.appendChild(div);
 }
 
 // --- Ejecutar al cargar la página ---
