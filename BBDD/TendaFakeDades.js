@@ -545,7 +545,24 @@ let Register = [
     date_start: "2025-10-10 00:00",
     date_end: "2025-11-10 23:59"
   }
+];
 
+let Rol = [
+  { "id": 1, "name": "Admin" },
+  { "id": 2, "name": "Usuari" }
+];
+
+let User = [
+  { "id": 1, "name": "Laura Martínez", "email": "laura.martinez@fakecommerce.com", "nickname": "lauram", "password": "Lm2025!", "rol_id": 1 },
+  { "id": 2, "name": "Carlos Gómez", "email": "carlos.gomez@fakecommerce.com", "nickname": "carlosg", "password": "Cg_admin$", "rol_id": 1 },
+  { "id": 3, "name": "María López", "email": "maria.lopez@fakecommerce.com", "nickname": "marial", "password": "Mlopez#25", "rol_id": 2 },
+  { "id": 4, "name": "Javier Ruiz", "email": "javier.ruiz@fakecommerce.com", "nickname": "javiruiz", "password": "Jr_Store123", "rol_id": 2 },
+  { "id": 5, "name": "Ana Torres", "email": "ana.torres@fakecommerce.com", "nickname": "anatorres", "password": "AnT@2025", "rol_id": 2 },
+  { "id": 6, "name": "David Fernández", "email": "david.fernandez@fakecommerce.com", "nickname": "davidf", "password": "Df_pass99", "rol_id": 2 },
+  { "id": 7, "name": "Lucía Navarro", "email": "lucia.navarro@fakecommerce.com", "nickname": "lucianav", "password": "Lnav2025!", "rol_id": 2 },
+  { "id": 8, "name": "Pedro Ortega", "email": "pedro.ortega@fakecommerce.com", "nickname": "pedroo", "password": "Po_Tienda#", "rol_id": 2 },
+  { "id": 9, "name": "Sofía Ramos", "email": "sofia.ramos@fakecommerce.com", "nickname": "sofiar", "password": "Sr_Admin!", "rol_id": 1 },
+  { "id": 10, "name": "Miguel Sánchez", "email": "miguel.sanchez@fakecommerce.com", "nickname": "miguels", "password": "Ms_admin@25", "rol_id": 1 }
 ];
 
   
