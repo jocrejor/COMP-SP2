@@ -4,83 +4,8 @@ function main(){
   mostrarClients();
 }
 
-function mostrarClients() {
-
-  // Carrega les dades de la BBDD local
-  if(!localStorage.getItem("client")){
-      localStorage.setItem("client", JSON.stringify(Client));
-  }
-
-  let clients = JSON.parse(localStorage.getItem("client") || "[]");
-  let taulaClients = document.getElementById("taulaClients");
-  taulaClients.innerHTML = "";
-
-  if (clients.length === 0) {
-    taulaClients.textContent = "No hi ha registres guardats.";
-    return;
-  }
-
-  let taula = document.createElement("table");
-
-  // Capçalera de la taula
-  let thead = document.createElement("thead");
-  thead.innerHTML = `
-    <tr>
-      <th>ID</th>
-      <th>Nom</th>
-      <th>Cognoms</th>
-      <th>Identificació fiscal</th>
-      <th>Nombre</th>
-      <th>Data de naixement</th>
-      <th>Telèfon</th>
-      <th>Email</th>
-      <th>Adreça</th>
-      <th>Codi Postal</th>
-      <th>País</th>
-      <th>Província</th>
-      <th>Ciutat</th>
-      <th>Accions</th>
-    </tr>
-  `;
-  taula.appendChild(thead);
-
-  // Cos de la taula
-  let tbody = document.createElement("tbody");
-  clients.forEach((client, index) => {
-    let fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${client.id}</td>
-      <td>${client.name}</td>
-      <td>${client.surname}</td>
-      <td>${client.taxidtype || ""}</td>
-      <td>${client.taxid || ""}</td>
-      <td>${client.birth_date || ""}</td>
-      <td>${client.phone}</td>
-      <td>${client.email}</td>
-      <td>${client.address || ""}</td>
-      <td>${client.cp || ""}</td>
-      <td>${client.country_id || ""}</td>
-      <td>${client.province_id || ""}</td>
-      <td>${client.city_id || ""}</td>
-      <td>
-        <button onclick="modificarClient(${index})">Modificar</button>
-        <button onclick="esborrar(${index})">Esborrar</button>
-      </td>
-    `;
-    tbody.appendChild(fila);
-  });
-
-  taula.appendChild(tbody);
-  taulaClients.appendChild(taula);
-}
-
-// Funció per esborrar un client
-function esborrar(){
-
-}
-
 // Funció per modificar un client
-/*function modificarClient(index) {
+function modificarClient(index) {
   let clients = JSON.parse(localStorage.getItem("client") || "[]");
   let client = clients[index];
 
@@ -135,4 +60,4 @@ function canviarPassword(index) {
 
   alert("Contrasenya actualitzada correctament!");
   mostrarClients();
-}*/
+}
