@@ -16,32 +16,23 @@ function carregarDadesLocal() {
   let producto = productos.find(p => p.id == idSeleccionado);
 
   let contenedor = document.getElementById("detalle");
-  contenedor.textContent = "";
+let cos = document.getElementById("cuerpoTabla");
 
   if (!producto) {
     mostrarTexto(contenedor, "Producto no encontrado.");
     return;
   }
 
-  mostrarTexto(contenedor, "Nombre del producto: " + producto.nombre);
+  mostrarTexto(contenedor, producto.nombre);
 
   let caracteristicas = atributos[idSeleccionado]?.caracteristicas || [];
 
   if (caracteristicas.length === 0) {
-    mostrarTexto(contenedor, "Este producto no tiene características aún.");
+    mostrarTexto(cos, "Este producto no tiene características aún.");
   } else {
 
-    let tabla = document.createElement("table");
 
-    let cabecera = document.createElement("tr");
-    let nombre = document.createElement("th");
-    let valor = document.createElement("th");
-    nombre.appendChild(document.createTextNode("Nombre característica"));
-    valor.appendChild(document.createTextNode("Valor"));
-    cabecera.appendChild(nombre);
-    cabecera.appendChild(valor);
-    tabla.appendChild(cabecera);
-
+cos.textContent  = "";
     caracteristicas.forEach(caracteristica => {
       let fila = document.createElement("tr");
 
@@ -53,10 +44,10 @@ function carregarDadesLocal() {
 
       fila.appendChild(tdNom);
       fila.appendChild(tdValor);
-      tabla.appendChild(fila);
+      cos.appendChild(fila);
     });
 
-    contenedor.appendChild(tabla);
+
   }
 }
 

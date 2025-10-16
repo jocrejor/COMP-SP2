@@ -31,7 +31,7 @@
       }
 
       const productes = JSON.parse(localStorage.getItem("productos"));
-      const tabla = document.getElementById("tablaProductos");
+      const tbody = document.getElementById("cuerpoTabla");
 
       productes.forEach(prod => {
         const fila = document.createElement("tr");
@@ -41,6 +41,7 @@
 
         const tdBoton = document.createElement("td");
         const boton = document.createElement("button");
+        boton.classList.add("btn", "btn-success", "btn-sm", "fw-bold", "text-uppercase");
         const textoBoton = document.createTextNode(" característiques");
         boton.appendChild(textoBoton);
 
@@ -52,6 +53,6 @@
         tdBoton.appendChild(boton);
         fila.appendChild(tdBoton);
 
-        tabla.appendChild(fila);
+        tbody.appendChild(fila);
       });
     }
