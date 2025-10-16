@@ -1,11 +1,26 @@
+document.addEventListener("DOMContentLoaded", main);
+
 // Array per emmagatzemar els usuaris.
 let usuaris = [];
 
 // Carregar usuaris en iniciar la pàgina.
-window.onload = function() {
+function main() { 
+
+    const usuarisButton= document.getElementById("afegirUsuari");
+    const rolsButton= document.getElementById("gestionarRols");
+
+    usuarisButton.addEventListener("click", (e) => {
+        window.location.href='altaUsuaris.html';
+    });
+
+    rolsButton.addEventListener("click", (e) => {
+        window.location.href='usuarisRol.html';
+    });
+
     carregarUsuaris();
     mostrarUsuaris();
-};
+}
+
 
 // Funció per carregar els usuaris des del localStorage.
 function carregarUsuaris() {
