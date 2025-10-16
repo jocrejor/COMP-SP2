@@ -2,9 +2,9 @@
 document.addEventListener("DOMContentLoaded", main)
 
 function main() {
-  const categoryList = document.querySelector("#categoryList")
-  const addCategoryButton = document.querySelector("#btInput")
-  const listCategoryButton = document.querySelector("#btList")
+  const categoryList = document.getElementById("categoryList")
+  const addCategoryButton = document.getElementById("btInput")
+  const listCategoryButton = document.getElementById("btList")
 
   // Mostrar categorías guardadas
   displayCategory(categoryList)
