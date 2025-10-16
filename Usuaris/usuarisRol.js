@@ -3,9 +3,10 @@ document.addEventListener("DOMContentLoaded", main);
 // Array per emmagatzemar els rols.
 let rols = ['Usuari', 'Admin']; // Rols per defecte del sistema
 
-// Inicialització - s'executa quan la pàgina està carregada
+// Funció per iniciar els esdeveniments de la pàgina.
 function main() {
-
+    
+    // Configuració del botó de tornar a la pàgina d'usuaris
     const usuarisButton= document.getElementById("usuaris");
 
     usuarisButton.addEventListener("click", (e) => {

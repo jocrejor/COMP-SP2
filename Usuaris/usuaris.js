@@ -3,16 +3,18 @@ document.addEventListener("DOMContentLoaded", main);
 // Array per emmagatzemar els usuaris.
 let usuaris = [];
 
-// Carregar usuaris en iniciar la pàgina.
+// Funció per iniciar els esdeveniments de la pàgina
 function main() { 
 
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
 
+    // Configuració del botó per a tornar al formulari d'altaUsuaris
     usuarisButton.addEventListener("click", (e) => {
         window.location.href='altaUsuaris.html';
     });
 
+    // Configuració del botó per a tornar al formulari d'usuarisRols
     rolsButton.addEventListener("click", (e) => {
         window.location.href='usuarisRol.html';
     });

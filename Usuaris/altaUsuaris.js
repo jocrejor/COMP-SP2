@@ -1,14 +1,21 @@
+document.addEventListener("DOMContentLoaded", main);
+
 // Variables globals.
 let usuaris = []; // Array per emmagatzemar tots els usuaris
 let rols = ['Usuari', 'Admin']; // Rols per defecte.
 let idCounter = 1; // Comptador per assignar IDs únics
 let editantId = null; // Guarda l'ID de l'usuari que s'està editant
 
-// Inicialització - s'executa quan la pàgina està carregada
-window.onload = iniciar;
-
 // Funció per iniciar els esdeveniments de la pàgina.
-function iniciar() {
+function main () {
+
+    // Configuració del botó de tornar a la pàgina d'usuaris
+    const usuarisButton= document.getElementById("usuaris");
+    
+    usuarisButton.addEventListener("click", (e) => {
+        window.location.href='usuaris.html';
+    });
+
     // Configuració dels event listeners per als botons
     document.getElementById("enviar").addEventListener("click", validar, false);
     document.getElementById("botoContrasenya").addEventListener("click", mostrarContrasenya, false);
