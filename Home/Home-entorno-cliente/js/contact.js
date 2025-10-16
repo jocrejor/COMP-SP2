@@ -48,30 +48,36 @@ cancelEdit.addEventListener("click", function () {
 function showContacts() {
   const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
   const list = document.getElementById("contactList");
-  list.innerHTML = "";
 
   // Si no hay contactos guardados
   if (contacts.length === 0) {
-    list.innerHTML = "<p>No hay contactos registrados.</p>";
+    const p = document.createElement("p");
+    p.textContent = "No hay contactos guardados.";
+    list.appendChild(p);
     return;
   }
 
   // Si hay contactos, los mostramos uno por uno
-  contacts.forEach((contact, index) => {
-    list.innerHTML += `
-      <div>
-        <strong>${contact.name}</strong><br>
-        📞 ${contact.phone}<br>
-        📧 ${contact.email}<br>
-        🗓️ ${contact.date}<br>
-        💬 ${contact.subject}<br><br>
+  contacts.foreach((contacts, index) => {
+    const div = document.createElement("div");
 
-        <button onclick="editContact(${index})">Editar</button>
-        <button onclick="deleteContact(${index})">Eliminar</button>
-        <hr>
-      </div>
-    `;
-  });
+    const name = document.createElement("strong");
+    name.textContent = contacts.name;
+    div.appendChild(name);
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(document.createTextNode(`Teléfono: ${contacts.phone}`));
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(document.createTextNode(`Email: ${contacts.email}`));
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(document.createTextNode(`Asunto: ${contacts.subject}`));
+    div.appendChild(document.createElement("br"));
+
+    div.appendChild(document.createTextNode(`Fecha: ${contacts.date}`));
+    div.appendChild(document.createElement("br"));
+  })
 }
 
 // ✅ Eliminar un contacto
