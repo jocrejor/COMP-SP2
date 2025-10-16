@@ -62,7 +62,9 @@ CREATE TABLE Productimage (
 -- Taula d'Atributs
 CREATE TABLE Attribute (
     id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    family_id INT,
+    FOREIGN KEY (family_id) REFERENCES Family(id)
 );
 
 -- Taula intermitja ProductAttribute per la relació N:N
