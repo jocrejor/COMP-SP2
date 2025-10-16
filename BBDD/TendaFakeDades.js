@@ -244,3 +244,311 @@ let Client = [
   }
 ];
 
+let Register = [
+  {
+    id: 1,
+    session_id: "abc123xyz",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+    client_id: 1,
+    comparator_id: 2,
+    favorite_id: 3,
+    date_start: "2025-10-01 00:00",
+    date_end: "2025-10-31 23:59"
+  },
+  {
+    id: 2,
+    session_id: "def456uvw",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15",
+    client_id: 2,
+    comparator_id: 3,
+    favorite_id: 4,
+    date_start: "2025-10-05 00:00",
+    date_end: "2025-11-05 23:59"
+  },
+  {
+    id: 3,
+    session_id: "ghi789rst",
+    user_agent: "Mozilla/5.0 (Linux; Android 10; SM-G975F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Mobile Safari/537.36",
+    client_id: 3,
+    comparator_id: 4,
+    favorite_id: 5,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 4,
+    session_id: "abc123xyz",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/116.0.5845.96 Safari/537.36",
+    client_id: 4,
+    comparator_id: 5,
+    favorite_id: 6,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 5,
+    session_id: "jkl456uvw",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Firefox/119.0",
+    client_id: 5,
+    comparator_id: 6,
+    favorite_id: 7,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 6,
+    session_id: "mno789pqr",
+    user_agent: "Mozilla/5.0 (Linux; Android 12; Pixel 6) Chrome/115.0.5790.171 Mobile Safari/537.36",
+    client_id: 6,
+    comparator_id: 7,
+    favorite_id: 8,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 7,
+    session_id: "stu234vwx",
+    user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148",
+    client_id: 7,
+    comparator_id: 8,
+    favorite_id: 9,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 8,
+    session_id: "yza567bcd",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+    client_id: 8,
+    comparator_id: 9,
+    favorite_id: 10,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 9,
+    session_id: "efg890hij",
+    user_agent: "Mozilla/5.0 (Linux; Android 13; SM-S911B) Chrome/120.0.6099.71 Mobile Safari/537.36",
+    client_id: 9,
+    comparator_id: 10,
+    favorite_id: 11,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 10,
+    session_id: "klm321nop",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/605.1.15 Safari/605.1.15",
+    client_id: 10,
+    comparator_id: 11,
+    favorite_id: 12,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 11,
+    session_id: "qrs654tuv",
+    user_agent: "Mozilla/5.0 (Windows NT 11.0; Win64; x64) Chrome/121.0.6151.100 Safari/537.36",
+    client_id: 11,
+    comparator_id: 12,
+    favorite_id: 13,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 12,
+    session_id: "wxy987zab",
+    user_agent: "Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) Chrome/122.0.6167.120 Mobile Safari/537.36",
+    client_id: 12,
+    comparator_id: 13,
+    favorite_id: 14,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 13,
+    session_id: "cde432fgh",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; WOW64) Edge/117.0.2045.31",
+    client_id: 13,
+    comparator_id: 14,
+    favorite_id: 15,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 14,
+    session_id: "ijk765lmn",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) Chrome/115.0.5790.114 Safari/537.36",
+    client_id: 14,
+    comparator_id: 15,
+    favorite_id: 16,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 15,
+    session_id: "opq098rst",
+    user_agent: "Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Safari/605.1.15",
+    client_id: 15,
+    comparator_id: 16,
+    favorite_id: 17,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 16,
+    session_id: "uvw321xyz",
+    user_agent: "Mozilla/5.0 (Linux; Android 11; Redmi Note 10) Chrome/120.0.6099.112 Mobile Safari/537.36",
+    client_id: 16,
+    comparator_id: 17,
+    favorite_id: 18,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 17,
+    session_id: "abc654def",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/119.0.6045.200 Safari/537.36",
+    client_id: 17,
+    comparator_id: 18,
+    favorite_id: 19,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 18,
+    session_id: "ghi987jkl",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_6) Safari/605.1.15",
+    client_id: 18,
+    comparator_id: 19,
+    favorite_id: 20,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 19,
+    session_id: "mno210pqr",
+    user_agent: "Mozilla/5.0 (Linux; Android 13; OnePlus 11) Chrome/121.0.6153.81 Mobile Safari/537.36",
+    client_id: 19,
+    comparator_id: 20,
+    favorite_id: 21,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 20,
+    session_id: "stu543vwx",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
+    client_id: 20,
+    comparator_id: 21,
+    favorite_id: 22,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 21,
+    session_id: "yza876bcd",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_1) Chrome/123.0.6262.58 Safari/537.36",
+    client_id: 21,
+    comparator_id: 22,
+    favorite_id: 23,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 22,
+    session_id: "efg109hij",
+    user_agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1 like Mac OS X) Safari/605.1.15",
+    client_id: 22,
+    comparator_id: 23,
+    favorite_id: 24,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 23,
+    session_id: "klm432nop",
+    user_agent: "Mozilla/5.0 (Linux; Android 10; SM-A505F) Chrome/117.0.5938.89 Mobile Safari/537.36",
+    client_id: 23,
+    comparator_id: 24,
+    favorite_id: 25,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 24,
+    session_id: "qrs765tuv",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edg/118.0.2088.46",
+    client_id: 24,
+    comparator_id: 25,
+    favorite_id: 26,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 25,
+    session_id: "wxy098zab",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_6) Firefox/118.0",
+    client_id: 25,
+    comparator_id: 26,
+    favorite_id: 27,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 26,
+    session_id: "cde321fgh",
+    user_agent: "Mozilla/5.0 (Linux; Android 12; Galaxy A54) Chrome/120.0.6099.100 Mobile Safari/537.36",
+    client_id: 26,
+    comparator_id: 27,
+    favorite_id: 28,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 27,
+    session_id: "ijk654lmn",
+    user_agent: "Mozilla/5.0 (Windows NT 11.0; Win64; x64) Chrome/124.0.6360.42 Safari/537.36",
+    client_id: 27,
+    comparator_id: 28,
+    favorite_id: 29,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 28,
+    session_id: "opq987rst",
+    user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_3) Safari/605.1.15",
+    client_id: 28,
+    comparator_id: 29,
+    favorite_id: 30,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 29,
+    session_id: "uvw210xyz",
+    user_agent: "Mozilla/5.0 (Linux; Android 14; SM-S926B) Chrome/122.0.6167.140 Mobile Safari/537.36",
+    client_id: 29,
+    comparator_id: 30,
+    favorite_id: 31,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  },
+  {
+    id: 30,
+    session_id: "abc543def",
+    user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+    client_id: 30,
+    comparator_id: 31,
+    favorite_id: 32,
+    date_start: "2025-10-10 00:00",
+    date_end: "2025-11-10 23:59"
+  }
+
+];
+
+  
+
+
+
