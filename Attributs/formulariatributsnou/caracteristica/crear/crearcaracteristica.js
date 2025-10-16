@@ -1,7 +1,7 @@
 window.onload = iniciar;
 
 function iniciar (){
-    document.getElementById("enviar").addEventListener("click", validar, false);
+    document.getElementById("enviar").addEventListener("click", guardarEnLocalStorage, false);
 }
 
 function validarnom () {
@@ -36,7 +36,7 @@ function validar (e) {
     esborrarError();
 
     if (validarnom() && validarvalor() && confirm("Confirma si vols enviar el formulari")) {
-        guardarEnLocalStorage();
+       
 
         return true;
     } else {
@@ -60,9 +60,11 @@ function esborrarError (){
     }
 }
 
-function guardarEnLocalStorage() {
-    const nom = document.getElementById("nom").value.trim();
-    const valor = document.getElementById("valor").value.trim();
+function guardarEnLocalStorage(e) {
+      if (!validar(e)) {
+        return;
+    }
+
     const idSeleccionado = localStorage.getItem("productoSeleccionado");
 
     const productos = JSON.parse(localStorage.getItem("productos")) || [];
@@ -85,11 +87,15 @@ function guardarEnLocalStorage() {
         };
     }
 
-    // Afegir les caracteristiques
-    atributos[idSeleccionado].caracteristicas.push({
-        nom: nom,
-        valor: valor
-    });
-    localStorage.setItem("productAttributes", JSON.stringify(atributos));
+     const nuevaCaracteristica = {
+        nom: document.getElementById("nom").value.trim(),
+        valor: document.getElementById("valor").value.trim()
+    };
+
+    atributos[idSeleccionado].caracteristicas.push(nuevaCaracteristica);
+   localStorage.setItem("productAttributes", JSON.stringify(atributos));
+        document.getElementById("nom").value = "";
+    document.getElementById("valor").value = "";
+ 
     window.location.href = "../llistar/llistarcaracteristica.html";
 }
