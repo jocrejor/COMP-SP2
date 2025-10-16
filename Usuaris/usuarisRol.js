@@ -1,14 +1,23 @@
+document.addEventListener("DOMContentLoaded", main);
+
 // Array per emmagatzemar els rols.
 let rols = ['Usuari', 'Admin']; // Rols per defecte del sistema
 
 // Inicialització - s'executa quan la pàgina està carregada
-window.onload = function() {
+function main() {
+
+    const usuarisButton= document.getElementById("usuaris");
+
+    usuarisButton.addEventListener("click", (e) => {
+        window.location.href='usuaris.html';
+    });
+
     carregarRols();
     mostrarRols();
     
     // Configurar l'event listener per al formulari d'afegir rols
     document.getElementById("formulariRol").addEventListener("submit", afegirRol);
-};
+}
 
 // Funció per carregar els rols del localStorage.
 function carregarRols() {
