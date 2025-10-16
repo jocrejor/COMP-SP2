@@ -12,7 +12,7 @@
 
         if (usuari) {
           alert("Sessió iniciada correctament!");
-          //Página de logount
+          //Página del llistat de clients
           window.location.href = "./registre/registreLlistar.html"; 
         } else {
           alert("Usuari o contrasenya incorrectes!");
