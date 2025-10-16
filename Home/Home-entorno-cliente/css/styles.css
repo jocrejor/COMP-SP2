@@ -1,0 +1,271 @@
+/* ===== ESTILOS GENERALES MINIMALISTAS ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  color: #2d3748;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  padding: 40px;
+}
+
+/* ===== ENCABEZADOS ===== */
+h1 {
+  color: #1a202c;
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 2.2em;
+  font-weight: 300;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  color: #2d3748;
+  margin: 16px 0 8px 0;
+  font-size: 1.3em;
+  font-weight: 500;
+}
+
+/* ===== LISTA DE PRODUCTOS ===== */
+#productList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.producto {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.producto:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.producto img {
+  border-radius: 6px;
+  margin-bottom: 16px;
+  filter: brightness(1.05);
+}
+
+/* ===== PRECIOS ===== */
+strong {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* ===== ENLACES Y BOTONES ===== */
+a {
+  display: inline-block;
+  background: #4a5568;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin: 8px 0;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.9em;
+}
+
+a:hover {
+  background: #2d3748;
+  transform: translateY(-1px);
+}
+
+/* ===== LÍNEAS DIVISORIAS ===== */
+hr {
+  border: none;
+  height: 1px;
+  background: #e2e8f0;
+  margin: 32px 0;
+}
+
+/* ===== FORMULARIO DE CONTACTO ===== */
+#contactForm {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 8px;
+  margin: 24px 0;
+  border: 1px solid #e2e8f0;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 0.9em;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background: white;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #4a5568;
+  box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
+}
+
+/* ===== BOTONES ===== */
+button {
+  background: #4a5568;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  margin: 4px;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+button:hover {
+  background: #2d3748;
+  transform: translateY(-1px);
+}
+
+button#cancelEdit {
+  background: #718096;
+}
+
+button#cancelEdit:hover {
+  background: #4a5568;
+}
+
+/* ===== LISTA DE CONTACTOS ===== */
+#contactList {
+  margin: 32px 0;
+}
+
+.contacto-item {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 20px;
+  margin: 12px 0;
+  transition: all 0.2s ease;
+}
+
+.contacto-item:hover {
+  border-color: #cbd5e0;
+  background: #f8fafc;
+}
+
+/* ===== DETALLE DE PRODUCTO ===== */
+#productDetail {
+  background: #f8fafc;
+  padding: 32px;
+  border-radius: 8px;
+  margin: 24px 0;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  body {
+    padding: 12px;
+  }
+  
+  .container {
+    padding: 24px;
+    border-radius: 8px;
+  }
+  
+  h1 {
+    font-size: 1.8em;
+  }
+  
+  #productList {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  #contactForm {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  
+  .producto {
+    padding: 20px;
+  }
+  
+  a, button {
+    padding: 8px 16px;
+    font-size: 0.85em;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+}
+
+/* ===== ANIMACIONES SUAVES ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.producto, .contacto-item, #contactForm {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* ===== ESTADOS DE CARGA Y INTERACCIÓN ===== */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.success {
+  border-color: #48bb78 !important;
+}
+
+.error {
+  border-color: #f56565 !important;
+}
