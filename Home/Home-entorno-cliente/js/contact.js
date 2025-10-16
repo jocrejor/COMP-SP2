@@ -59,7 +59,7 @@ function showContacts() {
   }
 
   // Si hay contactos, los mostramos uno por uno
-  contacts.forEach((contacts, index) => {
+  contacts.forEach((contact, index) => {
     const div = document.createElement("div");
 
     div.appendChild(document.createTextNode(`name: ${contacts.name}`));
@@ -78,28 +78,37 @@ function showContacts() {
     div.appendChild(document.createElement("br"));
 
     list.appendChild(div);
-  })
-}
 
-// ✅ Eliminar un contacto
-function deleteContact(index) {
-  let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-  contacts.splice(index, 1); // Elimina el contacto por posición
-  localStorage.setItem("contacts", JSON.stringify(contacts));
-  showContacts(); // Actualiza la lista
-}
+    // Botón editar
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Editar";
+    editBtn.style.marginRight = "5px";
+    editBtn.addEventListener("click", () => editContact(index));
+    div.appendChild(editBtn);
 
-// ✅ Editar un contacto
-function editContact(index) {
-  const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-  const c = contacts[index];
+    // Botón eliminar
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Eliminar";
+    deleteBtn.addEventListener("click", () => deleteContact(index));
+    div.appendChild(deleteBtn);
 
-  // Rellenamos los campos del formulario
+    list.appendChild(div);
+
+
+        // Rellenamos los campos del formulario
   document.getElementById("contactId").value = index;
   document.getElementById("name").value = c.name;
   document.getElementById("phone").value = c.phone;
   document.getElementById("email").value = c.email;
   document.getElementById("subject").value = c.subject;
   document.getElementById("date").value = c.date;
+  });
+
+
 }
+
+
+
+
+
 
