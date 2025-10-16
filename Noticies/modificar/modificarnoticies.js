@@ -1,9 +1,13 @@
-window.onload = iniciar;
+document.addEventListener("DOMContentLoaded", main);
 
-function iniciar() {
-
+function main() {
+    document.getElementById("tornar").addEventListener("click", tornar);
     document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
     arreplegarindex();
+}
+
+function tornar () {
+    window.location.assign("../llistar/llistarnoticies.html");
 }
 
 function guardardadeslocalsstorage(e) {
@@ -57,12 +61,12 @@ function guardardadeslocalsstorage(e) {
     window.location.href = "../llistar/llistarnoticies.html";
 }
 
-function arreplegarindex(){
-       //Agafar id desde el localstorage que li pase desde llistar
+function arreplegarindex() {
+    //Agafar id desde el localstorage que li pase desde llistar
     let idEdicion = localStorage.getItem("indiceEdicion");
 
     if (idEdicion !== null) {
-     
+
         let noticies = JSON.parse(localStorage.getItem("noticies")) || [];
         let noticia = noticies.find(n => n.id == idEdicion);
 
@@ -71,7 +75,7 @@ function arreplegarindex(){
             document.getElementById("subtitol").value = noticia.description;
             document.getElementById("contingut").value = noticia.body;
             document.getElementById("data").value = noticia.date;
-            document.getElementById("enviar").textContent = "Guardar cambios";
+            document.getElementById("enviar").value = "Guardar canvis";
         }
     }
 }

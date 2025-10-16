@@ -1,8 +1,12 @@
-// crearimatge.js
-window.onload = iniciar;
+document.addEventListener("DOMContentLoaded", main);
 
-function iniciar() {
+function main() {
+    document.getElementById("tornar").addEventListener("click", tornar);
     document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
+}
+
+function tornar () {
+    window.location.assign("../llistar/llistarimatges.html");
 }
 
 //  VALIDACIONS
@@ -79,8 +83,8 @@ function guardardadeslocalsstorage(e) {
     document.getElementById("nom").value = "";
     document.getElementById("url").value = "";
     document.getElementById("order").value = "";
-  window.location.href = "../llistar/llistarimatges.html";
-  
+    window.location.href = "../llistar/llistarimatges.html";
+
 }
 
 // --- VALIDAR TOT ---
