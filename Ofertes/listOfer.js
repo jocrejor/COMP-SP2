@@ -2,11 +2,11 @@ const tableBody = document.getElementById('tableBody');
 
 let data = JSON.parse(localStorage.getItem("formData")) || [];
 
-function saveDataToLocalStorage(){
+function saveDataToLocalStorage() {
     localStorage.setItem("formData", JSON.stringify(data));
 }
 
-function deleteData(index){
+function deleteData(index) {
     data.splice(index, 1);
     saveDataToLocalStorage();
     renderTable();
@@ -16,7 +16,7 @@ function renderTable() {
     if (!tableBody) return;
     tableBody.innerHTML = '';
 
-    data.forEach(function (item, index){
+    data.forEach(function (item, index) {
         const row = document.createElement("tr");
         const idCell = document.createElement("td");
         const ofertaCell = document.createElement("td");
@@ -25,7 +25,7 @@ function renderTable() {
         const dataFiCell = document.createElement("td");
         const actionCell = document.createElement("td");
         const productsCell = document.createElement("td");
-        
+
         const editButton = document.createElement("button");
         const deleteButton = document.createElement("button");
         const addProductSale = document.createElement("button");
@@ -40,15 +40,15 @@ function renderTable() {
         deleteButton.textContent = "Delete";
         addProductSale.textContent = "Productes aplicats";
 
-        editButton.addEventListener("click", function(){
+        editButton.addEventListener("click", function () {
             editData(index);
         });
 
-        deleteButton.addEventListener("click", function(){
+        deleteButton.addEventListener("click", function () {
             deleteData(index);
         });
 
-        addProductSale.addEventListener("click", function(){
+        addProductSale.addEventListener("click", function () {
             goToProducts(index);
         });
 
@@ -68,7 +68,7 @@ function renderTable() {
     });
 }
 
-function goToProducts(index){
+function goToProducts(index) {
     window.location.href = `productsList.html?oferta=${index}`;
 }
 

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById('formOferta');
     const ofertaInput = document.getElementById('ofertaInput');
     const percentajeInput = document.getElementById('percentajeInput');
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const dataInici = new Date(dataIniciInput.value);
         const avui = new Date();
         avui.setHours(0, 0, 0, 0);
-        
+
         if (dataInici < avui) {
             return "La data d'inici no pot ser anterior a avui.";
         }
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (datafiInput.value && dataIniciInput.value) {
             const dataInici = new Date(dataIniciInput.value);
             const dataFi = new Date(datafiInput.value);
-            
+
             if (dataInici >= dataFi) {
                 return "La data d'inici ha de ser anterior a la data de fi.";
             }
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return "";
     }
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         let errors = [];
