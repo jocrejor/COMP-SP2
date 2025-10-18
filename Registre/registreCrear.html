@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestió de clients</title>
+    <script src="./registreModificar.js"></script>
+</head>
+
+<body>
+    <h2>Registre de clients</h2>
+    <input type="hidden" id="index" value="-1">
+
+    <form action="" method="post" id="formClient">
+        <label for="id">Id:</label><br>
+        <input type="number" id="id"><br>
+
+        <label for="name">Nom:</label><br>
+        <input type="text" id="name" required><br>
+        <span class="error" id="error_name"></span>
+
+
+        <label for="surname">Cognoms:</label><br>
+        <input type="text" id="surname" required><br>
+        <span class="error" id="error_surname"></span>
+
+
+        <label for="taxidtype">Tipus de document:</label><br>
+        <select id="taxidtype" name="taxidtype" required>
+            <option value="">Selecciona un tipus</option>
+            <option value="DNI">DNI</option>
+            <option value="Passaport">Passaport</option>
+            <option value="NIE">NIE</option>
+        </select><br>
+
+        <label for="taxid">Número de document:</label><br>
+        <input type="text" id="taxid" name="taxid" maxlength="9" required><br>
+        <span class="error" id="error_taxid"></span>
+
+
+        <label for="birth_date">Aniversari: </label><br>
+        <input type="date" id="birth_date" required><br>
+
+
+        <label for="phone">Telèfon:</label><br>
+        <input type="tel" id="phone" required><br>
+        <span class="error" id="error_phone"></span>
+
+
+        <!--<label for="user_name">Nom d'usuari:</label><br>
+        <input type="text" id="user_name" required><br>
+        <span class="error" id="error_user_name"></span>-->
+
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" required><br>
+        <span class="error" id="error_email"></span>
+
+
+        <label for="address">Adreça:</label><br>
+        <input type="text" id="address" name="address" maxlength="100" required><br>
+        <span class="error" id="error_address"></span>
+
+
+        <label for="cp">Codi Postal:</label><br>
+        <input type="text" id="cp" name="cp" maxlength="15" required><br>
+        <span class="error" id="error_cp"></span>
+
+
+        <label for="country_id">País:</label><br>
+        <select id="country_id" name="country_id" required>
+            <option value="">Selecciona un país</option>
+            <option value="Espanya">Espanya</option>
+
+        </select><br>
+
+        <label for="province_id">Província:</label><br>
+        <select id="province_id" name="province_id" required>
+            <option value="">Selecciona una província</option>
+            <option value="Alacant">Alacant</option>
+
+        </select><br>
+
+        <label for="city_id">Ciutat:</label><br>
+        <select id="city_id" name="city_id" required>
+            <option value="">Selecciona una ciutat</option>
+            <option value="pego">Pego</option>
+
+        </select><br>
+
+        <label for="password">Contrasenya:</label><br>
+        <input type="password" id="password" required><br>
+
+        <label for="repetir">Repetir contrasenya:</label><br>
+        <input type="password" id="repetir" required><br><br>
+        <span class="error" id="error_password"></span>
+
+
+        <button id="alta" type="submit">Alta</button>
+    </form>
+
+</body>
+
+</html>
