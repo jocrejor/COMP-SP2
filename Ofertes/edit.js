@@ -30,8 +30,12 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function validarOferta() {
-        if (!ofertaInput.value.trim()) {
+        const valor = ofertaInput.value.trim();
+        if (!valor) {
             return "El camp Oferta és obligatori.";
+        }
+        if (valor.length < 2) {
+            return "L'oferta ha de tenir com a mínim 2 caràcters.";
         }
         return "";
     }
@@ -41,13 +45,17 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!val) {
             return "El percentatge és obligatori.";
         }
-        if (isNaN(val) || !Number.isInteger(Number(val))) {
+        const num = Number(val);
+        if (isNaN(num)) {
+            return "El percentatge ha de ser un número.";
+        }
+        if (!Number.isInteger(num)) {
             return "El percentatge ha de ser un número enter.";
         }
-        if (Number(val) > 100) {
+        if (num > 100) {
             return "El percentatge no pot ser superior a 100.";
         }
-        if (Number(val) <= 0) {
+        if (num <= 0) {
             return "El percentatge ha de ser major que 0.";
         }
         return "";
@@ -56,6 +64,13 @@ document.addEventListener("DOMContentLoaded", function() {
     function validarDataInici() {
         if (!dataIniciInput.value) {
             return "La data d'inici és obligatòria.";
+        }
+        const dataInici = new Date(dataIniciInput.value);
+        const avui = new Date();
+        avui.setHours(0, 0, 0, 0);
+        
+        if (dataInici < avui) {
+            return "La data d'inici no pot ser anterior a avui.";
         }
         return "";
     }
@@ -68,8 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function validarFechas() {
-        if (datafiInput.value && dataIniciInput.value && dataIniciInput.value > datafiInput.value) {
-            return "La data d'inici no pot ser superior a la data de fi.";
+        if (datafiInput.value && dataIniciInput.value) {
+            const dataInici = new Date(dataIniciInput.value);
+            const dataFi = new Date(datafiInput.value);
+            
+            if (dataInici >= dataFi) {
+                return "La data d'inici ha de ser anterior a la data de fi.";
+            }
         }
         return "";
     }
@@ -108,13 +128,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (editIndex !== null && !isNaN(editIndex)) {
             data[editIndex] = newData;
+            localStorage.setItem("formData", JSON.stringify(data));
+            mostrarMensaje("Oferta editada correctament!", "success");
+        } else {
+            mostrarMensaje("Error: No s'ha trobat l'índex per editar.", "error");
+            return;
         }
-        localStorage.setItem("formData", JSON.stringify(data));
 
-        form.reset();
-        mostrarMensaje("Oferta editada correctament!", "success");
         setTimeout(() => window.location.href = "listOfer.html", 1200);
     });
 });
-
-
