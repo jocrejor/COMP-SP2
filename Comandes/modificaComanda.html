@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <title>Modificar Comanda</title>
+  <script src="modificaComanda.js"></script>
+</head>
+<body>
+
+  <h2>Modificar Comanda</h2>
+  <form id="pedidoForm">
+    <table border="1" cellpadding="4" cellspacing="0">
+      <tr>
+        <td><label for="date">Data:</label></td>
+        <td><input type="date" id="date" required></td>
+      </tr>
+      <tr>
+        <td><label for="client">Client:</label></td>
+        <td><input type="text" id="client" required></td>
+      </tr>
+      <tr>
+        <td><label for="payment">Forma de pagament:</label></td>
+        <td>
+          <select id="payment">
+            <option value="Credit Card">Targeta de Crèdit</option>
+            <option value="bizum">Bizum</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank transfer">Transferència Bancària</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><label for="shipping">Despeses d'enviament (€):</label></td>
+        <td><input type="number" id="shipping" step="0.01" required></td>
+      </tr>
+    </table>
+    <hr size="1" noshade>
+    <h3>Productes</h3>
+    <table border="1" cellpadding="4" cellspacing="0" width="50%">
+      <thead>
+        <tr>
+          <th>Producte</th>
+          <th>Quantitat</th>
+          <th>Preu</th>
+          <th>Descompte</th>
+        </tr>
+      </thead>
+      <tbody id="productosContainer"></tbody>
+    </table>
+    <br>
+    <button type="submit">Guardar canvis</button>
+  </form>
+
+  
+</body>
+</html>
