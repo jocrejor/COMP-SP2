@@ -17,7 +17,7 @@
         <h2>Afegir Nou Rol</h2>
         <!-- Formulari per afegir nous rols al sistema -->
         <form id="formulariRol">
-            <input type="text" id="nouRol" placeholder="Nom del nou rol" required>
+            <input type="text" id="nouRol" placeholder="Nom del nou rol" pattern="^[A-Za-zÀ-ÿçÇ]{3,100}$" required>
             <button type="submit">Afegir Rol</button>
         </form>
     </div>
