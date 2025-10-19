@@ -63,8 +63,8 @@ function mostrarClients() {
       <td>${client.province_id || ""}</td>
       <td>${client.city_id || ""}</td>
       <td>
-        <button onclick="modificarClient(${index})">Modificar</button>
-        <button onclick="esborrar(${index})">Esborrar</button>
+        <button onclick="./registre/registreModificar.html(${index})">Modificar</button>
+        <button onclick="./registre/registreEliminar.html(${index})">Esborrar</button>
       </td>
     `;
     tbody.appendChild(fila);
