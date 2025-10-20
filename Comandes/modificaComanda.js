@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (index === null) {
     alert("No se seleccionó ningún pedido para modificar");
-    window.location.href = "llistacomanda.html";
+    window.location.href = "comandesLlistar.html";
     return;
   }
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("Pedido modificado con éxito ✅");
 
     // Volver a la lista
-    window.location.href = "llistacomanda.html";
+    window.location.href = "comandesLlistar.html";
   });
 });
 

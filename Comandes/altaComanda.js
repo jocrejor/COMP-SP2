@@ -94,12 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
         alert("Comanda guardada ✅");
-        window.location.href = "llistaComanda.html";
+        window.location.href = "comandesLlistar.html";
     });
 
     // Botó per anar a la llista de comandes
     llistaBtn.addEventListener("click", () => {
-        window.location.href = "llistaComanda.html";
+        window.location.href = "comandesLlistar.html";
     });
 
 });
