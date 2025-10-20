@@ -5,6 +5,26 @@ function iniciar (){
     document.getElementById("enviar").addEventListener("click", guardarEnLocalStorage, false);
 }
 
+function carregardades(){
+ const atributoId = parseInt(localStorage.getItem("atributoAEditar"));
+  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+
+  const attr = attributes.find(a => a.id === atributoId);
+  const pa = productAttributes.find(pa => pa.attribute_id === atributoId);
+
+    if (!attr || !pa) {
+    alert("Error: Atribut no trobat.");
+    window.location.href = "../llistar/llistarcaracteristica.html";
+    return;
+  }
+
+  document.getElementById("nom").value = attr.name;
+  document.getElementById("valor").value = pa.value;
+
+
+}
+
 
 function validarnom () {
     var element = document.getElementById("nom");
@@ -62,7 +82,3 @@ function esborrarError (){
     }
 }
 
-function guardarEnLocalStorage(e){
-
-    
-}

@@ -19,6 +19,11 @@ function carregarDadesLocal() {
   let contenedor = document.getElementById("detalle");
   let cos = document.getElementById("cuerpoTabla");
 
+  /* Lleva la imformacio que hi havia anterior per a quan modifiques
+   i elimines s'actualize correctament sense mostrar repetit */
+  contenedor.textContent =  "";
+  cos.textContent ="";
+
   if (!producto) {
     mostrarTexto(contenedor, "Producto no encontrado.");
     return;
@@ -28,7 +33,7 @@ function carregarDadesLocal() {
 
   // Filtrar atributs de eixe producte
   const caracteristicasProducto = productAttributes.filter(
-    pa => pa.product_id == idSeleccionado
+    productattribute => productattribute.product_id == idSeleccionado
   );
 
   if (caracteristicasProducto.length === 0) {
@@ -39,21 +44,53 @@ function carregarDadesLocal() {
 
   cos.textContent = "";
 
-  caracteristicasProducto.forEach(pa => {
-    // Buscar el atributo por ID para obtener su nombre
-    const attr = attributes.find(a => a.id == pa.attribute_id);
+  caracteristicasProducto.forEach(caracteristica => {
+
+    const attr = attributes.find(a => a.id == caracteristica.attribute_id);
 
     let fila = document.createElement("tr");
     let tdNom = document.createElement("td");
     let tdValor = document.createElement("td");
+     let tdAcciones = document.createElement("td");
 
    mostrarTexto(tdNom, attr ? attr.name : "(Atributo desconocido)");
-  mostrarTexto(tdValor, pa.value);
+  mostrarTexto(tdValor, caracteristica.value);
+
+  const btnEditar = document.createElement("button");
+    mostrarTexto(btnEditar, "Modificar");
+    btnEditar.className = "btn btn-warning btn-sm me-2";
+    btnEditar.addEventListener("click", () => {
+      localStorage.setItem("atributoAEditar", caracteristica.attribute_id);
+      window.location.href = "../modificar/modificarcaracteristica.html";
+    });
+
+    const btnEliminar = document.createElement("button");
+    mostrarTexto(btnEliminar, "Eliminar");
+    btnEliminar.className = "btn btn-danger ";
+    btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica));
+
+ tdAcciones.appendChild(btnEditar);
+    tdAcciones.appendChild(btnEliminar);
+
 
     fila.appendChild(tdNom);
     fila.appendChild(tdValor);
+     fila.appendChild(tdAcciones);
     cos.appendChild(fila);
   });
+}
+
+function eliminarCaracteristica(caracteristica) {
+  if (!confirm("¿Seguro que deseas eliminar esta característica?")) return;
+
+  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+  productAttributes = productAttributes.filter(
+    item => !(item.product_id === caracteristica.product_id && item.attribute_id === caracteristica.attribute_id)
+  );
+  localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+
+  // Recargar la taula per a quan elimines
+  carregarDadesLocal();
 }
 
 
