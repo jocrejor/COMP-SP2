@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main(){
-  mostrarClients();
+  const clients = carregaClients();
+  generaTaula(clients);
 
   // Creem el event per a crear usuari
   let botoCrear = document.getElementById("crearClient");
@@ -10,8 +11,7 @@ function main(){
   });
 }
 
-function mostrarClients() {
-
+function carregaClients (){
   // Carrega les dades de la BBDD local
   if(!localStorage.getItem("client")){
       localStorage.setItem("client", JSON.stringify(Client));
@@ -23,32 +23,32 @@ function mostrarClients() {
 
   if (clients.length === 0) {
     taulaClients.appendChild(document.createTextNode("No hi ha registres guardats."));
-    return;
-  }
 
+  }    
+  return clients;
+}
+
+// Funció per generar la taula i les dades
+function generaTaula (clients){
   let taula = document.createElement("table");
+  let tHead = document.createElement("thead");
+  let trHead = document.createElement("tr");
 
-  // Capçalera de la taula
-  let thead = document.createElement("thead");
-  thead.innerHTML = `
-    <tr>
-      <th>ID</th>
-      <th>Nom</th>
-      <th>Cognoms</th>
-      <th>Identificació fiscal</th>
-      <th>Nombre</th>
-      <th>Data de naixement</th>
-      <th>Telèfon</th>
-      <th>Email</th>
-      <th>Adreça</th>
-      <th>Codi Postal</th>
-      <th>País</th>
-      <th>Província</th>
-      <th>Ciutat</th>
-      <th>Accions</th>
-    </tr>
-  `;
-  taula.appendChild(thead);
+  // Dades de la capçalera de la taula
+  let columnes = [
+    "ID", "Nom", "Cognoms", "Identificació fiscal", "Nombre", 
+    "Data de naixement", "Telèfon", "Email", "Adreça", 
+    "Codi Postal", "País", "Província", "Ciutat", "Accions"
+  ];
+
+  columnes.forEach(col => {
+    let th = document.createElement("th");
+    th.appendChild(document.createTextNode(col));
+    trHead.appendChild(th);
+  });
+
+    tHead.appendChild(trHead);
+    taula.appendChild(tHead);
 
   // Cos de la taula
   let tbody = document.createElement("tbody");
@@ -122,34 +122,32 @@ function mostrarClients() {
     tr.appendChild(tdCity_id);
 
     // Fila d'accions de la taula
-    let tdAccions = document.createElement("td");
+        let tdAccions = document.createElement("td");
 
-    let botoModificar = document.createElement("button");
-    botoModificar.type = "button";
-    botoModificar.appendChild(document.createTextNode("Modificar"));
-    botoModificar.addEventListener("click", () =>{
-      window.location.href = `./registre/registreModificar.html?index=${index}`;
-    });
+        let botoModificar = document.createElement("button");
+        botoModificar.type = "button";
+        botoModificar.appendChild(document.createTextNode("Modificar"));
+        botoModificar.addEventListener("click", () =>{
+          window.location.href = `./registre/registreModificar.html?index=${index}`;
+        });
 
-    let botoEsborrar = document.createElement("button");
-    botoEsborrar.type = "button";
-    botoEsborrar.appendChild(document.createTextNode("Eliminar"));
-    botoEsborrar.addEventListener("click", () => {
-      window.location.href = `./registre/registreEliminar.html?index=${index}`;
-    });
+        let botoEsborrar = document.createElement("button");
+        botoEsborrar.type = "button";
+        botoEsborrar.appendChild(document.createTextNode("Eliminar"));
+        botoEsborrar.addEventListener("click", () => {
+          window.location.href = `./registre/registreEliminar.html?index=${index}`;
+        });
 
-    // Afegim els botons a la taula
-    tdAccions.appendChild(botoModificar);
-    tdAccions.appendChild(botoEsborrar);
-    tr.appendChild(tdAccions);
+        // Afegim els botons a la taula
+        tdAccions.appendChild(botoModificar);
+        tdAccions.appendChild(botoEsborrar);
+        tr.appendChild(tdAccions);
 
-    tbody.appendChild(tr);
-  });
-
-  taula.appendChild(tbody);
-  taulaClients.appendChild(taula);
+        tbody.appendChild(tr);
+      });  
+      taula.appendChild(tbody);
+      taulaClients.appendChild(taula);
 }
-
 
 /*const visualitzarLlista = document.getElementById("llista");
   visualitzarLlista.innerHTML = "";
