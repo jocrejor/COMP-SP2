@@ -19,10 +19,10 @@ function mostrarClients() {
 
   let clients = JSON.parse(localStorage.getItem("client") || "[]");
   let taulaClients = document.getElementById("taulaClients");
-  taulaClients.innerHTML = "";
+  taulaClients.textContent = "";
 
   if (clients.length === 0) {
-    taulaClients.textContent = "No hi ha registres guardats.";
+    taulaClients.appendChild(document.createTextNode("No hi ha registres guardats."));
     return;
   }
 
@@ -52,85 +52,88 @@ function mostrarClients() {
 
   // Cos de la taula
   let tbody = document.createElement("tbody");
+  
   clients.forEach((client, index) => {
     let tr = document.createElement("tr");
     
     // Fila del id de la taula
     let tdId = document.createElement("td");
-    tdId.textContent = client.id;
+    tdId.appendChild(document.createTextNode(client.id));
     tr.appendChild(tdId);
 
     // Fila del name de la taula
     let tdName = document.createElement("td");
-    tdName.textContent = client.name;
+    tdName.appendChild(document.createTextNode(client.name));
     tr.appendChild(tdName);
 
     // Fila del surname de la taula
     let tdSurname = document.createElement("td");
-    tdSurname.textContent = client.surname;
+    tdSurname.appendChild(document.createTextNode(client.surname));;
     tr.appendChild(tdSurname);
 
     // Fila del tipus de document de la taula
     let tdTaxidtype = document.createElement("td");
-    tdTaxidtype.textContent = client.taxidtype;
+    tdTaxidtype.appendChild(document.createTextNode(client.taxidtype));
     tr.appendChild(tdTaxidtype);
 
     // Fila del nombre del document de la taula
     let tdTaxid = document.createElement("td");
-    tdTaxid.textContent = client.taxid;
+    tdTaxid.appendChild(document.createTextNode(client.taxid));
     tr.appendChild(tdTaxid);
 
     // Fila del aniversari de la taula
     let tdBirth_date = document.createElement("td");
-    tdBirth_date.textContent = client.birth_date;
+    tdBirth_date.appendChild(document.createTextNode(client.birth_date));
     tr.appendChild(tdBirth_date);
 
     // Fila del telèfon de la taula
     let tdPhone = document.createElement("td");
-    tdPhone.textContent = client.phone;
+    tdPhone.appendChild(document.createTextNode(client.phone));
     tr.appendChild(tdPhone);
 
     // Fila del email de la taula
     let tdEmail = document.createElement("td");
-    tdEmail. textContent = client.email;
+    tdEmail.appendChild(document.createTextNode(client.email));
     tr.appendChild(tdEmail);
 
     // Fila del adreça de la taula
     let tdAddress = document.createElement("td");
-    tdAddress.textContent = client.address;
+    tdAddress.appendChild(document.createTextNode(client.address));
     tr.appendChild(tdAddress);
 
     // Fila del cp de la taula
     let tdCp = document.createElement("td");
-    tdCp.textContent = client.cp;
+    tdCp.appendChild(document.createTextNode(client.cp));
     tr.appendChild(tdCp);
 
     // Fila del ciutat de la taula
     let tdCountry_id = document.createElement("td");
-    tdCountry_id.textContent = client.country_id;
+    tdCountry_id.appendChild(document.createTextNode(client.country_id));
     tr.appendChild(tdCountry_id);
 
     // Fila del provincia de la taula
     let tdProvince_id = document.createElement("td");
-    tdProvince_id.textContent = client.province_id;
+    tdProvince_id.appendChild(document.createTextNode(client.province_id));
     tr.appendChild(tdProvince_id);
 
     // Fila del ciutat de la taula
     let tdCity_id = document.createElement("td");
-    tdCity_id.textContent = client.city_id;
+    tdCity_id.appendChild(document.createTextNode(client.city_id));
     tr.appendChild(tdCity_id);
 
     // Fila d'accions de la taula
     let tdAccions = document.createElement("td");
 
     let botoModificar = document.createElement("button");
-    botoModificar.textContent = "Modificar";
+    botoModificar.type = "button";
+    botoModificar.appendChild(document.createTextNode("Modificar"));
     botoModificar.addEventListener("click", () =>{
       window.location.href = `./registre/registreModificar.html?index=${index}`;
     });
 
     let botoEsborrar = document.createElement("button");
-    botoEsborrar.textContent = "Eliminar";
+    botoEsborrar.type = "button";
+    botoEsborrar.appendChild(document.createTextNode("Eliminar"));
     botoEsborrar.addEventListener("click", () => {
       window.location.href = `./registre/registreEliminar.html?index=${index}`;
     });
