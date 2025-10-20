@@ -549,7 +549,8 @@ let Register = [
 
 let Rol = [
   { "id": 1, "name": "Admin" },
-  { "id": 2, "name": "Usuari" }
+  { "id": 2, "name": "Usuari" },
+  { "id": 3, "name": "Miguel"}
 ];
 
 let User = [

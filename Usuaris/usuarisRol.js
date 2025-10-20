@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
 // Array per emmagatzemar els rols.
-let rols = ['Usuari', 'Admin']; // Rols per defecte del sistema
+let rols = []; // Rols per defecte del sistema
 
 // Funció per iniciar els esdeveniments de la pàgina.
 function main() {
@@ -25,6 +25,9 @@ function carregarRols() {
     const rolsGuardats = localStorage.getItem('rols');
     if (rolsGuardats) {
         rols = JSON.parse(rolsGuardats);
+    } else {
+        // Agafar noms del array global Rol només si no existeix localStorage
+        rols = Rol.map(r => r.name);
     }
 }
 
