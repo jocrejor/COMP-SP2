@@ -3,6 +3,7 @@ window.onload = iniciar;
 
 function iniciar (){
     document.getElementById("enviar").addEventListener("click", guardarEnLocalStorage, false);
+    carregardades();
 }
 
 function carregardades(){
@@ -11,16 +12,16 @@ function carregardades(){
   const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
 
   const attr = attributes.find(a => a.id === atributoId);
-  const pa = productAttributes.find(pa => pa.attribute_id === atributoId);
+  const productatribut = productAttributes.find(producatr => producatr.attribute_id === atributoId);
 
-    if (!attr || !pa) {
+    if (!attr || !productatribut) {
     alert("Error: Atribut no trobat.");
     window.location.href = "../llistar/llistarcaracteristica.html";
     return;
   }
 
   document.getElementById("nom").value = attr.name;
-  document.getElementById("valor").value = pa.value;
+  document.getElementById("valor").value = productatribut.value;
 
 
 }
@@ -82,3 +83,32 @@ function esborrarError (){
     }
 }
 
+function guardarEnLocalStorage(e) {
+  if (!validar(e)) return;
+
+  e.preventDefault();
+
+  const atributoId = parseInt(localStorage.getItem("atributoAEditar"));
+  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+
+  const nuevoNombre = document.getElementById("nom").value.trim();
+  const nuevoValor = document.getElementById("valor").value.trim();
+//Actualiza el name
+  const attrIndex = attributes.findIndex(a => a.id === atributoId);
+  if (attrIndex !== -1) {
+    attributes[attrIndex].name = nuevoNombre;
+  }
+
+  // Actualiza el valor
+  const producteatribut = productAttributes.findIndex(prodatr => prodatr.attribute_id === atributoId);
+  if (producteatribut !== -1) {
+    productAttributes[producteatribut].value = nuevoValor;
+  }
+
+  localStorage.setItem("Attribute", JSON.stringify(attributes));
+  localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+
+  alert("Característica modificada correctament!");
+  window.location.href = "../llistar/llistarcaracteristica.html";
+}
