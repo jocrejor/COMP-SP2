@@ -2,6 +2,12 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main(){
   mostrarClients();
+
+  // Creem el event per a crear usuari
+  let botoCrear = document.getElementById("crearClient");
+  botoCrear.addEventListener("click", () => {
+    window.location.href="./registre/registreCrear.html";
+  });
 }
 
 function mostrarClients() {
@@ -47,32 +53,121 @@ function mostrarClients() {
   // Cos de la taula
   let tbody = document.createElement("tbody");
   clients.forEach((client, index) => {
-    let fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${client.id}</td>
-      <td>${client.name}</td>
-      <td>${client.surname}</td>
-      <td>${client.taxidtype || ""}</td>
-      <td>${client.taxid || ""}</td>
-      <td>${client.birth_date || ""}</td>
-      <td>${client.phone}</td>
-      <td>${client.email}</td>
-      <td>${client.address || ""}</td>
-      <td>${client.cp || ""}</td>
-      <td>${client.country_id || ""}</td>
-      <td>${client.province_id || ""}</td>
-      <td>${client.city_id || ""}</td>
-      <td>
-        <button onclick="./registre/registreModificar.html(${index})">Modificar</button>
-        <button onclick="./registre/registreEliminar.html(${index})">Esborrar</button>
-      </td>
-    `;
-    tbody.appendChild(fila);
+    let tr = document.createElement("tr");
+    
+    // Fila del id de la taula
+    let tdId = document.createElement("td");
+    tdId.textContent = client.id;
+    tr.appendChild(tdId);
+
+    // Fila del name de la taula
+    let tdName = document.createElement("td");
+    tdName.textContent = client.name;
+    tr.appendChild(tdName);
+
+    // Fila del surname de la taula
+    let tdSurname = document.createElement("td");
+    tdSurname.textContent = client.surname;
+    tr.appendChild(tdSurname);
+
+    // Fila del tipus de document de la taula
+    let tdTaxidtype = document.createElement("td");
+    tdTaxidtype.textContent = client.taxidtype;
+    tr.appendChild(tdTaxidtype);
+
+    // Fila del nombre del document de la taula
+    let tdTaxid = document.createElement("td");
+    tdTaxid.textContent = client.taxid;
+    tr.appendChild(tdTaxid);
+
+    // Fila del aniversari de la taula
+    let tdBirth_date = document.createElement("td");
+    tdBirth_date.textContent = client.birth_date;
+    tr.appendChild(tdBirth_date);
+
+    // Fila del telèfon de la taula
+    let tdPhone = document.createElement("td");
+    tdPhone.textContent = client.phone;
+    tr.appendChild(tdPhone);
+
+    // Fila del email de la taula
+    let tdEmail = document.createElement("td");
+    tdEmail. textContent = client.email;
+    tr.appendChild(tdEmail);
+
+    // Fila del adreça de la taula
+    let tdAddress = document.createElement("td");
+    tdAddress.textContent = client.address;
+    tr.appendChild(tdAddress);
+
+    // Fila del cp de la taula
+    let tdCp = document.createElement("td");
+    tdCp.textContent = client.cp;
+    tr.appendChild(tdCp);
+
+    // Fila del ciutat de la taula
+    let tdCountry_id = document.createElement("td");
+    tdCountry_id.textContent = client.country_id;
+    tr.appendChild(tdCountry_id);
+
+    // Fila del provincia de la taula
+    let tdProvince_id = document.createElement("td");
+    tdProvince_id.textContent = client.province_id;
+    tr.appendChild(tdProvince_id);
+
+    // Fila del ciutat de la taula
+    let tdCity_id = document.createElement("td");
+    tdCity_id.textContent = client.city_id;
+    tr.appendChild(tdCity_id);
+
+    // Fila d'accions de la taula
+    let tdAccions = document.createElement("td");
+
+    let botoModificar = document.createElement("button");
+    botoModificar.textContent = "Modificar";
+    botoModificar.addEventListener("click", () =>{
+      window.location.href = `./registre/registreModificar.html?index=${index}`;
+    });
+
+    let botoEsborrar = document.createElement("button");
+    botoEsborrar.textContent = "Eliminar";
+    botoEsborrar.addEventListener("click", () => {
+      window.location.href = `./registre/registreEliminar.html?index=${index}`;
+    });
+
+    // Afegim els botons a la taula
+    tdAccions.appendChild(botoModificar);
+    tdAccions.appendChild(botoEsborrar);
+    tr.appendChild(tdAccions);
+
+    tbody.appendChild(tr);
   });
 
   taula.appendChild(tbody);
   taulaClients.appendChild(taula);
 }
+
+
+/*const visualitzarLlista = document.getElementById("llista");
+  visualitzarLlista.innerHTML = "";
+  let aux = "";
+  llista.forEach((item, index) => {
+    aux +=
+      "<li><button onclick='esborrarPais(" +
+      index +
+      ")'>Esborrar</button><button onclick='actualitzar(" +
+      index +
+      ")'>Modificar</button>" +
+      item.country +
+      "<a href='./provincia/provinciaLocalitzacio.html?country=" +
+      item.country +
+      "'><button>Provincia</button></a></li>";
+  });
+
+  visualitzarLlista.innerHTML = aux;*/
+
+
+
 
 // Funció per esborrar un client
 function esborrar(){
