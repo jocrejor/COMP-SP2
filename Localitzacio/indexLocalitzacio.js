@@ -1,51 +1,53 @@
-// Iniciem l'aplicació quan el DOM estiga carregat
+// Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
 
-let llista = new Array();
-let accio = "Afegir";
+let llista = new Array(); // Array on guardarem la llista de països
+let accio = "Afegir";     // Estat actual del botó (Afegir o Actualitzar)
 
 function main() {
   const afegirButton = document.getElementById("afegir");
   afegirButton.textContent = accio;
 
-  // Recuperem la llista del localStorage o inicialitzem buit
+  // Recuperem la llista guardada en localStorage (si existeix)
+  // Si no, inicialitzem un array buit
   llista = localStorage.getItem("localitzacioPais")
     ? JSON.parse(localStorage.getItem("localitzacioPais"))
     : [];
 
-  // Pintem la llista dels països
+  // Pintem la llista inicial dels països
   mostrarLlista();
 
-  // Creem un ID automàtic si no existeix al localStorage
+  // Si encara no existeix un ID automàtic al localStorage, el creem
   if (!localStorage.getItem("countryLastId")) {
     localStorage.setItem("countryLastId", 0);
   }
 
-  // Afegim un listener per al botó afegir/modificar
+  // Listener del botó Afegir/Modificar
   afegirButton.addEventListener("click", () => {
-    let validarPais = validarNomPais();
+    let validarPais = validarNomPais(); // Comprovem que el país siga vàlid
+
     if (validarPais === false) {
-      return;
+      return; // Si no és vàlid, parem l'execució
     } else {
       if (accio === "Afegir") {
-        crearPais();
+        crearPais(); // Mode afegir nou país
       } else {
-        actualitzarPais();
-        accio = "Afegir";
+        actualitzarPais(); // Mode actualitzar país existent
+        accio = "Afegir"; // Tornem a l'estat inicial
         afegirButton.textContent = accio;
       }
     }
 
-    // netejem el formulari després de guardar
+    // Netejem el formulari després d'afegir o actualitzar
     document.getElementById("country").value = "";
     document.getElementById("index").value = "-1";
 
-    // Pintem la llista dels països
+    // Tornem a mostrar la llista actualitzada
     mostrarLlista();
   });
 }
 
-// Funció per donar d'alta un nou país
+// Funció per crear un nou país i guardar-lo al localStorage
 function crearPais() {
   const country = document.getElementById("country").value;
   if (country === "") {
@@ -53,35 +55,38 @@ function crearPais() {
     return;
   }
 
-  // Recuperes el id dinàmic i el converteixes a nombre, i si no està, assigna 0
+  // Recuperem l'últim ID i incrementem-lo per assignar un ID únic
   let nuevoCountry = Number(localStorage.getItem("countryLastId")) || 0;
   nuevoCountry++;
 
-  // L'objecte que guardem al localStorage
+  // Objecte que representa un país amb ID i nom
   let objetoCountry = {
     id: nuevoCountry,
     country: country,
   };
 
+  // Afegim el país a l'array i l'actualitzem al localStorage
   llista.push(objetoCountry);
   localStorage.setItem("localitzacioPais", JSON.stringify(llista));
   localStorage.setItem("countryLastId", nuevoCountry);
 }
 
-// Funció per actualitzar el país existent
+// Funció per actualitzar un país existent
 function actualitzarPais() {
   const country = document.getElementById("country").value;
 
-  //Actualitzem els elements
+  // Actualitzem el país a la posició indicada pel camp ocult "index"
   llista[document.getElementById("index").value] = { country: country };
   localStorage.setItem("localitzacioPais", JSON.stringify(llista));
 }
 
-// Funció per mostrar la llista de països
+// Funció per mostrar la llista de països a la pàgina
 function mostrarLlista() {
   const visualitzarLlista = document.getElementById("llista");
   visualitzarLlista.innerHTML = "";
   let aux = "";
+
+  // Per a cada país, creem un element <li> amb botons per Esborrar, Modificar i accedir a Província
   llista.forEach((item, index) => {
     aux +=
       "<li><button onclick='esborrarPais(" +
@@ -95,48 +100,49 @@ function mostrarLlista() {
       "'><button>Provincia</button></a></li>";
   });
 
+  // Pintem la llista generada dins del <ol>
   visualitzarLlista.innerHTML = aux;
 }
 
-// Quan cliquem Modificar, carreguem el país a modificar
+// Carrega el país seleccionat per a modificar-lo
 function actualitzar(index) {
   console.log(llista[index]);
-  document.getElementById("index").value = index;
-  document.getElementById("country").value = llista[index].country;
-  accio = "Actualitzar";
+  document.getElementById("index").value = index; // Guardem l'índex actual
+  document.getElementById("country").value = llista[index].country; // Mostrem el valor al camp de text
+  accio = "Actualitzar"; // Canviem l'estat del botó
   const afegirButton = document.getElementById("afegir");
   afegirButton.textContent = accio;
 }
 
-// Funció per esborrar un país
+// Funció per eliminar un país de la llista
 function esborrarPais(index) {
-  llista.splice(index, 1);
-  localStorage.setItem("localitzacioPais", JSON.stringify(llista));
-  mostrarLlista();
+  llista.splice(index, 1); // Eliminem 1 element en la posició indicada
+  localStorage.setItem("localitzacioPais", JSON.stringify(llista)); // Guardem la nova llista
+  mostrarLlista(); // Actualitzem la vista
 }
 
-// Validar el país
+// Funció per validar el nom del país abans d'afegir o modificar
 function validarNomPais() {
   let country = document.getElementById("country");
 
-  // Eliminem espais i ho passem a minúscules
+  // Eliminem espais i convertim a minúscules per evitar duplicats amb majúscules diferents
   let countrySenseEspai = country.value.trim().toLowerCase();
 
-  // Comprovem que el camp no estiga buit. 
+  // Validem que el camp no estiga buit
   if (countrySenseEspai === "") {
     document.getElementById("mensajeError").textContent =
       "Has d'introduïr un país.";
     return false;
   }
 
-  // Comprovem que té una mida mínima i màxima segons el Pattern
+  // Validem que complisca amb el patró
   if (country.validity.patternMismatch) {
     document.getElementById("mensajeError").textContent =
       "Ha de tindre una mida de 3 a 30 caracters";
     return false;
   }
 
-  // Comprovem que país no está ja a l'array duplicat (menys en modificar)
+  // Comprovem que el país no estiga duplicat
   let indexActual = document.getElementById("index").value;
   for (let i = 0; i < llista.length; i++) {
     if (i != indexActual && llista[i].country.toLowerCase() === countrySenseEspai) {
@@ -146,6 +152,7 @@ function validarNomPais() {
     }
   }
   
+  // Si tot és correcte, netegem el missatge d'error
   document.getElementById("mensajeError").textContent = " ";
   return true;
 }
