@@ -3,25 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fitxer JavaScript amb la lògica per gestionar les poblacions -->
     <script src="./poblacioLocalitzacio.js"></script>
+
+    <!-- Full d'estil per donar format a la pàgina de poblacions -->
     <link rel="stylesheet" href="/Localitzacio/css/poblacioStyle.css">
+
     <title>Llistat de poblacions</title>
 </head>
 <body>
-
+    <!-- Títol principal -->
     <h1>Llistat de poblacions</h1>
+
+    <!-- Mostra el país seleccionat -->
     <h2 id="id_country">País seleccionat:</h2>
+
+    <!-- Mostra la província seleccionada  -->
     <h2 id="id_province">Provincia seleccionada:</h2>
 
+    <!-- Camp de text per introduir el nom d'una població-->
     <input type="text" id="city" placeholder="Pego" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+
+    <!-- Botó per afegir o modificar una població -->
     <button id="afegir"></button>
+
+    <!-- Espai per mostrar missatges d’error de validació -->
     <span id="mensajeError" style="color: red;"></span>
 
+    <!--Llista ordenada on es mostraran les poblacions introduïdes-->
     <ol id="llista">
         <!-- Ací ensenyem els països -->
     </ol>
-    <input type="hidden" id="index" value="-1">
-    <button id="torna">Torna</button>
 
+    <!--Input ocult per guardar l'índex de la població que s’està editant-->
+    <input type="hidden" id="index" value="-1">
+
+    <!-- Botó per tornar a la pàgina anterior -->
+    <button id="torna">Torna</button>
 </body>
 </html>
