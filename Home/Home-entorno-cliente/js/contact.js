@@ -1,12 +1,12 @@
 
-// ✅ Cuando la página carga, mostramos todos los contactos guardados
+// Cuando la página carga, mostramos todos los contactos guardados
 document.addEventListener("DOMContentLoaded", showContacts);
 
-// 🎯 Capturamos el formulario
+//  Capturamos el formulario
 const form = document.getElementById("contactForm");
 const cancelEdit = document.getElementById("cancelEdit");
 
-// ✅ Evento para guardar un nuevo contacto
+//  Evento para guardar un nuevo contacto
 form.addEventListener("submit", function (event) {
   event.preventDefault(); // Evita que se recargue la página
 
@@ -38,7 +38,7 @@ form.addEventListener("submit", function (event) {
   showContacts();
 });
 
-// ✅ Cancelar la edición
+//  Cancelar la edición
 cancelEdit.addEventListener("click", function () {
   form.reset();
   document.getElementById("contactId").value = "";
