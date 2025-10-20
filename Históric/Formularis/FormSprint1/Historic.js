@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", function () {
+
+})
+
+
+
 // Generar un session_id únic si encara no existeix
 if (!sessionStorage.getItem("session_id")) {
   sessionStorage.setItem("session_id", crypto.randomUUID());
@@ -9,7 +15,7 @@ let indexEdicio = null;
 // Funció per mostrar els registres a la taula
 function mostrarTaula() {
   const tbody = document.querySelector("#taulaResultat tbody");
-  tbody.innerHTML = "";
+  tbody.innerHTML = "";  // Netejar la taula abans de mostrar
 
   const registres = JSON.parse(localStorage.getItem("registres")) || [];
 
