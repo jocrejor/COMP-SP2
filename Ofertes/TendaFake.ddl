@@ -62,7 +62,9 @@ CREATE TABLE Productimage (
 -- Taula d'Atributs
 CREATE TABLE Attribute (
     id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    family_id INT,
+    FOREIGN KEY (family_id) REFERENCES Family(id)
 );
 
 -- Taula intermitja ProductAttribute per la relació N:N
@@ -91,7 +93,7 @@ CREATE TABLE User (
     password VARCHAR(30) NOT NULL,
     rol_id INT NOT NULL,
     CONSTRAINT fk_user_rol FOREIGN KEY (rol_id) REFERENCES Rol(id)
-);
+);veureMissatge
 
 
 /* JSON de valors de pais- provincia - ciutat    
