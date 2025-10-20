@@ -11,7 +11,7 @@ h1 {
 
 input[type="text"] {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #368cd3;
     border-radius: 4px;
     width: 500px;
     margin: 10px;
@@ -19,7 +19,7 @@ input[type="text"] {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #368cd3;
     color: white;
     padding: 8px 15px;
     border: none;
@@ -29,15 +29,15 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #1f527c;
 }
 
 ol {
     background-color: white;
     padding: 15px;
     border-radius: 5px;
-    width: 500px;
-    margin: 20px auto;
+    width: 600px;
+    margin: 30px auto;
 }
 
 li {
