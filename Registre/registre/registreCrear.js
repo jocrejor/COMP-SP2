@@ -26,10 +26,12 @@ function main() {
         let city_id = document.getElementById("city_id").value;
         let password = document.getElementById("password").value;
         //let repetir = document.getElementById("repetir").value;
-
+        
+        validarAlta();
+        validarDni();
         mostrarClients();
     });
-
+}
     // Les validacions
     function validarAlta() {
 
@@ -80,4 +82,14 @@ function main() {
     }
     return true;    
     }
+
+function validarDni(taxid, taxidtype){
+    if(taxidtype === "DNI"){
+        return /^[0-9]{8}[A-HJ-NP-TV-Z]$/i.test(taxid);    
+    }else if (taxidtype === "NIE"){
+        return /^[XYZ][0-9]{7}[A-Z]$/i.test(taxid);
+    }else if (taxidtype === "Passaport"){
+        return /^[a-z]{3}[0-9]{6}[a-z]?$/i.test(taxid);
+    }
+    return false;
 }

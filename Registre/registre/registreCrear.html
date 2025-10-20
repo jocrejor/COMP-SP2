@@ -16,12 +16,12 @@
         <input type="number" id="id"><br>
 
         <label for="name">Nom:</label><br>
-        <input type="text" id="name" required><br>
+        <input type="text" id="name" maxlength="100" required><br>
         <span class="error" id="error_name"></span>
 
 
         <label for="surname">Cognoms:</label><br>
-        <input type="text" id="surname" required><br>
+        <input type="text" id="surname" maxlength="100" required><br>
         <span class="error" id="error_surname"></span>
 
 
@@ -43,7 +43,7 @@
 
 
         <label for="phone">Telèfon:</label><br>
-        <input type="tel" id="phone" required><br>
+        <input type="tel" id="phone" maxlength="20" pattern="^\+?[0-9]+$" required><br>
         <span class="error" id="error_phone"></span>
 
 
@@ -53,7 +53,7 @@
 
 
         <label for="email">Email:</label><br>
-        <input type="email" id="email" required><br>
+        <input type="email" id="email" maxlength="100" required><br>
         <span class="error" id="error_email"></span>
 
 
@@ -97,6 +97,8 @@
 
 
         <button id="alta" type="submit">Alta</button>
+        <button id="torna">Torna</button>
+
     </form>
 
 </body>
