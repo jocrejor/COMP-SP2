@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", main)
 
 function main(){
   // Se seleccionan los elementos del HTML necesarios
-  const sendCategoryButton = document.querySelector("#btSend")
-  const listCategoryButton = document.querySelector("#btList")
-  const nameCategoryText = document.querySelector("#category")
-  const categoryList = document.querySelector("#categoryList")
-  const messageDebugg = document.querySelector("#message")
+  const sendCategoryButton = document.getElementById("btSend")
+  const listCategoryButton = document.getElementById("btList")
+  const nameCategoryText = document.getElementById("category")
+  const categoryList = document.getElementById("categoryList")
+  const messageDebugg = document.getElementById("message")
 
   // Se muestran las categorías guardadas al cargar la página
   displayCategory(categoryList)
@@ -42,7 +42,7 @@ function main(){
             message.innerHTML = "Categoria guardada correctament."  // Se muestra un mensaje confirmando el guardado
             input.value = ""
           } else {
-              displayCategory(container)
+              displayCategory(container);
               message.innerHTML = "No s'ha introduït cap categoria."  // Si no se ha escrito nada, se muestra un mensaje
               }
   }
