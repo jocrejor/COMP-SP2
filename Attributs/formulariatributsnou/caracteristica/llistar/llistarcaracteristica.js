@@ -10,13 +10,14 @@ function anarcrear() {
 }
 
 function carregarDadesLocal() {
-  let idSeleccionado = localStorage.getItem("productoSeleccionado");
+  let idSeleccionado = parseInt(localStorage.getItem("productoSeleccionado"));
   let productos = JSON.parse(localStorage.getItem("productos")) || [];
-  let atributos = JSON.parse(localStorage.getItem("productAttributes")) || {};
-  let producto = productos.find(p => p.id == idSeleccionado);
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
 
+  let producto = productos.find(p => p.id == idSeleccionado);
   let contenedor = document.getElementById("detalle");
-let cos = document.getElementById("cuerpoTabla");
+  let cos = document.getElementById("cuerpoTabla");
 
   if (!producto) {
     mostrarTexto(contenedor, "Producto no encontrado.");
@@ -25,31 +26,36 @@ let cos = document.getElementById("cuerpoTabla");
 
   mostrarTexto(contenedor, producto.nombre);
 
-  let caracteristicas = atributos[idSeleccionado]?.caracteristicas || [];
+  // Filtrar atributs de eixe producte
+  const caracteristicasProducto = productAttributes.filter(
+    pa => pa.product_id == idSeleccionado
+  );
 
-  if (caracteristicas.length === 0) {
+  if (caracteristicasProducto.length === 0) {
+    cos.textContent = "";
     mostrarTexto(cos, "Este producto no tiene características aún.");
-  } else {
-
-
-cos.textContent  = "";
-    caracteristicas.forEach(caracteristica => {
-      let fila = document.createElement("tr");
-
-      let tdNom = document.createElement("td");
-      let tdValor = document.createElement("td");
-
-      tdNom.appendChild(document.createTextNode(caracteristica.nom));
-      tdValor.appendChild(document.createTextNode(caracteristica.valor));
-
-      fila.appendChild(tdNom);
-      fila.appendChild(tdValor);
-      cos.appendChild(fila);
-    });
-
-
+    return;
   }
+
+  cos.textContent = "";
+
+  caracteristicasProducto.forEach(pa => {
+    // Buscar el atributo por ID para obtener su nombre
+    const attr = attributes.find(a => a.id == pa.attribute_id);
+
+    let fila = document.createElement("tr");
+    let tdNom = document.createElement("td");
+    let tdValor = document.createElement("td");
+
+   mostrarTexto(tdNom, attr ? attr.name : "(Atributo desconocido)");
+  mostrarTexto(tdValor, pa.value);
+
+    fila.appendChild(tdNom);
+    fila.appendChild(tdValor);
+    cos.appendChild(fila);
+  });
 }
+
 
 function mostrarTexto(contenedor, texto) {
   let p = document.createElement("p");

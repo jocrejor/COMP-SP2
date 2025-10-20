@@ -60,42 +60,87 @@ function esborrarError (){
     }
 }
 
-function guardarEnLocalStorage(e) {
-      if (!validar(e)) {
-        return;
-    }
-
-    const idSeleccionado = localStorage.getItem("productoSeleccionado");
-
-    const productos = JSON.parse(localStorage.getItem("productos")) || [];
-
-    const producto = productos.find(p => p.id == idSeleccionado);
-
-    if (!producto) {
-        alert("Error: producto no encontrado");
-        return;
-    }
-    const atributos = JSON.parse(localStorage.getItem("productAttributes")) || {};
-
-    // Si no existeix producto mostrar la seua imformació
-    if (!atributos[idSeleccionado]) {
-        atributos[idSeleccionado] = {
-            id: producto.id,
-            nombre: producto.nombre,
-            categoria: producto.categoria,
-            caracteristicas: []
-        };
-    }
-
-     const nuevaCaracteristica = {
-        nom: document.getElementById("nom").value.trim(),
-        valor: document.getElementById("valor").value.trim()
-    };
-
-    atributos[idSeleccionado].caracteristicas.push(nuevaCaracteristica);
-   localStorage.setItem("productAttributes", JSON.stringify(atributos));
-        document.getElementById("nom").value = "";
-    document.getElementById("valor").value = "";
- 
-    window.location.href = "../llistar/llistarcaracteristica.html";
+// auxiliar: obtiene el siguiente id para una colección (autoincremental)
+function getNextId(array) {
+  if (!array || array.length === 0) return 1;
+  // toma el máximo id actual y suma 1 (seguro aunque haya gaps)
+  return Math.max.apply(null, array.map(a => a.id || 0)) + 1;
 }
+
+function guardarEnLocalStorage(e) {
+  // Manteniendo tu validación: si no valida, salimos
+  if (!validar(e)) {
+    return;
+  }
+
+  const name = document.getElementById("nom").value.trim();   // nombre del atributo (Attribute.name)
+  const value = document.getElementById("valor").value.trim(); // valor para Productattribute.value
+  const idSeleccionado = localStorage.getItem("productoSeleccionado");
+
+  // obtener producto
+  const productos = JSON.parse(localStorage.getItem("productos")) || [];
+  const producto = productos.find(p => p.id == idSeleccionado);
+
+  if (!producto) {
+    alert("Error: producto no encontrado");
+    return;
+  }
+
+  // Recuperar colecciones o inicializarlas
+  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+
+  // Determinar family_id: si el producto tiene family_id lo usamos, si no, puedes asignar 1 o generar uno.
+  const familyId = producto.family_id !== undefined ? producto.family_id : 1;
+
+  // 1) Buscar si ya existe el Attribute con mismo name y family_id
+  let atributoExistente = attributes.find(a => a.name === name && (a.family_id == familyId));
+
+  // 2) Si no existe, crear nuevo Attribute con id autoincremental
+  if (!atributoExistente) {
+    const nuevoAttrId = getNextId(attributes);
+    atributoExistente = {
+      id: nuevoAttrId,
+      name: name,
+      family_id: familyId
+    };
+    attributes.push(atributoExistente);
+    // guardamos Attribute actualizado
+    localStorage.setItem("Attribute", JSON.stringify(attributes));
+  }
+
+  // 3) Crear registro en Productattribute
+  // Evitar duplicados exactos (opcional): si ya existe la misma tripleta product_id+attribute_id, puedes actualizar o no insertar
+  const yaExistePA = productAttributes.some(pa =>
+    pa.product_id == producto.id && pa.attribute_id == atributoExistente.id
+  );
+
+  if (yaExistePA) {
+    // Si ya existe y quieres actualizar el valor:
+    for (let i = 0; i < productAttributes.length; i++) {
+      if (productAttributes[i].product_id == producto.id && productAttributes[i].attribute_id == atributoExistente.id) {
+        productAttributes[i].value = value;
+        break;
+      }
+    }
+  } else {
+    // Insertamos nuevo registro product-attribute
+    const nuevoProductAttribute = {
+      product_id: producto.id,
+      attribute_id: atributoExistente.id,
+      value: value
+    };
+    productAttributes.push(nuevoProductAttribute);
+  }
+
+  // Guardar Productattribute actualizado
+  localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+
+  // Limpiar formulario
+  document.getElementById("nom").value = "";
+  document.getElementById("valor").value = "";
+
+  // Redirigir al listado
+  window.location.href = "../llistar/llistarcaracteristica.html";
+}
+
