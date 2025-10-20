@@ -4,28 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fitxer JavaScript amb la lògica per gestionar les províncies -->
     <script src="./provinciaLocalitzacio.js"></script>
+
+    <!-- Full d'estil específic per a la pàgina de províncies -->
     <link rel="stylesheet" href="/Localitzacio/css/provinciaStyle copy.css">
+
     <title>Llistat de provincies</title>
 </head>
 
 <body>
-
+    <!-- Títol principal -->
     <h1>Llistat de provincies</h1>
+
+    <!-- Mostra el país seleccionat -->
     <h2 id="id">País seleccionat:</h2>
 
-        <input type="text" id="province" placeholder="Alacant" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
-        <span id="mensajeError" style="color:red"></span>
+    <!-- Camp de text per introduir una província nova -->
+    <input type="text" id="province" placeholder="Alacant" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
 
-        <button id="afegir"></button>
+    <!-- Span per mostrar missatges d'error de validació -->
+    <span id="mensajeError" style="color:red"></span>
 
+    <!-- Botó per afegir o modificar una província -->
+    <button id="afegir"></button>
+
+    <!-- Llista ordenada on es mostraran les províncies del país seleccionat -->
     <ol id="llista">
         <!-- Ací ensenyem els països -->
     </ol>
 
+    <!-- Input ocult per guardar l'índex de la província que s'està editant -->
     <input type="hidden" id="index" value="-1">
-    <a href="../indexLocalitzacio.html"><button id="torna">Torna</button></a>
 
+    <!-- Botó per tornar a la pàgina principal (llistat de països) -->
+    <a href="../indexLocalitzacio.html">
+        <button id="torna">Torna</button>
+    </a>
 </body>
-
 </html>
