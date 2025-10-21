@@ -1,7 +1,7 @@
 function eliminarPedido(index) {
   // Recuperar el pedido para mostrar información en la confirmación
-  const pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-  const pedido = pedidos[index];
+  let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+  let pedido = pedidos[index];
   
   if (!pedido) {
     alert("No s'ha trobat la comanda a eliminar");
@@ -9,7 +9,7 @@ function eliminarPedido(index) {
   }
   
   // Crear mensaje de confirmación con detalles del pedido
-  const mensaje = `Estàs segur/segura que vols eliminar aquesta comanda?\n\n` +
+  let mensaje = `Estàs segur/segura que vols eliminar aquesta comanda?\n\n` +
                  `ID: ${pedido.id}\n` +
                  `Data: ${pedido.date}\n` +
                  `Client: ${pedido.client}\n` +
@@ -22,13 +22,20 @@ function eliminarPedido(index) {
     pedidos.splice(index, 1);
     localStorage.setItem("pedidos", JSON.stringify(pedidos));
     
+    //Elimina directament la fila 
+    let taula = document.querySelector("#listaPedidos table");
+    let fila = taula.getElementsByTagName("tr") [index +1];
+    if (fila && fila.parentNode) {
+     fila.parentNode.removeChild(fila);
+   }
+
     // Mostrar mensaje de éxito
     alert("Comanda eliminada correctament ✅");
     
     // Refrescar la lista
     mostrarPedidos();
   } else {
-    // Si el usuario cancela, mostrar mensaje (opcional)
+    // Si el usuario cancela, mostrar mensaje 
     console.log("Eliminació cancel·lada per l'usuari");
   }
 }

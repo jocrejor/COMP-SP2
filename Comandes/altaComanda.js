@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let newLine = firstLine.cloneNode(true);
 
         // Netejar valors
+        //NewLine es una nova fila de producte creada a partir d'una còpia de la primera fila, amb els camps buits
+        //i el boto per a eliminar-la
         newLine.querySelector("select[name='product_id[]']").value = "";
         newLine.querySelector("input[name='quantity[]']").value = "";
         newLine.querySelector("input[name='price[]']").value = "";
@@ -19,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         productsTable.appendChild(newLine);
 
-        // Afegim esdeveniment al botó eliminar de la nova línia
+        // Afegim al botó eliminar de la nova línia
         let removeBtn = newLine.querySelector(".removeProduct");
         removeBtn.addEventListener("click", () => removeProductLine(newLine));
     }
@@ -34,14 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Afegir esdeveniment al primer botó eliminar existent
+    // Afegir al primer botó eliminar existent
     let firstRemoveBtn = document.querySelector(".product-line .removeProduct");
     firstRemoveBtn.addEventListener("click", () => {
         let row = firstRemoveBtn.closest("tr");
         removeProductLine(row);
     });
 
-    // Esdeveniment per afegir línia nova
+    // Per afegir línia nova
     addProductBtn.addEventListener("click", addProductLine);
 
     // Enviar formulari
