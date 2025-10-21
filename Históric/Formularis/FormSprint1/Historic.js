@@ -85,7 +85,7 @@ document
 // Funció per esborrar un registre
 function esborrarRegistre(index) {
   let registres = JSON.parse(localStorage.getItem("registres")) || [];
-  registres.splice(index, 1); // eliminar l'element
+  //registres.splice(index, 1); // eliminar l'element
   localStorage.setItem("registres", JSON.stringify(registres));
   mostrarTaula();
 }
