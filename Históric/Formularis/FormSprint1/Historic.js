@@ -14,7 +14,6 @@ let indexEdicio = null;
 
 // Funció per mostrar els registres a la taula
 function mostrarTaula() {
-  function mostrarTaula() {
   const tbody = document.querySelector("#taulaResultat tbody");
 
   // Neteja contingut existent
@@ -62,7 +61,6 @@ function mostrarTaula() {
   });
 }
 
-}
 
 // Quan s’envia el formulari
 document
