@@ -1,0 +1,8 @@
+He modificat:
+- Canvi d'inner.HTML a appendChild.
+- Al CRUD de Registre, l'apartat d'ID Client, ara és un dropbox.
+- He eliminat la funció mostrarTaula, que estava repetida dins de la propia funció.
+
+
+Canvis a realitzar:
+- Afegir validacions de data --> fi no pot ser anterior que la d'inici
