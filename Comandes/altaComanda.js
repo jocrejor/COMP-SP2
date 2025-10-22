@@ -12,8 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let newLine = firstLine.cloneNode(true);
 
         // Netejar valors
-        //NewLine es una nova fila de producte creada a partir d'una còpia de la primera fila, amb els camps buits
-        //i el boto per a eliminar-la
+        //NewLine es una nova fila de producte creada a partir d'una còpia de la primera fila, amb els camps buits i el boto per a eliminar-la
         newLine.querySelector("select[name='product_id[]']").value = "";
         newLine.querySelector("input[name='quantity[]']").value = "";
         newLine.querySelector("input[name='price[]']").value = "";
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Funció per eliminar una línia de producte
     function removeProductLine(row) {
         let allRows = productsTable.getElementsByClassName("product-line");
-        if(allRows.length > 1){
+        if (allRows.length > 1) {
             productsTable.removeChild(row);
         } else {
             alert("Ha de quedar almenys una línia de producte!");
@@ -58,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let products = [];
         let allLines = document.getElementsByClassName("product-line");
 
-        for(let i=0; i<allLines.length; i++){
+        for (let i = 0; i < allLines.length; i++) {
             let line = allLines[i];
             let product_id = line.querySelector("select[name='product_id[]']").value;
             let quantity = parseInt(line.querySelector("input[name='quantity[]']").value) || 0;
@@ -68,13 +67,30 @@ document.addEventListener("DOMContentLoaded", () => {
             products.push({ product_id, quantity, price, discount });
         }
 
-        if(products.length === 0){
-            alert("Has d’afegir almenys un producte!");
+        //if(products.length === 0){
+        // alert("Has d’afegir almenys un producte!");
+        // return;
+        // }
+
+        //Missatge
+        let messageBox = document.getElementById("message-box");
+        if (!messageBox) {
+            messageBox = document.createElement("div");
+            messageBox.id = "message-box";
+            messageBox.style.marginTop = "10px";
+            messageBox.style.fontWeight = "bold";
+            form.appendChild(messageBox);
+        }
+        //Missatge
+        if (products.length === 0) {
+         let messageBox = document.getElementById("message-box");
+            messageBox.textContent = "Has d’afegir almenys un producte!";
+            messageBox.style.color = "red";
             return;
         }
 
         let total = 0;
-        for(let i=0; i<products.length; i++){
+        for (let i = 0; i < products.length; i++) {
             let p = products[i];
             total += (p.quantity * p.price) - p.discount;
         }
@@ -95,9 +111,16 @@ document.addEventListener("DOMContentLoaded", () => {
         pedidos.push(pedido);
         localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
-        alert("Comanda guardada ✅");
-        window.location.href = "comandesLlistar.html";
+        messageBox.textContent = "Comanda guardada ✅";
+        messageBox.style.color = "green";
+
+        // Redirigir després de 1 segons
+        setTimeout(() => {
+            window.location.href = "comandesLlistar.html";
+        }, 1000);
     });
+
+
 
     // Botó per anar a la llista de comandes
     llistaBtn.addEventListener("click", () => {

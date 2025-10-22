@@ -46,9 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
   detalle.innerHTML = html;
 });
     
-        // Botó "Nova Comanda"
-        let boto = document.getElementById("tornar");
-        boto.addEventListener("click", function() {
-          window.location.href = "comandesLlistar.html";
-        });
+       document.addEventListener("DOMContentLoaded", function() {
+    let boto = document.getElementById("tornar");
+    boto.addEventListener("click", function() {
+      window.location.href = "comandesLlistar.html";
+    });
+});
     
