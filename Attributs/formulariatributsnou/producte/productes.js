@@ -17,7 +17,6 @@ function carregardadeslocal() {
     console.log("Error: la variable 'Product' no está definida o no es un array.");
     return;
   }
-
   if (!localStorage.getItem("productos")) {
     localStorage.setItem("productos", JSON.stringify(Product));
   }
@@ -26,11 +25,20 @@ function carregardadeslocal() {
     localStorage.setItem("Family", JSON.stringify(Family));
   }
 
+  if (typeof Attribute !== "undefined" && Array.isArray(Attribute) && !localStorage.getItem("Attribute")) {
+    localStorage.setItem("Attribute", JSON.stringify(Attribute));
+  }
+
+  if (typeof Productattribute !== "undefined" && Array.isArray(Productattribute) && !localStorage.getItem("Productattribute")) {
+    localStorage.setItem("Productattribute", JSON.stringify(Productattribute));
+  }
+
   const productos = JSON.parse(localStorage.getItem("productos"));
   const families = JSON.parse(localStorage.getItem("Family")) || [];
   const tbody = document.getElementById("cuerpoTabla");
   tbody.innerHTML = "";
 
+ 
   const limitacioproductes = productos.slice(0, 10);
 
   limitacioproductes.forEach(prod => {
