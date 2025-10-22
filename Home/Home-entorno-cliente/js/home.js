@@ -1,7 +1,7 @@
 const selectFamilia = document.getElementById("familia");
 const container = document.getElementById("productList");
 
-// Función para mostrar productos sin innerHTML
+// Función para mostrar productos
 function mostrarProductos(productosFiltrados) {
   container.replaceChildren(); // limpia el contenedor
 
@@ -37,7 +37,6 @@ function mostrarProductos(productosFiltrados) {
     a.textContent = "Ver producto";
     div.appendChild(a);
 
-    // Separador
     const hr = document.createElement("hr");
     div.appendChild(hr);
 
