@@ -60,21 +60,20 @@ function esborrarError (){
     }
 }
 
-// auxiliar: obtiene el siguiente id para una colección (autoincremental)
+//  obtiene el siguiente id para una colección (autoincremental)
 function getNextId(array) {
   if (!array || array.length === 0) return 1;
-  // toma el máximo id actual y suma 1 (seguro aunque haya gaps)
   return Math.max.apply(null, array.map(a => a.id || 0)) + 1;
 }
 
 function guardarEnLocalStorage(e) {
-  // Manteniendo tu validación: si no valida, salimos
+
   if (!validar(e)) {
     return;
   }
 
-  const name = document.getElementById("nom").value.trim();   // nombre del atributo (Attribute.name)
-  const value = document.getElementById("valor").value.trim(); // valor para Productattribute.value
+  const name = document.getElementById("nom").value.trim();  
+  const value = document.getElementById("valor").value.trim(); 
   const idSeleccionado = localStorage.getItem("productoSeleccionado");
 
   // obtener producto
@@ -86,17 +85,16 @@ function guardarEnLocalStorage(e) {
     return;
   }
 
-  // Recuperar colecciones o inicializarlas
+
   const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
   const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
 
   // Determinar family_id: si el producto tiene family_id lo usamos, si no, puedes asignar 1 o generar uno.
   const familyId = producto.family_id !== undefined ? producto.family_id : 1;
 
-  // 1) Buscar si ya existe el Attribute con mismo name y family_id
+
   let atributoExistente = attributes.find(a => a.name === name && (a.family_id == familyId));
 
-  // 2) Si no existe, crear nuevo Attribute con id autoincremental
   if (!atributoExistente) {
     const nuevoAttrId = getNextId(attributes);
     atributoExistente = {
@@ -105,18 +103,16 @@ function guardarEnLocalStorage(e) {
       family_id: familyId
     };
     attributes.push(atributoExistente);
-    // guardamos Attribute actualizado
+
     localStorage.setItem("Attribute", JSON.stringify(attributes));
   }
 
-  // 3) Crear registro en Productattribute
-  // Evitar duplicados exactos (opcional): si ya existe la misma tripleta product_id+attribute_id, puedes actualizar o no insertar
+
   const yaExistePA = productAttributes.some(pa =>
     pa.product_id == producto.id && pa.attribute_id == atributoExistente.id
   );
 
   if (yaExistePA) {
-    // Si ya existe y quieres actualizar el valor:
     for (let i = 0; i < productAttributes.length; i++) {
       if (productAttributes[i].product_id == producto.id && productAttributes[i].attribute_id == atributoExistente.id) {
         productAttributes[i].value = value;
@@ -136,7 +132,7 @@ function guardarEnLocalStorage(e) {
   // Guardar Productattribute actualizado
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
 
-  // Limpiar formulario
+
   document.getElementById("nom").value = "";
   document.getElementById("valor").value = "";
 

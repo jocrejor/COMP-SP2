@@ -19,8 +19,7 @@ function carregarDadesLocal() {
   let contenedor = document.getElementById("detalle");
   let cos = document.getElementById("cuerpoTabla");
 
-  /* Lleva la imformacio que hi havia anterior per a quan modifiques
-   i elimines s'actualize correctament sense mostrar repetit */
+
   contenedor.textContent =  "";
   cos.textContent ="";
 
@@ -29,7 +28,7 @@ function carregarDadesLocal() {
     return;
   }
 
-  mostrarTexto(contenedor, producto.nombre);
+  mostrarTexto(contenedor, producto.name);
 
   // Filtrar atributs de eixe producte
   const caracteristicasProducto = productAttributes.filter(
@@ -89,7 +88,6 @@ function eliminarCaracteristica(caracteristica) {
   );
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
 
-  // Recargar la taula per a quan elimines
   carregarDadesLocal();
 }
 
