@@ -1,35 +1,17 @@
-document.addEventListener("DOMContentLoaded", main);
-
 // Array per emmagatzemar els rols.
 let rols = []; // Rols per defecte del sistema
 
-// Funció per iniciar els esdeveniments de la pàgina.
-function main() {
+// Inicialització - s'executa quan la pàgina està carregada
+document.addEventListener("DOMContentLoaded",main); 
     
-    // Configuració del botó de tornar a la pàgina d'usuaris
-    const usuarisButton= document.getElementById("usuaris");
-
-    usuarisButton.addEventListener("click", (e) => {
-        window.location.href='usuaris.html';
-    });
-
-    carregarRols();
+function main () {
+    rols = JSON.parse(localStorage.getItem('rols')) || [{'name':'Usuari'}, {'name':'Admin'}];
     mostrarRols();
     
     // Configurar l'event listener per al formulari d'afegir rols
     document.getElementById("formulariRol").addEventListener("submit", afegirRol);
-}
+};
 
-// Funció per carregar els rols del localStorage.
-function carregarRols() {
-    const rolsGuardats = localStorage.getItem('rols');
-    if (rolsGuardats) {
-        rols = JSON.parse(rolsGuardats);
-    } else {
-        // Agafar noms del array global Rol només si no existeix localStorage
-        rols = Rol.map(r => r.name);
-    }
-}
 
 // Funció per guardar els rols al localStorage.
 function guardarRols() {
@@ -44,15 +26,16 @@ function mostrarRols() {
     llista.innerHTML = ''; // Netejar la llista abans d'afegir
     
     // Crear dinàmicament cada element de la llista amb el seu botó d'eliminar
-    for (let i = 0; i < rols.length; i++) {
-        const rol = rols[i];
+    
+    //for (let i = 0; i < rols.length; i++) {
+     rols.forEach((rolObj, ind) => {  
         const element = document.createElement('li');
         element.innerHTML = `
-            ${rol}
-            <button onclick="eliminarRol('${rol}')">Eliminar</button>
+            ${rolObj.name}
+            <button onclick="eliminarRol('${ind}')">Eliminar</button>
         `;
         llista.appendChild(element);
-    }
+    });
 }
 
 // Funció per afegir un nou rol des del formulari.
@@ -63,7 +46,8 @@ function afegirRol(e) {
     
     // Validacions per afegir el nou rol
     if (nouRol && !rols.includes(nouRol)) {
-        rols.push(nouRol);
+        const rolObj = {'name': nouRol}; 
+        rols.push(rolObj);
         guardarRols();
         mostrarRols();
         document.getElementById('nouRol').value = ''; // Netejar el camp
@@ -74,19 +58,13 @@ function afegirRol(e) {
 }
 
 // Funció per eliminar un rol amb confirmació.
-function eliminarRol(rol) {
-    if (confirm(`Estàs segur que vols eliminar el rol "${rol}"?`)) {
-        // Protecció - no permetre eliminar els rols bàsics.
-        if (rol === 'Usuari' || rol === 'Admin') {
-            alert('No es pot eliminar aquest rol bàsic.');
-            return;
-        }
-        
+function eliminarRol(idRol) {
+    if (confirm(`Estàs segur que vols eliminar el rol "${rols[idRol].name}"?`)) {
         // Filtrar l'array per eliminar el rol especificat
-        rols = rols.filter(r => r !== rol);
+        rols.splice(idRol, 1);
         guardarRols();
         mostrarRols();
-        alert(`Rol "${rol}" eliminat correctament.`);
+        alert(`Rol "${idRol}" eliminat correctament.`);
     }
 }
 

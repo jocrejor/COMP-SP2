@@ -6,7 +6,7 @@
     <title>Gestió de Rols</title>
     <!-- Inclou el fitxer JavaScript que gestionarà la lògica dels rols -->
     <script type="text/javascript" src="../BBDD/TendaFakeDades.js"></script>
-    <script type="text/javascript" src="usuarisRol.js"></script>
+    <script type="text/javascript" src="rols.js"></script>
 </head>
 <body>
     <h1>Gestió de Rols</h1>
@@ -18,7 +18,7 @@
         <h2>Afegir Nou Rol</h2>
         <!-- Formulari per afegir nous rols al sistema -->
         <form id="formulariRol">
-            <input type="text" id="nouRol" placeholder="Nom del nou rol" pattern="^[A-Za-zÀ-ÿçÇ]{3,100}$" required>
+            <input type="text" id="nouRol" placeholder="Nom del nou rol" pattern="^[A-Za-z]{3,15}$" required>
             <button type="submit">Afegir Rol</button>
         </form>
     </div>

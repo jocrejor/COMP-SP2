@@ -16,27 +16,42 @@ function main() {
 
     // Configuració del botó per a tornar al formulari d'usuarisRols
     rolsButton.addEventListener("click", (e) => {
-        window.location.href='usuarisRol.html';
+        window.location.href='rols.html';
     });
 
     carregarUsuaris();
     mostrarUsuaris();
 }
 
-
 // Funció per carregar els usuaris des del localStorage.
 function carregarUsuaris() {
     const usuarisGuardats = localStorage.getItem('usuaris');
     if (usuarisGuardats) {
         usuaris = JSON.parse(usuarisGuardats);
+    } else {
+        // Agafar dades del array global User i Rol només si no existeix localStorage
+        usuaris = [];
+        for (let i = 0; i < User.length; i++) {
+            const u = User[i];
+            const roleObj = Rol.find(r => r.id === u.rol_id);
+            // Traducció de les propietats a anglès
+            usuaris.push({
+                id: u.id,
+                username: u.nickname,
+                email: u.email,
+                name: u.name,
+                role: roleObj ? roleObj.name : 'Unknown'
+            });
+        }
     }
+    guardarUsuaris();
 }
 
 // Funció per mostrar tots els usuaris en una taula HTML.
 function mostrarUsuaris() {
     const llista = document.getElementById('llistaUsuaris');
 
-    // 🧹 Buidar contingut anterior sense usar innerHTML
+    // Buidar contingut anterior sense usar innerHTML
     llista.replaceChildren();
 
     // Si no hi ha usuaris
@@ -54,7 +69,7 @@ function mostrarUsuaris() {
 
     // Crear capçalera
     const header = document.createElement('tr');
-    const columnes = ['ID', 'Nom Usuari', 'Correu', 'Nom', 'Rol', 'Accions'];
+    const columnes = ['ID', 'Username', 'Email', 'Name', 'Role', 'Accions'];
     columnes.forEach(text => {
         const th = document.createElement('th');
         th.textContent = text;
@@ -66,8 +81,8 @@ function mostrarUsuaris() {
     usuaris.forEach(usuari => {
         const fila = document.createElement('tr');
 
-        // Camps bàsics
-        ['id', 'nomUsuari', 'correu', 'nom', 'rol'].forEach(clau => {
+        // Camps bàsics (adaptats a les claus en anglès)
+        ['id', 'username', 'email', 'name', 'role'].forEach(clau => {
             const td = document.createElement('td');
             td.textContent = usuari[clau];
             fila.appendChild(td);
