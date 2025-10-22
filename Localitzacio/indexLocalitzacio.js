@@ -1,12 +1,18 @@
 // Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
 
+// Importa l'array dels països
+import { Country } from './Location.js';
+
 let llista = new Array(); // Array on guardarem la llista de països
 let accio = "Afegir";     // Estat actual del botó (Afegir o Actualitzar)
 
 function main() {
   const afegirButton = document.getElementById("afegir");
   afegirButton.textContent = accio;
+
+  // Carregar països predefinits si es la primera vegada
+    cargarPaisesPredefinidos();
 
   // Recuperem la llista guardada en localStorage (si existeix)
   // Si no, inicialitzem un array buit
@@ -155,4 +161,31 @@ function validarNomPais() {
   // Si tot és correcte, netegem el missatge d'error
   document.getElementById("mensajeError").textContent = " ";
   return true;
+}
+
+// Nova funció per a carregar països predefinidos
+function cargarPaisesPredefinidos() {
+    // Verificar si ya existen datos en localStorage
+    if (!localStorage.getItem("localitzacioPais") || JSON.parse(localStorage.getItem("localitzacioPais")).length === 0) {
+        
+        // Convertir el formato de Country al formato de tu aplicación
+        const paisesPredefinidos = Country.map(pais => ({
+            id: pais.id,
+            country: pais.name
+        }));
+        
+        // Guardar en localStorage
+        localStorage.setItem("localitzacioPais", JSON.stringify(paisesPredefinidos));
+        
+        // Establecer el último ID usado
+        const maxId = Math.max(...paisesPredefinidos.map(p => p.id));
+        localStorage.setItem("countryLastId", maxId.toString());
+        
+        console.log("Países predefinidos cargados correctamente");
+    }
+    
+    // Cargar la lista actual
+    llista = localStorage.getItem("localitzacioPais") 
+        ? JSON.parse(localStorage.getItem("localitzacioPais")) 
+        : [];
 }
