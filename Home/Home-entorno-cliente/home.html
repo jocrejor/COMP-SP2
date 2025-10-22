@@ -9,38 +9,22 @@
   <div class="container">
     <h1>Bienvenido a Selectio</h1>
     <p>Descubre nuestros productos LED destacados:</p>
+    
+    <div class="filter-container">
+      <label for="familyFilter">Filtrar por familia:</label>
+      <select id="familyFilter">
+        <option value="all">Todas las familias</option>
+      </select>
+    </div>
 
-    <div id="productList">
-      <!-- Producto 1 -->
-      <div class="producto led-glow">
-        <img src="img/strip.jpg" alt="Tira LED RGB" width="150">
-        <h2>Tira LED RGB</h2>
-        <p><strong>Precio:</strong> $19.99</p>
-        <p>Tira flexible RGB perfecta para decorar habitaciones.</p>
-        <a href="product.html?id=1">Ver producto</a>
-      </div>
-
-      <!-- Producto 2 -->
-      <div class="producto led-glow">
-        <img src="img/bulb.jpg" alt="Bombilla LED cálida" width="150">
-        <h2>Bombilla LED cálida</h2>
-        <p><strong>Precio:</strong> $9.99</p>
-        <p>Bombilla LED de bajo consumo con luz cálida.</p>
-        <a href="product.html?id=2">Ver producto</a>
-      </div>
-
-      <!-- Producto 3 -->
-      <div class="producto led-glow">
-        <img src="img/panel.jpg" alt="Panel LED blanco" width="150">
-        <h2>Panel LED blanco</h2>
-        <p><strong>Precio:</strong> $29.99</p>
-        <p>Panel LED ultrafino con luz blanca brillante.</p>
-        <a href="product.html?id=3">Ver producto</a>
-      </div>
+    <div id="productList" class="product-grid">
+      <!-- Los productos se cargarán dinámicamente aquí -->
     </div>
 
     <hr>
     <a href="contact.html">📞 Ir a la página de contacto</a>
   </div>
+
+  <script src="js/home.js"></script>
 </body>
 </html>
