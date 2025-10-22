@@ -110,6 +110,17 @@ function eliminar(index) {
     mostrarCarret(); // Se actualiza la vista del carrito
 }
 
+// Muestra el carrito automáticamente cuando la página termina de cargarse
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('productes-container')) {
+        mostrarProductes();
+    }
+    if (document.getElementById('elementsCarret')) {
+        mostrarCarret();
+    }
+});
+
+
 
 function mostrarProductes() {
     const container = document.getElementById('productes-container');
