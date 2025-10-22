@@ -14,30 +14,54 @@ let indexEdicio = null;
 
 // Funció per mostrar els registres a la taula
 function mostrarTaula() {
+  function mostrarTaula() {
   const tbody = document.querySelector("#taulaResultat tbody");
-  tbody.innerHTML = "";  // Netejar la taula abans de mostrar
+
+  // Neteja contingut existent
+  tbody.textContent = "";
 
   const registres = JSON.parse(localStorage.getItem("registres")) || [];
 
   registres.forEach((registre, index) => {
     const fila = document.createElement("tr");
 
-    fila.innerHTML = `
-      <td>${registre.session_id}</td>
-      <td>${registre.user_agent}</td>
-      <td>${registre.client_id}</td>
-      <td>${registre.comparator_id}</td>
-      <td>${registre.favorite_id}</td>
-      <td>${registre.date_start}</td>
-      <td>${registre.date_end}</td>
-      <td>
-        <button onclick="editarRegistre(${index})">Editar</button>
-        <button onclick="esborrarRegistre(${index})">Esborrar</button>
-      </td>
-    `;
+    // Afegim totes les cel·les de dades
+    const camps = [
+      registre.session_id,
+      registre.user_agent,
+      registre.client_id,
+      registre.comparator_id,
+      registre.favorite_id,
+      registre.date_start,
+      registre.date_end,
+    ];
 
+    camps.forEach((valor) => {
+      const td = document.createElement("td");
+      td.textContent = valor;
+      fila.appendChild(td);
+    });
+
+    // Cel·la d'accions 
+    const tdAccions = document.createElement("td");
+
+    const btnEditar = document.createElement("button");
+    btnEditar.textContent = "Editar";
+    btnEditar.addEventListener("click", () => editarRegistre(index));
+
+    const btnEsborrar = document.createElement("button");
+    btnEsborrar.textContent = "Esborrar";
+    btnEsborrar.addEventListener("click", () => esborrarRegistre(index));
+
+    tdAccions.appendChild(btnEditar);
+    tdAccions.appendChild(btnEsborrar);
+    fila.appendChild(tdAccions);
+
+    // Afegim la fila a la taula
     tbody.appendChild(fila);
   });
+}
+
 }
 
 // Quan s’envia el formulari
