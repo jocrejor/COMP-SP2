@@ -782,37 +782,125 @@ const Productattribute = [
 ];
 
 const Sale = [
-  { id: 1, description: "Descuento en HP Pavilion 15", discount_percent: 15.00, coupon: "HP15SALE", start_date: "2025-10-10 00:00:00", end_date: "2025-10-20 23:59:59", created_at: "2025-10-01 00:00:00" },
-  { id: 2, description: "Rebaja en Lenovo IdeaPad 3", discount_percent: 10.00, coupon: "LEN10", start_date: "2025-10-12 00:00:00", end_date: "2025-10-22 23:59:59", created_at: "2025-10-02 00:00:00" },
-  { id: 3, description: "Oferta Asus ZenBook 14", discount_percent: 20.00, coupon: "ZEN20", start_date: "2025-10-15 00:00:00", end_date: "2025-10-25 23:59:59", created_at: "2025-10-03 00:00:00" },
-  { id: 4, description: "Promoción Acer Aspire 5", discount_percent: 12.50, coupon: "ASPIRE12", start_date: "2025-10-08 00:00:00", end_date: "2025-10-18 23:59:59", created_at: "2025-10-04 00:00:00" },
-  { id: 5, description: "Gaming MSI Katana - Oferta", discount_percent: 18.00, coupon: "KATANA18", start_date: "2025-10-05 00:00:00", end_date: "2025-10-15 23:59:59", created_at: "2025-10-05 00:00:00" },
-  { id: 6, description: "Descuento Dell OptiPlex 7010", discount_percent: 9.00, coupon: "OPTI9", start_date: "2025-10-10 00:00:00", end_date: "2025-10-20 23:59:59", created_at: "2025-10-06 00:00:00" },
-  { id: 7, description: "HP Envy Desktop Week", discount_percent: 14.00, coupon: "ENVY14", start_date: "2025-10-14 00:00:00", end_date: "2025-10-24 23:59:59", created_at: "2025-10-07 00:00:00" },
-  { id: 8, description: "Lenovo ThinkCentre M70 Oferta", discount_percent: 11.50, coupon: "THINK11", start_date: "2025-10-07 00:00:00", end_date: "2025-10-17 23:59:59", created_at: "2025-10-08 00:00:00" },
-  { id: 9, description: "PC Gamer Asus ROG Strix G10", discount_percent: 17.00, coupon: "ROG17", start_date: "2025-10-09 00:00:00", end_date: "2025-10-19 23:59:59", created_at: "2025-10-09 00:00:00" },
-  { id: 10, description: "Mini PC Intel NUC - Oferta", discount_percent: 8.00, coupon: "NUC8", start_date: "2025-10-13 00:00:00", end_date: "2025-10-23 23:59:59", created_at: "2025-10-10 00:00:00" },
-  { id: 11, description: "Logitech MX Master 3", discount_percent: 10.00, coupon: "MXM10", start_date: "2025-10-15 00:00:00", end_date: "2025-10-30 23:59:59", created_at: "2025-10-11 00:00:00" },
-  { id: 12, description: "Razer DeathAdder V2", discount_percent: 15.00, coupon: "RAZER15", start_date: "2025-10-17 00:00:00", end_date: "2025-10-27 23:59:59", created_at: "2025-10-12 00:00:00" },
-  { id: 13, description: "Apple Magic Mouse 2", discount_percent: 7.00, coupon: "MAGIC7", start_date: "2025-10-10 00:00:00", end_date: "2025-10-20 23:59:59", created_at: "2025-10-13 00:00:00" },
-  { id: 14, description: "Corsair K70 RGB TKL", discount_percent: 20.00, coupon: "K70RGB", start_date: "2025-10-09 00:00:00", end_date: "2025-10-19 23:59:59", created_at: "2025-10-14 00:00:00" },
-  { id: 15, description: "Razer BlackWidow V4", discount_percent: 22.00, coupon: "RAZERBW4", start_date: "2025-10-08 00:00:00", end_date: "2025-10-18 23:59:59", created_at: "2025-10-15 00:00:00" },
-  { id: 16, description: "SteelSeries Apex 5", discount_percent: 10.00, coupon: "APEX10", start_date: "2025-10-06 00:00:00", end_date: "2025-10-16 23:59:59", created_at: "2025-10-16 00:00:00" },
-  { id: 17, description: "Samsung Odyssey G5", discount_percent: 12.00, coupon: "ODYSSEY12", start_date: "2025-10-11 00:00:00", end_date: "2025-10-21 23:59:59", created_at: "2025-10-17 00:00:00" },
-  { id: 18, description: "LG UltraGear 32GN600", discount_percent: 18.00, coupon: "LG18", start_date: "2025-10-14 00:00:00", end_date: "2025-10-24 23:59:59", created_at: "2025-10-18 00:00:00" },
-  { id: 19, description: "Dell UltraSharp U2723QE", discount_percent: 14.00, coupon: "DELL14", start_date: "2025-10-15 00:00:00", end_date: "2025-10-25 23:59:59", created_at: "2025-10-19 00:00:00" },
-  { id: 20, description: "Asus ProArt PA278QV", discount_percent: 9.00, coupon: "PROART9", start_date: "2025-10-12 00:00:00", end_date: "2025-10-22 23:59:59", created_at: "2025-10-20 00:00:00" },
-  { id: 21, description: "BenQ Zowie XL2411K", discount_percent: 11.00, coupon: "ZOWIE11", start_date: "2025-10-05 00:00:00", end_date: "2025-10-15 23:59:59", created_at: "2025-10-21 00:00:00" },
-  { id: 22, description: "MacBook Pro 14", discount_percent: 13.50, coupon: "MAC14", start_date: "2025-10-18 00:00:00", end_date: "2025-10-28 23:59:59", created_at: "2025-10-22 00:00:00" },
-  { id: 23, description: "ASUS ROG Zephyrus G14", discount_percent: 16.00, coupon: "ZEPHYR16", start_date: "2025-10-10 00:00:00", end_date: "2025-10-20 23:59:59", created_at: "2025-10-23 00:00:00" },
-  { id: 24, description: "Lenovo Legion 5 Pro", discount_percent: 15.50, coupon: "LEGION15", start_date: "2025-10-12 00:00:00", end_date: "2025-10-22 23:59:59", created_at: "2025-10-24 00:00:00" },
-  { id: 25, description: "HP Omen 16", discount_percent: 19.00, coupon: "OMEN19", start_date: "2025-10-08 00:00:00", end_date: "2025-10-18 23:59:59", created_at: "2025-10-25 00:00:00" },
-  { id: 26, description: "Intel NUC 13 Pro", discount_percent: 8.50, coupon: "NUC13", start_date: "2025-10-10 00:00:00", end_date: "2025-10-25 23:59:59", created_at: "2025-10-26 00:00:00" },
-  { id: 27, description: "Beelink SER5", discount_percent: 9.50, coupon: "BEELINK9", start_date: "2025-10-15 00:00:00", end_date: "2025-10-25 23:59:59", created_at: "2025-10-27 00:00:00" },
-  { id: 28, description: "MINISFORUM UM790 Pro", discount_percent: 13.00, coupon: "UM79013", start_date: "2025-10-16 00:00:00", end_date: "2025-10-26 23:59:59", created_at: "2025-10-28 00:00:00" },
-  { id: 29, description: "Geekom Mini IT13", discount_percent: 10.00, coupon: "GEEK10", start_date: "2025-10-13 00:00:00", end_date: "2025-10-23 23:59:59", created_at: "2025-10-29 00:00:00" },
-  { id: 30, description: "CHUWI HeroBox Pro", discount_percent: 7.50, coupon: "CHUWI7", start_date: "2025-10-14 00:00:00", end_date: "2025-10-24 23:59:59", created_at: "2025-10-30 00:00:00" }
+  { id: 1, description: "Black Friday Tech", discount_percent: 35.00, coupon: "BLACKFRIDAY25", start_date: "2025-11-25 00:00:00", end_date: "2025-11-30 23:59:59", created_at: "2025-10-15 00:00:00" },
+  { id: 2, description: "Cyber Monday", discount_percent: 30.00, coupon: "CYBER2025", start_date: "2025-12-01 00:00:00", end_date: "2025-12-02 23:59:59", created_at: "2025-10-20 00:00:00" },
+  { id: 3, description: "Navidad Tecnológica", discount_percent: 25.00, coupon: "XMAS25", start_date: "2025-12-20 00:00:00", end_date: "2025-12-27 23:59:59", created_at: "2025-11-01 00:00:00" },
+  { id: 4, description: "Rebajas de Enero", discount_percent: 20.00, coupon: "ENERO20", start_date: "2026-01-05 00:00:00", end_date: "2026-01-20 23:59:59", created_at: "2025-12-28 00:00:00" },
+  { id: 5, description: "Semana del Gamer", discount_percent: 18.00, coupon: "GAMER18", start_date: "2025-09-15 00:00:00", end_date: "2025-09-22 23:59:59", created_at: "2025-09-01 00:00:00" },
+  { id: 6, description: "Ofertas de Halloween", discount_percent: 22.00, coupon: "HALLOWEEN22", start_date: "2025-10-25 00:00:00", end_date: "2025-11-02 23:59:59", created_at: "2025-10-10 00:00:00" },
+  { id: 7, description: "Semana del Portátil", discount_percent: 15.00, coupon: "LAPTOP15", start_date: "2025-03-10 00:00:00", end_date: "2025-03-17 23:59:59", created_at: "2025-02-28 00:00:00" },
+  { id: 8, description: "Verano Tecnológico", discount_percent: 20.00, coupon: "SUMMER20", start_date: "2025-07-01 00:00:00", end_date: "2025-07-15 23:59:59", created_at: "2025-06-10 00:00:00" },
+  { id: 9, description: "Back to School", discount_percent: 18.50, coupon: "SCHOOL18", start_date: "2025-09-01 00:00:00", end_date: "2025-09-10 23:59:59", created_at: "2025-08-20 00:00:00" },
+  { id: 10, description: "Ofertas de Primavera", discount_percent: 17.00, coupon: "SPRING17", start_date: "2025-04-10 00:00:00", end_date: "2025-04-20 23:59:59", created_at: "2025-04-01 00:00:00" },
+  { id: 11, description: "Semana del PC Sobremesa", discount_percent: 15.50, coupon: "DESKTOP15", start_date: "2025-02-10 00:00:00", end_date: "2025-02-20 23:59:59", created_at: "2025-01-30 00:00:00" },
+  { id: 12, description: "Fin de Semana Gamer", discount_percent: 19.00, coupon: "WEEKEND19", start_date: "2025-05-03 00:00:00", end_date: "2025-05-05 23:59:59", created_at: "2025-04-25 00:00:00" },
+  { id: 13, description: "Semana del Monitor", discount_percent: 16.00, coupon: "MONITOR16", start_date: "2025-06-10 00:00:00", end_date: "2025-06-20 23:59:59", created_at: "2025-06-01 00:00:00" },
+  { id: 14, description: "Ofertas de San Valentín", discount_percent: 14.00, coupon: "LOVE14", start_date: "2025-02-10 00:00:00", end_date: "2025-02-15 23:59:59", created_at: "2025-01-25 00:00:00" },
+  { id: 15, description: "Día del Padre", discount_percent: 10.00, coupon: "PADRE10", start_date: "2025-03-14 00:00:00", end_date: "2025-03-20 23:59:59", created_at: "2025-03-01 00:00:00" },
+  { id: 16, description: "Semana del Ratón y Teclado", discount_percent: 12.00, coupon: "PERIPHERAL12", start_date: "2025-05-15 00:00:00", end_date: "2025-05-25 23:59:59", created_at: "2025-05-01 00:00:00" },
+  { id: 17, description: "Ofertas de Fin de Curso", discount_percent: 20.00, coupon: "CURSO20", start_date: "2025-06-20 00:00:00", end_date: "2025-06-30 23:59:59", created_at: "2025-06-05 00:00:00" },
+  { id: 18, description: "Semana del Hardware", discount_percent: 13.00, coupon: "HARDWARE13", start_date: "2025-03-01 00:00:00", end_date: "2025-03-08 23:59:59", created_at: "2025-02-15 00:00:00" },
+  { id: 19, description: "Fin de Temporada Invierno", discount_percent: 19.00, coupon: "WINTER19", start_date: "2025-02-20 00:00:00", end_date: "2025-02-28 23:59:59", created_at: "2025-02-10 00:00:00" },
+  { id: 20, description: "Semana del Cliente", discount_percent: 15.00, coupon: "CLIENT15", start_date: "2025-08-10 00:00:00", end_date: "2025-08-17 23:59:59", created_at: "2025-07-30 00:00:00" },
+  { id: 21, description: "Ofertas del Día del Trabajador", discount_percent: 18.00, coupon: "MAYO18", start_date: "2025-05-01 00:00:00", end_date: "2025-05-03 23:59:59", created_at: "2025-04-20 00:00:00" },
+  { id: 22, description: "Fin de Semana Apple", discount_percent: 15.00, coupon: "APPLE15", start_date: "2025-09-20 00:00:00", end_date: "2025-09-22 23:59:59", created_at: "2025-09-10 00:00:00" },
+  { id: 23, description: "Semana ASUS ROG", discount_percent: 17.00, coupon: "ROG17", start_date: "2025-04-01 00:00:00", end_date: "2025-04-10 23:59:59", created_at: "2025-03-20 00:00:00" },
+  { id: 24, description: "Ofertas Flash Junio", discount_percent: 10.00, coupon: "FLASH10", start_date: "2025-06-01 00:00:00", end_date: "2025-06-03 23:59:59", created_at: "2025-05-25 00:00:00" },
+  { id: 25, description: "Aniversario TendaFake", discount_percent: 25.00, coupon: "BIRTHDAY25", start_date: "2025-08-01 00:00:00", end_date: "2025-08-07 23:59:59", created_at: "2025-07-15 00:00:00" },
+  { id: 26, description: "Semana del Mini PC", discount_percent: 14.00, coupon: "MINIPC14", start_date: "2025-11-05 00:00:00", end_date: "2025-11-12 23:59:59", created_at: "2025-10-25 00:00:00" },
+  { id: 27, description: "Promoción Día del Soltero", discount_percent: 30.00, coupon: "11NOV30", start_date: "2025-11-11 00:00:00", end_date: "2025-11-12 23:59:59", created_at: "2025-10-28 00:00:00" },
+  { id: 28, description: "Semana del Software", discount_percent: 10.50, coupon: "SOFT10", start_date: "2025-04-15 00:00:00", end_date: "2025-04-22 23:59:59", created_at: "2025-04-05 00:00:00" },
+  { id: 29, description: "Fin de Semana del Accesorio", discount_percent: 12.00, coupon: "ACCES12", start_date: "2025-05-10 00:00:00", end_date: "2025-05-12 23:59:59", created_at: "2025-05-01 00:00:00" },
+  { id: 30, description: "Ofertas de Año Nuevo", discount_percent: 22.00, coupon: "NEWYEAR22", start_date: "2025-12-31 00:00:00", end_date: "2026-01-03 23:59:59", created_at: "2025-12-15 00:00:00" }
 ];
+
+const ProductSale = [
+  // Black Friday - grandes descuentos
+  { sale_id: 1, product_id: 5 },  // Gaming Laptop MSI Katana
+  { sale_id: 1, product_id: 9 },  // Asus ROG Strix G10
+  { sale_id: 1, product_id: 27 }, // ASUS ROG Zephyrus G14
+
+  // Cyber Monday - portátiles y sobremesas
+  { sale_id: 2, product_id: 1 },  // HP Pavilion 15
+  { sale_id: 2, product_id: 2 },  // Lenovo IdeaPad 3
+  { sale_id: 2, product_id: 6 },  // Dell OptiPlex 7010
+
+  // Navidad Tecnológica
+  { sale_id: 3, product_id: 21 }, // Samsung Odyssey G5
+  { sale_id: 3, product_id: 25 }, // BenQ Zowie XL2411K
+  { sale_id: 3, product_id: 30 }, // HP Omen 16
+
+  // Rebajas de Enero
+  { sale_id: 4, product_id: 10 }, // Mini PC Intel NUC
+  { sale_id: 4, product_id: 31 }, // Intel NUC 13 Pro
+  { sale_id: 4, product_id: 32 }, // Beelink SER5
+
+  // Semana del Gamer
+  { sale_id: 5, product_id: 27 }, // ASUS ROG Zephyrus G14
+  { sale_id: 5, product_id: 28 }, // Lenovo Legion 5 Pro
+  { sale_id: 5, product_id: 29 }, // Acer Nitro 5
+
+  // Halloween
+  { sale_id: 6, product_id: 47 }, // Tarjeta gráfica NVIDIA RTX 4080
+  { sale_id: 6, product_id: 49 }, // Memoria RAM Kingston Fury 32GB
+  { sale_id: 6, product_id: 48 }, // Fuente Corsair RM750x
+
+  // Semana del Portátil
+  { sale_id: 7, product_id: 3 },  // Asus ZenBook 14
+  { sale_id: 7, product_id: 4 },  // Acer Aspire 5
+  { sale_id: 7, product_id: 26 }, // MacBook Pro 14
+
+  // Verano Tecnológico
+  { sale_id: 8, product_id: 34 }, // Geekom Mini IT13
+  { sale_id: 8, product_id: 35 }, // CHUWI HeroBox Pro
+  { sale_id: 8, product_id: 20 }, // Apple Magic Keyboard
+
+  // Back to School
+  { sale_id: 9, product_id: 1 },  // HP Pavilion 15
+  { sale_id: 9, product_id: 2 },  // Lenovo IdeaPad 3
+  { sale_id: 9, product_id: 24 }, // Asus ProArt PA278QV
+
+  // Ofertas de Primavera
+  { sale_id: 10, product_id: 8 }, // Lenovo ThinkCentre M70
+  { sale_id: 10, product_id: 7 }, // HP Envy Desktop
+  { sale_id: 10, product_id: 6 }, // Dell OptiPlex 7010
+
+  // Día del Padre
+  { sale_id: 15, product_id: 43 }, // Webcam Logitech C920
+  { sale_id: 15, product_id: 44 }, // Micrófono Blue Yeti
+  { sale_id: 15, product_id: 45 }, // Altavoces Creative Pebble V3
+
+  // San Valentín
+  { sale_id: 14, product_id: 13 }, // HP Wireless Mouse 200
+  { sale_id: 14, product_id: 17 }, // Logitech G213 Prodigy
+  { sale_id: 14, product_id: 19 }, // SteelSeries Apex 5
+
+  // Semana del Monitor
+  { sale_id: 13, product_id: 21 }, // Samsung Odyssey G5
+  { sale_id: 13, product_id: 22 }, // LG UltraGear 32GN600
+  { sale_id: 13, product_id: 23 }, // Dell UltraSharp U2723QE
+
+  // Semana del Mini PC
+  { sale_id: 26, product_id: 31 }, // Intel NUC 13 Pro
+  { sale_id: 26, product_id: 32 }, // Beelink SER5
+  { sale_id: 26, product_id: 35 }, // CHUWI HeroBox Pro
+
+  // Día del Soltero (11.11)
+  { sale_id: 27, product_id: 5 },  // Gaming Laptop MSI Katana
+  { sale_id: 27, product_id: 9 },  // Asus ROG Strix G10
+  { sale_id: 27, product_id: 47 }, // RTX 4080
+
+  // Aniversario TendaFake
+  { sale_id: 25, product_id: 1 },
+  { sale_id: 25, product_id: 10 },
+  { sale_id: 25, product_id: 20 },
+
+  // Año Nuevo
+  { sale_id: 30, product_id: 3 },
+  { sale_id: 30, product_id: 7 },
+  { sale_id: 30, product_id: 28 }
+];
+
 
 
 
