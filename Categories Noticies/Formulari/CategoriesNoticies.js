@@ -41,7 +41,8 @@ function main(){
             localStorage.setItem("category", JSON.stringify(existingCategories));
             message.innerHTML = "Categoria guardada correctament."  // Se muestra un mensaje confirmando el guardado
             input.value = ""
-          } else {
+          } else {     <script src="../../BBDD/WebCorporativaDades.js"></script>
+
               displayCategory(container);
               message.innerHTML = "No s'ha introduït cap categoria."  // Si no se ha escrito nada, se muestra un mensaje
               }
