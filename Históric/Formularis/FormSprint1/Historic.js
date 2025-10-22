@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
 })
-
+ 
 
 
 // Generar un session_id únic si encara no existeix
