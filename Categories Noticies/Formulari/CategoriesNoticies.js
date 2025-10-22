@@ -41,10 +41,9 @@ function main(){
             localStorage.setItem("category", JSON.stringify(existingCategories));
             message.innerHTML = "Categoria guardada correctament."  // Se muestra un mensaje confirmando el guardado
             input.value = ""
-          } else {     <script src="../../BBDD/WebCorporativaDades.js"></script>
-
+          } else {
               displayCategory(container);
-              message.innerHTML = "No s'ha introduït cap categoria."  // Si no se ha escrito nada, se muestra un mensaje
+              message.textContent = "No s'ha introduït cap categoria."  // Si no se ha escrito nada, se muestra un mensaje
               }
   }
   
@@ -58,14 +57,21 @@ function main(){
     } else if (element.validity.patternMismatch) {
       error(messageElement, "La categoria ha de tindre entre 2 i 20 caracters i començar amb majúscula.");
     } else {
+      
       error(messageElement, "Categoria no vàlida");
     }
     return false;
   }
+  removeErrors(messageElement);
   return true;
 }
   function error (element, missatge){
-    element.innerHTML = missatge;
+    element.textContent = missatge;
+    element.style.color = "red";
+  }
+  function removeErrors(element){
+    element.textContent = "";
+    element.style.color = "";
   }
 
   // Función que se encarga de mostrar las categorías guardadas
@@ -77,9 +83,9 @@ function main(){
     console.log("hola " + nameFromLocalStorage)  // Se imprime en consola para depuración
 
     if(nameFromLocalStorage.length > 0){
-      container.innerHTML = "Caregoria correctament introduida"
+      container.textContent = "Categoria correctament introduida"
     } else {
-      container.innerHTML = "No hi han dades"
+      container.textContent = "No hi han dades"
     }
   }
 

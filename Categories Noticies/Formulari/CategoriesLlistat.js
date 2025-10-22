@@ -22,23 +22,48 @@ function main() {
 
 // Función para mostrar las categorías desde localStorage
 function displayCategory(container) {
-  const categories = localStorage.getItem("category") ? JSON.parse(localStorage.getItem("category")) : []
-
+  const categories = localStorage.getItem("category") 
+    ? JSON.parse(localStorage.getItem("category")) 
+    : [];
+  
+  // Clear the container
+  container.innerHTML = "";
+  
   if (categories.length > 0) {
-    container.innerHTML =
-      "<ul>" +
-      categories
-        .map(
-          (cat, index) =>
-            `<li>${cat}
-              <button onclick="deleteCategory(${index})">Eliminar</button>
-              <button onclick="editCategory(${index})">Editar</button>
-            </li>`
-        )
-        .join("") +
-      "</ul>"
+    // Creem element llista
+    const ul = document.createElement("ul");
+
+    // Creem elements li per a cada categoria
+    categories.forEach((cat, index) => {
+      const li = document.createElement("li");
+
+      // Afegim text de la categoria
+      li.textContent = cat;
+
+      // Creem botó d'eliminar
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Eliminar";
+      deleteBtn.addEventListener("click", () => deleteCategory(index));
+
+      // Creem botó d'editar  
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "Editar";
+      editBtn.addEventListener("click", () => editCategory(index));
+      
+      // Append buttons to li
+      li.appendChild(document.createTextNode(" ")); // space before button
+      li.appendChild(deleteBtn);
+      li.appendChild(document.createTextNode(" ")); // space between buttons
+      li.appendChild(editBtn);
+      
+      // Append li to ul
+      ul.appendChild(li);
+    });
+    
+    // Append ul to container
+    container.appendChild(ul);
   } else {
-    container.innerHTML = "No hi han dades"
+    container.textContent = "No hi han dades";
   }
 }
 
