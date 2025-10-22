@@ -62,6 +62,7 @@ function mostrarTaula() {
 }
 
 
+
 // Quan s’envia el formulari
 document
   .getElementById("formulariRegistre")
@@ -127,6 +128,8 @@ function editarRegistre(index) {
 
   indexEdicio = index; // Guardem quin registre s'està editant
 }
+
+//AÑADIR VALIDACIONES DE FECHA --> LA FECHA FINAL NO PUEDE SER ANTERIOR A LA DE INICIAL de edición
 
 // Mostrar la taula quan carreguem la pàgina
 mostrarTaula();
