@@ -26,8 +26,8 @@ function displayCategory(container) {
     ? JSON.parse(localStorage.getItem("category")) 
     : [];
   
-  // Clear the container
-  container.innerHTML = "";
+  // Netejem el contingut previ
+  container.textContent = "";
   
   if (categories.length > 0) {
     // Creem element llista
@@ -50,13 +50,12 @@ function displayCategory(container) {
       editBtn.textContent = "Editar";
       editBtn.addEventListener("click", () => editCategory(index));
       
-      // Append buttons to li
+      //Posem els botons dins del li
       li.appendChild(document.createTextNode(" ")); // space before button
       li.appendChild(deleteBtn);
       li.appendChild(document.createTextNode(" ")); // space between buttons
       li.appendChild(editBtn);
-      
-      // Append li to ul
+      // Posem li dins del ul
       ul.appendChild(li);
     });
     
