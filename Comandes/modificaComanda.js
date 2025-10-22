@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("pedidoForm");
+  let form = document.getElementById("pedidoForm");
 
   // Recuperar lista de pedidos y el índice del que vamos a modificar
   let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-  const index = localStorage.getItem("pedidoEditar");
+  let index = localStorage.getItem("pedidoEditar");
 
   if (index === null) {
     alert("No se seleccionó ningún pedido para modificar");
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  const pedido = pedidos[index];
+  let pedido = pedidos[index];
 
   // Rellenar datos en el formulario
   document.getElementById("date").value = pedido.date;
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("shipping").value = pedido.shipping;
 
   // Rellenar productos en formato tabla
-  const container = document.getElementById("productosContainer");
+  let container = document.getElementById("productosContainer");
   let aux = "";
   pedido.products.forEach((prod) => {
     aux += `
@@ -44,18 +44,18 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault(); // evitar envío real
 
     // Obtener datos del pedido
-    const date = document.getElementById("date").value;
-    const payment = document.getElementById("payment").value;
-    const shipping = parseFloat(document.getElementById("shipping").value);
-    const client = document.getElementById("client").value;
+    let date = document.getElementById("date").value;
+    let payment = document.getElementById("payment").value;
+    let shipping = parseFloat(document.getElementById("shipping").value);
+    let client = document.getElementById("client").value;
 
     // Obtener productos
-    const products = [];
+    let products = [];
     document.querySelectorAll(".product-line").forEach((line) => {
-      const product_id = line.querySelector("select[name='product_id[]']").value;
-      const quantity = parseInt(line.querySelector("input[name='quantity[]']").value);
-      const price = parseFloat(line.querySelector("input[name='price[]']").value);
-      const discount = parseFloat(line.querySelector("input[name='discount[]']").value);
+      let product_id = line.querySelector("select[name='product_id[]']").value;
+      let quantity = parseInt(line.querySelector("input[name='quantity[]']").value);
+      let price = parseFloat(line.querySelector("input[name='price[]']").value);
+      let discount = parseFloat(line.querySelector("input[name='discount[]']").value);
 
       products.push({ product_id, quantity, price, discount });
     });

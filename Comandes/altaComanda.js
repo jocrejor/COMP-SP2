@@ -6,6 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
     let addProductBtn = document.getElementById("addProduct");
     let productsTable = document.getElementById("productsTable").getElementsByTagName("tbody")[0];
 
+ // Funció per mostrar missatges
+    function showMessage(text, color = "red") {
+        let messageBox = document.getElementById("message-box");
+        if (!messageBox) {
+            messageBox = document.createElement("div");
+            messageBox.id = "message-box";
+            messageBox.style.marginTop = "10px";
+            messageBox.style.fontWeight = "bold";
+            form.appendChild(messageBox);
+        }
+        messageBox.textContent = text;
+        messageBox.style.color = color;
+    }
+
     // Funció per afegir una nova línia de producte
     function addProductLine() {
         let firstLine = document.querySelector(".product-line");
@@ -31,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (allRows.length > 1) {
             productsTable.removeChild(row);
         } else {
-            alert("Ha de quedar almenys una línia de producte!");
+            showMessage("Ha de quedar almenys una línia de producte!");
         }
     }
 
@@ -48,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Enviar formulari
     form.addEventListener("submit", (e) => {
         e.preventDefault();
+    form.querySelector("button[type='submit']").disabled = true;
 
         let date = document.getElementById("date").value;
         let payment = document.getElementById("payment").value;
@@ -66,26 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             products.push({ product_id, quantity, price, discount });
         }
-
-        //if(products.length === 0){
-        // alert("Has d’afegir almenys un producte!");
-        // return;
-        // }
-
-        //Missatge
-        let messageBox = document.getElementById("message-box");
-        if (!messageBox) {
-            messageBox = document.createElement("div");
-            messageBox.id = "message-box";
-            messageBox.style.marginTop = "10px";
-            messageBox.style.fontWeight = "bold";
-            form.appendChild(messageBox);
-        }
+    
         //Missatge
         if (products.length === 0) {
-         let messageBox = document.getElementById("message-box");
-            messageBox.textContent = "Has d’afegir almenys un producte!";
-            messageBox.style.color = "red";
+             showMessage("Has d’afegir almenys un producte!", "red");
             return;
         }
 
@@ -111,16 +110,13 @@ document.addEventListener("DOMContentLoaded", () => {
         pedidos.push(pedido);
         localStorage.setItem("pedidos", JSON.stringify(pedidos));
 
-        messageBox.textContent = "Comanda guardada ✅";
-        messageBox.style.color = "green";
+         showMessage("Comanda guardada ✅", "green");
 
         // Redirigir després de 1 segons
         setTimeout(() => {
             window.location.href = "comandesLlistar.html";
         }, 1000);
     });
-
-
 
     // Botó per anar a la llista de comandes
     llistaBtn.addEventListener("click", () => {
