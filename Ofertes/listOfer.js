@@ -39,19 +39,19 @@ function renderTable() {
     editButton.textContent = "Edit";
     deleteButton.textContent = "Delete";
     addProductSale.textContent = "Productes aplicats";
-
+    // Afegim els esdeveniments als botons
     editButton.addEventListener("click", function () {
       editData(index);
     });
-
+    
     deleteButton.addEventListener("click", function () {
       deleteData(index);
     });
-
+    // Botó per anar a la pàgina de productes amb l'índex de l'oferta
     addProductSale.addEventListener("click", function () {
       goToProducts(index);
     });
-
+    // Afegim les cel·les a la fila
     actionCell.appendChild(editButton);
     actionCell.appendChild(deleteButton);
     productsCell.appendChild(addProductSale);
