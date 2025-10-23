@@ -1,21 +1,21 @@
-const tableBody = document.getElementById('tableBody');
+const tableBody = document.getElementById('tableBody'); // Cos de la taula on es mostraran les dades
 
-let data = JSON.parse(localStorage.getItem("formData")) || [];
-
+let data = JSON.parse(localStorage.getItem("formData")) || []; // Recuperem les dades desades a localStorage
+// Funció per desar les dades a localStorage
 function saveDataToLocalStorage() {
     localStorage.setItem("formData", JSON.stringify(data));
 }
-
+// Funció per eliminar una fila
 function deleteData(index) {
     data.splice(index, 1);
     saveDataToLocalStorage();
     renderTable();
 }
-
+// Funció per renderitzar la taula
 function renderTable() {
     if (!tableBody) return;
     tableBody.innerHTML = '';
-
+    // Recorrem les dades i creem les files de la taula
     data.forEach(function (item, index) {
         const row = document.createElement("tr");
         const idCell = document.createElement("td");
@@ -67,11 +67,11 @@ function renderTable() {
         tableBody.appendChild(row);
     });
 }
-
+// Funció per anar a la pàgina de productes amb l'índex de l'oferta
 function goToProducts(index) {
     window.location.href = `productsList.html?oferta=${index}`;
 }
-
+// Funció per anar a la pàgina d'edició amb l'índex de l'oferta
 function editData(index) {
     window.location.href = `edit.html?edit=${index}`;
 }

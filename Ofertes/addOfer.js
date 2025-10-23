@@ -1,15 +1,15 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.getElementById('formOferta');
-    const ofertaInput = document.getElementById('ofertaInput');
-    const percentajeInput = document.getElementById('percentajeInput');
-    const dataIniciInput = document.getElementById('dataIniciInput');
-    const datafiInput = document.getElementById('datafiInput');
+document.addEventListener("DOMContentLoaded", function () { // Esperem que el DOM estiga carregat
+    const form = document.getElementById('formOferta'); // Formulari d'ofertes
+    const ofertaInput = document.getElementById('ofertaInput'); // Input d'oferta
+    const percentajeInput = document.getElementById('percentajeInput'); // Input de percentatge
+    const dataIniciInput = document.getElementById('dataIniciInput'); // Input de data d'inici
+    const datafiInput = document.getElementById('datafiInput'); // Input de data de fi
 
-    const params = new URLSearchParams(window.location.search);
-    const editIndex = params.get('edit');
+    const params = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
+    const editIndex = params.get('edit'); // Obtenim l'índex de l'oferta a editar
 
-    let data = JSON.parse(localStorage.getItem("formData")) || [];
-
+    let data = JSON.parse(localStorage.getItem("formData")) || []; // Recuperem les dades desades a localStorage
+    // Si hi ha un índex d'edició, omplim els camps amb les dades existents
     if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
         const item = data[editIndex];
         ofertaInput.value = item.oferta || "";
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataIniciInput.value = item.dataInici || "";
         datafiInput.value = item.dataFi || "";
     }
-
+    // Funció per mostrar missatges d'error o èxit
     function mostrarMensaje(texto, tipo = "error") {
         let mensaje = document.getElementById("mensaje");
         if (!mensaje) {
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         mensaje.textContent = texto;
         mensaje.style.color = tipo === "error" ? "red" : "green";
     }
-
+    // Funció per validar l'oferta
     function validarOferta() {
         const valor = ofertaInput.value.trim();
         if (!valor) {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return "";
     }
-
+    // Funció per validar el percentatge
     function validarPercentaje() {
         const val = percentajeInput.value.trim();
         if (!val) {
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return "";
     }
-
+    // Funció per validar la data d'inici
     function validarDataInici() {
         if (!dataIniciInput.value) {
             return "La data d'inici és obligatòria.";
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return "";
     }
-
+    // Funció per validar la data de fi
     function validarDataFi() {
         if (!datafiInput.value) {
             return "La data de fi és obligatòria.";
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         return "";
     }
-
+    // Gestor de l'esdeveniment de submissió del formulari
     form.addEventListener('submit', function (e) {
         e.preventDefault();
 
