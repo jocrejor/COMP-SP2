@@ -57,7 +57,7 @@ function mostrarLlista() {
     let aux = "";
     
     categories.forEach((item, index) => {
-        aux += "<li><button onclick='esborrar(" + index + ")'>Esborrar</button><button onclick='actualitzar(" + index + ")'>Modificar</button> " + item + "</li>";
+        aux += "<li><button onclick='esborrar(" + index + ")'></button><button onclick='actualitzar(" + index + ")'>Modificar</button> " + item + "</li>";
     });
 
     visualitzarLlista.innerHTML = aux;
@@ -107,10 +107,10 @@ function validationName(categoria, messageElement) {
 
 function error(element, missatge) {
     element.textContent = missatge;
-    element.style.color = "red";
+   
 }
 
 function removeErrors(element) {
     element.textContent = "";
-    element.style.color = "";
+   
 }
