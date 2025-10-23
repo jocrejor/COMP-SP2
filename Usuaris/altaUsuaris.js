@@ -71,7 +71,7 @@ function validarNom() {
             error(element, "Has d'introduïr un nom.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom ha de tindre entre 2 i 100 caràcters.");
+            error(element, "El nom d'usuari ha de tindre entre 3 i 100 caràcters.");
         }
         return false;
     }
@@ -86,7 +86,7 @@ function validarnomUsuari() {
             error(element, "Has d'introduïr un nom d'Usuari.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom te que estar entre 3 i 100 caràcters.");
+            error(element, "El nom ha de tindre entre 3 i 50 caràcters.");
         }
         return false;
     }
@@ -104,7 +104,7 @@ function validarCorreu() {
             error(element, "Introdueix un correu electrònic vàlid.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "L'email te que estar entre 2 i 100 caràcters.");
+            error(element, "L'email ha de tindre entre 5 i 100 caràcters.");
         }
         return false;
     }
@@ -117,6 +117,9 @@ function validarContrasenya() {
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduïr una contrasenya.");
+        }
+        if (element.validity.patternMismatch) {
+            error(element, "La contrasenya ha de tindre entre 5 i 30 caràcters.");
         }
         return false;
     }

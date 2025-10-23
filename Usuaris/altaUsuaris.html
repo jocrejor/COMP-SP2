@@ -20,7 +20,7 @@
             <tr>
                 <td>Nom d'usuari:</td>
                 <td>
-                    <!-- Camp amb validació per nom d'usuari (2-100 lletres) -->
+                    <!-- Camp amb validació per nom d'usuari (3-50 lletres) -->
                     <input type="text" name="nomUsuari" id="nomUsuari"
                            pattern="[A-Za-z\s]{3,100}" required/>
                 </td>
@@ -28,9 +28,9 @@
             <tr>
                 <td>Nom:</td>
                 <td>
-                    <!-- Camp per al nom real amb la mateixa validació que nomUsuari -->
+                    <!-- Camp amb validació per nom (3-100 lletres) -->
                     <input type="text" name="nom" id="nom"
-                           pattern="[A-Za-z\s]{3,100}" required/>
+                           pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{3,100}" required/>
                 </td>
             </tr>
             <tr>
@@ -38,8 +38,7 @@
                 <td>
                     <!-- Camp de correu electrònic amb validació nativa d'HTML5 -->
                     <input type="email" name="correu" id="correu" 
-                           pattern="{5,100}" 
-                           title="L'email te que estar entre 2 i 100 lletres" required/>
+                           pattern="{5,100}" required/>
                 </td>
             </tr>
             <tr>
