@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             editButton.textContent = "Editar";
             deleteButton.textContent = "Borrar";
-            addProductSale.textContent = "Productes aplicats";
+            addProductSale.textContent = "Visualitzar";
             
             // Afegim els esdeveniments als botons
             editButton.addEventListener("click", function () {
