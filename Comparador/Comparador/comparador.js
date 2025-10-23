@@ -50,32 +50,53 @@ function obtindreSessionId() {
 // Mostrar productes a comparar
 function mostrarComparador() {
     const compararDiv = document.getElementById('compararDiv');
-    compararDiv.innerHTML = "";
+    compararDiv.innerHTML = ""; // Limpiar contenido anterior
 
-    //Si no hi ha productes a comparar
+
     if (!compareProduct || compareProduct.length === 0) {
-        alert("No tens productes per a comparar"); 
+        alert("No tens productes per a comparar");
         return;
     }
 
-    //Si hi ha productes a comparar
     compareProduct.forEach((item) => {
         const product = productes[item.product];
         if (product) {
-            const productHtml = `
-        <div style="border:1px solid #000; margin:10px; padding:10px;">
-            <p>${product.descripton}</p>
-            <p>Preu: ${product.price}€</p>
-            <img src="${product.img}" alt="${product.name}" style="max-width:100px;">
-            <hr>
-            <button onclick="eliminarProducteComparador(${item.product})">Eliminar</button>
 
-        </div>
-        `;
-            compararDiv.innerHTML += productHtml;
+            const productDiv = document.createElement('div');
+            productDiv.style.border = "1px solid #000";
+            productDiv.style.margin = "10px";
+            productDiv.style.padding = "10px";
+
+
+            const descP = document.createElement('p');
+            descP.textContent = product.descripton;
+            productDiv.appendChild(descP);
+
+       
+            const priceP = document.createElement('p');
+            priceP.textContent = `Preu: ${product.price}€`;
+            productDiv.appendChild(priceP);
+
+            const img = document.createElement('img');
+            img.src = product.img;
+            img.alt = product.name;
+            img.style.maxWidth = "100px";
+            productDiv.appendChild(img);
+
+
+            const hr = document.createElement('hr');
+            productDiv.appendChild(hr);
+
+            const btnEliminar = document.createElement('button');
+            btnEliminar.textContent = "Eliminar";
+            btnEliminar.addEventListener('click', () => eliminarProducteComparador(item.product));
+            productDiv.appendChild(btnEliminar);
+
+            compararDiv.appendChild(productDiv);
         }
-    })
+    });
 }
+
  
 //Eliminar producte del comparador
 function eliminarProducteComparador(index) {
