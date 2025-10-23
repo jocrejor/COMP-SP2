@@ -8,6 +8,10 @@ h1 {
     text-align: center;
     color: #333;
 }
+h2{
+    text-align: center;
+    color: #555;
+}
 
 input[type="text"] {
     padding: 8px;
@@ -54,4 +58,15 @@ ol #llista {
 #mensajeError {
     font-size: 14px;
     margin-left: 10px;
+}
+
+button#torna{
+    margin-left: 45%;
+    width: 100px;
+    height: 35px;
+    background-color: #235b8a;
+}
+
+button#torna:hover {
+    background-color: darkred;
 }
