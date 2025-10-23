@@ -1,15 +1,21 @@
+// Afegeix un event listener quan el DOM està completament carregat
 document.addEventListener("DOMContentLoaded", main);
 
+// Declaració de variables globals
 let arrFamilia = new Array();
 let accio = "Afegir";
 
+// Funció principal que s'executa quan es carrega la pàgina
 function main() {
+    // Configuració inicial dels elements i esdeveniments
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
+    // Recupera les famílies del localStorage o crea un array buit
     arrFamilia = localStorage.getItem("families") ? JSON.parse(localStorage.getItem("families")) : [];
     mostrarFamilies();
     actualitzarSelect();
 
+    // Gestiona el clic al botó d'afegir/actualitzar
     afegirButton.addEventListener("click", (e) => {
         if (validar(e)) {
             if (accio === "Afegir") {
@@ -20,11 +26,11 @@ function main() {
                 afegirButton.textContent = accio;
             }
 
-            // Reiniciar el formulari
-            document.getElementById("nom").value = item.name;
-            document.getElementById("familia_de").value = item.parentID;
+            // Neteja el formulari després d'afegir o actualitzar
+            document.getElementById("nom").value = "";
+            document.getElementById("familia_de").value = "";
             document.getElementById("index").value = "-1";
-            document.getElementById("descripcio").value = item.description;
+            document.getElementById("descripcio").value = "";
             document.getElementById("imatge").value = "";
             actualitzarSelect();
             mostrarFamilies();
@@ -32,7 +38,9 @@ function main() {
     });
 }
 
+// Funció per crear una nova família
 function crearFamilia() {
+    // Obté els valors del formulari i guarda la família
     const nom = document.getElementById("nom").value.trim();
     const familia_de = document.getElementById("familia_de").value;
     const descripcio = document.getElementById("descripcio").value.trim();
@@ -41,7 +49,9 @@ function crearFamilia() {
     document.getElementById("alerta").innerHTML = "";
 }
 
+// Funció per actualitzar una família existent
 function actualitzarFamilia() {
+    // Obté els valors actualitzats i actualitza la família
     const index = document.getElementById("index").value;
     const nom = document.getElementById("nom").value.trim();
     const familia_de = document.getElementById("familia_de").value;
@@ -51,26 +61,30 @@ function actualitzarFamilia() {
     document.getElementById("alerta").innerHTML = "";
 }
 
+// Funció per mostrar totes les famílies en una taula
 function mostrarFamilies() {
     const visualitzarFamilies = document.getElementById("taulaFamilia");
     visualitzarFamilies.innerHTML = "";
     let aux = "";
     arrFamilia.forEach((item, index) => {
+        // Obté el nom de la família pare si existeix
         let familiaDeText =
-            item.parentID !== "" && item.parentID !== null && item.parentID !== undefined
-                ? arrFamilia[parseInt(item.parentID)]?.name || ""
+            item.familia_de !== "" && item.familia_de !== null && item.familia_de !== undefined
+                ? arrFamilia[parseInt(item.familia_de)]?.nom || ""
                 : "";
 
-        let imgHTML = item.image
-            ? `<img src="${item.image}" alt="image" style="max-width: 100px; max-height: 100px;" />`
+        // Genera l'HTML per a la imatge si existeix
+        let imgHTML = item.imatge
+            ? `<img src="${item.imatge}" alt="imatge" style="max-width: 100px; max-height: 100px;" />`
             : "";
 
+        // Genera la fila de la taula
         aux += `<tr>
-            <td>${imgHTML}</td>
-            <td>${item.name}</td>
-            <td>${item.description}</td>
-            <td>${familiaDeText}</td>
-                                <td>
+                    <td>${imgHTML}</td>
+                    <td>${item.nom}</td>
+                    <td>${item.descripcio}</td>
+                    <td>${familiaDeText}</td>
+                    <td>
                         <button onclick='esborrar(${index})'>Del</button>
                         <button onclick='actualitzar(${index})'>Upd</button>
                     </td>
@@ -79,6 +93,7 @@ function mostrarFamilies() {
     visualitzarFamilies.innerHTML = aux;
 }
 
+// Funció per esborrar una família
 function esborrar(index) {
     arrFamilia.splice(index, 1);
     localStorage.setItem("families", JSON.stringify(arrFamilia));
@@ -86,6 +101,7 @@ function esborrar(index) {
     mostrarFamilies();
 }
 
+// Funció per carregar les dades d'una família al formulari per actualitzar-la
 function actualitzar(index) {
     const item = arrFamilia[index];
     document.getElementById("index").value = index;
@@ -97,32 +113,37 @@ function actualitzar(index) {
     document.getElementById("afegir").textContent = accio;
 }
 
+// Funció per actualitzar el selector de famílies pare
 function actualitzarSelect() {
     const select = document.getElementById("familia_de");
     select.innerHTML = "";
 
+    // Afegeix l'opció buida
     const opcioBuid = document.createElement("option");
     opcioBuid.value = "";
     opcioBuid.textContent = "";
     select.appendChild(opcioBuid);
 
+    // Afegeix totes les famílies com a opcions
     arrFamilia.forEach((item, index) => {
         const opcio = document.createElement("option");
         opcio.value = index;
-        opcio.textContent = item.name;
+        opcio.textContent = item.nom;
         select.appendChild(opcio);
     });
 }
 
+// Funció per guardar o actualitzar una família
 function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
     if (archivo) {
+        // Si hi ha una nova imatge, la converteix a base64
         const reader = new FileReader();
         reader.onload = function (e) {
             const familia = {
-                "name": nom,
-                "parentID": familia_de,
-                "description": descripcio,
-                "image": e.target.result
+                nom,
+                familia_de,
+                descripcio,
+                imatge: e.target.result
             };
             if (index === null) {
                 arrFamilia.push(familia);
@@ -135,11 +156,12 @@ function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
         };
         reader.readAsDataURL(archivo);
     } else {
+        // Si no hi ha nova imatge, manté la imatge anterior o la deixa buida
         const familia = {
-            "name": nom,
-            "parentID": familia_de,
-            "description": descripcio,
-            "image": index !== null ? (arrFamilia[index].imatge || "") : ""
+            nom,
+            familia_de,
+            descripcio,
+            imatge: index !== null ? (arrFamilia[index].imatge || "") : ""
         };
         if (index === null) {
             arrFamilia.push(familia);
@@ -152,9 +174,9 @@ function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
     }
 }
 
-
 /* ---------------- VALIDACIONS ---------------- */
 
+// Validació del camp nom
 function validarNom() {
     const element = document.getElementById("nom");
     if (!element.checkValidity()) {
@@ -172,6 +194,7 @@ function validarNom() {
     return true;
 }
 
+// Validació del camp descripció
 function validarDescripcio() {
     const element = document.getElementById("descripcio");
     if (!element.checkValidity()) {
@@ -186,6 +209,7 @@ function validarDescripcio() {
     return true;
 }
 
+// Validació de la imatge
 function validarImatge() {
     const archivo = document.getElementById("imatge").files[0];
     if (archivo && archivo.size > 2 * 1024 * 1024) { // 2 MB
@@ -195,6 +219,7 @@ function validarImatge() {
     return true;
 }
 
+// Validació de la subfamília
 function validarSubfamilia() {
     const index = document.getElementById("index").value;
     const familia_de = document.getElementById("familia_de").value;
@@ -205,6 +230,7 @@ function validarSubfamilia() {
     return true;
 }
 
+// Funció principal de validació
 function validar(e) {
     esborrarError();
     if (validarNom() && validarDescripcio() && validarImatge() && validarSubfamilia()) {
@@ -215,6 +241,7 @@ function validar(e) {
     }
 }
 
+// Funcions d'error i neteja d'errors
 function error(element, missatge) {
     const alerta = document.getElementById("alerta");
     alerta.textContent = missatge;
