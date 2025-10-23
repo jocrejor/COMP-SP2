@@ -6,12 +6,13 @@
     <title>Inici de Sessió</title>
 </head>
 <body>
-    <form action="/admin/dashboard" method="post">
-        <label for="username">Nom d'usuari:</label>
-        <input type="text" id="username" name="username" required>
+    <p id="missatgeError"></p>
+    <form  id="formulariLogin">
+        <label for="usuari">Nom d'usuari:</label>
+        <input type="text" id="usuari" name="username" required>
         <br>
-        <label for="password">Contrasenya:</label>
-        <input type="password" id="password" name="password" required>
+        <label for="contrasenya">Contrasenya:</label>
+        <input type="password" id="contrasenya" name="password" required>
         <br>
         <button type="submit">Iniciar Sessió</button>
     </form>
