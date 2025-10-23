@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function validarFechas() {
     if (datafiInput.value && dataIniciInput.value) {
       const dataInici = new Date(dataIniciInput.value);
-      const dataFi    = new Date(datafiInput.value);
+      const dataFi = new Date(datafiInput.value);
 
       if (dataInici >= dataFi) {
         return "La data d'inici ha de ser anterior a la data de fi.";
