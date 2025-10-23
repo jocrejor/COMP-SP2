@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tableBody.appendChild(row);
         });
         
-        console.log("Taula renderitzada amb", data.length, "elements"); // Debug
+        console.log("Taula renderitzada amb", data.length, "elements");
     }
 
     // Funció per anar a la pàgina de productes amb l'índex de l'oferta
