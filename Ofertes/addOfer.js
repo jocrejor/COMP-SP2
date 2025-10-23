@@ -1,28 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Esperem que el DOM estiga carregat
-  const form = document.getElementById("formOferta"); // Formulari d'ofertes
-  const ofertaInput = document.getElementById("ofertaInput"); // Input d'oferta
+  const form            = document.getElementById("formOferta"); // Formulari d'ofertes
+  const ofertaInput     = document.getElementById("ofertaInput"); // Input d'oferta
   const percentajeInput = document.getElementById("percentajeInput"); // Input de percentatge
-  const dataIniciInput = document.getElementById("dataIniciInput"); // Input de data d'inici
-  const datafiInput = document.getElementById("datafiInput"); // Input de data de fi
+  const dataIniciInput  = document.getElementById("dataIniciInput"); // Input de data d'inici
+  const datafiInput     = document.getElementById("datafiInput"); // Input de data de fi
 
-  const params = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
+  const params    = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
   const editIndex = params.get("edit"); // Obtenim l'índex de l'oferta a editar
 
   let data = JSON.parse(localStorage.getItem("formData")) || []; // Recuperem les dades desades a localStorage
   // Si hi ha un índex d'edició, omplim els camps amb les dades existents
   if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
-    const item = data[editIndex];
-    ofertaInput.value = item.oferta || "";
+    const item            = data[editIndex];
+    ofertaInput.value     = item.oferta || "";
     percentajeInput.value = item.percentaje || "";
-    dataIniciInput.value = item.dataInici || "";
-    datafiInput.value = item.dataFi || "";
+    dataIniciInput.value  = item.dataInici || "";
+    datafiInput.value     = item.dataFi || "";
   }
   // Funció per mostrar missatges d'error o èxit
   function mostrarMensaje(texto, tipo = "error") {
     let mensaje = document.getElementById("mensaje");
     if (!mensaje) {
-      mensaje = document.createElement("p");
+      mensaje    = document.createElement("p");
       mensaje.id = "mensaje";
       form.parentNode.insertBefore(mensaje, form);
     }

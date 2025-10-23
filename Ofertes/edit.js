@@ -14,17 +14,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // Si hi ha un índex d'edició, omplim els camps amb les dades existents
 
   if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
-    const item = data[editIndex];
-    ofertaInput.value = item.oferta || "";
+    const item            = data[editIndex];
+    ofertaInput.value     = item.oferta || "";
     percentajeInput.value = item.percentaje || "";
-    dataIniciInput.value = item.dataInici || "";
-    datafiInput.value = item.dataFi || "";
+    dataIniciInput.value  = item.dataInici || "";
+    datafiInput.value     = item.dataFi || "";
   }
   // Funció per mostrar missatges d'error o èxit
   function mostrarMensaje(texto, tipo = "error") {
     let mensaje = document.getElementById("mensaje");
     if (!mensaje) {
-      mensaje = document.createElement("p");
+      mensaje    = document.createElement("p");
       mensaje.id = "mensaje";
       form.parentNode.insertBefore(mensaje, form);
     }
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return "La data d'inici és obligatòria.";
     }
     const dataInici = new Date(dataIniciInput.value);
-    const avui = new Date();
+    const avui      = new Date();
     avui.setHours(0, 0, 0, 0);
 
     if (dataInici < avui) {
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function validarFechas() {
     if (datafiInput.value && dataIniciInput.value) {
       const dataInici = new Date(dataIniciInput.value);
-      const dataFi = new Date(datafiInput.value);
+      const dataFi    = new Date(datafiInput.value);
 
       if (dataInici >= dataFi) {
         return "La data d'inici ha de ser anterior a la data de fi.";

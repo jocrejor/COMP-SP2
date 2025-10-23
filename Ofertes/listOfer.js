@@ -7,7 +7,7 @@ function saveDataToLocalStorage() {
 }
 // Funció per eliminar una fila
 function deleteData(index) {
-  data.splice(index, 1);
+  data.splice(index, 1); // Eliminem l'element de l'array
   saveDataToLocalStorage();
   renderTable();
 }
@@ -17,24 +17,24 @@ function renderTable() {
   tableBody.innerHTML = "";
   // Recorrem les dades i creem les files de la taula
   data.forEach(function (item, index) {
-    const row = document.createElement("tr");
-    const idCell = document.createElement("td");
-    const ofertaCell = document.createElement("td");
+    const row            = document.createElement("tr");
+    const idCell         = document.createElement("td");
+    const ofertaCell     = document.createElement("td");
     const percentajeCell = document.createElement("td");
-    const dataIniciCell = document.createElement("td");
-    const dataFiCell = document.createElement("td");
-    const actionCell = document.createElement("td");
-    const productsCell = document.createElement("td");
+    const dataIniciCell  = document.createElement("td");
+    const dataFiCell     = document.createElement("td");
+    const actionCell     = document.createElement("td");
+    const productsCell   = document.createElement("td");
 
-    const editButton = document.createElement("button");
-    const deleteButton = document.createElement("button");
+    const editButton     = document.createElement("button");
+    const deleteButton   = document.createElement("button");
     const addProductSale = document.createElement("button");
 
-    idCell.textContent = index + 1;
-    ofertaCell.textContent = item.oferta;
+    idCell.textContent         = index + 1;
+    ofertaCell.textContent     = item.oferta;
     percentajeCell.textContent = item.percentaje + "%";
-    dataIniciCell.textContent = item.dataInici;
-    dataFiCell.textContent = item.dataFi;
+    dataIniciCell.textContent  = item.dataInici;
+    dataFiCell.textContent     = item.dataFi;
 
     editButton.textContent = "Edit";
     deleteButton.textContent = "Delete";
@@ -43,7 +43,7 @@ function renderTable() {
     editButton.addEventListener("click", function () {
       editData(index);
     });
-    
+
     deleteButton.addEventListener("click", function () {
       deleteData(index);
     });
@@ -52,8 +52,8 @@ function renderTable() {
       goToProducts(index);
     });
     // Afegim les cel·les a la fila
-    actionCell.appendChild(editButton);
-    actionCell.appendChild(deleteButton);
+    actionCell.appendChild  (editButton);
+    actionCell.appendChild  (deleteButton);
     productsCell.appendChild(addProductSale);
 
     row.appendChild(idCell);
