@@ -1,0 +1,33 @@
+/*Estilos universales*/
+a{
+    text-decoration: none;
+    color: black;
+}
+/*Estilos del header*/
+.header{
+    width: 100%;
+    height: auto;
+
+    background-color: blueviolet;
+
+    display: flex;
+
+}
+.containerTitul{
+    width: 60%;
+    height: auto;
+
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.containerBotons{
+    width: 40%;
+    height: auto;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 5%;
+    gap: 10px;
+}
