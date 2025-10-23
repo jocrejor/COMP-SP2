@@ -1,4 +1,5 @@
 
+
 // Cuando la página carga, mostramos todos los contactos guardados
 document.addEventListener("DOMContentLoaded", showContacts);
 
