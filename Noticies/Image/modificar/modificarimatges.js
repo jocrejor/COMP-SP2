@@ -1,7 +1,6 @@
-window.onload = iniciar;
+document.addEventListener("DOMContentLoaded", main);
 
-function iniciar() {
-
+function main() {
     document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
     arreplegarindex();
 }

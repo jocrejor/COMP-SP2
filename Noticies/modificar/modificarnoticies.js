@@ -1,11 +1,12 @@
 document.addEventListener("DOMContentLoaded", main);
 
-function main() {
+function main () {
     document.getElementById("tornar").addEventListener("click", tornar);
     document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
     arreplegarindex();
 }
 
+// Torna al llistat
 function tornar () {
     window.location.assign("../llistar/llistarnoticies.html");
 }
@@ -61,7 +62,7 @@ function guardardadeslocalsstorage(e) {
     window.location.href = "../llistar/llistarnoticies.html";
 }
 
-function arreplegarindex() {
+function arreplegarindex () {
     //Agafar id desde el localstorage que li pase desde llistar
     let idEdicion = localStorage.getItem("indiceEdicion");
 
@@ -71,17 +72,17 @@ function arreplegarindex() {
         let noticia = noticies.find(n => n.id == idEdicion);
 
         if (noticia) {
+            document.getElementById("id").value = noticia.id;
             document.getElementById("titol").value = noticia.title;
             document.getElementById("subtitol").value = noticia.description;
             document.getElementById("contingut").value = noticia.body;
             document.getElementById("data").value = noticia.date;
-            document.getElementById("enviar").value = "Guardar canvis";
         }
     }
 }
 
 
-function validarnom() {
+function validarTitol () {
     var element = document.getElementById("titol");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) error(element, "Deus d'introduïr un titol.");
@@ -91,22 +92,7 @@ function validarnom() {
     return true;
 }
 
-function validarcontingut() {
-    var element = document.getElementById("contingut");
-    let valor = element.value.trim();
-    if (!element.checkValidity()) {
-        if (element.validity.valueMissing) error(element, "Deus d'introduïr una descripció.");
-        return false;
-    }
-    let pattern = /^[A-Za-z\s]{2,255}$/;
-    if (!pattern.test(valor)) {
-        error(element, "El contingut ha de tindre entre 2 i 255 caracters i només lletres.");
-        return false;
-    }
-    return true;
-}
-
-function validarsubtitol() {
+function validarsubtitol () {
     var element = document.getElementById("subtitol");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) error(element, "Deus d'introduïr una descripció.");
@@ -116,7 +102,24 @@ function validarsubtitol() {
     return true;
 }
 
-function validarData() {
+function validarcontingut () {
+    var element = document.getElementById("contingut");
+    let valor = element.value.trim();
+    if (!element.checkValidity()) {
+
+        if (element.validity.valueMissing)
+            error(element, "Deus d'introduïr una descripció.");
+
+        if (element.validity.patternMismatch)
+            error(element, "El contingut  ha de tindre entre 2 i 15 caracters.");
+
+        return false;
+    }
+    
+    return true;
+}
+
+function validarData () {
     var data = document.getElementById("data");
     if (!data.checkValidity()) {
         if (data.validity.valueMissing) error(data, "Has d'introduïr una data.");
@@ -126,9 +129,9 @@ function validarData() {
     return true;
 }
 
-function validar(e) {
+function validar (e) {
     esborrarError();
-    if (validarnom() && validarsubtitol() && validarcontingut() && validarData() && confirm("Confirma si vols enviar el formulari")) {
+    if (validarTitol() && validarsubtitol() && validarcontingut() && validarData() && confirm("Confirma si vols enviar el formulari")) {
         return true;
     } else {
         e.preventDefault();
@@ -136,14 +139,14 @@ function validar(e) {
     }
 }
 
-function error(element, missatge) {
+function error (element, missatge) {
     let miss = document.createTextNode(missatge);
     document.getElementById("missatgeError").appendChild(miss);
     element.classList.add("error");
     element.focus();
 }
 
-function esborrarError() {
+function esborrarError () {
     document.getElementById("missatgeError").textContent = "";
     let formulari = document.forms[0];
     for (let i = 0; i < formulari.elements.length; i++) {

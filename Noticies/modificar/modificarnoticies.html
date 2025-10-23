@@ -13,30 +13,48 @@
     <h1>News</h1>
     <form id="elFormulari">
         <div>
-            <label for="titol">Title</label>
-            <input type="text" name="titol" id="titol" maxlength="15" pattern="[A-Za-zÀ-ÿñÑ\s]{2,15}"
+            <label for="ID">ID</label>
+            <input type="number" id="id" readonly>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="titol">Títol</label>
+            <input type="text" name="titol" id="titol" maxlength="15" pattern="[A-Za-zÀ-ÿñÑ0-9\s]{2,15}"
                 title="Introdueix entre 2 i 15 lletres" required />
 
         </div>
+
+        <br>
+
         <div>
-            <label for="subtitol">Description</label>
+            <label for="subtitol">Subtítol</label>
 
             <input type="text" name="subtitol" id="subtitol" maxlength="15" pattern="[A-Za-z\s]{2,15}"
                 title="Introdueix entre 2 i 15 lletres" required />
         </div>
-        <div>
-            <label for="contingut">Body</label>
 
-            <textarea type="text" name="contingut" id="contingut" maxlength="255" pattern="[A-Za-z\s]{2,255}"
+        <br>
+
+        <div>
+            <label for="contingut">Contingut</label>
+
+            <textarea type="text" name="contingut" id="contingut" maxlength="255" pattern=".{2,255}"
                 title="Introdueix entre 2 i 255 lletres" required></textarea>
         </div>
-        <div>
-            <label for="data">Date</label>
-            <input type="date" name="data" id="data" pattern="\d{2}-\d{2}-\d{4}" placeholder="dd/mm/yy" required>
-        </div>
+
+        <br>
 
         <div>
-            <input type="submit" name="enviar" id="enviar" value="Modificar" />
+            <label for="data">Data</label>
+            <input type="date" name="data" id="data" required>
+        </div>
+
+        <br><br>
+
+        <div>
+            <button type="submit" name="enviar" id="enviar">Modificar</button>
         </div>
         <p id="missatgeError"></p>
     </form>

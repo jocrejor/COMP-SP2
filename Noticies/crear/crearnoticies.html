@@ -4,36 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noticies</title>
+    <title>Nova notícia</title>
     <script src="./crearnoticies.js"></script>
 </head>
 
 <body>
     <button type="button" id="tornar">Tornar</button>
-    <h1>News</h1>
+    <h1>Nova notícia</h1>
     <form id="elFormulari">
-        <div>
-            <label for="titol">Title</label>
-            <input type="text" name="titol" id="titol" maxlength="15" pattern="[A-Za-zÀ-ÿñÑ\s]{2,15}"
-                title="Introdueix entre 2 i 15 lletres" required />
+        <br>
 
+        <div>
+            <label for="titol">Títol</label>
+            <input type="text" name="titol" id="titol" maxlength="50" pattern="[A-Za-zÀ-ÿñÑ0-9\s]{2,50}"
+                title="Introdueix entre 2 i 50 lletres" required>
         </div>
-        <div>
-            <label for="subtitol">Description</label>
 
-            <input type="text" name="subtitol" id="subtitol" maxlength="15" pattern="[A-Za-z\s]{2,15}"
-                title="Introdueix entre 2 i 15 lletres" required />
+        <br>
+
+        <div>
+            <label for="subtitol">Subtítol</label>
+
+            <input type="text" name="subtitol" id="subtitol" maxlength="100" pattern="[A-Za-zÀ-ÿñÑ0-9\s]{5,100}"
+                title="Introdueix entre 5 i 100 lletres" required>
         </div>
-        <div>
-            <label for="contingut">Body</label>
 
-            <textarea type="text" name="contingut" id="contingut" maxlength="255" pattern="[A-Za-z\s]{2,255}"
+        <br>
+
+        <div>
+            <label for="contingut">Contingut</label>
+
+            <textarea type="text" name="contingut" id="contingut" maxlength="255" pattern="[A-Za-zÀ-ÿñÑ0-9\s]{2,255}"
                 title="Introdueix entre 2 i 255 lletres" required></textarea>
         </div>
+
+        <br>
+
         <div>
-            <label for="data">Date</label>
-            <input type="date" name="data" id="data" pattern="\d{2}-\d{2}-\d{4}" placeholder="dd/mm/yy" required>
+            <label for="data">Data</label>
+            <input type="date" name="data" id="data" required>
         </div>
+
+        <br><br>
 
         <div>
             <button type="submit" name="enviar" id="enviar">Crear</button>

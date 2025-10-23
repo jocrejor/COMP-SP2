@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", main);
 
-function main() {
+function main () {
     document.getElementById("tornar").addEventListener("click", tornar);
     document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
 }
@@ -11,7 +11,7 @@ function tornar () {
 
 //  VALIDACIONS
 
-function validarnom() {
+function validarnom () {
     var element = document.getElementById("nom");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
@@ -25,7 +25,7 @@ function validarnom() {
     return true;
 }
 
-function validarurl() {
+function validarurl () {
     var element = document.getElementById("url");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
@@ -39,7 +39,7 @@ function validarurl() {
     return true;
 }
 
-function validarordre() {
+function validarordre () {
     var element = document.getElementById("order");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
@@ -55,7 +55,7 @@ function validarordre() {
 
 // --- GUARDAR AL LOCALSTORAGE ---
 
-function guardardadeslocalsstorage(e) {
+function guardardadeslocalsstorage (e) {
     if (!validar(e)) {
         e.preventDefault();
         return;
@@ -88,7 +88,7 @@ function guardardadeslocalsstorage(e) {
 }
 
 // --- VALIDAR TOT ---
-function validar(e) {
+function validar (e) {
     esborrarError();
     if (validarnom() && validarurl() && validarordre() && confirm("Confirma si vols enviar el formulari")) {
         return true;
@@ -99,14 +99,14 @@ function validar(e) {
 }
 
 // --- GESTIÓ D'ERRORS ---
-function error(element, missatge) {
+function error (element, missatge) {
     let miss = document.createTextNode(missatge);
     document.getElementById("missatgeError").appendChild(miss);
     element.classList.add("error");
     element.focus();
 }
 
-function esborrarError() {
+function esborrarError () {
     document.getElementById("missatgeError").textContent = "";
     let formulari = document.forms[0];
     for (let i = 0; i < formulari.elements.length; i++) {
