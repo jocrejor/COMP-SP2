@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
       end_date: datafiInput.value + " 23:59:59",
       created_at: data[editIndex].created_at // Mantenim la data de creació original
     };
-
+    // Actualitzem les dades a localStorage
     if (editIndex !== null && !isNaN(editIndex)) {
       data[editIndex] = newData;
       localStorage.setItem("saleData", JSON.stringify(data));

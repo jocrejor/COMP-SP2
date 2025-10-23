@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
       end_date: datafiInput.value + " 23:59:59",
       created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
     };
-
+    // Actualitzem les dades a localStorage
     if (editIndex !== null && !isNaN(editIndex)) {
       data[editIndex] = newData;
       mostrarMensaje("Oferta editada correctament!", "success");

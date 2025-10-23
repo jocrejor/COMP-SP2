@@ -1,17 +1,11 @@
 // Funció principal que s'executa quan el DOM està carregat
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody = document.getElementById("tableBody"); // Cos de la taula on es mostraran les dades
-    
-    console.log("Script listOfer.js carregat"); 
-    console.log("tableBody trobat:", tableBody); 
 
     // Funció per carregar les dades
-    function loadData() {
-        console.log("Carregant dades..."); 
-        
+    function loadData() {        
         // Primer comprovem si hi ha dades a localStorage
         const savedData = JSON.parse(localStorage.getItem("saleData"));
-        console.log("Dades de localStorage:", savedData); 
         
         // Si hi ha dades guardades, les utilitzem
         if (savedData && savedData.length > 0) {
@@ -59,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         
         tableBody.innerHTML = "";
-        
+        // Comprovem si hi ha dades per mostrar
         if (data.length === 0) {
             const emptyRow = document.createElement("tr");
             const emptyCell = document.createElement("td");
@@ -91,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
             ofertaCell.textContent     = item.description || item.oferta || "Sense nom";
             percentajeCell.textContent = (item.discount_percent || item.percentaje || 0) + "%";
             
-            // Formatejem les dates per mostrar-les millor
+            // Formatem les dates
             try {
                 const startDate = new Date(item.start_date || item.dataInici || "");
                 const endDate = new Date(item.end_date || item.dataFi || "");
@@ -127,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
             actionCell.appendChild(editButton);
             actionCell.appendChild(deleteButton);
             productsCell.appendChild(addProductSale);
-
+            
             row.appendChild(idCell);
             row.appendChild(ofertaCell);
             row.appendChild(percentajeCell);
