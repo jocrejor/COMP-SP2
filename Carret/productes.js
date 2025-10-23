@@ -57,7 +57,6 @@ function mostrarProductes() {
     });
 }
 
-
 function afegirAlCarret(id) {
     const producte = productes.find(p => p.id === id);
     let carret = JSON.parse(localStorage.getItem('carret')) || [];
