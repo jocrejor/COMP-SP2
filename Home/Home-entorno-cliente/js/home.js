@@ -61,7 +61,7 @@ function mostrarProductos(productosFiltrados) {
 }
 
 // Mostrar todos al inicio
-mostrarProductos(products);
+mostrarProductos(Product);
 
 // Filtrar por familia
 selectFamilia.addEventListener("change", function() {
