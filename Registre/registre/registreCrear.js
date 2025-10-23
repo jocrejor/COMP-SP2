@@ -16,7 +16,7 @@ function main() {
         let taxidtype = document.getElementById("taxidtype").value;
         let taxid = document.getElementById("taxid").value;
         let birth_date = document.getElementById("birth_date").value;
-        let phone = document.getElementById("phone").value;
+        let phone = document.getElementById("phone").value; 
         //let user_name = document.getElementById("user_name").value;
         let email = document.getElementById("email").value;
         let address = document.getElementById("address").value;
@@ -89,7 +89,7 @@ function main() {
         if (!document.getElementById("address").checkValidity()) {
             let error_address = document.getElementById("error_address");
             error_address.textContent = "";
-            let errorTextAddress = document.textContent("L'adreça no és vàlida");
+            let errorTextAddress = document.createTextNode("L'adreça no és vàlida");
             error_address.appendChild(errorTextAddress);
         }
 
