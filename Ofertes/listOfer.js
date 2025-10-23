@@ -1,79 +1,158 @@
-const tableBody = document.getElementById("tableBody"); // Cos de la taula on es mostraran les dades
+// Funció principal que s'executa quan el DOM està carregat
+document.addEventListener("DOMContentLoaded", function () {
+    const tableBody = document.getElementById("tableBody"); // Cos de la taula on es mostraran les dades
+    
+    console.log("Script listOfer.js carregat"); 
+    console.log("tableBody trobat:", tableBody); 
 
-let data = JSON.parse(localStorage.getItem("formData")) || []; // Recuperem les dades desades a localStorage
-// Funció per desar les dades a localStorage
-function saveDataToLocalStorage() {
-  localStorage.setItem("formData", JSON.stringify(data));
-}
-// Funció per eliminar una fila
-function deleteData(index) {
-  data.splice(index, 1); // Eliminem l'element de l'array
-  saveDataToLocalStorage();
-  renderTable();
-}
-// Funció per renderitzar la taula
-function renderTable() {
-  if (!tableBody) return;
-  tableBody.innerHTML = "";
-  // Recorrem les dades i creem les files de la taula
-  data.forEach(function (item, index) {
-    const row            = document.createElement("tr");
-    const idCell         = document.createElement("td");
-    const ofertaCell     = document.createElement("td");
-    const percentajeCell = document.createElement("td");
-    const dataIniciCell  = document.createElement("td");
-    const dataFiCell     = document.createElement("td");
-    const actionCell     = document.createElement("td");
-    const productsCell   = document.createElement("td");
+    // Funció per carregar les dades
+    function loadData() {
+        console.log("Carregant dades..."); 
+        
+        // Primer comprovem si hi ha dades a localStorage
+        const savedData = JSON.parse(localStorage.getItem("saleData"));
+        console.log("Dades de localStorage:", savedData); 
+        
+        // Si hi ha dades guardades, les utilitzem
+        if (savedData && savedData.length > 0) {
+            console.log("Utilitzant dades de localStorage"); 
+            return savedData;
+        }
+        
+        // Si no hi ha dades a localStorage, comprovem si existeix Sale
+        if (typeof Sale !== 'undefined' && Sale.length > 0) {
+            console.log("Utilitzant dades de TendaFakeDades.js - Sale:", Sale); 
+            // Guardem les dades de Sale a localStorage per primera vegada
+            localStorage.setItem("saleData", JSON.stringify(Sale));
+            return Sale;
+        }
+        
+        // Si no hi ha dades enlloc, retornem array buit
+        console.log("No s'han trobat dades"); 
+        return [];
+    }
 
-    const editButton     = document.createElement("button");
-    const deleteButton   = document.createElement("button");
-    const addProductSale = document.createElement("button");
+    let data = loadData();
+    console.log("Dades carregades:", data);
 
-    idCell.textContent         = index + 1;
-    ofertaCell.textContent     = item.oferta;
-    percentajeCell.textContent = item.percentaje + "%";
-    dataIniciCell.textContent  = item.dataInici;
-    dataFiCell.textContent     = item.dataFi;
+    // Funció per desar les dades a localStorage
+    function saveDataToLocalStorage() {
+        localStorage.setItem("saleData", JSON.stringify(data));
+        console.log("Dades guardades a localStorage");
+    }
 
-    editButton.textContent = "Edit";
-    deleteButton.textContent = "Delete";
-    addProductSale.textContent = "Productes aplicats";
-    // Afegim els esdeveniments als botons
-    editButton.addEventListener("click", function () {
-      editData(index);
-    });
+    // Funció per eliminar una fila
+    function deleteData(index) {
+        if (confirm("Estàs segur que vols eliminar aquesta oferta?")) {
+            data.splice(index, 1); // Eliminem l'element de l'array
+            saveDataToLocalStorage();
+            renderTable();
+        }
+    }
 
-    deleteButton.addEventListener("click", function () {
-      deleteData(index);
-    });
-    // Botó per anar a la pàgina de productes amb l'índex de l'oferta
-    addProductSale.addEventListener("click", function () {
-      goToProducts(index);
-    });
-    // Afegim les cel·les a la fila
-    actionCell.appendChild  (editButton);
-    actionCell.appendChild  (deleteButton);
-    productsCell.appendChild(addProductSale);
+    // Funció per renderitzar la taula
+    function renderTable() {
+        console.log("Renderitzant taula...");
+        if (!tableBody) {
+            console.error("No s'ha trobat l'element tableBody");
+            return;
+        }
+        
+        tableBody.innerHTML = "";
+        
+        if (data.length === 0) {
+            const emptyRow = document.createElement("tr");
+            const emptyCell = document.createElement("td");
+            emptyCell.colSpan = 8;
+            emptyCell.textContent = "No hi ha ofertes per mostrar";
+            emptyCell.style.textAlign = "center";
+            emptyRow.appendChild(emptyCell);
+            tableBody.appendChild(emptyRow);
+            return;
+        }
+        
+        // Recorrem les dades i creem les files de la taula
+        data.forEach(function (item, index) {
+            const row            = document.createElement("tr");
+            const idCell         = document.createElement("td");
+            const ofertaCell     = document.createElement("td");
+            const percentajeCell = document.createElement("td");
+            const dataIniciCell  = document.createElement("td");
+            const dataFiCell     = document.createElement("td");
+            const couponCell     = document.createElement("td");
+            const actionCell     = document.createElement("td");
+            const productsCell   = document.createElement("td");
 
-    row.appendChild(idCell);
-    row.appendChild(ofertaCell);
-    row.appendChild(percentajeCell);
-    row.appendChild(dataIniciCell);
-    row.appendChild(dataFiCell);
-    row.appendChild(actionCell);
-    row.appendChild(productsCell);
+            const editButton     = document.createElement("button");
+            const deleteButton   = document.createElement("button");
+            const addProductSale = document.createElement("button");
 
-    tableBody.appendChild(row);
-  });
-}
-// Funció per anar a la pàgina de productes amb l'índex de l'oferta
-function goToProducts(index) {
-  window.location.href = `productsList.html?oferta=${index}`;
-}
-// Funció per anar a la pàgina d'edició amb l'índex de l'oferta
-function editData(index) {
-  window.location.href = `edit.html?edit=${index}`;
-}
+            idCell.textContent         = item.id || (index + 1);
+            ofertaCell.textContent     = item.description || item.oferta || "Sense nom";
+            percentajeCell.textContent = (item.discount_percent || item.percentaje || 0) + "%";
+            
+            // Formatejem les dates per mostrar-les millor
+            try {
+                const startDate = new Date(item.start_date || item.dataInici || "");
+                const endDate = new Date(item.end_date || item.dataFi || "");
+                
+                dataIniciCell.textContent  = !isNaN(startDate.getTime()) ? startDate.toLocaleDateString('ca-ES') : "No definida";
+                dataFiCell.textContent     = !isNaN(endDate.getTime()) ? endDate.toLocaleDateString('ca-ES') : "No definida";
+            } catch (e) {
+                dataIniciCell.textContent = "Error data";
+                dataFiCell.textContent = "Error data";
+            }
+            
+            couponCell.textContent     = item.coupon || "-";
 
-renderTable();
+            editButton.textContent = "Editar";
+            deleteButton.textContent = "Borrar";
+            addProductSale.textContent = "Productes aplicats";
+            
+            // Afegim els esdeveniments als botons
+            editButton.addEventListener("click", function () {
+                editData(index);
+            });
+
+            deleteButton.addEventListener("click", function () {
+                deleteData(index);
+            });
+            
+            // Botó per anar a la pàgina de productes amb l'índex de l'oferta
+            addProductSale.addEventListener("click", function () {
+                goToProducts(index);
+            });
+            
+            // Afegim les cel·les a la fila
+            actionCell.appendChild(editButton);
+            actionCell.appendChild(deleteButton);
+            productsCell.appendChild(addProductSale);
+
+            row.appendChild(idCell);
+            row.appendChild(ofertaCell);
+            row.appendChild(percentajeCell);
+            row.appendChild(dataIniciCell);
+            row.appendChild(dataFiCell);
+            row.appendChild(couponCell);
+            row.appendChild(actionCell);
+            row.appendChild(productsCell);
+
+            tableBody.appendChild(row);
+        });
+        
+        console.log("Taula renderitzada amb", data.length, "elements"); // Debug
+    }
+
+    // Funció per anar a la pàgina de productes amb l'índex de l'oferta
+    function goToProducts(index) {
+        window.location.href = `productsList.html?oferta=${index}`;
+    }
+
+    // Funció per anar a la pàgina d'edició amb l'índex de l'oferta
+    function editData(index) {
+        window.location.href = `edit.html?edit=${index}`;
+    }
+
+    // Renderitzem la taula
+    renderTable();
+});

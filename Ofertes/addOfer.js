@@ -5,19 +5,33 @@ document.addEventListener("DOMContentLoaded", function () {
   const percentajeInput = document.getElementById("percentajeInput"); // Input de percentatge
   const dataIniciInput  = document.getElementById("dataIniciInput"); // Input de data d'inici
   const datafiInput     = document.getElementById("datafiInput"); // Input de data de fi
+  const couponInput     = document.getElementById("couponInput"); // Input de cupó (nou)
 
   const params    = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
   const editIndex = params.get("edit"); // Obtenim l'índex de l'oferta a editar
 
-  let data = JSON.parse(localStorage.getItem("formData")) || []; // Recuperem les dades desades a localStorage
+  // Carreguem les dades de localStorage o de Sale
+  let data = JSON.parse(localStorage.getItem("saleData")) || Sale || [];
+
   // Si hi ha un índex d'edició, omplim els camps amb les dades existents
   if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
     const item            = data[editIndex];
-    ofertaInput.value     = item.oferta || "";
-    percentajeInput.value = item.percentaje || "";
-    dataIniciInput.value  = item.dataInici || "";
-    datafiInput.value     = item.dataFi || "";
+    ofertaInput.value     = item.description || item.oferta || "";
+    percentajeInput.value = item.discount_percent || item.percentaje || "";
+    dataIniciInput.value  = formatDateForInput(item.start_date || item.dataInici || "");
+    datafiInput.value     = formatDateForInput(item.end_date || item.dataFi || "");
+    if (couponInput) {
+      couponInput.value   = item.coupon || "";
+    }
   }
+
+  // Funció per formatar dates per input type="date"
+  function formatDateForInput(dateString) {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+
   // Funció per mostrar missatges d'error o èxit
   function mostrarMensaje(texto, tipo = "error") {
     let mensaje = document.getElementById("mensaje");
@@ -29,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     mensaje.textContent = texto;
     mensaje.style.color = tipo === "error" ? "red" : "green";
   }
+
   // Funció per validar l'oferta
   function validarOferta() {
     const valor = ofertaInput.value.trim();
@@ -40,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "";
   }
+
   // Funció per validar el percentatge
   function validarPercentaje() {
     const val = percentajeInput.value.trim();
@@ -61,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "";
   }
+
   // Funció per validar la data d'inici
   function validarDataInici() {
     if (!dataIniciInput.value) {
@@ -75,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "";
   }
+
   // Funció per validar la data de fi
   function validarDataFi() {
     if (!datafiInput.value) {
@@ -94,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return "";
   }
+
   // Gestor de l'esdeveniment de submissió del formulari
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -120,11 +139,15 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    // Creem l'objecte amb el format de Sale
     const newData = {
-      oferta: ofertaInput.value.trim(),
-      percentaje: percentajeInput.value.trim(),
-      dataInici: dataIniciInput.value,
-      dataFi: datafiInput.value,
+      id: editIndex !== null ? data[editIndex].id : data.length + 1,
+      description: ofertaInput.value.trim(),
+      discount_percent: Number(percentajeInput.value.trim()),
+      coupon: couponInput ? couponInput.value.trim() : "",
+      start_date: dataIniciInput.value + " 00:00:00",
+      end_date: datafiInput.value + " 23:59:59",
+      created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
     };
 
     if (editIndex !== null && !isNaN(editIndex)) {
@@ -135,7 +158,8 @@ document.addEventListener("DOMContentLoaded", function () {
       mostrarMensaje("Oferta afegida correctament!", "success");
     }
 
-    localStorage.setItem("formData", JSON.stringify(data));
+    // Guardem a localStorage
+    localStorage.setItem("saleData", JSON.stringify(data));
 
     setTimeout(() => (window.location.href = "listOfer.html"), 1200);
   });
