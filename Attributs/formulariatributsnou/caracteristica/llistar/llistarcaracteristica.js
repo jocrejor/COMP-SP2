@@ -14,7 +14,7 @@ function carregarDadesLocal() {
   let productos = JSON.parse(localStorage.getItem("productos")) || [];
   let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
   let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
-  let families = JSON.parse(localStorage.getItem("Family")) || (typeof Family !== "undefined" ? Family : []);
+  let families = JSON.parse(localStorage.getItem("Family")) || [];  
 
   let producto = productos.find(p => p.id == idSeleccionado);
   let contenedor = document.getElementById("detalle");
@@ -64,7 +64,7 @@ function carregarDadesLocal() {
  
     const btnEditar = document.createElement("button");
     mostrarTexto(btnEditar, "Modificar");
-    btnEditar.className = "btn btn-warning btn-sm me-2";
+    btnEditar.className = "btn btn-warning  me-2";
     btnEditar.addEventListener("click", () => {
       localStorage.setItem("atributoAEditar", caracteristica.attribute_id);
       window.location.href = "../modificar/modificarcaracteristica.html";

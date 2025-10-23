@@ -34,7 +34,7 @@ function validarnom () {
             error(element,"Has d'introduir un nom.");
         }
         if (element.validity.patternMismatch){
-            error(element, "El nom ha de tindre entre 2 i 20 caràcters.");
+            error(element, "El nom ha de tindre entre 2 i 100 caràcters.");
         }
         return false;
     }
@@ -48,7 +48,7 @@ function validarvalor () {
             error(element,"Has d'introduir un valor.");
         }
         if (element.validity.patternMismatch){
-            error(element, "El valor ha de tindre entre 2 i 20 caràcters.");
+            error(element, "El valor ha de tindre entre 2 i 255 caràcters.");
         }
         return false;
     }

@@ -18,9 +18,9 @@
     <div class="col-md-3"></div>
     <div class="col-md-6">
       <label for="nom" class="form-label fw-bold">Nom de la característica</label>
-      <input type="text" name="nom" id="nom" maxlength="15"
-             pattern="[A-Za-zÀ-ÿñÑ\s]{2,20}" 
-             title="Introdueix entre 2 i 20 lletres" 
+      <input type="text" name="nom" id="nom" maxlength="40"
+             pattern="[A-Za-zÀ-ÿñÑ\s]{2,100}" 
+             title="Introdueix entre 2 i 100 lletres" 
              required
              class="form-control"/>
     </div>
@@ -29,12 +29,16 @@
 <div class="col-md-3"></div>
 
     <div class="col-md-6 pt-2">
-      <label for="valor" class="form-label fw-bold">Valor</label>
-      <input type="text" name="valor" id="valor" maxlength="20" 
-             pattern="[A-Za-z\s]{2,20}" 
-             title="Introdueix entre 2 i 20 caracters" 
-             required
-             class="form-control"/>
+    <label for="valor" class="form-label fw-bold">Valor</label>
+<input type="text" 
+       name="valor" 
+       id="valor" 
+       maxlength="20" 
+       pattern="[A-Za-z0-9\s]{2,255}" 
+       title="Introdueix entre 2 i 255 caràcters (lletres o números)" 
+       required
+       class="form-control"/>
+
     </div>
     <div class="col-md-3"></div>
   </div>
