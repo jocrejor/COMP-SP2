@@ -37,6 +37,10 @@ function mostrarProductos(productosFiltrados) {
     a.textContent = "Ver producto";
     div.appendChild(a);
 
+    //Enlace para añadir al carrito
+    //const aCart = document.createElement("a");
+    //aCart.href = 
+
     const hr = document.createElement("hr");
     div.appendChild(hr);
 
