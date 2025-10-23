@@ -251,7 +251,7 @@ CREATE TABLE Register (
     user_agent VARCHAR(100) NOT NULL,
     client_id INT NOT NULL, 
     comparator_id INT NOT NULL,
-    favorite_id INT NOT NULL,
+    favorite_id INT ,
     date_start DATETIME,
     date_end DATETIME,
     CONSTRAINT fk_client_register_id FOREIGN KEY (client_id) REFERENCES Client(id),
