@@ -14,9 +14,29 @@ document.addEventListener("DOMContentLoaded", main)
 
 function main(){
     const productListTable = document.getElementById('productListTable')
-    productListTable.innerHTML = '<p>Carregant productes...</p>'
+
+    // Limpia el contenido actual
+    productListTable.innerHTML = '';
 
     // llegir productes del localStorage
+    const celda = document.createElement('tr');
+    const columna = document.createElement('td');
+    columna.colSpan = 5;
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     let storedProducts = localStorage.getItem('productes')? JSON.parse(localStorage.getItem('productes')) : Product
     localStorage.setItem('productes', JSON.stringify(storedProducts));
     let auxHtml = '';
