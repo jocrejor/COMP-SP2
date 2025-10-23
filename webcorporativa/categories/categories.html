@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories de Noticies</title>
+    <script src="categories.js"></script>
+</head>
+<body>
+    <h1>Llista de categories de notícies</h1>
+    <ol id="llista">
+        <!-- Les categories es mostraran ací -->
+    </ol>
+    <input type="hidden" id="index" value="-1">
+    <input type="text" id="category" placeholder="Nova categoria" maxlength="20" pattern="[A-Z][a-z]{1,19}" title="Introdueix de 2 a 20 lletres i començant amb Majúscules">
+    <button id="afegir">Afegir categoria</button>
+    <p id="missatgeError" style="color: red;"></p>
+</body>
+</html>
