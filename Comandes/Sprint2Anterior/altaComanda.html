@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta Comandes</title>
+    <title>Nou Comanda</title>
     <script src="altaComanda.js" defer></script>
 </head>
 <body>
     <h1>Alta Comanda</h1>
-
-    <!-- Container d'errors -->
-    <div id="missatgeError"></div>
 
     <form id="pedidoForm">
         <table border="1" cellpadding="4" cellspacing="0">
@@ -31,7 +28,7 @@
             </tr>
             <tr>
                 <td><label for="shipping">Despeses d'enviament:</label></td>
-                <td><input type="number" id="shipping" name="shipping" min="0" max="500" step="0.01" required></td>
+                <td><input type="number" step="0.01" id="shipping" name="shipping_amount" value="0.00"></td>
             </tr>
             <tr>
                 <td><label for="client">Client:</label></td>
@@ -44,8 +41,8 @@
             </tr>
         </table>
 
-        <hr>
-        <h3>Afegir producte</h3>
+        <hr size="1" noshade>
+        <h3>Productes</h3>
         <table border="1" cellpadding="4" cellspacing="0" width="50%" id="productsTable">
             <thead>
                 <tr>
@@ -65,21 +62,17 @@
                         </select>
                     </td>
                     <td><input type="number" name="quantity[]" min="1" required></td>
-                    <td><input type="number" step="0.01" name="price[]" min="0" required></td>
-                    <td><input type="number" step="0.01" name="discount[]" min="0" value="0.00"></td>
-                    <td><button type="button" class="addProduct">Afegir</button></td>
+                    <td><input type="number" step="0.01" name="price[]" required></td>
+                    <td><input type="number" step="0.01" name="discount[]" value="0.00"></td>
+                    <td><button type="button" class="removeProduct">Eliminar</button></td>
                 </tr>
             </tbody>
         </table>
 
-        <!-- Secció de productes afegits -->
-        <div id="productesAfegits">
-            <h4>Productes a afegint-se</h4>
-        </div>
-
-        <br>
+        <button type="button" id="addProduct">Afegir Producte</button>
+        <br><br>
         <button type="submit">Guardar Comanda</button>
-        <button type="button" id="llista">Llista Comandes</button>
+        <button type="button" id="afegir">Llista Comandes</button>
     </form>
 </body>
 </html>

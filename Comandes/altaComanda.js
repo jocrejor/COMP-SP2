@@ -1,126 +1,121 @@
-// Esperem que el DOM estiga carregat
-document.addEventListener("DOMContentLoaded", () => {
+window.onload = iniciar;
 
-    let form = document.getElementById("pedidoForm");
-    let llistaBtn = document.getElementById("afegir");
-    let addProductBtn = document.getElementById("addProduct");
-    let productsTable = document.getElementById("productsTable").getElementsByTagName("tbody")[0];
+function iniciar() {
+    const form = document.getElementById("pedidoForm");
+    form.addEventListener("submit", validar, false);
 
- // Funció per mostrar missatges
-    function showMessage(text, color = "red") {
-        let messageBox = document.getElementById("message-box");
-        if (!messageBox) {
-            messageBox = document.createElement("div");
-            messageBox.id = "message-box";
-            messageBox.style.marginTop = "10px";
-            messageBox.style.fontWeight = "bold";
-            form.appendChild(messageBox);
-        }
-        messageBox.textContent = text;
-        messageBox.style.color = color;
-    }
-
-    // Funció per afegir una nova línia de producte
-    function addProductLine() {
-        let firstLine = document.querySelector(".product-line");
-        let newLine = firstLine.cloneNode(true);
-
-        // Netejar valors
-        //NewLine es una nova fila de producte creada a partir d'una còpia de la primera fila, amb els camps buits i el boto per a eliminar-la
-        newLine.querySelector("select[name='product_id[]']").value = "";
-        newLine.querySelector("input[name='quantity[]']").value = "";
-        newLine.querySelector("input[name='price[]']").value = "";
-        newLine.querySelector("input[name='discount[]']").value = "0.00";
-
-        productsTable.appendChild(newLine);
-
-        // Afegim al botó eliminar de la nova línia
-        let removeBtn = newLine.querySelector(".removeProduct");
-        removeBtn.addEventListener("click", () => removeProductLine(newLine));
-    }
-
-    // Funció per eliminar una línia de producte
-    function removeProductLine(row) {
-        let allRows = productsTable.getElementsByClassName("product-line");
-        if (allRows.length > 1) {
-            productsTable.removeChild(row);
-        } else {
-            showMessage("Ha de quedar almenys una línia de producte!");
-        }
-    }
-
-    // Afegir al primer botó eliminar existent
-    let firstRemoveBtn = document.querySelector(".product-line .removeProduct");
-    firstRemoveBtn.addEventListener("click", () => {
-        let row = firstRemoveBtn.closest("tr");
-        removeProductLine(row);
+    const addButtons = document.getElementsByClassName("addProduct");
+    Array.from(addButtons).forEach(btn => {
+        btn.addEventListener("click", afegirProducte, false);
     });
 
-    // Per afegir línia nova
-    addProductBtn.addEventListener("click", addProductLine);
+    document.getElementById("llista").addEventListener("click", function () {
+        window.location.href = 'comandesLlistar.html';
+    });
+}
 
-    // Enviar formulari
-    form.addEventListener("submit", (e) => {
+// Mostrar missatge d’error
+function error(element, missatge) {
+    let container = document.getElementById("missatgeError");
+    let miss = document.createTextNode(missatge);
+    container.appendChild(miss);
+    container.appendChild(document.createElement("br"));
+    element.classList.add("error");
+    element.focus();
+}
+
+// Netejar errors
+function esborrarError() {
+    const container = document.getElementById("missatgeError");
+    container.textContent = "";
+    let formulari = document.getElementById("pedidoForm");
+    for (let i = 0; i < formulari.elements.length; i++) {
+        formulari.elements[i].classList.remove("error");
+    }
+}
+
+// Validar despeses d'enviament
+function validarShipping() {
+    const element = document.getElementById("shipping");
+    if (!element.checkValidity()) {
+        if (element.validity.valueMissing) error(element, "Deus d'introduïr les despeses d'enviament.");
+        if (element.validity.rangeOverflow || element.validity.rangeUnderflow) error(element, "Les despeses han d'estar entre 0 i 500.");
+        if (element.validity.patternMismatch) error(element, "El format ha de ser 0.00 amb màxim 2 decimals.");
+        return false;
+    }
+    return true;
+}
+
+// Validar productes (quantitat i descompte)
+function validarProductes() {
+    const quantities = document.getElementsByName("quantity[]");
+    const discounts = document.getElementsByName("discount[]");
+    let valid = true;
+
+    for (let i = 0; i < quantities.length; i++) {
+        const q = quantities[i];
+        const d = discounts[i];
+
+        if (!q.checkValidity()) {
+            if (q.validity.valueMissing) error(q, "Deus d'introduïr una quantitat.");
+            if (q.validity.rangeUnderflow) error(q, "La quantitat ha de ser >= 1.");
+            valid = false;
+        }
+        if (!d.checkValidity()) {
+            error(d, "El descompte ha de ser >=0 amb màxim 2 decimals.");
+            valid = false;
+        }
+    }
+
+    return valid;
+}
+
+// Afegir producte
+function afegirProducte(e) {
+    const button = e.target;
+    const row = button.closest("tr");
+
+    const productSelect = row.querySelector("select[name='product_id[]']");
+    const quantityInput = row.querySelector("input[name='quantity[]']");
+    const priceInput = row.querySelector("input[name='price[]']");
+    const discountInput = row.querySelector("input[name='discount[]']");
+
+    esborrarError();
+
+    if (!quantityInput.checkValidity()) { error(quantityInput, "La quantitat ha de ser >= 1."); return; }
+    if (!priceInput.checkValidity()) { error(priceInput, "El preu ha de ser >= 0 amb màxim 2 decimals."); return; }
+    if (!discountInput.checkValidity()) { error(discountInput, "El descompte ha de ser >=0 amb màxim 2 decimals."); return; }
+
+    const orderSection = document.getElementById("productesAfegits");
+    const div = document.createElement("div");
+    div.textContent = `${productSelect.options[productSelect.selectedIndex].text} - Quantitat: ${quantityInput.value} - Preu: ${parseFloat(priceInput.value).toFixed(2)}€ - Descompte: ${parseFloat(discountInput.value).toFixed(2)}€`;
+    orderSection.appendChild(div);
+
+    quantityInput.value = "";
+    priceInput.value = "";
+    discountInput.value = "0.00";
+}
+
+// Validació global
+function validar(e) {
+    esborrarError();
+    const orderSection = document.getElementById("productesAfegits");
+
+    if (!validarShipping() || !validarProductes()) {
         e.preventDefault();
-    form.querySelector("button[type='submit']").disabled = true;
+        return false;
+    }
 
-        let date = document.getElementById("date").value;
-        let payment = document.getElementById("payment").value;
-        let shipping = parseFloat(document.getElementById("shipping").value) || 0;
-        let client = document.getElementById("client").value;
+    if (orderSection.children.length <= 1) { // només té el títol
+        alert("Cal afegir almenys un producte a la comanda.");
+        e.preventDefault();
+        return false;
+    }
 
-        let products = [];
-        let allLines = document.getElementsByClassName("product-line");
-
-        for (let i = 0; i < allLines.length; i++) {
-            let line = allLines[i];
-            let product_id = line.querySelector("select[name='product_id[]']").value;
-            let quantity = parseInt(line.querySelector("input[name='quantity[]']").value) || 0;
-            let price = parseFloat(line.querySelector("input[name='price[]']").value) || 0;
-            let discount = parseFloat(line.querySelector("input[name='discount[]']").value) || 0;
-
-            products.push({ product_id, quantity, price, discount });
-        }
-    
-        //Missatge
-        if (products.length === 0) {
-             showMessage("Has d’afegir almenys un producte!", "red");
-            return;
-        }
-
-        let total = 0;
-        for (let i = 0; i < products.length; i++) {
-            let p = products[i];
-            total += (p.quantity * p.price) - p.discount;
-        }
-        total += shipping;
-
-        let pedido = {
-            id: Date.now(),
-            date,
-            payment,
-            shipping,
-            client,
-            total,
-            products
-        };
-
-        // Guardar al localStorage
-        let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-        pedidos.push(pedido);
-        localStorage.setItem("pedidos", JSON.stringify(pedidos));
-
-         showMessage("Comanda guardada ✅", "green");
-
-        // Redirigir després de 1 segons
-        setTimeout(() => {
-            window.location.href = "comandesLlistar.html";
-        }, 1000);
-    });
-
-    // Botó per anar a la llista de comandes
-    llistaBtn.addEventListener("click", () => {
-        window.location.href = "comandesLlistar.html";
-    });
-
-});
+    if (confirm("Confirma si vols enviar el formulari")) {
+        alert("Comanda guardada correctament!");
+        window.location.href = 'comandesLlistar.html';
+    }
+    e.preventDefault();
+    return false;
+}
