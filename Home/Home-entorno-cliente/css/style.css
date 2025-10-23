@@ -31,3 +31,25 @@ a{
     margin-right: 5%;
     gap: 10px;
 }
+
+/*Estilos del main*/
+.main{
+    display: flex;
+}
+
+.aside{
+    width: 15%;
+    height: auto;
+
+    background-color: lightgray;
+}
+
+.productList{
+    width: 85%;
+    height: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    padding: 20px;
+}

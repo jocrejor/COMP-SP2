@@ -7,26 +7,42 @@
 
 </head>
 <body>
-  <header class="header">
+  <header class="header"> <!--Aqui esta lo relacionado con el carrito y el registrarse-->
     <div class="containerTitul">
       <h1 class="titulHome">Benvinguts a la tenda fake</h1>
     </div>
     <div class="containerBotons">
-      <button class="utilBotons"><a href="/Usuaris/altaUsuaris.html">Registrat</a></button>
+      <button class="utilBotons"><a href="/Usuaris/altaUsuaris.html">Inici sesio</a></button>
       <button class="utilBotons"><a href="/Carret/carret.html">Carret</a></button>
     </div>
   </header>
+  <main class="main"><!--Aqui van a ir todos los productos-->
+    <aside class="aside"> <!--Aqui estran todo lo relacionado con el filtrado por familia-->
+      <h4>Filtrar per familia:</h4>
+      <select id="familyFilter">
+        <option value="all">Totes les families</option>
+        <option value="all">Familia1</option>
+        <option value="all">Familia2</option>
+        <option value="all">Familia3</option>
+        <option value="all">Familia4</option>
+      </select>
+    </aside>
+  
+    <div id="productList" class="productList">
+      <!-- Los productos se cargarán aquí mediante JavaScript -->
 
+    </div>
+    
+  </main>
+  <div>
+      <a href="contact.html"> Ir a la página de contacto</a>
+      <a href="/Carret/carret.html">Veure carret</a>
+      <br>
+      <a href="">Ver perfil</a>
+    </div>
+  <footer>
 
-  <div id="productList">
-
-  </div>
-
-  <a href="contact.html"> Ir a la página de contacto</a>
-  <a href="/Carret/carret.html">Veure carret</a>
-  <br>
-  <a href="">Ver perfil</a>
-
+  </footer>
   <script src="js/productosHome.js"></script>
   <script src="js/home.js"></script>
 </body>

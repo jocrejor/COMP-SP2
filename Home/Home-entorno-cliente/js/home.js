@@ -16,6 +16,7 @@ function mostrarProductos(productosFiltrados) {
     img.src = product.image;
     img.alt = product.name;
     img.width = 150;
+    img.height = 150;
     div.appendChild(img);
 
     // Nombre
