@@ -21,10 +21,10 @@ function main() {
             }
 
             // Reiniciar el formulari
-            document.getElementById("nom").value = "";
-            document.getElementById("familia_de").value = "";
+            document.getElementById("nom").value = item.name;
+            document.getElementById("familia_de").value = item.parentID;
             document.getElementById("index").value = "-1";
-            document.getElementById("descripcio").value = "";
+            document.getElementById("descripcio").value = item.description;
             document.getElementById("imatge").value = "";
             actualitzarSelect();
             mostrarFamilies();
@@ -57,20 +57,20 @@ function mostrarFamilies() {
     let aux = "";
     arrFamilia.forEach((item, index) => {
         let familiaDeText =
-            item.familia_de !== "" && item.familia_de !== null && item.familia_de !== undefined
-                ? arrFamilia[parseInt(item.familia_de)]?.nom || ""
+            item.parentID !== "" && item.parentID !== null && item.parentID !== undefined
+                ? arrFamilia[parseInt(item.parentID)]?.name || ""
                 : "";
 
-        let imgHTML = item.imatge
-            ? `<img src="${item.imatge}" alt="imatge" style="max-width: 100px; max-height: 100px;" />`
+        let imgHTML = item.image
+            ? `<img src="${item.image}" alt="image" style="max-width: 100px; max-height: 100px;" />`
             : "";
 
         aux += `<tr>
-                    <td>${imgHTML}</td>
-                    <td>${item.nom}</td>
-                    <td>${item.descripcio}</td>
-                    <td>${familiaDeText}</td>
-                    <td>
+            <td>${imgHTML}</td>
+            <td>${item.name}</td>
+            <td>${item.description}</td>
+            <td>${familiaDeText}</td>
+                                <td>
                         <button onclick='esborrar(${index})'>Del</button>
                         <button onclick='actualitzar(${index})'>Upd</button>
                     </td>
@@ -109,7 +109,7 @@ function actualitzarSelect() {
     arrFamilia.forEach((item, index) => {
         const opcio = document.createElement("option");
         opcio.value = index;
-        opcio.textContent = item.nom;
+        opcio.textContent = item.name;
         select.appendChild(opcio);
     });
 }
@@ -119,10 +119,10 @@ function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
         const reader = new FileReader();
         reader.onload = function (e) {
             const familia = {
-                nom,
-                familia_de,
-                descripcio,
-                imatge: e.target.result
+                "name": nom,
+                "parentID": familia_de,
+                "description": descripcio,
+                "image": e.target.result
             };
             if (index === null) {
                 arrFamilia.push(familia);
@@ -136,10 +136,10 @@ function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
         reader.readAsDataURL(archivo);
     } else {
         const familia = {
-            nom,
-            familia_de,
-            descripcio,
-            imatge: index !== null ? (arrFamilia[index].imatge || "") : ""
+            "name": nom,
+            "parentID": familia_de,
+            "description": descripcio,
+            "image": index !== null ? (arrFamilia[index].imatge || "") : ""
         };
         if (index === null) {
             arrFamilia.push(familia);
@@ -151,6 +151,7 @@ function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
         mostrarFamilies();
     }
 }
+
 
 /* ---------------- VALIDACIONS ---------------- */
 
