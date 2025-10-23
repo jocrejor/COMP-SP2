@@ -1,0 +1,93 @@
+/* style.css - Versión simple y limpia sin variables */
+body {
+  margin: 24px;
+  font-family: Arial, sans-serif;
+  background: #f5f6fa;
+  color: #111;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background: #eef2ff;
+  color: #555;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+td img {
+  max-width: 80px;
+  max-height: 80px;
+  border-radius: 6px;
+}
+
+/* Formulari */
+input[type="text"],
+textarea,
+select,
+input[type="file"] {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* Botons */
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #1e4ed8;
+}
+
+td > button {
+  background: #f3f4f6;
+  color: #111;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+td > button:hover {
+  background: #e0e0e0;
+}
+
+#alerta {
+  margin-top: 10px;
+  color: #dc2626;
+  font-weight: bold;
+}
