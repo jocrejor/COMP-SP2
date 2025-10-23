@@ -71,7 +71,7 @@ function validarNom() {
             error(element, "Has d'introduïr un nom.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom ha de tindre entre 2 i 15 lletres.");
+            error(element, "El nom ha de tindre entre 2 i 100 caràcters.");
         }
         return false;
     }
@@ -86,7 +86,7 @@ function validarnomUsuari() {
             error(element, "Has d'introduïr un nom d'Usuari.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom d'Usuari ha de tindre entre 2 i 15 lletres.");
+            error(element, "El nom te que estar entre 3 i 100 caràcters.");
         }
         return false;
     }
@@ -102,6 +102,9 @@ function validarCorreu() {
         }
         if (element.validity.typeMismatch) {
             error(element, "Introdueix un correu electrònic vàlid.");
+        }
+        if (element.validity.patternMismatch) {
+            error(element, "L'email te que estar entre 2 i 100 caràcters.");
         }
         return false;
     }
@@ -145,12 +148,12 @@ function validar(e) {
 function afegirUsuari() {
     // Crear objecte nou usuari.
     let nouUsuari = {
-        id: idCounter++,
-        username: document.getElementById("nomUsuari").value,
-        name: document.getElementById("nom").value,
-        email: document.getElementById("correu").value,
-        password: document.getElementById("contrasenya").value,
-        rol: document.getElementById("rol").value
+        "id": idCounter++,
+        "name": document.getElementById("nom").value,
+        "email": document.getElementById("correu").value,
+        "nickname": document.getElementById("nomUsuari").value,
+        "password": document.getElementById("contrasenya").value,
+        "rol_id": Number(document.getElementById("rol").value)
     };
     
     // Afegir a l'array.
@@ -170,11 +173,11 @@ function actualitzarUsuari() {
     
     if (index !== -1) {
         // Actualitzar les dades de l'usuari.
-        usuaris[index].username = document.getElementById("nomUsuari").value;
         usuaris[index].name = document.getElementById("nom").value;
         usuaris[index].email = document.getElementById("correu").value;
+        usuaris[index].nickname = document.getElementById("nomUsuari").value;
         usuaris[index].password = document.getElementById("contrasenya").value;
-        usuaris[index].rol = document.getElementById("rol").value;
+        usuaris[index].rol_id = Number(document.getElementById("rol").value);
         
         // Desa a localStorage.
         guardarUsuaris();
@@ -191,16 +194,16 @@ function editarIdUsuari(id) {
     const usuari = usuaris.find(u => u.id === id);
     if (usuari) {
         // Emplenar el formulari amb les dades de l'usuari existent.
-        document.getElementById("nomUsuari").value = usuari.username;
         document.getElementById("nom").value = usuari.name;
         document.getElementById("correu").value = usuari.email;
+        document.getElementById("nomUsuari").value = usuari.nickname;
         document.getElementById("contrasenya").value = usuari.password;
         
         // Assegurar-se que el selector de rols està actualitzat.
         actualitzarSelectorRolsHTML();
         
         // Establir el rol de l'usuari.
-        document.getElementById("rol").value = usuari.rol;
+        document.getElementById("rol").value = usuari.rol_id;
         
         // Canviar el text del botó per indicar que s'està editant.
         document.getElementById("enviar").value = "Actualitzar";

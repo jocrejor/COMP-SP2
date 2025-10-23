@@ -20,26 +20,26 @@
             <tr>
                 <td>Nom d'usuari:</td>
                 <td>
-                    <!-- Camp amb validació per nom d'usuari (2-15 lletres) -->
-                    <input type="text" name="nomUsuari" id="nomUsuari" maxlength="15" 
-                           pattern="[A-Za-z\s]{2,15}" 
-                           title="Introdueix entre 2 i 15 lletres" required/>
+                    <!-- Camp amb validació per nom d'usuari (2-100 lletres) -->
+                    <input type="text" name="nomUsuari" id="nomUsuari"
+                           pattern="[A-Za-z\s]{3,100}" required/>
                 </td>
             </tr>
             <tr>
                 <td>Nom:</td>
                 <td>
                     <!-- Camp per al nom real amb la mateixa validació que nomUsuari -->
-                    <input type="text" name="nom" id="nom" maxlength="15" 
-                           pattern="[A-Za-z\s]{2,15}" 
-                           title="Introdueix entre 2 i 15 lletres" required/>
+                    <input type="text" name="nom" id="nom"
+                           pattern="[A-Za-z\s]{3,100}" required/>
                 </td>
             </tr>
             <tr>
                 <td>Correu:</td>
                 <td>
                     <!-- Camp de correu electrònic amb validació nativa d'HTML5 -->
-                    <input type="email" name="correu" id="correu" required/>
+                    <input type="email" name="correu" id="correu" 
+                           pattern="{5,100}" 
+                           title="L'email te que estar entre 2 i 100 lletres" required/>
                 </td>
             </tr>
             <tr>
@@ -47,17 +47,16 @@
                 <td>
                     <!-- Camp de contrasenya amb botó per mostrar/amagar -->
                     <input type="password" name="contrasenya" id="contrasenya" 
-                           maxlength="15" required/>
+                    pattern="{5,30}" required/>
                     <button type="button" id="botoContrasenya">👁️</button>
                 </td>
             </tr>
             <tr>
                 <td>Rol:</td>
                 <td>
-                    <!-- Selector de rol (Usuari/Admin) -->
+                    <!-- Selector de rol -->
                     <select id="rol">
-                    <option value="Usuari">Usuari</option>
-                    <option value="Admin">Admin</option>                    
+                        <option value=""></option>                
                     </select>
                 </td> 
             </tr>
@@ -72,7 +71,7 @@
         </table>
 
         <!-- Àrea per mostrar missatges d'error a l'usuari -->
-        <div id="missatgeError"></div>
+        <div id="missatgeError" style="color:red;"></div>
     </form>
 </body>
 </html>

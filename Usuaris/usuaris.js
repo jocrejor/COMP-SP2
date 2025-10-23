@@ -2,11 +2,10 @@ document.addEventListener("DOMContentLoaded", main);
 
 // Array per emmagatzemar els usuaris.
 let usuaris = [];
+let rols = [];
 
 // Funció per iniciar els esdeveniments de la pàgina
 function main() { 
-
-    usuaris = JSON.parse(localStorage.getItem('usuaris')) || User;
 
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
@@ -21,38 +20,16 @@ function main() {
         window.location.href='rols.html';
     });
 
+    rols = JSON.parse(localStorage.getItem('rols')) || Rol;
+    usuaris = JSON.parse(localStorage.getItem('usuaris')) || User;
     mostrarUsuaris();
-}
-
-// Funció per carregar els usuaris des del localStorage.
-function carregarUsuaris() {
-    const usuarisGuardats = localStorage.getItem('usuaris');
-    if (usuarisGuardats) {
-        usuaris = JSON.parse(usuarisGuardats);
-    } else {
-        // Agafar dades del array global User i Rol només si no existeix localStorage
-        usuaris = [];
-        for (let i = 0; i < User.length; i++) {
-            const u = User[i];
-            const roleObj = Rol.find(r => r.id === u.rol_id);
-            // Traducció de les propietats a anglès
-            usuaris.push({
-                id: u.id,
-                username: u.nickname,
-                email: u.email,
-                name: u.name,
-                role: roleObj ? roleObj.name : 'Unknown'
-            });
-        }
-    }
-    guardarUsuaris();
 }
 
 // Funció per mostrar tots els usuaris en una taula HTML.
 function mostrarUsuaris() {
     const llista = document.getElementById('llistaUsuaris');
 
-    // Buidar contingut anterior sense usar innerHTML
+    // Buidar contingut anterior
     llista.replaceChildren();
 
     // Si no hi ha usuaris
@@ -83,11 +60,17 @@ function mostrarUsuaris() {
         const fila = document.createElement('tr');
 
         // Camps bàsics (adaptats a les claus en anglès)
-        ['id', 'username', 'email', 'name', 'role'].forEach(clau => {
+        ['id', 'nickname', 'email', 'name'].forEach(clau => {
             const td = document.createElement('td');
             td.textContent = usuari[clau];
             fila.appendChild(td);
         });
+        
+        // Introduim també el rol de cada usuari
+        const rol = rols.find(r => r.id === usuari.rol_id);
+        const tdRol = document.createElement('td');
+        tdRol.textContent = rol.name;
+        fila.appendChild(tdRol);
 
         // Cel·la d'accions
         const accionsTd = document.createElement('td');
