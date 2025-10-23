@@ -10,14 +10,14 @@ let nombreCity = "";
 
 // Funció principal: s'executa al carregar la pàgina
 function main() {
-  // Obtenim la URL actual i n’extraiem els paràmetres
+  // Obtenim la URL actual i n'extraiem els paràmetres
   let urlProvince = window.location.href;
   let separaParts = urlProvince.split("?");
   let parametrosCity = separaParts[1].split("&");
 
   // Guardem país i província
-  nombreCountry = parametrosCity[0].split("=")[1];
-  nombreProvince = parametrosCity[1].split("=")[1];
+  nombreCountry = decodeURIComponent(parametrosCity[0].split("=")[1]);
+  nombreProvince = decodeURIComponent(parametrosCity[1].split("=")[1]);
 
   // Mostrem país i província seleccionats al títol
   document.getElementById("id_country").textContent =
@@ -29,7 +29,7 @@ function main() {
   let botoTorna = document.getElementById("torna");
   botoTorna.addEventListener("click", () => {
     window.location.href =
-      "../provincia/provinciaLocalitzacio.html?country=" + nombreCountry;
+      "../provincia/provinciaLocalitzacio.html?country=" + encodeURIComponent(nombreCountry);
   });
 
   // Inicialitzem el botó Afegir / Actualitzar
@@ -44,7 +44,7 @@ function main() {
   // Mostrem les dades inicials
   mostrarLlista();
 
-  // Event per al botó d’afegir/actualitzar
+  // Event per al botó d'afegir/actualitzar
   afegirButton.addEventListener("click", () => {
     let validar = validarCiutat();
     if (validar === false) return;
@@ -72,7 +72,7 @@ function crearPoblacio() {
     return;
   }
 
-  // Afegim l’objecte amb país, província i ciutat
+  // Afegim l'objecte amb país, província i ciutat
   llista.push({ country: nombreCountry, province: nombreProvince, city: city });
   localStorage.setItem("localitzacioPoblacio", JSON.stringify(llista));
 }
@@ -127,7 +127,7 @@ function esborrarPoblacio(index) {
   mostrarLlista();
 }
 
-// Validacions de la ciutat abans d’afegir o actualitzar
+// Validacions de la ciutat abans d'afegir o actualitzar
 function validarCiutat() {
   let city = document.getElementById("city");
   let senseEspai = city.value.trim().toLowerCase();

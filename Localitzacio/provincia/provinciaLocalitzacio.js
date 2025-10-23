@@ -10,7 +10,7 @@ function main() {
   // Recuperem el nom del país de la URL
   const urlCountry = window.location.href;
   let partes = urlCountry.split("=");
-  nombreCountry = partes[1];
+  nombreCountry = decodeURIComponent(partes[1]);
 
   // Mostrem el país seleccionat a l'encapçalament
   document.getElementById("id").textContent =
@@ -28,7 +28,7 @@ function main() {
   // Mostrem les províncies associades al país actual
   mostrarLlista();
 
-  // Afegim l’escoltador del botó Afegir/Actualitzar
+  // Afegim l'escoltador del botó Afegir/Actualitzar
   afegirButton.addEventListener("click", () => {
     let valida = validarProvincia(); // Comprovem que el nom és vàlid
     if (valida === false) return;
@@ -91,9 +91,9 @@ function mostrarLlista() {
         ")'>Modificar</button>" +
         llista[i].province +
         "<a href='../poblacio/poblacioLocalitzacio.html?country=" +
-        nombreCountry +
+        encodeURIComponent(nombreCountry) +
         "&province=" +
-        llista[i].province +
+        encodeURIComponent(llista[i].province) +
         "'>" +
         "<button>Població</button></a>" +
         "</li>";
@@ -109,7 +109,7 @@ function actualitzar(index) {
   console.log(llista[index]);
   document.getElementById("index").value = index;
   document.getElementById("province").value = llista[index].province;
-  accio = "Actualitzar"; // Canviem l’estat del botó
+  accio = "Actualitzar"; // Canviem l'estat del botó
   const afegirButton = document.getElementById("afegir");
   afegirButton.textContent = accio;
 }
@@ -121,7 +121,7 @@ function esborrarprovince(index) {
   mostrarLlista(); // Refresquem la vista
 }
 
-// Validació del nom de la província abans d’afegir o modificar
+// Validació del nom de la província abans d'afegir o modificar
 function validarProvincia() {
   let province = document.getElementById("province");
 
