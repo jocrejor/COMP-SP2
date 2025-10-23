@@ -57,7 +57,7 @@ function mostrarLlista() {
     let aux = "";
     
     categories.forEach((item, index) => {
-        aux += "<li><button onclick='esborrar(" + index + ")'>Del</button><button onclick='actualitzar(" + index + ")'>Upd</button> " + item + "</li>";
+        aux += "<li><button onclick='esborrar(" + index + ")'>Esborrar</button><button onclick='actualitzar(" + index + ")'>Modificar</button> " + item + "</li>";
     });
 
     visualitzarLlista.innerHTML = aux;
