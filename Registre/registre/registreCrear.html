@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Alta de clients</title>
     <script src="../../BBDD/TendaFakeDades.js" defer></script>
+    <script src="../../BBDD/Location.js" defer></script>
     <script src="./registreModificar.js" defer></script>
 </head>
 
@@ -71,8 +72,6 @@
         <label for="country_id">País:</label><br>
         <select id="country_id" name="country_id" required>
             <option value="">Selecciona un país</option>
-            <option value="Espanya">Espanya</option>
-
         </select><br>
 
         <label for="province_id">Província:</label><br>
@@ -92,12 +91,14 @@
         <span class="error" id="error_password"></span>
 
 
-        <label for="repetir">Repetir contrasenya:</label><br>
-        <input type="password" id="repetir" required><br><br>
+        <label for="repetir_password">Repetir contrasenya:</label><br>
+        <input type="password" id="repetir_password" required><br><br>
+        <span class="error" id="error_repetir_password"></span>
+
 
 
         <button id="alta" type="submit">Alta</button>
-        <button id="torna">Torna</button>
+        <button id="area" type="button">Àrea personal</button>
 
     </form>
 

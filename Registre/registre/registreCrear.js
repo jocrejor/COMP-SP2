@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
+    cargarLocation();
     const form = document.getElementById("formClient");
 
     form.addEventListener("submit", function (event) {
@@ -25,7 +26,7 @@ function main() {
         let province_id = document.getElementById("province_id").value;
         let city_id = document.getElementById("city_id").value;
         let password = document.getElementById("password").value;
-        //let repetir = document.getElementById("repetir").value;
+        let repetir_password = document.getElementById("repetir_password").value;
         
         if(!validarDni(taxid, taxidtype)){
             
@@ -48,6 +49,7 @@ function main() {
     document.getElementById("error_address").textContent = "";
     document.getElementById("error_cp").textContent = "";
     document.getElementById("error_password").textContent = "";
+    document.getElementById("error_repetir_password").textContent = "";
 
     // Validacions del HTML
     if (!form.checkValidity()) {
@@ -106,6 +108,13 @@ function main() {
             let errorTextPassword = document.createTextNode("La contrasenya no ès vàlida");
             error_password.appendChild(errorTextPassword);
         }
+
+        if(!document.getElementById("repetir_password").checkVisibility()){
+            let error_repetir_password = document.getElementsByName("error_repetir_password");
+            error_repetir_password.textContent = "";
+            let errorTextRepetirPassword = document.createTextNode("Les contrasenyes no coincideixen");
+            error_repetir_password.appendChild(errorTextRepetirPassword);
+        }
         return false;
     }
     return true;    
@@ -122,4 +131,19 @@ function validarDni(taxid, taxidtype){
         return /^[a-z]{3}[0-9]{6}[a-z]?$/i.test(taxid);
     }
     return false;
+}
+
+// Funció per carregar les dades de localització
+function cargarLocation (){
+    const countrySelect = document.getElementById("country_id");
+    const provinceSelect = document.getElementById("province_id");
+    const citySelect = document.getElementById("city_id");
+
+    // Carreguem els paisos
+    Country.forEach(element => {
+        let option = document.createElement("option");
+        option.value = element.id;
+        option.textContent = element.name;
+        countrySelect.appendChild(option);
+    });
 }
