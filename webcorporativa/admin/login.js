@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if(validarCredencials(usuari, contrasenya)) {
-            window.location.href = '/dashboard/dashboard.html';
+            window.location.href = 'admin/dashboard/dashboard.html';
         }
     });
 });
