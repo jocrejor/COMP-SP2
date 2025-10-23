@@ -2,13 +2,12 @@ document.addEventListener("DOMContentLoaded", main);
 
 // Variables globals.
 let usuaris = []; // Array per emmagatzemar tots els usuaris
-let rols = ['Usuari', 'Admin']; // Rols per defecte.
+let rols = []; // Rols per defecte.
 let idCounter = 1; // Comptador per assignar IDs únics
 let editantId = null; // Guarda l'ID de l'usuari que s'està editant
 
 // Funció per iniciar els esdeveniments de la pàgina.
 function main () {
-
     // Configuració del botó de tornar a la pàgina d'usuaris
     const usuarisButton= document.getElementById("usuaris");
     
@@ -20,9 +19,10 @@ function main () {
     document.getElementById("enviar").addEventListener("click", validar, false);
     document.getElementById("botoContrasenya").addEventListener("click", mostrarContrasenya, false);
     
-    // Carregar dades del localStorage en iniciar.
+    // Carreguem els usuaris
     carregarUsuaris();
-    carregarRols();
+    // Carreguem els rols
+    rols = JSON.parse(localStorage.getItem('rols')) || Rol;
     
     // Actualitzar el selector de rols.
     actualitzarSelectorRolsHTML();
@@ -35,36 +35,25 @@ function main () {
     }
 } 
 
-// Funció per carregar els rols del localStorage.
-function carregarRols() {
-    const rolsGuardats = localStorage.getItem('rols');
-    if (rolsGuardats) {
-        rols = JSON.parse(rolsGuardats);
-    }
-}
-
 // Funció per carregar els usuaris des del localStorage.
 function carregarUsuaris() {
-    const usuarisGuardats = localStorage.getItem('usuaris');
-    if (usuarisGuardats) {
-        usuaris = JSON.parse(usuarisGuardats);
-        // Trobar l'ID més alt per continuar des d'allà.
-        if (usuaris.length > 0) {
-            idCounter = Math.max(...usuaris.map(u => u.id)) + 1;
-        }
+    usuaris = JSON.parse(localStorage.getItem('usuaris')) || User;
+    // Trobar l'ID més alt per continuar des d'allà.
+    if (usuaris.length > 0) {
+        idCounter = Math.max(...usuaris.map(u => u.id)) + 1;
     }
 }
 
 // Funció per actualitzar el selector de rols al HTML.
 function actualitzarSelectorRolsHTML() {
     const selectorRol = document.getElementById("rol");
-    selectorRol.innerHTML = ''; // Netejar opcions existents.
+    selectorRol.replaceChildren(); // Netejar opcions existents.
     
     // Afegir tots els rols disponibles dinàmicament
     rols.forEach(rol => {
         const option = document.createElement("option");
-        option.value = rol;
-        option.textContent = rol;
+        option.value = rol.id;
+        option.textContent = rol.name;
         selectorRol.appendChild(option);
     });
 }
@@ -157,10 +146,10 @@ function afegirUsuari() {
     // Crear objecte nou usuari.
     let nouUsuari = {
         id: idCounter++,
-        nomUsuari: document.getElementById("nomUsuari").value,
-        nom: document.getElementById("nom").value,
-        correu: document.getElementById("correu").value,
-        contrasenya: document.getElementById("contrasenya").value,
+        username: document.getElementById("nomUsuari").value,
+        name: document.getElementById("nom").value,
+        email: document.getElementById("correu").value,
+        password: document.getElementById("contrasenya").value,
         rol: document.getElementById("rol").value
     };
     
@@ -181,10 +170,10 @@ function actualitzarUsuari() {
     
     if (index !== -1) {
         // Actualitzar les dades de l'usuari.
-        usuaris[index].nomUsuari = document.getElementById("nomUsuari").value;
-        usuaris[index].nom = document.getElementById("nom").value;
-        usuaris[index].correu = document.getElementById("correu").value;
-        usuaris[index].contrasenya = document.getElementById("contrasenya").value;
+        usuaris[index].username = document.getElementById("nomUsuari").value;
+        usuaris[index].name = document.getElementById("nom").value;
+        usuaris[index].email = document.getElementById("correu").value;
+        usuaris[index].password = document.getElementById("contrasenya").value;
         usuaris[index].rol = document.getElementById("rol").value;
         
         // Desa a localStorage.
@@ -202,10 +191,10 @@ function editarIdUsuari(id) {
     const usuari = usuaris.find(u => u.id === id);
     if (usuari) {
         // Emplenar el formulari amb les dades de l'usuari existent.
-        document.getElementById("nomUsuari").value = usuari.nomUsuari;
-        document.getElementById("nom").value = usuari.nom;
-        document.getElementById("correu").value = usuari.correu;
-        document.getElementById("contrasenya").value = usuari.contrasenya;
+        document.getElementById("nomUsuari").value = usuari.username;
+        document.getElementById("nom").value = usuari.name;
+        document.getElementById("correu").value = usuari.email;
+        document.getElementById("contrasenya").value = usuari.password;
         
         // Assegurar-se que el selector de rols està actualitzat.
         actualitzarSelectorRolsHTML();

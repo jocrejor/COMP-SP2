@@ -5,9 +5,17 @@ let rols = []; // Rols per defecte del sistema
 document.addEventListener("DOMContentLoaded",main); 
     
 function main () {
-    rols = JSON.parse(localStorage.getItem('rols')) || [{'name':'Usuari'}, {'name':'Admin'}];
+    rols = JSON.parse(localStorage.getItem('rols')) || Rol;
     mostrarRols();
     
+    // Configuració del botó de tornar a la pàgina d'usuaris
+    const usuarisButton= document.getElementById("usuaris");
+    
+    usuarisButton.addEventListener("click", (e) => {
+        window.location.href='usuaris.html';
+    });
+
+
     // Configurar l'event listener per al formulari d'afegir rols
     document.getElementById("formulariRol").addEventListener("submit", afegirRol);
 };
@@ -23,7 +31,7 @@ function guardarRols() {
 // Funció per mostrar tots els rols en la llista HTML.
 function mostrarRols() {
     const llista = document.getElementById('llistaRols');
-    llista.innerHTML = ''; // Netejar la llista abans d'afegir
+    llista.replaceChildren(); // Netejar la llista abans d'afegir
     
     // Crear dinàmicament cada element de la llista amb el seu botó d'eliminar
     

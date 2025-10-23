@@ -6,6 +6,8 @@ let usuaris = [];
 // Funció per iniciar els esdeveniments de la pàgina
 function main() { 
 
+    usuaris = JSON.parse(localStorage.getItem('usuaris')) || User;
+
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
 
@@ -19,7 +21,6 @@ function main() {
         window.location.href='rols.html';
     });
 
-    carregarUsuaris();
     mostrarUsuaris();
 }
 
