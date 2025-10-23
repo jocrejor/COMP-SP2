@@ -10,6 +10,13 @@ function mostrarProductos(productosFiltrados) {
   productosFiltrados.forEach(product => {
     // Contenedor del producto
     const div = document.createElement("div");
+    div.style.width = "100%";
+    div.style.maxWidth = "500px";
+    div.style.height = "auto";
+    div.style.border = "1px solid #ccc";
+    div.style.padding = "10px";
+    div.style.margin = "10px";
+
 
     // Imagen
     const img = document.createElement("img");
