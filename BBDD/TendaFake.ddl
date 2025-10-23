@@ -62,7 +62,9 @@ CREATE TABLE Productimage (
 -- Taula d'Atributs
 CREATE TABLE Attribute (
     id INT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL,
+    family_id INT,
+    FOREIGN KEY (family_id) REFERENCES Family(id)
 );
 
 -- Taula intermitja ProductAttribute per la relació N:N
@@ -150,6 +152,7 @@ CREATE TABLE Client (
     name VARCHAR(100) NOT NULL,
     surname VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     birth_date DATE,
     address VARCHAR(100) NOT NULL,
