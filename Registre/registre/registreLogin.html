@@ -10,25 +10,14 @@
 
 <body>
     <h1>Login</h1>
+    <form id="loginForm">
+        <label for="login_user">Usuari:</label>
+        <input type="text" id="login_user" required placeholder="Usuari"><br><br>
 
-    <form id="registre" method="get">
+        <label for="login_pass">Contrasenya:</label>
+        <input type="password" id="login_pass" required placeholder="Contrasenya"><br><br>
 
-        <label for="user_name">Usuari:</label>
-
-        <input type="text" id="user_name" name="name" placeholder="Ingresa el teu usuari" required ><br><br>
-
-        <label for="password">Contrasenya:</label>
-
-        <input type="password" id="password" name="password" placeholder="Ingresa la teua contrasenya"
-        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$" required><br><br>
-
-        <!--<input type="checkbox" id="recordar" value="first_checkbox">
-        <label for="recordar">Recordar contrasenya</label><br><br>-->
-
-        <button type="button" id="iniciar">Iniciar Sessió</button>
-
-        <!--<a href="#" id="oblidatPassword">Has oblidat lacontrasenya</a><br><br>-->
-
+        <button type="button" id="login">Iniciar Sessió</button>
     </form>
 </body>
 
