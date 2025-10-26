@@ -5,26 +5,32 @@
     <meta charset="UTF-8">
     <title>Alta de clients</title>
     <script src="../../BBDD/TendaFakeDades.js" defer></script>
-    <script src="../../BBDD/Location.js" defer></script>
-    <script src="./registreModificar.js" defer></script>
+    <script src="../location.js" defer></script>
+    <script src="./registreCrear.js" defer></script>
+        <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 
 <body>
     <h2>Alta de clients</h2>
     <input type="hidden" id="index" value="-1">
 
-    <form action="" method="post" id="formClient">
+    <form action="#" method="" id="formClient" novalidate>
         <label for="id">Id:</label><br>
-        <input type="number" id="id"><br>
+        <input type="number" id="id"><br><br>
 
         <label for="name">Nom:</label><br>
-        <input type="text" id="name" maxlength="100" required><br>
-        <span class="error" id="error_name"></span>
+        <input type="text" id="name" required pattern="^[A-Za-zÀ-ÿ\s]{3,100}$"><br>
+        <span class="error" id="error_name"></span><br>
 
 
         <label for="surname">Cognoms:</label><br>
         <input type="text" id="surname" maxlength="100" required><br>
-        <span class="error" id="error_surname"></span>
+        <span class="error" id="error_surname"></span><br>
 
 
         <label for="taxidtype">Tipus de document:</label><br>
@@ -34,19 +40,23 @@
             <option value="Passaport">Passaport</option>
             <option value="NIE">NIE</option>
         </select><br>
+        <span class="error" id="error_taxidtype"></span><br>
+
 
         <label for="taxid">Número de document:</label><br>
         <input type="text" id="taxid" name="taxid" maxlength="9" required><br>
-        <span class="error" id="error_taxid"></span>
+        <span class="error" id="error_taxid"></span><br>
 
 
         <label for="birth_date">Aniversari: </label><br>
-        <input type="date" id="birth_date" required><br>
+        <input type="date" id="birth_date" required><br><br>
+        <span class="error" id="error_birth_date"></span><br>
+
 
 
         <label for="phone">Telèfon:</label><br>
-        <input type="tel" id="phone" maxlength="20" pattern="^\+?[0-9]+$" required><br>
-        <span class="error" id="error_phone"></span>
+        <input type="tel" id="phone" minlength="7" maxlength="15" pattern="^\+?[0-9]{7,15}$" required><br>
+        <span class="error" id="error_phone"></span><br>
 
 
         <!--<label for="user_name">Nom d'usuari:</label><br>
@@ -55,46 +65,42 @@
 
 
         <label for="email">Email:</label><br>
-        <input type="email" id="email" maxlength="100" required><br>
-        <span class="error" id="error_email"></span>
+        <input type="email" id="email" minlength="5" maxlength="100" required><br>
+        <span class="error" id="error_email"></span><br>
 
 
         <label for="address">Adreça:</label><br>
-        <input type="text" id="address" name="address" maxlength="100" required><br>
-        <span class="error" id="error_address"></span>
+        <input type="text" id="address" name="address" minlength="5" maxlength="100" required><br>
+        <span class="error" id="error_address"></span><br>
 
 
         <label for="cp">Codi Postal:</label><br>
-        <input type="text" id="cp" name="cp" maxlength="15" required><br>
-        <span class="error" id="error_cp"></span>
+        <input type="text" id="cp" name="cp" minlength="4" maxlength="5" required><br>
+        <span class="error" id="error_cp"></span><br>
 
 
         <label for="country_id">País:</label><br>
-        <select id="country_id" name="country_id" required>
-            <option value="">Selecciona un país</option>
-        </select><br>
+        <select id="country_id" name="country_id" required></select><br>
+        <span class="error" id="error_country_id"></span><br><br>
+
 
         <label for="province_id">Província:</label><br>
-        <select id="province_id" name="province_id" required>
-            <option value="">Selecciona una província</option>
-            <option value="Alacant">Alacant</option>
-        </select><br>
+        <select id="province_id" name="province_id" required></select><br>
+        <span class="error" id="error_province_id"></span><br><br>
+
 
         <label for="city_id">Ciutat:</label><br>
-        <select id="city_id" name="city_id" required>
-            <option value="">Selecciona una ciutat</option>
-            <option value="pego">Pego</option>
-        </select><br>
+        <select id="city_id" name="city_id" required></select><br>
+        <span class="error" id="error_city_id"></span><br><br>
+
 
         <label for="password">Contrasenya:</label><br>
-        <input type="password" id="password" required><br>
-        <span class="error" id="error_password"></span>
-
+        <input type="password" id="password" minlength="8" required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"><br>
+        <span class="error" id="error_password"></span><br>
 
         <label for="repetir_password">Repetir contrasenya:</label><br>
-        <input type="password" id="repetir_password" required><br><br>
-        <span class="error" id="error_repetir_password"></span>
-
+        <input type="password" id="repetir_password" required><br>
+        <span class="error" id="error_repetir_password"></span><br><br>
 
 
         <button id="alta" type="submit">Alta</button>
