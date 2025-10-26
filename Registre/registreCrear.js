@@ -15,8 +15,24 @@ function main() {
         if (valid) {
             guardarClient();
             formulari.reset(); 
+            carregaSelect();
         }
     });
+
+  document.getElementById("area").addEventListener("click", () => {
+    const clients = JSON.parse(localStorage.getItem("clients") || "[]");
+
+    if (clients.length === 0) {
+        alert("No hi ha cap client registrat.");
+        return;
+    }
+
+    const client = clients[clients.length - 1];
+    localStorage.setItem("area", JSON.stringify(client));
+
+    window.location.href = "./registre/registreAreaPersonal.html";
+});
+
 }
 
 // Funció per carregar clients desde el localstorage
