@@ -60,11 +60,19 @@ function esborrarError (){
     }
 }
 
-//  obtiene el siguiente id para una colección (autoincremental)
-function getNextId(array) {
-  if (!array || array.length === 0) return 1;
-  return Math.max.apply(null, array.map(a => a.id || 0)) + 1;
+
+function comprobarid(id) {
+/*Torna 1 si no hi ha id*/
+  if (!id || !id.some(e => e && e.id !== undefined)) return 1;
+/* Torna el ultim id +1 */
+  let maxId = 0;
+  for (const item of id) {
+    const id = item && typeof item.id === "number" ? item.id : 0;
+    if (id > maxId) maxId = id;
+  }
+  return maxId + 1;
 }
+
 
 function guardarEnLocalStorage(e) {
 
@@ -96,7 +104,7 @@ function guardarEnLocalStorage(e) {
   let atributoExistente = attributes.find(a => a.name === name && (a.family_id == familyId));
 
   if (!atributoExistente) {
-    const nuevoAttrId = getNextId(attributes);
+    const nuevoAttrId = comprobarid(attributes);
     atributoExistente = {
       id: nuevoAttrId,
       name: name,
@@ -120,7 +128,7 @@ function guardarEnLocalStorage(e) {
       }
     }
   } else {
-    // Insertamos nuevo registro product-attribute
+    // Insertar nou registre en productattribute
     const nuevoProductAttribute = {
       product_id: producto.id,
       attribute_id: atributoExistente.id,
@@ -129,14 +137,13 @@ function guardarEnLocalStorage(e) {
     productAttributes.push(nuevoProductAttribute);
   }
 
-  // Guardar Productattribute actualizado
+  // Guardar Productattribute 
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
 
 
   document.getElementById("nom").value = "";
   document.getElementById("valor").value = "";
 
-  // Redirigir al listado
   window.location.href = "../llistar/llistarcaracteristica.html";
 }
 

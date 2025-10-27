@@ -3,6 +3,7 @@ window.onload = iniciar;
 function iniciar() {
   carregarDadesLocal();
   document.getElementById("enviar").addEventListener("click", anarcrear);
+  
 }
 
 function anarcrear() {
@@ -10,6 +11,28 @@ function anarcrear() {
 }
 
 function carregarDadesLocal() {
+
+ 
+  if (typeof Product === "undefined" || !Array.isArray(Product)) {
+    console.log("Error: la variable 'Product' no está definida o no es un array.");
+    return;
+  }
+  if (!localStorage.getItem("productos")) {
+    localStorage.setItem("productos", JSON.stringify(Product));
+  }
+
+  if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
+    localStorage.setItem("Family", JSON.stringify(Family));
+  }
+ if (typeof Attribute !== "undefined" && Array.isArray(Attribute) && !localStorage.getItem("Attribute")) {
+    localStorage.setItem("Attribute", JSON.stringify(Attribute));
+  }
+
+  if (typeof Productattribute !== "undefined" && Array.isArray(Productattribute) && !localStorage.getItem("Productattribute")) {
+    localStorage.setItem("Productattribute", JSON.stringify(Productattribute));
+  }
+  
+
   let idSeleccionado = parseInt(localStorage.getItem("productoSeleccionado"));
   let productos = JSON.parse(localStorage.getItem("productos")) || [];
   let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
@@ -30,7 +53,7 @@ function carregarDadesLocal() {
 
   mostrarTexto(contenedor, producto.name);
 
-
+/* Intercanvi del id de la categoria al nom de la categoria*/
   let categoria = "Sense família";
   const familia = families.find(f => f.id === producto.family_id);
   if (familia) categoria = familia.name;
@@ -96,6 +119,16 @@ function eliminarCaracteristica(caracteristica) {
     item => !(item.product_id === caracteristica.product_id && item.attribute_id === caracteristica.attribute_id)
   );
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+
+  const sigueEnUso = productAttributes.some(
+    item => item.attribute_id === caracteristica.attribute_id
+  );
+
+  if (!sigueEnUso) {
+    let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+    attributes = attributes.filter(attr => attr.id !== caracteristica.attribute_id);
+    localStorage.setItem("Attribute", JSON.stringify(attributes));
+  }
 
   carregarDadesLocal();
 }
