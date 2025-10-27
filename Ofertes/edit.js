@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Esperem que el DOM estiga carregat
-  const form = document.getElementById("formOferta"); // Formulari d'ofertes
-  const ofertaInput = document.getElementById("ofertaInput"); // Input d'oferta
+  const form            = document.getElementById("formOferta"); // Formulari d'ofertes
+  const ofertaInput     = document.getElementById("ofertaInput"); // Input d'oferta
   const percentajeInput = document.getElementById("percentajeInput"); // Input de percentatge
-  const dataIniciInput = document.getElementById("dataIniciInput"); // Input de data d'inici
-  const datafiInput = document.getElementById("datafiInput"); // Input de data de fi
-  const couponInput = document.getElementById("couponInput"); // Input de cupó (nou)
+  const dataIniciInput  = document.getElementById("dataIniciInput"); // Input de data d'inici
+  const datafiInput     = document.getElementById("datafiInput"); // Input de data de fi
+  const couponInput     = document.getElementById("couponInput"); // Input de cupó (nou)
 
   const params = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
   const editIndex = params.get("edit"); // Obtenim l'índex de l'oferta a editar

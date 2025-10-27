@@ -99,8 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
             
             couponCell.textContent     = item.coupon || "-";
 
-            editButton.textContent = "Editar";
-            deleteButton.textContent = "Borrar";
+            editButton.textContent     = "Editar";
+            deleteButton.textContent   = "Borrar";
             addProductSale.textContent = "Visualitzar";
             
             // Afegim els esdeveniments als botons
