@@ -67,9 +67,9 @@ mostrarProductos(Product);
 selectFamilia.addEventListener("change", function() {
   const familiaId = parseInt(this.value);
   if (isNaN(familiaId)) {
-    mostrarProductos(product);
+    mostrarProductos(Product);
   } else {
-    const filtrados = products.filter(p => p.family_id === familiaId);
+    const filtrados = Product.filter(p => p.family_id === familiaId);
     mostrarProductos(filtrados);
   }
 });
