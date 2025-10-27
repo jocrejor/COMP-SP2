@@ -1,100 +1,75 @@
+  // Esperamos a que el HTML cargue
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.getElementById("productDetail");
 
-// --- Simulación de base de datos (nombres de campos en inglés) ---
+    // 1️ Obtener el ID del producto desde la URL
+    const params = new URLSearchParams(window.location.search);
+    const productId = parseInt(params.get("id"));
 
-// Tabla Family
-const families = [
-  { id: 1, name: "Tiras LED" },
-  { id: 2, name: "Bombillas LED" },
-  { id: 3, name: "Paneles LED" }
-];
+    if (!productId) {
+      container.textContent = "No se ha encontrado el producto.";
+      return;
+    }
 
-// Tabla Product
-const products = [
-  {
-    id: 1,
-    name: "Tira LED RGB",
-    price: 19.99,
-    description: "Tira flexible RGB perfecta para decorar habitaciones, techos o muebles.",
-    image: "img/strip.jpg",
-    family_id: 1
-  },
-  {
-    id: 2,
-    name: "Bombilla LED cálida",
-    price: 9.99,
-    description: "Bombilla LED de bajo consumo con luz cálida, ideal para interiores.",
-    image: "img/bulb.jpg",
-    family_id: 2
-  },
-  {
-    id: 3,
-    name: "Panel LED blanco",
-    price: 29.99,
-    description: "Panel LED ultrafino con luz blanca brillante, perfecto para oficinas.",
-    image: "img/panel.jpg",
-    family_id: 3
-  }
-];
+    // 2️ Buscar el producto por su ID en el array Product
+    const product = Product.find(p => p.id === productId);
 
-// --- Obtener ID del producto desde la URL ---
-function getProductId() {
-  const params = new URLSearchParams(window.location.search);
-  return parseInt(params.get("id"));
-}
+    if (!product) {
+      container.textContent = "Producto no encontrado.";
+      return;
+    }
 
-// --- Mostrar los datos del producto ---
-function showProduct() {
-  const id = getProductId(); // Debes tener esta función que obtiene el ID del producto
-  const product = products.find(p => p.id === id);
+    // 3️ Crear los elementos del detalle
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ccc";
+    div.style.padding = "20px";
+    div.style.maxWidth = "600px";
 
-  const container = document.getElementById("productDetail");
-  container.replaceChildren(); // Limpiar contenido anterior
+    // Imagen
+    const img = document.createElement("img");
+    img.src = product.image;
+    img.alt = product.name;
+    img.width = 200;
+    img.height = 200;
+    div.appendChild(img);
 
-  if (!product) {
-    const p = document.createElement("p");
-    p.textContent = "Producto no encontrado.";
-    container.appendChild(p);
-    return;
-  }
+    // Nombre
+    const h2 = document.createElement("h2");
+    h2.textContent = product.name;
+    div.appendChild(h2);
 
-  // Buscar la familia
-  const family = families.find(f => f.id === product.family_id);
+    // Precio
+    const pPrice = document.createElement("p");
+    pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
+    div.appendChild(pPrice);
 
-  // Contenedor del producto
-  const div = document.createElement("div");
+    // Descripción
+    const pDesc = document.createElement("p");
+    pDesc.textContent = `📖 ${product.description}`;
+    div.appendChild(pDesc);
 
-  // Imagen
-  const img = document.createElement("img");
-  img.src = product.image;
-  img.alt = product.name;
-  img.width = 300;
-  div.appendChild(img);
+    // 4 Mostrar los atributos de la familia
+    const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
+    if (atributosFamilia.length > 0) {
+      const h4 = document.createElement("h4");
+      h4.textContent = "🔧 Atributos:";
+      div.appendChild(h4);
 
-  // Nombre
-  const h2 = document.createElement("h2");
-  h2.textContent = product.name;
-  div.appendChild(h2);
+      const ul = document.createElement("ul");
+      atributosFamilia.forEach(attr => {
+        const li = document.createElement("li");
+        li.textContent = attr.name;
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
 
-  // Precio
-  const pPrice = document.createElement("p");
-  pPrice.appendChild(document.createTextNode("Precio: $" + product.price));
-  div.appendChild(pPrice);
+    // 5️ Botón para añadir al carrito (solo ejemplo)
+    const btn = document.createElement("button");
+    btn.textContent = "🛒 Añadir al carrito";
+    btn.onclick = () => alert(`${product.name} añadido al carrito`);
+    div.appendChild(btn);
 
-  // Descripción
-  const pDesc = document.createElement("p");
-  pDesc.appendChild(document.createTextNode("Descripción: " + product.description));
-  div.appendChild(pDesc);
-
-  // Familia
-  const pFam = document.createElement("p");
-  pFam.appendChild(document.createTextNode("Familia: " + (family ? family.name : "Desconocida")));
-  div.appendChild(pFam);
-
-  // Añadir el producto al contenedor principal
-  container.appendChild(div);
-}
-
-// --- Ejecutar al cargar la página ---
-showProduct();
-
-
+    // Añadir todo al contenedor
+    container.appendChild(div);
+  });

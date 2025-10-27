@@ -34,7 +34,7 @@ function mostrarProductos(productosFiltrados) {
     // Precio
     const pPrice = document.createElement("p");
     pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
-    div.appendChild(pPrice);
+    div.appendChild(pPrice);4
 
     // Descripción
     const pDesc = document.createElement("p");
@@ -42,13 +42,20 @@ function mostrarProductos(productosFiltrados) {
     div.appendChild(pDesc);
 
     // Atributos
-    const ul = document.createElement("ul");
-    product.attributes.forEach(attr => {
-      const li = document.createElement("li");
-      li.textContent = `${attr.name}: ${attr.value}`;
-      ul.appendChild(li);
-    });
-    div.appendChild(ul);
+    const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
+    if (atributosFamilia.length > 0) {
+      const h4 = document.createElement("h4");
+      h4.textContent = "Atributos:";
+      div.appendChild(h4);
+
+      const ul = document.createElement("ul");
+      atributosFamilia.forEach(attr => {
+        const li = document.createElement("li");
+        li.textContent = attr.name;
+        ul.appendChild(li);
+      });
+      div.appendChild(ul);
+    }
 
     // Enlace al detalle
     const a = document.createElement("a");
