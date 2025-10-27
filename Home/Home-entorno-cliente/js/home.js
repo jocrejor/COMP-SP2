@@ -41,6 +41,15 @@ function mostrarProductos(productosFiltrados) {
     pDesc.textContent = product.description;
     div.appendChild(pDesc);
 
+    // Atributos
+    const ul = document.createElement("ul");
+    product.attributes.forEach(attr => {
+      const li = document.createElement("li");
+      li.textContent = `${attr.name}: ${attr.value}`;
+      ul.appendChild(li);
+    });
+    div.appendChild(ul);
+
     // Enlace al detalle
     const a = document.createElement("a");
     a.href = `product.html?id=${product.id}`;
@@ -73,3 +82,4 @@ selectFamilia.addEventListener("change", function() {
     mostrarProductos(filtrados);
   }
 });
+
