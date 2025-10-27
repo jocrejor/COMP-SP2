@@ -1,5 +1,8 @@
 window.onload = iniciar;
 
+// Array global per guardar els productes afegits
+let productesAfegits = [];
+
 function iniciar() {
     const form = document.getElementById("pedidoForm");
     form.addEventListener("submit", validar, false);
@@ -46,76 +49,94 @@ function validarShipping() {
     return true;
 }
 
-// Validar productes (quantitat i descompte)
-function validarProductes() {
-    const quantities = document.getElementsByName("quantity[]");
-    const discounts = document.getElementsByName("discount[]");
+// Validar productes dins del formulari principal (inputs actuals)
+function validarProductesFormulari(row) {
+    const quantityInput = row.querySelector("input[name='quantity[]']");
+    const priceInput = row.querySelector("input[name='price[]']");
+    const discountInput = row.querySelector("input[name='discount[]']");
     let valid = true;
 
-    for (let i = 0; i < quantities.length; i++) {
-        const q = quantities[i];
-        const d = discounts[i];
-
-        if (!q.checkValidity()) {
-            if (q.validity.valueMissing) error(q, "Deus d'introduïr una quantitat.");
-            if (q.validity.rangeUnderflow) error(q, "La quantitat ha de ser >= 1.");
-            valid = false;
-        }
-        if (!d.checkValidity()) {
-            error(d, "El descompte ha de ser >=0 amb màxim 2 decimals.");
-            valid = false;
-        }
+    if (!quantityInput.checkValidity()) {
+        if (quantityInput.validity.valueMissing) error(quantityInput, "Deus d'introduïr una quantitat.");
+        if (quantityInput.validity.rangeUnderflow) error(quantityInput, "La quantitat ha de ser >= 1.");
+        valid = false;
+    }
+    if (!priceInput.checkValidity()) {
+        error(priceInput, "El preu ha de ser >= 0 amb màxim 2 decimals.");
+        valid = false;
+    }
+    if (!discountInput.checkValidity()) {
+        error(discountInput, "El descompte ha de ser >=0 amb màxim 2 decimals.");
+        valid = false;
     }
 
     return valid;
 }
 
-// Afegir producte
+// Afegir producte al DOM i a l'array global
 function afegirProducte(e) {
-    const button = e.target;
-    const row = button.closest("tr");
+    let button = e.target;
+    let row = button.closest("tr");
 
-    const productSelect = row.querySelector("select[name='product_id[]']");
-    const quantityInput = row.querySelector("input[name='quantity[]']");
-    const priceInput = row.querySelector("input[name='price[]']");
-    const discountInput = row.querySelector("input[name='discount[]']");
+    if (!validarProductesFormulari(row)) return;
 
-    esborrarError();
+    let productSelect = row.querySelector("select[name='product_id[]']");
+    let quantityInput = row.querySelector("input[name='quantity[]']");
+    let priceInput = row.querySelector("input[name='price[]']");
+    let discountInput = row.querySelector("input[name='discount[]']");
 
-    if (!quantityInput.checkValidity()) { error(quantityInput, "La quantitat ha de ser >= 1."); return; }
-    if (!priceInput.checkValidity()) { error(priceInput, "El preu ha de ser >= 0 amb màxim 2 decimals."); return; }
-    if (!discountInput.checkValidity()) { error(discountInput, "El descompte ha de ser >=0 amb màxim 2 decimals."); return; }
+    let nomProducte = productSelect.options[productSelect.selectedIndex].text;
+    let quantitat = parseFloat(quantityInput.value);
+    let preu = parseFloat(priceInput.value);
+    let descompte = parseFloat(discountInput.value);
 
-    const orderSection = document.getElementById("productesAfegits");
-    const div = document.createElement("div");
-    div.textContent = `${productSelect.options[productSelect.selectedIndex].text} - Quantitat: ${quantityInput.value} - Preu: ${parseFloat(priceInput.value).toFixed(2)}€ - Descompte: ${parseFloat(discountInput.value).toFixed(2)}€`;
+    // Afegir al DOM
+    let orderSection = document.getElementById("productesAfegits");
+    let div = document.createElement("div");
+    div.textContent = `${nomProducte} - Quantitat: ${quantitat} - Preu: ${preu.toFixed(2)}€ - Descompte: ${descompte.toFixed(2)}€`;
     orderSection.appendChild(div);
 
+    // Afegir a l'array global
+    productesAfegits.push({ nom: nomProducte, quantitat, preu, descompte });
+
+    // Netejar inputs
     quantityInput.value = "";
     priceInput.value = "";
     discountInput.value = "0.00";
+
+    esborrarError();
 }
 
-// Validació global
+// Validació global i guardat comanda
 function validar(e) {
     esborrarError();
-    const orderSection = document.getElementById("productesAfegits");
 
-    if (!validarShipping() || !validarProductes()) {
+    if (!validarShipping()) {
         e.preventDefault();
         return false;
     }
 
-    if (orderSection.children.length <= 1) { // només té el títol
+    if (productesAfegits.length === 0) {
         alert("Cal afegir almenys un producte a la comanda.");
         e.preventDefault();
         return false;
     }
 
-    if (confirm("Confirma si vols enviar el formulari")) {
-        alert("Comanda guardada correctament!");
-        window.location.href = 'comandesLlistar.html';
-    }
+    // Crear objecte comanda
+    let comanda = {
+        shipping: parseFloat(document.getElementById("shipping").value),
+        productes: productesAfegits,
+        data: new Date().toISOString()
+    };
+
+    // Guardar comanda a localStorage
+    let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+    comandes.push(comanda);
+    localStorage.setItem("comandes", JSON.stringify(comandes));
+
+    alert("Comanda guardada correctament!");
+    window.location.href = 'comandesLlistar.html';
+
     e.preventDefault();
     return false;
 }
