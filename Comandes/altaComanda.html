@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alta Comandes</title>
-    <script src="altaComanda.js" defer></script>
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="altaComanda.js"></script>
 </head>
+
 <body>
+
     <h1>Alta Comanda</h1>
 
-    <!-- Container d'errors -->
     <div id="missatgeError"></div>
 
     <form id="pedidoForm">
@@ -22,6 +25,7 @@
                 <td><label for="payment">Forma de Pagament:</label></td>
                 <td>
                     <select id="payment" name="payment" required>
+                        <option value="">Selecciona...</option>
                         <option value="Credit Card">Targeta de Crèdit</option>
                         <option value="bizum">Bizum</option>
                         <option value="paypal">PayPal</option>
@@ -37,8 +41,7 @@
                 <td><label for="client">Client:</label></td>
                 <td>
                     <select id="client" name="client_id" required>
-                        <option value="1">Client 1</option>
-                        <option value="2">Client 2</option>
+                        <option value="">Carregant clients...</option>
                     </select>
                 </td>
             </tr>
@@ -59,9 +62,8 @@
             <tbody>
                 <tr class="product-line">
                     <td>
-                        <select name="product_id[]">
-                            <option value="1">Producte A</option>
-                            <option value="2">Producte B</option>
+                        <select name="product_id[]" class="productSelect" required>
+                            <option value="">Carregant productes...</option>
                         </select>
                     </td>
                     <td><input type="number" name="quantity[]" min="1" required></td>
@@ -72,7 +74,6 @@
             </tbody>
         </table>
 
-        <!-- Secció de productes afegits -->
         <div id="productesAfegits">
             <h4>Productes a afegint-se</h4>
         </div>
@@ -81,5 +82,7 @@
         <button type="submit">Guardar Comanda</button>
         <button type="button" id="llista">Llista Comandes</button>
     </form>
+
 </body>
+
 </html>

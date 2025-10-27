@@ -1,142 +1,162 @@
-window.onload = iniciar;
+document.addEventListener("DOMContentLoaded", main);
 
-// Array global per guardar els productes afegits
-let productesAfegits = [];
+function main() {
+    document.getElementById("pedidoForm").addEventListener("submit", validar, false);
+    document.querySelector(".addProduct").addEventListener("click", afegirProducte, false);
+    document.getElementById("llista").addEventListener("click", () => location.href = "comandesLlistar.html");
 
-function iniciar() {
-    const form = document.getElementById("pedidoForm");
-    form.addEventListener("submit", validar, false);
+    carregarClients();
+    carregarProductes();
+}
 
-    const addButtons = document.getElementsByClassName("addProduct");
-    Array.from(addButtons).forEach(btn => {
-        btn.addEventListener("click", afegirProducte, false);
-    });
-
-    document.getElementById("llista").addEventListener("click", function () {
-        window.location.href = 'comandesLlistar.html';
+// ---------------- CARREGAR CLIENTS I PRODUCTES ----------------
+function carregarClients() {
+    const select = document.getElementById("client");
+    select.innerHTML = '<option value="">Selecciona un client...</option>';
+    Client.forEach(c => {
+        const opt = document.createElement("option");
+        opt.value = c.id;
+        opt.textContent = `${c.name} ${c.surname}`;
+        select.appendChild(opt);
     });
 }
 
-// Mostrar missatge d’error
-function error(element, missatge) {
-    let container = document.getElementById("missatgeError");
-    let miss = document.createTextNode(missatge);
-    container.appendChild(miss);
-    container.appendChild(document.createElement("br"));
+
+function carregarProductes() {
+    document.querySelectorAll(".productSelect").forEach(select => {
+        select.innerHTML = '<option value="">Selecciona un producte...</option>';
+        Product.forEach(p => {
+            const opt = document.createElement("option");
+            opt.value = p.id;
+            opt.textContent = p.name;
+            select.appendChild(opt);
+        });
+    });
+}
+
+
+// ---------------- VALIDACIÓ ----------------
+function validar(e) {
+    e.preventDefault();
+    esborrarError();
+
+    const camps = [
+        { id: "date", msg: "Has d’introduir una data." },
+        { id: "payment", msg: "Selecciona una forma de pagament." },
+        { id: "shipping", msg: "Introdueix un valor vàlid per les despeses d’enviament." },
+        { id: "client", msg: "Has de seleccionar un client." }
+    ];
+
+    for (let c of camps) {
+        const el = document.getElementById(c.id);
+        if (!el.value || (c.id === "shipping" && el.value < 0)) {
+            return error(el, c.msg);
+        }
+    }
+
+    enviarFormulari();
+}
+
+function error(element, msg) {
+    const err = document.getElementById("missatgeError");
+    const p = document.createElement("p");
+    p.textContent = msg;
+    err.appendChild(p);
     element.classList.add("error");
     element.focus();
+    return false;
 }
 
-// Netejar errors
 function esborrarError() {
-    const container = document.getElementById("missatgeError");
-    container.textContent = "";
-    let formulari = document.getElementById("pedidoForm");
-    for (let i = 0; i < formulari.elements.length; i++) {
-        formulari.elements[i].classList.remove("error");
-    }
+    for (let el of document.forms[0].elements) el.classList.remove("error");
+    const err = document.getElementById("missatgeError");
+    while (err.firstChild) err.removeChild(err.firstChild);
 }
 
-// Validar despeses d'enviament
-function validarShipping() {
-    const element = document.getElementById("shipping");
-    if (!element.checkValidity()) {
-        if (element.validity.valueMissing) error(element, "Deus d'introduïr les despeses d'enviament.");
-        if (element.validity.rangeOverflow || element.validity.rangeUnderflow) error(element, "Les despeses han d'estar entre 0 i 500.");
-        if (element.validity.patternMismatch) error(element, "El format ha de ser 0.00 amb màxim 2 decimals.");
-        return false;
-    }
-    return true;
-}
-
-// Validar productes dins del formulari principal (inputs actuals)
-function validarProductesFormulari(row) {
-    const quantityInput = row.querySelector("input[name='quantity[]']");
-    const priceInput = row.querySelector("input[name='price[]']");
-    const discountInput = row.querySelector("input[name='discount[]']");
-    let valid = true;
-
-    if (!quantityInput.checkValidity()) {
-        if (quantityInput.validity.valueMissing) error(quantityInput, "Deus d'introduïr una quantitat.");
-        if (quantityInput.validity.rangeUnderflow) error(quantityInput, "La quantitat ha de ser >= 1.");
-        valid = false;
-    }
-    if (!priceInput.checkValidity()) {
-        error(priceInput, "El preu ha de ser >= 0 amb màxim 2 decimals.");
-        valid = false;
-    }
-    if (!discountInput.checkValidity()) {
-        error(discountInput, "El descompte ha de ser >=0 amb màxim 2 decimals.");
-        valid = false;
+// ---------------- PRODUCTES ----------------
+function afegirProducte() {
+    const fila = document.querySelector(".product-line");
+    const quant = fila.querySelector("[name='quantity[]']");
+    const preu = fila.querySelector("[name='price[]']");
+    if (!quant.value || !preu.value) {
+        alert("Has d'introduir una quantitat i un preu vàlids abans d'afegir el producte.");
+        return;
     }
 
-    return valid;
-}
+    quant.removeAttribute("required");
+    preu.removeAttribute("required");
 
-// Afegir producte al DOM i a l'array global
-function afegirProducte(e) {
-    let button = e.target;
-    let row = button.closest("tr");
-
-    if (!validarProductesFormulari(row)) return;
-
-    let productSelect = row.querySelector("select[name='product_id[]']");
-    let quantityInput = row.querySelector("input[name='quantity[]']");
-    let priceInput = row.querySelector("input[name='price[]']");
-    let discountInput = row.querySelector("input[name='discount[]']");
-
-    let nomProducte = productSelect.options[productSelect.selectedIndex].text;
-    let quantitat = parseFloat(quantityInput.value);
-    let preu = parseFloat(priceInput.value);
-    let descompte = parseFloat(discountInput.value);
-
-    // Afegir al DOM
-    let orderSection = document.getElementById("productesAfegits");
-    let div = document.createElement("div");
-    div.textContent = `${nomProducte} - Quantitat: ${quantitat} - Preu: ${preu.toFixed(2)}€ - Descompte: ${descompte.toFixed(2)}€`;
-    orderSection.appendChild(div);
-
-    // Afegir a l'array global
-    productesAfegits.push({ nom: nomProducte, quantitat, preu, descompte });
-
-    // Netejar inputs
-    quantityInput.value = "";
-    priceInput.value = "";
-    discountInput.value = "0.00";
-
-    esborrarError();
-}
-
-// Validació global i guardat comanda
-function validar(e) {
-    esborrarError();
-
-    if (!validarShipping()) {
-        e.preventDefault();
-        return false;
-    }
-
-    if (productesAfegits.length === 0) {
-        alert("Cal afegir almenys un producte a la comanda.");
-        e.preventDefault();
-        return false;
-    }
-
-    // Crear objecte comanda
-    let comanda = {
-        shipping: parseFloat(document.getElementById("shipping").value),
-        productes: productesAfegits,
-        data: new Date().toISOString()
+    const nou = {
+        producte: fila.querySelector("[name='product_id[]']").value,
+        quantitat: +quant.value,
+        preu: +preu.value,
+        descompte: +(fila.querySelector("[name='discount[]']").value || 0)
     };
 
-    // Guardar comanda a localStorage
-    let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+    llista.push(nou);
+    localStorage.setItem("productesActuals", JSON.stringify(llista));
+
+    mostrarProductes(llista);
+    quant.value = preu.value = fila.querySelector("[name='discount[]']").value = "";
+}
+
+function mostrarProductes(productes) {
+    const cont = document.getElementById("productesAfegits");
+    while (cont.firstChild) cont.removeChild(cont.firstChild);
+
+    const h4 = document.createElement("h4");
+    h4.textContent = "Productes a afegint-se";
+    cont.appendChild(h4);
+
+    if (productes.length === 0) return;
+
+    const caps = ["Producte", "Quantitat", "Preu", "Descompte"];
+    const taula = document.createElement("table");
+    taula.border = "1";
+    taula.cellPadding = "4";
+    taula.cellSpacing = "0";
+
+    const cap = document.createElement("tr");
+    for (let t of caps) {
+        const th = document.createElement("th");
+        th.textContent = t;
+        cap.appendChild(th);
+    }
+    taula.appendChild(cap);
+
+    for (let p of productes) {
+        const tr = document.createElement("tr");
+        [p.producte, p.quantitat, p.preu.toFixed(2), p.descompte.toFixed(2)]
+            .forEach(v => {
+                const td = document.createElement("td");
+                td.textContent = v;
+                tr.appendChild(td);
+            });
+        taula.appendChild(tr);
+    }
+    cont.appendChild(taula);
+}
+
+// ---------------- GUARDAR FORMULARI ----------------
+function enviarFormulari() {
+    const comanda = {
+        data: document.getElementById("date").value,
+        pagament: document.getElementById("payment").value,
+        enviament: +document.getElementById("shipping").value,
+        client: document.getElementById("client").value,
+        productes: JSON.parse(localStorage.getItem("productesActuals")) || []
+    };
+
+    const comandes = JSON.parse(localStorage.getItem("comandes")) || [];
     comandes.push(comanda);
     localStorage.setItem("comandes", JSON.stringify(comandes));
+    localStorage.removeItem("productesActuals");
 
-    alert("Comanda guardada correctament!");
-    window.location.href = 'comandesLlistar.html';
-
-    e.preventDefault();
-    return false;
+    document.forms[0].reset();
+    const cont = document.getElementById("productesAfegits");
+    while (cont.firstChild) cont.removeChild(cont.firstChild);
+    const msg = document.createElement("p");
+    msg.textContent = "✅ Comanda guardada correctament.";
+    cont.appendChild(msg);
 }
