@@ -45,6 +45,7 @@ CREATE TABLE Product (
     price DECIMAL(7,2),
     description TEXT,
     family_id INT,
+    active BOOLEAN,
     FOREIGN KEY (family_id) REFERENCES Family(id)
 );
 
@@ -262,6 +263,15 @@ CREATE TABLE Register (
     CONSTRAINT fk_favorite_register_id FOREIGN KEY (favorite_id) REFERENCES Favorite(id)
 );
 
+- Taula: Comparator_Product
+
+CREATE TABLE Register_Product(
+    register_id INT,
+    product_id INT,
+    PRIMARY KEY (register_id, product_id),
+    CONSTRAINT fk_cp_ FOREIGN KEY (register_id) REFERENCES Register(id),
+    CONSTRAINT fk_cp_product FOREIGN KEY (product_id) REFERENCES Product(id)
+);
 
 
 /* CREATE TABLE Controlpanel (
