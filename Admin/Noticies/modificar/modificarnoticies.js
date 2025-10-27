@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", main);
 
 function main () {
     document.getElementById("tornar").addEventListener("click", tornar);
-    document.getElementById("enviar").addEventListener("click", guardardadeslocalsstorage, false);
-    arreplegarindex();
+    document.getElementById("enviar").addEventListener("click", guardarDades, false);
+    arreplegarIndex();
 }
 
 // Torna al llistat
@@ -11,7 +11,7 @@ function tornar () {
     window.location.assign("../llistar/llistarnoticies.html");
 }
 
-function guardardadeslocalsstorage(e) {
+function guardarDades(e) {
     if (!validar(e)) {
         e.preventDefault();
         return;
@@ -30,6 +30,7 @@ function guardardadeslocalsstorage(e) {
     if (idEdicion !== null) {
         // Modificació d'una notícia existent
         let index = comprovararray.findIndex(n => n.id == idEdicion);
+
         if (index !== -1) {
 
             // Mantindre l'id original
@@ -47,6 +48,7 @@ function guardardadeslocalsstorage(e) {
         } else {
             alert("No s'ha trobat la notícia per editar.");
         }
+
     } else {
         alert("No s'ha proporcionat cap ID d'edició.");
     }
@@ -62,7 +64,7 @@ function guardardadeslocalsstorage(e) {
     window.location.href = "../llistar/llistarnoticies.html";
 }
 
-function arreplegarindex () {
+function arreplegarIndex () {
     //Agafar id desde el localstorage que li pase desde llistar
     let idEdicion = localStorage.getItem("indiceEdicion");
 
