@@ -1,9 +1,17 @@
 
 //Familias que existen para asi poder ser filtradas en la home
 const families = [
-  { id: 1, name: "Tiras LED" },
-  { id: 2, name: "Bombillas LED" },
-  { id: 3, name: "Paneles LED" }
+  { id: 1, name: "Componentes" },
+  { id: 2, name: "All in one" },
+  { id: 3, name: "Perifericos" },
+  { id: 4, name: "Portatiles" },
+  { id: 5, name: "Sobremesa" },
+  { id: 6, name: "Raton" },
+  { id: 7, name: "Teclado" },
+  { id: 8, name: "Monitor" },
+  { id: 9, name: "Portatil gamer" },
+  { id: 10, name: "Mini PC" },
+
 ];
 
 //Productos

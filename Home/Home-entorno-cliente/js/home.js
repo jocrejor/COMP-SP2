@@ -67,7 +67,7 @@ mostrarProductos(Product);
 selectFamilia.addEventListener("change", function() {
   const familiaId = parseInt(this.value);
   if (isNaN(familiaId)) {
-    mostrarProductos(products);
+    mostrarProductos(product);
   } else {
     const filtrados = products.filter(p => p.family_id === familiaId);
     mostrarProductos(filtrados);
