@@ -1,166 +1,155 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Esperem que el DOM estiga carregat
-  const form            = document.getElementById("formOferta"); // Formulari d'ofertes
-  const ofertaInput     = document.getElementById("ofertaInput"); // Input d'oferta
-  const percentajeInput = document.getElementById("percentajeInput"); // Input de percentatge
-  const dataIniciInput  = document.getElementById("dataIniciInput"); // Input de data d'inici
-  const datafiInput     = document.getElementById("datafiInput"); // Input de data de fi
-  const couponInput     = document.getElementById("couponInput"); // Input de cupó (nou)
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('formOferta');
+    const ofertaInput = document.getElementById('ofertaInput');
+    const percentajeInput = document.getElementById('percentajeInput');
+    const couponInput = document.getElementById('couponInput');
+    const dataIniciInput = document.getElementById('dataIniciInput');
+    const datafiInput = document.getElementById('datafiInput');
 
-  const params    = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
-  const editIndex = params.get("edit"); // Obtenim l'índex de l'oferta a editar
+    const params = new URLSearchParams(window.location.search);
+    const editIndex = params.get('edit');
 
-  // Carreguem les dades de localStorage o de Sale
-  let data = JSON.parse(localStorage.getItem("saleData")) || Sale || [];
+    let data = JSON.parse(localStorage.getItem("formData")) || [];
 
-  // Si hi ha un índex d'edició, omplim els camps amb les dades existents
-  if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
-    const item            = data[editIndex];
-    ofertaInput.value     = item.description || item.oferta || "";
-    percentajeInput.value = item.discount_percent || item.percentaje || "";
-    dataIniciInput.value  = formatDateForInput(item.start_date || item.dataInici || "");
-    datafiInput.value     = formatDateForInput(item.end_date || item.dataFi || "");
-    if (couponInput) {
-      couponInput.value   = item.coupon || "";
-    }
-  }
-
-  // Funció per formatar dates per input type="date"
-  function formatDateForInput(dateString) {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
-  }
-
-  // Funció per mostrar missatges d'error o èxit
-  function mostrarMensaje(texto, tipo = "error") {
-    let mensaje = document.getElementById("mensaje");
-    if (!mensaje) {
-      mensaje    = document.createElement("p");
-      mensaje.id = "mensaje";
-      form.parentNode.insertBefore(mensaje, form);
-    }
-    mensaje.textContent = texto;
-    mensaje.style.color = tipo === "error" ? "red" : "green";
-  }
-
-  // Funció per validar l'oferta
-  function validarOferta() {
-    const valor = ofertaInput.value.trim();
-    if (!valor) {
-      return "El camp Oferta és obligatori.";
-    }
-    if (valor.length < 2) {
-      return "L'oferta ha de tenir com a mínim 2 caràcters.";
-    }
-    return "";
-  }
-
-  // Funció per validar el percentatge
-  function validarPercentaje() {
-    const val = percentajeInput.value.trim();
-    if (!val) {
-      return "El percentatge és obligatori.";
-    }
-    const num = Number(val);
-    if (isNaN(num)) {
-      return "El percentatge ha de ser un número.";
-    }
-    if (!Number.isInteger(num)) {
-      return "El percentatge ha de ser un número enter.";
-    }
-    if (num > 100) {
-      return "El percentatge no pot ser superior a 100.";
-    }
-    if (num <= 0) {
-      return "El percentatge ha de ser major que 0.";
-    }
-    return "";
-  }
-
-  // Funció per validar la data d'inici
-  function validarDataInici() {
-    if (!dataIniciInput.value) {
-      return "La data d'inici és obligatòria.";
-    }
-    const dataInici = new Date(dataIniciInput.value);
-    const avui = new Date();
-    avui.setHours(0, 0, 0, 0);
-
-    if (dataInici < avui) {
-      return "La data d'inici no pot ser anterior a avui.";
-    }
-    return "";
-  }
-
-  // Funció per validar la data de fi
-  function validarDataFi() {
-    if (!datafiInput.value) {
-      return "La data de fi és obligatòria.";
-    }
-    return "";
-  }
-
-  function validarFechas() {
-    if (datafiInput.value && dataIniciInput.value) {
-      const dataInici = new Date(dataIniciInput.value);
-      const dataFi = new Date(datafiInput.value);
-
-      if (dataInici >= dataFi) {
-        return "La data d'inici ha de ser anterior a la data de fi.";
-      }
-    }
-    return "";
-  }
-
-  // Gestor de l'esdeveniment de submissió del formulari
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let errors = [];
-
-    const errorOferta = validarOferta();
-    if (errorOferta) errors.push(errorOferta);
-
-    const errorPercentaje = validarPercentaje();
-    if (errorPercentaje) errors.push(errorPercentaje);
-
-    const errorDataInici = validarDataInici();
-    if (errorDataInici) errors.push(errorDataInici);
-
-    const errorDataFi = validarDataFi();
-    if (errorDataFi) errors.push(errorDataFi);
-
-    const errorFechas = validarFechas();
-    if (errorFechas) errors.push(errorFechas);
-
-    if (errors.length > 0) {
-      mostrarMensaje(errors.join("\n"), "error");
-      return;
+    if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
+        const item = data[editIndex];
+        ofertaInput.value = item.oferta || "";
+        percentajeInput.value = item.percentaje || "";
+        couponInput.value = item.coupon || "";
+        dataIniciInput.value = item.dataInici || "";
+        datafiInput.value = item.dataFi || "";
     }
 
-    // Creem l'objecte amb el format de Sale
-    const newData = {
-      id: editIndex !== null ? data[editIndex].id : data.length + 1,
-      description: ofertaInput.value.trim(),
-      discount_percent: Number(percentajeInput.value.trim()),
-      coupon: couponInput ? couponInput.value.trim() : "",
-      start_date: dataIniciInput.value + " 00:00:00",
-      end_date: datafiInput.value + " 23:59:59",
-      created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
-    };
-    // Actualitzem les dades a localStorage
-    if (editIndex !== null && !isNaN(editIndex)) {
-      data[editIndex] = newData;
-      mostrarMensaje("Oferta editada correctament!", "success");
-    } else {
-      data.push(newData);
-      mostrarMensaje("Oferta afegida correctament!", "success");
+    function mostrarMensaje(texto, tipo = "error") {
+        let mensaje = document.getElementById("mensaje");
+        if (!mensaje) {
+            mensaje = document.createElement("p");
+            mensaje.id = "mensaje";
+            // Limpiar contenido anterior y usar createTextNode
+            while (mensaje.firstChild) {
+                mensaje.removeChild(mensaje.firstChild);
+            }
+            mensaje.appendChild(document.createTextNode(texto));
+            mensaje.style.color = tipo === "error" ? "red" : "green";
+            form.parentNode.insertBefore(mensaje, form);
+        } else {
+            // Limpiar contenido anterior y usar createTextNode
+            while (mensaje.firstChild) {
+                mensaje.removeChild(mensaje.firstChild);
+            }
+            mensaje.appendChild(document.createTextNode(texto));
+            mensaje.style.color = tipo === "error" ? "red" : "green";
+        }
     }
 
-    // Guardem a localStorage
-    localStorage.setItem("saleData", JSON.stringify(data));
+    function validarOferta() {
+        const valor = ofertaInput.value.trim();
+        if (!valor) {
+            return "El camp Oferta és obligatori.";
+        }
+        if (valor.length < 2) {
+            return "L'oferta ha de tenir com a mínim 2 caràcters.";
+        }
+        return "";
+    }
 
-    setTimeout(() => (window.location.href = "listOfer.html"), 1200);
-  });
+    function validarPercentaje() {
+        const val = percentajeInput.value.trim();
+        if (!val) {
+            return "El percentatge és obligatori.";
+        }
+        const num = Number(val);
+        if (isNaN(num)) {
+            return "El percentatge ha de ser un número.";
+        }
+        if (!Number.isInteger(num)) {
+            return "El percentatge ha de ser un número enter.";
+        }
+        if (num > 100) {
+            return "El percentatge no pot ser superior a 100.";
+        }
+        if (num <= 0) {
+            return "El percentatge ha de ser major que 0.";
+        }
+        return "";
+    }
+
+    function validarDataInici() {
+        if (!dataIniciInput.value) {
+            return "La data d'inici és obligatòria.";
+        }
+        const dataInici = new Date(dataIniciInput.value);
+        const avui = new Date();
+        avui.setHours(0, 0, 0, 0);
+        
+        if (dataInici < avui) {
+            return "La data d'inici no pot ser anterior a avui.";
+        }
+        return "";
+    }
+
+    function validarDataFi() {
+        if (!datafiInput.value) {
+            return "La data de fi és obligatòria.";
+        }
+        return "";
+    }
+
+    function validarFechas() {
+        if (datafiInput.value && dataIniciInput.value) {
+            const dataInici = new Date(dataIniciInput.value);
+            const dataFi = new Date(datafiInput.value);
+            
+            if (dataInici >= dataFi) {
+                return "La data d'inici ha de ser anterior a la data de fi.";
+            }
+        }
+        return "";
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        let errors = [];
+
+        const errorOferta = validarOferta();
+        if (errorOferta) errors.push(errorOferta);
+
+        const errorPercentaje = validarPercentaje();
+        if (errorPercentaje) errors.push(errorPercentaje);
+
+        const errorDataInici = validarDataInici();
+        if (errorDataInici) errors.push(errorDataInici);
+
+        const errorDataFi = validarDataFi();
+        if (errorDataFi) errors.push(errorDataFi);
+
+        const errorFechas = validarFechas();
+        if (errorFechas) errors.push(errorFechas);
+
+        if (errors.length > 0) {
+            mostrarMensaje(errors.join('\n'), "error");
+            return;
+        }
+
+        const newData = {
+            oferta: ofertaInput.value.trim(),
+            percentaje: percentajeInput.value.trim(),
+            coupon: couponInput.value.trim(),
+            dataInici: dataIniciInput.value,
+            dataFi: datafiInput.value
+        };
+
+        if (editIndex !== null && !isNaN(editIndex)) {
+            data[editIndex] = newData;
+            mostrarMensaje("Oferta editada correctament!", "success");
+        } else {
+            data.push(newData);
+            mostrarMensaje("Oferta afegida correctament!", "success");
+        }
+        
+        localStorage.setItem("formData", JSON.stringify(data));
+
+        setTimeout(() => window.location.href = "listOfer.html", 1200);
+    });
 });

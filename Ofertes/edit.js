@@ -1,36 +1,24 @@
-document.addEventListener("DOMContentLoaded", function () {
-  // Esperem que el DOM estiga carregat
-  const form            = document.getElementById("formOferta"); // Formulari d'ofertes
-  const ofertaInput     = document.getElementById("ofertaInput"); // Input d'oferta
-  const percentajeInput = document.getElementById("percentajeInput"); // Input de percentatge
-  const dataIniciInput  = document.getElementById("dataIniciInput"); // Input de data d'inici
-  const datafiInput     = document.getElementById("datafiInput"); // Input de data de fi
-  const couponInput     = document.getElementById("couponInput"); // Input de cupó (nou)
+document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('formOferta');
+    const ofertaInput = document.getElementById('ofertaInput');
+    const percentajeInput = document.getElementById('percentajeInput');
+    const couponInput = document.getElementById('couponInput');
+    const dataIniciInput = document.getElementById('dataIniciInput');
+    const datafiInput = document.getElementById('datafiInput');
 
-  const params = new URLSearchParams(window.location.search); // Obtenim els paràmetres de la URL
-  const editIndex = params.get("edit"); // Obtenim l'índex de l'oferta a editar
+    const params = new URLSearchParams(window.location.search);
+    const editIndex = params.get('edit');
 
-  // Carreguem les dades de localStorage o de Sale
-  let data = JSON.parse(localStorage.getItem("saleData")) || Sale || [];
+    let data = JSON.parse(localStorage.getItem("formData")) || [];
 
-  // Si hi ha un índex d'edició, omplim els camps amb les dades existents
-  if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
-    const item            = data[editIndex];
-    ofertaInput.value     = item.description || item.oferta || "";
-    percentajeInput.value = item.discount_percent || item.percentaje || "";
-    dataIniciInput.value  = formatDateForInput(item.start_date || item.dataInici || "");
-    datafiInput.value     = formatDateForInput(item.end_date || item.dataFi || "");
-    if (couponInput) {
-      couponInput.value   = item.coupon || "";
+    if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
+        const item = data[editIndex];
+        ofertaInput.value = item.oferta || "";
+        percentajeInput.value = item.percentaje || "";
+        couponInput.value = item.coupon || "";
+        dataIniciInput.value = item.dataInici || "";
+        datafiInput.value = item.dataFi || "";
     }
-  }
-
-  // Funció per formatar dates per input type="date"
-  function formatDateForInput(dateString) {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toISOString().split('T')[0];
-  }
 
   // Funció per mostrar missatges d'error o èxit
   function mostrarMensaje(texto, tipo = "error") {
@@ -115,51 +103,48 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Gestor de l'esdeveniment de submissió del formulari
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+   form.addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    let errors = [];
+        let errors = [];
 
-    const errorOferta = validarOferta();
-    if (errorOferta) errors.push(errorOferta);
+        const errorOferta = validarOferta();
+        if (errorOferta) errors.push(errorOferta);
 
-    const errorPercentaje = validarPercentaje();
-    if (errorPercentaje) errors.push(errorPercentaje);
+        const errorPercentaje = validarPercentaje();
+        if (errorPercentaje) errors.push(errorPercentaje);
 
-    const errorDataInici = validarDataInici();
-    if (errorDataInici) errors.push(errorDataInici);
+        const errorDataInici = validarDataInici();
+        if (errorDataInici) errors.push(errorDataInici);
 
-    const errorDataFi = validarDataFi();
-    if (errorDataFi) errors.push(errorDataFi);
+        const errorDataFi = validarDataFi();
+        if (errorDataFi) errors.push(errorDataFi);
 
-    const errorFechas = validarFechas();
-    if (errorFechas) errors.push(errorFechas);
+        const errorFechas = validarFechas();
+        if (errorFechas) errors.push(errorFechas);
 
-    if (errors.length > 0) {
-      mostrarMensaje(errors.join("\n"), "error");
-      return;
-    }
+        if (errors.length > 0) {
+            mostrarMensaje(errors.join('\n'), "error");
+            return;
+        }
 
-    // Creem l'objecte amb el format de Sale
-    const newData = {
-      id: data[editIndex].id, // Mantenim la mateixa ID
-      description: ofertaInput.value.trim(),
-      discount_percent: Number(percentajeInput.value.trim()),
-      coupon: couponInput ? couponInput.value.trim() : data[editIndex].coupon || "",
-      start_date: dataIniciInput.value + " 00:00:00",
-      end_date: datafiInput.value + " 23:59:59",
-      created_at: data[editIndex].created_at // Mantenim la data de creació original
-    };
-    // Actualitzem les dades a localStorage
-    if (editIndex !== null && !isNaN(editIndex)) {
-      data[editIndex] = newData;
-      localStorage.setItem("saleData", JSON.stringify(data));
-      mostrarMensaje("Oferta editada correctament!", "success");
-    } else {
-      mostrarMensaje("Error: No s'ha trobat l'índex per editar.", "error");
-      return;
-    }
+        const newData = {
+            oferta: ofertaInput.value.trim(),
+            percentaje: percentajeInput.value.trim(),
+            coupon: couponInput.value.trim(),
+            dataInici: dataIniciInput.value,
+            dataFi: datafiInput.value
+        };
 
-    setTimeout(() => (window.location.href = "listOfer.html"), 1200);
-  });
+        if (editIndex !== null && !isNaN(editIndex)) {
+            data[editIndex] = newData;
+            localStorage.setItem("formData", JSON.stringify(data));
+            mostrarMensaje("Oferta editada correctament!", "success");
+        } else {
+            mostrarMensaje("Error: No s'ha trobat l'índex per editar.", "error");
+            return;
+        }
+
+        setTimeout(() => window.location.href = "listOfer.html", 1200);
+    });
 });
