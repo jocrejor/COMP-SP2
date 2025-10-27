@@ -94,10 +94,11 @@ function carregarDadesLocal() {
     });
 
  
-    const btnEliminar = document.createElement("button");
-    mostrarTexto(btnEliminar, "Eliminar");
-    btnEliminar.className = "btn btn-danger";
-    btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica));
+const btnEliminar = document.createElement("button");
+mostrarTexto(btnEliminar, "Eliminar");
+btnEliminar.className = "btn btn-danger";
+btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica, fila));
+
 
     tdAcciones.appendChild(btnEditar);
     tdAcciones.appendChild(btnEliminar);
@@ -111,27 +112,32 @@ function carregarDadesLocal() {
   });
 }
 
-function eliminarCaracteristica(caracteristica) {
+function eliminarCaracteristica(caracteristica, fila) {
   if (!confirm("¿Seguro que deseas eliminar esta característica?")) return;
 
+
   let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+
   productAttributes = productAttributes.filter(
     item => !(item.product_id === caracteristica.product_id && item.attribute_id === caracteristica.attribute_id)
   );
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+
 
   const sigueEnUso = productAttributes.some(
     item => item.attribute_id === caracteristica.attribute_id
   );
 
   if (!sigueEnUso) {
-    let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
     attributes = attributes.filter(attr => attr.id !== caracteristica.attribute_id);
     localStorage.setItem("Attribute", JSON.stringify(attributes));
   }
 
-  carregarDadesLocal();
+  fila.remove();
 }
+
+
 
 function mostrarTexto(contenedor, texto) {
   let p = document.createElement("p");
