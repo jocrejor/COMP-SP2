@@ -61,7 +61,7 @@ function mostrarProductos(productosFiltrados) {
     const aVer = document.createElement("button");
     aVer.textContent = "Ver producto";
     aVer.onclick = () => {
-      window.location.href = "product.html?id=${product.id}";
+      window.location.href = `product.html?id=${product.id}`;
     };
     div.appendChild(aVer);
 
