@@ -58,10 +58,12 @@ function mostrarProductos(productosFiltrados) {
     }
 
     // Enlace al detalle
-    const a = document.createElement("a");
-    a.href = `product.html?id=${product.id}`;
-    a.textContent = "Ver producto";
-    div.appendChild(a);
+    const aVer = document.createElement("button");
+    aVer.textContent = "Ver producto";
+    aVer.onclick = () => {
+      window.location.href = "product.html?id=${product.id}";
+    };
+    div.appendChild(aVer);
 
     //Boton para añadir al carrito
     const aCar = document.createElement("button");
@@ -89,4 +91,3 @@ selectFamilia.addEventListener("change", function() {
     mostrarProductos(filtrados);
   }
 });
-
