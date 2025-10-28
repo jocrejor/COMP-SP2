@@ -38,7 +38,7 @@ body {
     padding: 12px 24px;
     text-decoration: none;
     border-radius: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
@@ -52,37 +52,28 @@ body {
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
-/* Contenedor de la tabla con scroll */
+/* Contenedor de la tabla SIN scroll */
 .table-container {
     background: white;
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     overflow: hidden;
-    margin-bottom: 20px;
-}
-
-.table-scroll {
-    max-height: 600px;
-    overflow-y: auto;
+    margin-bottom: 30px;
 }
 
 /* Estilos de la tabla */
 .crud_table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
 }
 
 .crud_table thead {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
-    position: sticky;
-    top: 0;
-    z-index: 10;
 }
 
 .crud_table th {
-    padding: 15px 12px;
+    padding: 18px 15px;
     text-align: left;
     font-weight: 600;
     font-size: 14px;
@@ -91,15 +82,15 @@ body {
 }
 
 .crud_table td {
-    padding: 12px;
+    padding: 15px;
     border-bottom: 1px solid #ecf0f1;
     vertical-align: middle;
+    font-size: 14px;
 }
 
 .crud_table tbody tr:hover {
     background-color: #f8f9fa;
-    transform: scale(1.01);
-    transition: transform 0.2s ease;
+    transition: background-color 0.3s ease;
 }
 
 .crud_table tbody tr:nth-child(even) {
@@ -117,7 +108,7 @@ body {
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -163,13 +154,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
     gap: 10px;
     flex-wrap: wrap;
 }
 
 .pagination button {
-    padding: 10px 16px;
+    padding: 12px 18px;
     border: none;
     background: white;
     color: #34495e;
@@ -178,19 +169,21 @@ body {
     transition: all 0.3s ease;
     font-size: 14px;
     font-weight: 500;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    min-width: 45px;
 }
 
 .pagination button:hover:not(:disabled) {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .pagination button.active {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
+    transform: translateY(-1px);
 }
 
 .pagination button:disabled {
@@ -202,9 +195,9 @@ body {
 }
 
 .pagination-info {
-    margin: 0 15px;
+    margin: 0 20px;
     color: white;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
@@ -331,8 +324,11 @@ body {
     text-align: center;
     color: #6c757d;
     font-style: italic;
-    padding: 40px;
+    padding: 60px 40px;
     font-size: 18px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .loading {
@@ -345,7 +341,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .container {
-        padding: 10px;
+        padding: 15px;
     }
     
     .crud_title {
@@ -354,37 +350,45 @@ body {
     
     .table-container {
         border-radius: 10px;
-        margin: 0 -10px;
+        overflow-x: auto;
     }
     
-    .table-scroll {
-        max-height: 500px;
+    .crud_table {
+        min-width: 700px;
     }
     
     .crud_table th,
     .crud_table td {
-        padding: 8px 6px;
+        padding: 12px 10px;
         font-size: 13px;
     }
     
     .crud_table button {
         padding: 6px 12px;
         font-size: 12px;
-        margin: 1px 2px;
+        margin: 2px 3px;
     }
     
     .pagination {
         flex-wrap: wrap;
-        gap: 5px;
+        gap: 8px;
     }
     
     .pagination button {
-        padding: 8px 12px;
-        font-size: 12px;
+        padding: 10px 14px;
+        font-size: 13px;
+        min-width: 40px;
+    }
+    
+    .pagination-info {
+        margin: 10px 0;
+        order: -1;
+        width: 100%;
+        text-align: center;
     }
     
     .crud_form {
-        margin: 20px 10px;
+        margin: 20px auto;
         padding: 25px;
         border-radius: 15px;
     }
@@ -416,4 +420,8 @@ body {
 
 .table-container {
     animation: fadeIn 0.5s ease-out 0.2s both;
+}
+
+.pagination {
+    animation: fadeIn 0.5s ease-out 0.4s both;
 }
