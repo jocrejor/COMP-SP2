@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alta d'Usuaris</title>
+    <link rel="stylesheet" href="css/style.css">
     <!-- Inclou el fitxer JavaScript extern que gestionarà la lògica del formulari -->
     <script type="text/javascript" src="../BBDD/TendaFakeDades.js"></script>
     <script type="text/javascript" src="altaUsuaris.js"></script>
@@ -13,9 +14,9 @@
     
     <!-- Botó per tornar a la pàgina de llista d'usuaris -->
     <button id="usuaris">Tornar a la Llista</button>
-    
     <!-- Formulari principal per donar d'alta usuaris -->
     <form id="formulariUsuari" novalidate>
+        <br>
         <table>
             <tr>
                 <td>Nom d'usuari:</td>
@@ -61,6 +62,8 @@
             </tr>
             <tr>
                 <td>&nbsp;</td>
+            </tr>
+            <tr>
                 <td>
                     <!-- Botons per enviar i reiniciar el formulari -->
                     <input type="submit" name="enviar" id="enviar" value="Enviar"/>

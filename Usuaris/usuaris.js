@@ -42,6 +42,7 @@ function mostrarUsuaris() {
 
     // Crear taula
     const taula = document.createElement('table');
+    taula.id = 'taula_usuaris';
     taula.border = '1';
     taula.cellPadding = '5px';
 
