@@ -68,7 +68,7 @@ let New =
     "id_image": 5,
     "date": "2025-10-13T20:00:00",
     "published": false
-  };
+  }
 ]
 let Image=[
   {
@@ -89,7 +89,7 @@ let Image=[
     "id": 3,
     "url": "https://example.com/images/politica.jpg",
     "name": "Elecciones",
-    "order": 0,;
+    "order": 0,
     "id_new": 3
   },
   {

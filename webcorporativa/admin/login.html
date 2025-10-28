@@ -1,23 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../../BBDD/WebCorporativaDades.js"></script>
     <script src="login.js"></script>
-
+    <link rel="stylesheet" href="../css/login.css">
     <title>Inici de Sessió</title>
 </head>
 <body>
     <p id="missatgeError"></p>
-    <form  id="formulariLogin">
-        <label for="usuari">Nom d'usuari:</label>
-        <input type="text" id="usuari" name="username" required>
-        <br>
+    <p id="missatgeExit"></p>
+    
+    <!-- Formulari d'inici de sessió -->
+    <form id="formulariLogin">
+        <h2>Inici de Sessió</h2>
+        <label for="email">Correu electrònic:</label>
+        <input type="email" id="email" name="email" required>
+        
         <label for="contrasenya">Contrasenya:</label>
-        <input type="password" id="contrasenya" name="password" required>
-        <br>
+        <input type="password" id="contrasenya" name="password" minlength="8" maxlength="20" required>
+        
         <button type="submit">Iniciar Sessió</button>
+        <div class="toggle-link" onclick="mostrarFormulariRegistre()">No tens compte? Registra't</div>
+    </form>
+    
+    <!-- Formulari de registre (inicialment ocult) -->
+    <form id="formulariRegistre" class="hidden">
+        <h2>Registre de Nou Usuari</h2>
+        <label for="nouNom">Nom complet:</label>
+        <input type="text" id="nouNom" name="newName" required>
+        
+        <label for="nouEmail">Correu electrònic:</label>
+        <input type="email" id="nouEmail" name="newEmail" required>
+        
+        <label for="novaContrasenya">Contrasenya:</label>
+        <input type="password" id="novaContrasenya" name="newPassword" minlength="8" maxlength="20" required>
+        
+        <label for="confirmarContrasenya">Confirmar Contrasenya:</label>
+        <input type="password" id="confirmarContrasenya" name="confirmPassword" minlength="8" maxlength="20" required>
+        
+        <button type="submit">Registrar</button>
+        <div class="toggle-link" onclick="mostrarFormulariLogin()">Ja tens compte? Inicia sessió</div>
     </form>
 </body>
 </html>
