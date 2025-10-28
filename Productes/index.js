@@ -11,9 +11,9 @@ function main() {
 }
 
 function inicializarDades() {
-
+    // Verificar si los datos ya están en localStorage
     if (!localStorage.getItem('productos')) {
-
+        // Inicializar productos
         const productosConEstado = [];
         Product.forEach(producto => {
             productosConEstado.push({
@@ -65,7 +65,7 @@ function cargarProductos() {
     const productos = obtenerProductos();
     const familias = obtenerFamilias();
     const imagenes = obtenerImagenes();
-
+    
     const tbody = document.querySelector("#productsTable tbody");
     tbody.innerHTML = "";
 
@@ -192,7 +192,7 @@ function cargarProductos() {
     document.querySelectorAll(".btn-images").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            gestionarImagenes(id);
+            window.location.href = `imagenes.html?id=${id}`;
         });
     });
 
@@ -232,4 +232,46 @@ function cargarProductos() {
             }
         });
     });
+}
+
+function toggleActivo(id) {
+    const productos = obtenerProductos();
+    let producto = null;
+    for (let i = 0; i < productos.length; i++) {
+        if (productos[i].id === id) {
+            producto = productos[i];
+            break;
+        }
+    }
+    if (producto) {
+        producto.active = !producto.active;
+        guardarProductos(productos);
+        cargarProductos();
+    }
+}
+
+function borrarProducto(id) {
+    const productos = obtenerProductos();
+    let index = -1;
+    for (let i = 0; i < productos.length; i++) {
+        if (productos[i].id === id) {
+            index = i;
+            break;
+        }
+    }
+    if (index !== -1) {
+        // Eliminar también las imágenes asociadas
+        const imagenes = obtenerImagenes();
+        const nuevasImagenes = [];
+        for (let i = 0; i < imagenes.length; i++) {
+            if (imagenes[i].product_id !== id) {
+                nuevasImagenes.push(imagenes[i]);
+            }
+        }
+        guardarImagenes(nuevasImagenes);
+
+        productos.splice(index, 1);
+        guardarProductos(productos);
+        cargarProductos();
+    }
 }
