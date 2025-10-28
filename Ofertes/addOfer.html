@@ -1,34 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ca">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Afegir Oferta</title>
+    <link rel="stylesheet" href="css/styles.css">
     <script src="addOfer.js"></script>
 </head>
-
 <body>
-    <a href="listOfer.html" class="crud_add-button">Tornar a Ofertes</a>
-    <p id="mensaje"></p>
-    <form id="formOferta" class="crud_form">
-        <input type="text" placeholder="Oferta" id="ofertaInput" class="form_input" />
+    <div class="container">
+        <a href="listOfer.html" class="crud_add-button">Tornar a Ofertes</a>
+        <form id="formOferta" class="crud_form">
+            <h2 class="form-title">AFEGIR OFERTA</h2>
+            <p id="mensaje"></p>
+            
+            <div class="form-group">
+                <label for="ofertaInput">Nom de l'Oferta</label>
+                <input type="text" placeholder="Introdueix el nom de l'oferta" id="ofertaInput" class="form_input" required />
+            </div>
 
-        <input type="number" placeholder="Percentaje de oferta" id="percentajeInput" class="form_input" required />
+            <div class="form-group">
+                <label for="percentajeInput">Percentatge de Descompte</label>
+                <input type="number" placeholder="Introdueix el percentatge" id="percentajeInput" class="form_input" required min="1" max="100" />
+            </div>
 
-        <input type="text" placeholder="Cupó (opcional)" id="couponInput" class="form_input" />
+            <div class="form-group">
+                <label for="couponInput">Codi Cupó (Opcional)</label>
+                <input type="text" placeholder="Introdueix el codi del cupó" id="couponInput" class="form_input" />
+            </div>
 
-        <p>Data inici</p>
+            <div class="form-group">
+                <label for="dataIniciInput" class="date-label">Data d'Inici</label>
+                <input type="date" id="dataIniciInput" class="form_input" required />
+            </div>
 
-        <input type="date" id="dataIniciInput" class="form_input" required />
+            <div class="form-group">
+                <label for="datafiInput" class="date-label">Data de Fi</label>
+                <input type="date" id="datafiInput" class="form_input" required />
+            </div>
 
-        <p>Data fi</p>
-
-        <input type="date" placeholder="Data fi" id="datafiInput" class="form_input" required />
-
-        <button type="submit" id="submitButton" required>publicar</button>
-    </form>
-   
+            <button type="submit" class="submit-button">Publicar Oferta</button>
+            <a href="listOfer.html" class="back-link">← Tornar a la llista d'ofertes</a>
+        </form>
+    </div>
 </body>
-
 </html>

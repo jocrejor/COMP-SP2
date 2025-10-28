@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!mensaje) {
             mensaje = document.createElement("p");
             mensaje.id = "mensaje";
-            // Limpiar contenido anterior y usar createTextNode
             while (mensaje.firstChild) {
                 mensaje.removeChild(mensaje.firstChild);
             }
@@ -33,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function() {
             mensaje.style.color = tipo === "error" ? "red" : "green";
             form.parentNode.insertBefore(mensaje, form);
         } else {
-            // Limpiar contenido anterior y usar createTextNode
             while (mensaje.firstChild) {
                 mensaje.removeChild(mensaje.firstChild);
             }

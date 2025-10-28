@@ -1,22 +1,27 @@
 document.addEventListener("DOMContentLoaded", function() {
     const tableBody = document.getElementById('tableBody');
-
-    // Cargar datos de localStorage O de TendaFakeDades.js si no hay datos
-    let data = JSON.parse(localStorage.getItem("formData")) || [];
+    const paginationContainer = document.createElement('div');
+    paginationContainer.className = 'pagination';
     
-    // Si no hay datos en localStorage, usar los de TendaFakeDades.js (array Sale)
-    if (data.length === 0 && typeof Sale !== 'undefined') {
-        // Convertir la estructura de Sale a la estructura que espera tu código
-        data = Sale.map(function(sale, index) {
+    let data = JSON.parse(localStorage.getItem("formData")) || [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    
+    // Solo cargar datos de TendaFakeDades si NO hay datos en localStorage
+    if (data.length === 0 && typeof Sale !== 'undefined' && Sale.length > 0) {
+        console.log("Cargando datos iniciales de TendaFakeDades...");
+        data = Sale.map(function(sale) {
             return {
                 oferta: sale.description,
                 percentaje: sale.discount_percent,
-                dataInici: sale.start_date.split(' ')[0], // Solo la fecha, sin la hora
-                dataFi: sale.end_date.split(' ')[0], // Solo la fecha, sin la hora
-                coupon: sale.coupon
+                dataInici: sale.start_date.split(' ')[0],
+                dataFi: sale.end_date.split(' ')[0],
+                coupon: sale.coupon || ""
             };
         });
         localStorage.setItem("formData", JSON.stringify(data));
+    } else if (data.length > 0) {
+        console.log("Usando datos existentes de localStorage:", data.length, "ofertas");
     }
 
     function saveDataToLocalStorage(){
@@ -32,28 +37,29 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function renderTable() {
-        if (!tableBody) {
-            console.error("No s'ha trobat l'element tableBody");
-            return;
-        }
+        if (!tableBody) return;
         
-        // Limpiar la tabla
         while (tableBody.firstChild) {
             tableBody.removeChild(tableBody.firstChild);
         }
 
-        // Verificar si hay datos
         if (data.length === 0) {
             const row = document.createElement("tr");
             const cell = document.createElement("td");
             cell.setAttribute("colspan", "8");
+            cell.className = 'no-data';
             cell.appendChild(document.createTextNode("No hi ha ofertes registrades"));
             row.appendChild(cell);
             tableBody.appendChild(row);
             return;
         }
-
-        data.forEach(function (item, index){
+        
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const currentItems = data.slice(startIndex, endIndex);
+        
+        currentItems.forEach(function (item, index){
+            const globalIndex = startIndex + index;
             const row = document.createElement("tr");
             const idCell = document.createElement("td");
             const ofertaCell = document.createElement("td");
@@ -68,8 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const deleteButton = document.createElement("button");
             const addProductSale = document.createElement("button");
 
-            // Usar createTextNode para todo el contenido de texto
-            idCell.appendChild(document.createTextNode(index + 1));
+            idCell.appendChild(document.createTextNode(globalIndex + 1));
             ofertaCell.appendChild(document.createTextNode(item.oferta));
             percentajeCell.appendChild(document.createTextNode(item.percentaje + "%"));
             dataIniciCell.appendChild(document.createTextNode(item.dataInici));
@@ -80,21 +85,16 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteButton.appendChild(document.createTextNode("Delete"));
             addProductSale.appendChild(document.createTextNode("Productes aplicats"));
 
-            // Añadir estilos básicos a los botones
-            editButton.style.marginRight = "5px";
-            deleteButton.style.marginRight = "5px";
-            addProductSale.style.marginRight = "5px";
-
             editButton.addEventListener("click", function(){
-                editData(index);
+                window.location.href = `edit.html?edit=${globalIndex}`;
             });
 
             deleteButton.addEventListener("click", function(){
-                deleteData(index);
+                deleteData(globalIndex);
             });
 
             addProductSale.addEventListener("click", function(){
-                goToProducts(index);
+                window.location.href = `productsList.html?oferta=${globalIndex}`;
             });
 
             actionCell.appendChild(editButton);
@@ -112,16 +112,70 @@ document.addEventListener("DOMContentLoaded", function() {
 
             tableBody.appendChild(row);
         });
+        
+        renderPagination();
     }
 
-    function goToProducts(index){
-        window.location.href = `productsList.html?oferta=${index}`;
+    function renderPagination() {
+        const totalPages = Math.ceil(data.length / itemsPerPage);
+        
+        while (paginationContainer.firstChild) {
+            paginationContainer.removeChild(paginationContainer.firstChild);
+        }
+
+        if (totalPages <= 1) return;
+
+        // Botón Anterior
+        const prevButton = document.createElement("button");
+        prevButton.appendChild(document.createTextNode("« Anterior"));
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener("click", function() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+        paginationContainer.appendChild(prevButton);
+
+        // Números de página
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement("button");
+            pageButton.appendChild(document.createTextNode(i));
+            if (i === currentPage) {
+                pageButton.className = 'active';
+            }
+            pageButton.addEventListener("click", function() {
+                currentPage = i;
+                renderTable();
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+
+        // Botón Siguiente
+        const nextButton = document.createElement("button");
+        nextButton.appendChild(document.createTextNode("Següent »"));
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener("click", function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        });
+        paginationContainer.appendChild(nextButton);
+
+        // Información de paginación
+        const info = document.createElement("span");
+        info.className = 'pagination-info';
+        info.appendChild(document.createTextNode(
+            `Pàgina ${currentPage} de ${totalPages} - ${data.length} ofertes`
+        ));
+        paginationContainer.appendChild(info);
+
+        // Añadir paginación al DOM si no está ya
+        if (!paginationContainer.parentNode) {
+            tableBody.parentNode.parentNode.appendChild(paginationContainer);
+        }
     }
 
-    function editData(index) {
-        window.location.href = `edit.html?edit=${index}`;
-    }
-
-    // Renderizar la tabla cuando se carga la página
     renderTable();
 });

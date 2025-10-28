@@ -1,37 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ofertes</title>
-    <script src="BBDD/TendaFakeDades.js"></script>
+    <title>Llista d'Ofertes</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="../BBDD/TendaFakeDades.js"></script>
     <script src="listOfer.js"></script>
 </head>
-
 <body>
-    <main>
-        <section>
-            <h1 class="crud_title">Crud de Ofertes</h1>
-            <a href="addOfer.html" class="crud_add-button">Afegir Oferta</a>
-            <table class="crud_table">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Oferta</th>
-                        <th>Percentaje</th>
-                        <th>Data Inici</th>
-                        <th>Data Fi</th>
-                        <th>Cupó</th>
-                        <th>Accio</th>
-                        <th>Productes Aplicats</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody">
-                </tbody>
-            </table>
-        </section>
-    </main>
+    <div class="container">
+        <main>
+            <section>
+                <h1 class="crud_title">Llista d'Ofertes</h1>
+                <a href="addOfer.html" class="crud_add-button">+ Afegir Nova Oferta</a>
+                <div class="table-container">
+                    <div class="table-scroll">
+                        <table class="crud_table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Oferta</th>
+                                    <th>Percentatge</th>
+                                    <th>Data Inici</th>
+                                    <th>Data Fi</th>
+                                    <th>Cupó</th>
+                                    <th>Accions</th>
+                                    <th>Productes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
-
 </html>

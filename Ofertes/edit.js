@@ -20,90 +20,92 @@ document.addEventListener("DOMContentLoaded", function() {
         datafiInput.value = item.dataFi || "";
     }
 
-  // Funció per mostrar missatges d'error o èxit
-  function mostrarMensaje(texto, tipo = "error") {
-    let mensaje = document.getElementById("mensaje");
-    if (!mensaje) {
-      mensaje    = document.createElement("p");
-      mensaje.id = "mensaje";
-      form.parentNode.insertBefore(mensaje, form);
+    function mostrarMensaje(texto, tipo = "error") {
+        let mensaje = document.getElementById("mensaje");
+        if (!mensaje) {
+            mensaje = document.createElement("p");
+            mensaje.id = "mensaje";
+            while (mensaje.firstChild) {
+                mensaje.removeChild(mensaje.firstChild);
+            }
+            mensaje.appendChild(document.createTextNode(texto));
+            mensaje.style.color = tipo === "error" ? "red" : "green";
+            form.parentNode.insertBefore(mensaje, form);
+        } else {
+            while (mensaje.firstChild) {
+                mensaje.removeChild(mensaje.firstChild);
+            }
+            mensaje.appendChild(document.createTextNode(texto));
+            mensaje.style.color = tipo === "error" ? "red" : "green";
+        }
     }
-    mensaje.textContent = texto;
-    mensaje.style.color = tipo === "error" ? "red" : "green";
-  }
 
-  // Funció per validar l'oferta
-  function validarOferta() {
-    const valor = ofertaInput.value.trim();
-    if (!valor) {
-      return "El camp Oferta és obligatori.";
+    function validarOferta() {
+        const valor = ofertaInput.value.trim();
+        if (!valor) {
+            return "El camp Oferta és obligatori.";
+        }
+        if (valor.length < 2) {
+            return "L'oferta ha de tenir com a mínim 2 caràcters.";
+        }
+        return "";
     }
-    if (valor.length < 2) {
-      return "L'oferta ha de tenir com a mínim 2 caràcters.";
-    }
-    return "";
-  }
 
-  // Funció per validar el percentatge
-  function validarPercentaje() {
-    const val = percentajeInput.value.trim();
-    if (!val) {
-      return "El percentatge és obligatori.";
+    function validarPercentaje() {
+        const val = percentajeInput.value.trim();
+        if (!val) {
+            return "El percentatge és obligatori.";
+        }
+        const num = Number(val);
+        if (isNaN(num)) {
+            return "El percentatge ha de ser un número.";
+        }
+        if (!Number.isInteger(num)) {
+            return "El percentatge ha de ser un número enter.";
+        }
+        if (num > 100) {
+            return "El percentatge no pot ser superior a 100.";
+        }
+        if (num <= 0) {
+            return "El percentatge ha de ser major que 0.";
+        }
+        return "";
     }
-    const num = Number(val);
-    if (isNaN(num)) {
-      return "El percentatge ha de ser un número.";
-    }
-    if (!Number.isInteger(num)) {
-      return "El percentatge ha de ser un número enter.";
-    }
-    if (num > 100) {
-      return "El percentatge no pot ser superior a 100.";
-    }
-    if (num <= 0) {
-      return "El percentatge ha de ser major que 0.";
-    }
-    return "";
-  }
 
-  // Funció per validar la data d'inici
-  function validarDataInici() {
-    if (!dataIniciInput.value) {
-      return "La data d'inici és obligatòria.";
+    function validarDataInici() {
+        if (!dataIniciInput.value) {
+            return "La data d'inici és obligatòria.";
+        }
+        const dataInici = new Date(dataIniciInput.value);
+        const avui = new Date();
+        avui.setHours(0, 0, 0, 0);
+        
+        if (dataInici < avui) {
+            return "La data d'inici no pot ser anterior a avui.";
+        }
+        return "";
     }
-    const dataInici = new Date(dataIniciInput.value);
-    const avui      = new Date();
-    avui.setHours(0, 0, 0, 0);
 
-    if (dataInici < avui) {
-      return "La data d'inici no pot ser anterior a avui.";
+    function validarDataFi() {
+        if (!datafiInput.value) {
+            return "La data de fi és obligatòria.";
+        }
+        return "";
     }
-    return "";
-  }
 
-  // Funció per validar la data de fi
-  function validarDataFi() {
-    if (!datafiInput.value) {
-      return "La data de fi és obligatòria.";
+    function validarFechas() {
+        if (datafiInput.value && dataIniciInput.value) {
+            const dataInici = new Date(dataIniciInput.value);
+            const dataFi = new Date(datafiInput.value);
+            
+            if (dataInici >= dataFi) {
+                return "La data d'inici ha de ser anterior a la data de fi.";
+            }
+        }
+        return "";
     }
-    return "";
-  }
 
-  // Funció per validar que la data d'inici sigua anterior a la data de fi
-  function validarFechas() {
-    if (datafiInput.value && dataIniciInput.value) {
-      const dataInici = new Date(dataIniciInput.value);
-      const dataFi = new Date(datafiInput.value);
-
-      if (dataInici >= dataFi) {
-        return "La data d'inici ha de ser anterior a la data de fi.";
-      }
-    }
-    return "";
-  }
-
-  // Gestor de l'esdeveniment de submissió del formulari
-   form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
 
         let errors = [];
