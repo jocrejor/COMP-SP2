@@ -44,15 +44,37 @@ function mostrarProductes() {
     const container = document.getElementById('productes-container');
     productes.forEach(p => {
         const div = document.createElement('div');
-        div.innerHTML = `
-            <p><strong>${p.name}</strong></p>
-            <p>${p.description}</p>
-            <p>Preu: ${p.price.toFixed(2)} €</p>
-            <img src="${p.image}" alt="${p.name}" width="120" height="120">
-            <br>
-            <button onclick="afegirAlCarret(${p.id})">Afegir al carret</button>
-            <hr>
-        `;
+
+        const pName = document.createElement('p');
+        const strong = document.createElement('strong');
+        strong.textContent = p.name;
+        pName.appendChild(strong);
+        div.appendChild(pName);
+
+        const pDesc = document.createElement('p');
+        pDesc.textContent = p.description;
+        div.appendChild(pDesc);
+
+        const pPrice = document.createElement('p');
+        pPrice.textContent = `Preu: ${p.price.toFixed(2)} €`;
+        div.appendChild(pPrice);
+
+        const img = document.createElement('img');
+        img.src = p.image;
+        img.alt = p.name;
+        img.width = 120;
+        img.height = 120;
+        div.appendChild(img);
+
+        div.appendChild(document.createElement('br'));
+
+        const btn = document.createElement('button');
+        btn.textContent = 'Afegir al carret';
+        btn.addEventListener('click', () => afegirAlCarret(p.id));
+        div.appendChild(btn);
+
+        div.appendChild(document.createElement('hr'));
+
         container.appendChild(div);
     });
 }
