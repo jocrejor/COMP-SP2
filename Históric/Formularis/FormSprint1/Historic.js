@@ -66,15 +66,24 @@ document
   .addEventListener("submit", function (e) {
     e.preventDefault();
 
+    //VALIDACIONS DE DATES
+    date_start = document.getElementById("date_start").value,
+      date_end = document.getElementById("date_end").value;
+
+    if (dateStart && dateEnd && new Date(dateEnd) < new Date(dateStart)) {
+      alert("ERROR. La data final no pot ser anterior a la data inicial.");
+      return;
+    }
+
     const dadesRegistre = {
       session_id: sessionStorage.getItem("session_id"),
       user_agent:
-        document.getElementById("user_agent").value || navigator.userAgent,
+      document.getElementById("user_agent").value || navigator.userAgent,
       client_id: document.getElementById("client_id").value,
       comparator_id: document.getElementById("comparator_id").value,
       favorite_id: document.getElementById("favorite_id").value,
-      date_start: document.getElementById("date_start").value,
-      date_end: document.getElementById("date_end").value,
+      date_start: dateStart,
+      date_end: dateEnd,
     };
 
     let registres = JSON.parse(localStorage.getItem("registres")) || [];
