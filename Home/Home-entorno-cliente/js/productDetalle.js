@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Nombre
   const h2 = document.createElement("h2");
   h2.textContent = product.name;
+  div.style.textAlign = "center"
   div.appendChild(h2);
 
   // Precio
@@ -38,11 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   pDesc.textContent = product.description;
   div.appendChild(pDesc);
 
-  // Botón para añadir al carrito (opcional)
+  // Botón para añadir al carrito
   const btn = document.createElement("button");
   btn.textContent = " Añadir al carrito";
   btn.style.marginTop = "10px";
   div.appendChild(btn);
 
+  //Boton para volver a la home
+  const btnVol = document.createElement("button");
+  btnVol.textContent = "Volver a la página principal";
+  btnVol.onclick = () => {
+  window.location.href = "home.html";
+  };
+  div.appendChild(btnVol);
+  
   container.appendChild(div);
 });

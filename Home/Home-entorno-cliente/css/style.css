@@ -65,3 +65,10 @@ a{
     justify-content: center;
     align-items: center;
 }
+
+/*Estilos de la pagina de detalles de producto*/
+.headerProductes{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
