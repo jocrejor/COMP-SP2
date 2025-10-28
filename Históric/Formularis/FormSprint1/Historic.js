@@ -1,16 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  //Generar session_Id si no existeix --Preguntar Crespo
+  // Generar un session_id únic si encara no existeix
   if (!sessionStorage.getItem("session_id")) {
     sessionStorage.setItem("session_id", crypto.randomUUID());
-
+  }
 })
- 
 
-
-// Generar un session_id únic si encara no existeix
-if (!sessionStorage.getItem("session_id")) {
-  sessionStorage.setItem("session_id", crypto.randomUUID());
-}
 
 // Variable per saber si estem editant un registre concret
 let indexEdicio = null;
