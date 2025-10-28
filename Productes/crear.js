@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    carregarFamilies();
+    cargarFamilias();
 
     const form = document.getElementById("productForm");
-    form.addEventListener("submit", crearProducte);
+    form.addEventListener("submit", crearProducto);
 
     const btnVolver = document.getElementById("btnVolver");
     btnVolver.addEventListener("click", () => {
@@ -12,23 +12,23 @@ function main() {
     });
 }
 
-function obtindreProductes() {
-    return JSON.parse(localStorage.getItem('productes')) || [];
+function obtenerProductos() {
+    return JSON.parse(localStorage.getItem('productos')) || [];
 }
 
-function obtindreFamilies() {
-    return JSON.parse(localStorage.getItem('families')) || [];
+function obtenerFamilias() {
+    return JSON.parse(localStorage.getItem('familias')) || [];
 }
 
-function guardarProductes(productes) {
-    localStorage.setItem('productes', JSON.stringify(productes));
+function guardarProductos(productos) {
+    localStorage.setItem('productos', JSON.stringify(productos));
 }
 
-function carregarFamilies() {
+function cargarFamilias() {
     const select = document.getElementById("family_id");
-    const families = obtindreFamilies();
+    const familias = obtenerFamilias();
     
-    families.forEach(familia => {
+    familias.forEach(familia => {
         const option = document.createElement("option");
         option.value = familia.id;
         option.textContent = familia.name;
@@ -36,7 +36,7 @@ function carregarFamilies() {
     });
 }
 
-function crearProducte(event) {
+function crearProducto(event) {
     event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
@@ -45,26 +45,26 @@ function crearProducte(event) {
     const family_id = parseInt(document.getElementById("family_id").value);
 
     if (!name) {
-        alert("El nom és obligatori");
+        alert("El nombre es obligatorio");
         return;
     }
 
-    const productes = obtindreProductes();
+    const productos = obtenerProductos();
 
-    // Generar nou ID
+    // Generar nuevo ID
     let newId = 1;
-    if (productes.length > 0) {
-        let maxId = productes[0].id;
-        productes.forEach(producte => {
-            if (producte.id > maxId) {
-                maxId = producte.id;
+    if (productos.length > 0) {
+        let maxId = productos[0].id;
+        productos.forEach(producto => {
+            if (producto.id > maxId) {
+                maxId = producto.id;
             }
         });
         newId = maxId + 1;
     }
 
-    // Crear nou producte
-    const nouProducte = {
+    // Crear nuevo producto
+    const nuevoProducto = {
         id: newId,
         name,
         price,
@@ -73,10 +73,10 @@ function crearProducte(event) {
         active: true
     };
 
-    // Afegir al conjunt de productes
-    productes.push(nouProducte);
-    guardarProductes(productes);
+    // Añadir al array de productos
+    productos.push(nuevoProducto);
+    guardarProductos(productos);
 
-    alert("Producte creat correctament");
+    alert("Producto creado correctamente");
     window.location.href = "index.html";
 }

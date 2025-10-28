@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crear Producte</title>
+    <title>Crear Producto</title>
     <link rel="stylesheet" href="css/form.css" />
     <script src="../BBDD/TendaFakeDades.js"></script>
     <script src="crear.js"></script>
 </head>
 <body>
-    <h1>Crear Producte</h1>
+    <h1>Crear Producto</h1>
     <form id="productForm">
-        <label for="name">Nom:</label>
+        <label for="name">Nombre:</label>
         <input type="text" id="name" name="name" required />
         <br />
 
-        <label for="price">Preu:</label>
+        <label for="price">Precio:</label>
         <input type="number" step="0.01" id="price" name="price" />
         <br />
 
-        <label for="description">Descripció:</label>
+        <label for="description">Descripción:</label>
         <textarea id="description" name="description"></textarea>
         <br />
 
-        <label for="family_id">Família:</label>
+        <label for="family_id">Familia:</label>
         <select id="family_id" name="family_id"></select>
         <br />
 
         <button type="submit">Crear</button>
     </form>
 
-    <button id="btnVolver" style="margin-top:10px;">Tornar al llistat</button>
+    <button id="btnVolver" style="margin-top:10px;">Volver al listado</button>
 </body>
 </html>
