@@ -182,12 +182,12 @@ function validarNom() {
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduir un nom.");
-        }
-        if (element.validity.patternMismatch) {
-            error(element, "El nom només pot tindre lletres, números i espais.");
-        }
-        if (element.validity.tooShort || element.validity.tooLong) {
-            error(element, "El nom ha de tindre entre 3 i 100 caràcters.");
+        } else if (element.validity.patternMismatch) {
+            error(element, "El nom només pot tindre lletres, números i espais, entre 3 i 100 caràcters.");
+        } else if (element.validity.tooShort) {
+            error(element, "El nom ha de tindre almenys 3 caràcters.");
+        } else if (element.validity.tooLong) {
+            error(element, "El nom no pot superar els 100 caràcters.");
         }
         return false;
     }
@@ -200,14 +200,16 @@ function validarDescripcio() {
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduir una descripció.");
-        }
-        if (element.validity.tooShort || element.validity.tooLong) {
-            error(element, "La descripció ha de tindre entre 3 i 250 caràcters.");
+        } else if (element.validity.tooShort) {
+            error(element, "La descripció ha de tindre almenys 3 caràcters.");
+        } else if (element.validity.tooLong) {
+            error(element, "La descripció no pot superar els 250 caràcters.");
         }
         return false;
     }
     return true;
 }
+
 
 // Validació de la imatge
 function validarImatge() {
