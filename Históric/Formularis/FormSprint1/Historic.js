@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+  //Generar session_Id si no existeix --Preguntar Crespo
+  if (!sessionStorage.getItem("session_id")) {
+    sessionStorage.setItem("session_id", crypto.randomUUID());
 
 })
  
