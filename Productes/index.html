@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Listado de Productos</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="index.js"></script>
 </head>
+
 <body>
     <h1>Listado de Productos</h1>
-    <button id="btnCrear">Crear Nuevo Producto</button>
-    <table border="1" id="productsTable" style="margin-top: 10px;">
+    <button id="btnCrear">Crear producte</button>
+    <table id="productsTable">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Descripción</th>
-                <th>Familia ID</th>
-                <th>Acciones</th>
+                <th>Familia</th>
+                <th>Imágenes</th>
+                <th>Detalles</th>
+                <th>Atributos</th>
+                <th>Editar</th>
+                <th>Activo</th>
+                <th>Borrar</th>
             </tr>
         </thead>
         <tbody>
-            <!-- Productos cargados aquí -->
+            <!-- Els productes es carregarán desde el js -->
         </tbody>
     </table>
-
-    <script src="index.js"></script>
 </body>
+
 </html>
