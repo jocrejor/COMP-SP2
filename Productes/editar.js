@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    const id = obtenerIdDeUrl();
+    const id = obtindreIdDeUrl();
     if (!id) {
-        alert("ID de producto no especificado.");
+        alert("ID de producte no especificat.");
         window.location.href = "index.html";
         return;
     }
 
-    cargarFamilias();
-    cargarProducto(id);
+    carregarFamilies();
+    carregarProducte(id);
 
     const form = document.getElementById("productForm");
     form.addEventListener("submit", function(event) {
         event.preventDefault();
-        guardarCambios(id);
+        guardarCanvis(id);
     });
 
     const btnVolver = document.getElementById("btnVolver");
@@ -23,23 +23,23 @@ function main() {
     });
 }
 
-function obtenerProductos() {
-    return JSON.parse(localStorage.getItem('productos')) || [];
+function obtindreProductes() {
+    return JSON.parse(localStorage.getItem('productes')) || [];
 }
 
-function obtenerFamilias() {
-    return JSON.parse(localStorage.getItem('familias')) || [];
+function obtindreFamilies() {
+    return JSON.parse(localStorage.getItem('families')) || [];
 }
 
-function guardarProductos(productos) {
-    localStorage.setItem('productos', JSON.stringify(productos));
+function guardarProductes(productes) {
+    localStorage.setItem('productes', JSON.stringify(productes));
 }
 
-function cargarFamilias() {
+function carregarFamilies() {
     const select = document.getElementById("family_id");
-    const familias = obtenerFamilias();
+    const families = obtindreFamilies();
     
-    familias.forEach(familia => {
+    families.forEach(familia => {
         const option = document.createElement("option");
         option.value = familia.id;
         option.textContent = familia.name;
@@ -47,45 +47,45 @@ function cargarFamilias() {
     });
 }
 
-function obtenerIdDeUrl() {
+function obtindreIdDeUrl() {
     const params = new URLSearchParams(window.location.search);
     return parseInt(params.get("id"));
 }
 
-function cargarProducto(id) {
-    const productos = obtenerProductos();
-    let producto = null;
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i].id === id) {
-            producto = productos[i];
+function carregarProducte(id) {
+    const productes = obtindreProductes();
+    let producte = null;
+    for (let i = 0; i < productes.length; i++) {
+        if (productes[i].id === id) {
+            producte = productes[i];
             break;
         }
     }
 
-    if (!producto) {
-        alert("Producto no encontrado.");
+    if (!producte) {
+        alert("Producte no trobat.");
         window.location.href = "index.html";
         return;
     }
 
-    document.getElementById("name").value = producto.name;
-    document.getElementById("price").value = producto.price;
-    document.getElementById("description").value = producto.description;
-    document.getElementById("family_id").value = producto.family_id;
+    document.getElementById("name").value = producte.name;
+    document.getElementById("price").value = producte.price;
+    document.getElementById("description").value = producte.description;
+    document.getElementById("family_id").value = producte.family_id;
 }
 
-function guardarCambios(id) {
-    const productos = obtenerProductos();
-    let producto = null;
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i].id === id) {
-            producto = productos[i];
+function guardarCanvis(id) {
+    const productes = obtindreProductes();
+    let producte = null;
+    for (let i = 0; i < productes.length; i++) {
+        if (productes[i].id === id) {
+            producte = productes[i];
             break;
         }
     }
 
-    if (!producto) {
-        alert("Producto no encontrado.");
+    if (!producte) {
+        alert("Producte no trobat.");
         window.location.href = "index.html";
         return;
     }
@@ -96,17 +96,17 @@ function guardarCambios(id) {
     const family_id = parseInt(document.getElementById("family_id").value);
 
     if (!name) {
-        alert("El nombre es obligatorio");
+        alert("El nom és obligatori");
         return;
     }
 
-    // Actualizar el producto
-    producto.name = name;
-    producto.price = price;
-    producto.description = description;
-    producto.family_id = family_id;
+    // Actualitzar el producte
+    producte.name = name;
+    producte.price = price;
+    producte.description = description;
+    producte.family_id = family_id;
 
-    guardarProductos(productos);
-    alert("Producto modificado correctamente");
+    guardarProductes(productes);
+    alert("Producte modificat correctament");
     window.location.href = "index.html";
 }

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    console.log("Página de detalles de producto cargada");
+    console.log("Pàgina de detalls del producte carregada");
     
     const btnVolver = document.getElementById("btnVolver");
     btnVolver.addEventListener("click", () => {

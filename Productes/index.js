@@ -6,200 +6,200 @@ function main() {
         window.location.href = "crear.html";
     });
 
-    inicializarDades();
-    cargarProductos();
+    inicialitzarDades();
+    carregarProductes();
 }
 
-function inicializarDades() {
-    // Verificar si los datos ya están en localStorage
-    if (!localStorage.getItem('productos')) {
-        // Inicializar productos
-        const productosConEstado = [];
-        Product.forEach(producto => {
-            productosConEstado.push({
-                ...producto,
-                active: producto.active !== undefined ? producto.active : true
+function inicialitzarDades() {
+    // Verificar si les dades ja estan en localStorage
+    if (!localStorage.getItem('productes')) {
+        // Inicialitzar productes
+        const productesAmbEstat = [];
+        Product.forEach(producte => {
+            productesAmbEstat.push({
+                ...producte,
+                active: producte.active !== undefined ? producte.active : true
             });
         });
-        localStorage.setItem('productos', JSON.stringify(productosConEstado));
+        localStorage.setItem('productes', JSON.stringify(productesAmbEstat));
     }
 
-    if (!localStorage.getItem('familias')) {
-        localStorage.setItem('familias', JSON.stringify(Family));
+    if (!localStorage.getItem('families')) {
+        localStorage.setItem('families', JSON.stringify(Family));
     }
 
-    if (!localStorage.getItem('imagenes')) {
-        localStorage.setItem('imagenes', JSON.stringify(Productimage));
+    if (!localStorage.getItem('imatges')) {
+        localStorage.setItem('imatges', JSON.stringify(Productimage));
     }
 
-    if (!localStorage.getItem('atributos')) {
-        localStorage.setItem('atributos', JSON.stringify(Productattribute));
+    if (!localStorage.getItem('atributs')) {
+        localStorage.setItem('atributs', JSON.stringify(Productattribute));
     }
 }
 
-function obtenerProductos() {
-    return JSON.parse(localStorage.getItem('productos')) || [];
+function obtindreProductes() {
+    return JSON.parse(localStorage.getItem('productes')) || [];
 }
 
-function obtenerFamilias() {
-    return JSON.parse(localStorage.getItem('familias')) || [];
+function obtindreFamilies() {
+    return JSON.parse(localStorage.getItem('families')) || [];
 }
 
-function obtenerImagenes() {
-    return JSON.parse(localStorage.getItem('imagenes')) || [];
+function obtindreImatges() {
+    return JSON.parse(localStorage.getItem('imatges')) || [];
 }
 
-function obtenerAtributos() {
-    return JSON.parse(localStorage.getItem('atributos')) || [];
+function obtindreAtributs() {
+    return JSON.parse(localStorage.getItem('atributs')) || [];
 }
 
-function guardarProductos(productos) {
-    localStorage.setItem('productos', JSON.stringify(productos));
+function guardarProductes(productes) {
+    localStorage.setItem('productes', JSON.stringify(productes));
 }
 
-function guardarImagenes(imagenes) {
-    localStorage.setItem('imagenes', JSON.stringify(imagenes));
+function guardarImatges(imatges) {
+    localStorage.setItem('imatges', JSON.stringify(imatges));
 }
 
-function cargarProductos() {
-    const productos = obtenerProductos();
-    const familias = obtenerFamilias();
-    const imagenes = obtenerImagenes();
+function carregarProductes() {
+    const productes = obtindreProductes();
+    const families = obtindreFamilies();
+    const imatges = obtindreImatges();
     
     const tbody = document.querySelector("#productsTable tbody");
     tbody.innerHTML = "";
 
-    if (productos.length === 0) {
+    if (productes.length === 0) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.colSpan = 11;
-        td.textContent = "No hay productos para mostrar.";
+        td.textContent = "No hi ha productes per a mostrar.";
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
     }
 
-    productos.forEach(producto => {
+    productes.forEach(producte => {
         const tr = document.createElement("tr");
-        if (!producto.active) {
+        if (!producte.active) {
             tr.classList.add('inactive');
         }
 
-        // Buscar el nombre de la familia
+        // Buscar el nom de la família
         let familia = null;
-        for (let j = 0; j < familias.length; j++) {
-            if (familias[j].id === producto.family_id) {
-                familia = familias[j];
+        for (let j = 0; j < families.length; j++) {
+            if (families[j].id === producte.family_id) {
+                familia = families[j];
                 break;
             }
         }
-        const nombreFamilia = familia ? familia.name : "Sin familia";
+        const nomFamilia = familia ? familia.name : "Sense família";
 
-        // Contar imágenes del producto
-        const imagenesProducto = [];
-        for (let j = 0; j < imagenes.length; j++) {
-            if (imagenes[j].product_id === producto.id) {
-                imagenesProducto.push(imagenes[j]);
+        // Comptar imatges del producte
+        const imatgesProducte = [];
+        for (let j = 0; j < imatges.length; j++) {
+            if (imatges[j].product_id === producte.id) {
+                imatgesProducte.push(imatges[j]);
             }
         }
-        const numImagenes = imagenesProducto.length;
+        const numImatges = imatgesProducte.length;
 
         // ID
         const tdId = document.createElement("td");
-        tdId.textContent = producto.id;
+        tdId.textContent = producte.id;
         tr.appendChild(tdId);
 
-        // Nombre
-        const tdNombre = document.createElement("td");
-        tdNombre.textContent = producto.name;
-        tr.appendChild(tdNombre);
+        // Nom
+        const tdNom = document.createElement("td");
+        tdNom.textContent = producte.name;
+        tr.appendChild(tdNom);
 
-        // Precio
-        const tdPrecio = document.createElement("td");
-        tdPrecio.textContent = `${producto.price.toFixed(2)} €`;
-        tr.appendChild(tdPrecio);
+        // Preu
+        const tdPreu = document.createElement("td");
+        tdPreu.textContent = `${producte.price.toFixed(2)} €`;
+        tr.appendChild(tdPreu);
 
-        // Descripción
-        const tdDescripcion = document.createElement("td");
-        tdDescripcion.textContent = producto.description;
-        tr.appendChild(tdDescripcion);
+        // Descripció
+        const tdDescripcio = document.createElement("td");
+        tdDescripcio.textContent = producte.description;
+        tr.appendChild(tdDescripcio);
 
-        // Familia
+        // Família
         const tdFamilia = document.createElement("td");
-        tdFamilia.textContent = nombreFamilia;
+        tdFamilia.textContent = nomFamilia;
         tr.appendChild(tdFamilia);
 
-        // Imágenes
-        const tdImagenes = document.createElement("td");
-        const btnImagenes = document.createElement("button");
-        btnImagenes.textContent = `Imágenes (${numImagenes})`;
-        btnImagenes.classList.add("btn", "btn-images");
-        btnImagenes.setAttribute("data-id", producto.id);
-        tdImagenes.appendChild(btnImagenes);
-        tr.appendChild(tdImagenes);
+        // Imatges
+        const tdImatges = document.createElement("td");
+        const btnImatges = document.createElement("button");
+        btnImatges.textContent = `Imatges (${numImatges})`;
+        btnImatges.classList.add("btn", "btn-images");
+        btnImatges.setAttribute("data-id", producte.id);
+        tdImatges.appendChild(btnImatges);
+        tr.appendChild(tdImatges);
 
-        // Detalles
-        const tdDetalles = document.createElement("td");
-        const btnDetalles = document.createElement("button");
-        btnDetalles.textContent = "Ver Detalles";
-        btnDetalles.classList.add("btn", "btn-details");
-        btnDetalles.setAttribute("data-id", producto.id);
-        tdDetalles.appendChild(btnDetalles);
-        tr.appendChild(tdDetalles);
+        // Detalls
+        const tdDetalls = document.createElement("td");
+        const btnDetalls = document.createElement("button");
+        btnDetalls.textContent = "Veure detalls";
+        btnDetalls.classList.add("btn", "btn-details");
+        btnDetalls.setAttribute("data-id", producte.id);
+        tdDetalls.appendChild(btnDetalls);
+        tr.appendChild(tdDetalls);
 
-        // Atributos
-        const tdAtributos = document.createElement("td");
-        const btnAtributos = document.createElement("button");
-        btnAtributos.textContent = "Atributos";
-        btnAtributos.classList.add("btn", "btn-attributes");
-        btnAtributos.setAttribute("data-id", producto.id);
-        tdAtributos.appendChild(btnAtributos);
-        tr.appendChild(tdAtributos);
+        // Atributs
+        const tdAtributs = document.createElement("td");
+        const btnAtributs = document.createElement("button");
+        btnAtributs.textContent = "Atributs";
+        btnAtributs.classList.add("btn", "btn-attributes");
+        btnAtributs.setAttribute("data-id", producte.id);
+        tdAtributs.appendChild(btnAtributs);
+        tr.appendChild(tdAtributs);
 
         // Editar
         const tdEditar = document.createElement("td");
         const btnEditar = document.createElement("button");
         btnEditar.textContent = "Editar";
         btnEditar.classList.add("btn", "btn-edit");
-        btnEditar.setAttribute("data-id", producto.id);
+        btnEditar.setAttribute("data-id", producte.id);
         tdEditar.appendChild(btnEditar);
         tr.appendChild(tdEditar);
 
-        // Activo/Inactivo
+        // Actiu/Inactiu
         const tdToggle = document.createElement("td");
         const btnToggle = document.createElement("button");
-        btnToggle.textContent = producto.active ? 'Desactivar' : 'Activar';
+        btnToggle.textContent = producte.active ? 'Desactivar' : 'Activar';
         btnToggle.classList.add("btn", "btn-toggle");
-        btnToggle.setAttribute("data-id", producto.id);
+        btnToggle.setAttribute("data-id", producte.id);
         tdToggle.appendChild(btnToggle);
         tr.appendChild(tdToggle);
 
-        // Borrar (solo si está inactivo)
-        const tdBorrar = document.createElement("td");
-        if (!producto.active) {
-            const btnBorrar = document.createElement("button");
-            btnBorrar.textContent = "Borrar";
-            btnBorrar.classList.add("btn", "btn-delete");
-            btnBorrar.setAttribute("data-id", producto.id);
-            tdBorrar.appendChild(btnBorrar);
+        // Esborrar (només si està inactiu)
+        const tdEsborrar = document.createElement("td");
+        if (!producte.active) {
+            const btnEsborrar = document.createElement("button");
+            btnEsborrar.textContent = "Esborrar";
+            btnEsborrar.classList.add("btn", "btn-delete");
+            btnEsborrar.setAttribute("data-id", producte.id);
+            tdEsborrar.appendChild(btnEsborrar);
         }
-        tr.appendChild(tdBorrar);
+        tr.appendChild(tdEsborrar);
 
         tbody.appendChild(tr);
     });
 
-    // Event listeners para los botones
+    // Esdeveniments per als botons
     document.querySelectorAll(".btn-images").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `imagenes.html?id=${id}`;
+            window.location.href = `imatges.html?id=${id}`;
         });
     });
 
     document.querySelectorAll(".btn-details").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `detalles.html?id=${id}`;
+            window.location.href = `detalls.html?id=${id}`;
         });
     });
 
@@ -213,65 +213,65 @@ function cargarProductos() {
     document.querySelectorAll(".btn-toggle").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            toggleActivo(id);
+            toggleActiu(id);
         });
     });
 
     document.querySelectorAll(".btn-attributes").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `atributos.html?id=${id}`;
+            window.location.href = `atributs.html?id=${id}`;
         });
     });
 
     document.querySelectorAll(".btn-delete").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            if (confirm("¿Seguro que quieres borrar permanentemente este producto?")) {
-                borrarProducto(id);
+            if (confirm("Segur que vols esborrar permanentment aquest producte?")) {
+                esborrarProducte(id);
             }
         });
     });
 }
 
-function toggleActivo(id) {
-    const productos = obtenerProductos();
-    let producto = null;
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i].id === id) {
-            producto = productos[i];
+function toggleActiu(id) {
+    const productes = obtindreProductes();
+    let producte = null;
+    for (let i = 0; i < productes.length; i++) {
+        if (productes[i].id === id) {
+            producte = productes[i];
             break;
         }
     }
-    if (producto) {
-        producto.active = !producto.active;
-        guardarProductos(productos);
-        cargarProductos();
+    if (producte) {
+        producte.active = !producte.active;
+        guardarProductes(productes);
+        carregarProductes();
     }
 }
 
-function borrarProducto(id) {
-    const productos = obtenerProductos();
+function esborrarProducte(id) {
+    const productes = obtindreProductes();
     let index = -1;
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i].id === id) {
+    for (let i = 0; i < productes.length; i++) {
+        if (productes[i].id === id) {
             index = i;
             break;
         }
     }
     if (index !== -1) {
-        // Eliminar también las imágenes asociadas
-        const imagenes = obtenerImagenes();
-        const nuevasImagenes = [];
-        for (let i = 0; i < imagenes.length; i++) {
-            if (imagenes[i].product_id !== id) {
-                nuevasImagenes.push(imagenes[i]);
+        // Eliminar també les imatges associades
+        const imatges = obtindreImatges();
+        const novesImatges = [];
+        for (let i = 0; i < imatges.length; i++) {
+            if (imatges[i].product_id !== id) {
+                novesImatges.push(imatges[i]);
             }
         }
-        guardarImagenes(nuevasImagenes);
+        guardarImatges(novesImatges);
 
-        productos.splice(index, 1);
-        guardarProductos(productos);
-        cargarProductos();
+        productes.splice(index, 1);
+        guardarProductes(productes);
+        carregarProductes();
     }
 }
