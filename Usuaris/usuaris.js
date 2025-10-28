@@ -35,7 +35,7 @@ function mostrarUsuaris() {
     // Si no hi ha usuaris
     if (usuaris.length === 0) {
         const missatge = document.createElement('p');
-        missatge.textContent = 'No hi ha usuaris registrats';
+        missatge.appendChild(document.createTextNode('No hi ha usuaris registrats'));
         llista.appendChild(missatge);
         return;
     }
@@ -50,7 +50,7 @@ function mostrarUsuaris() {
     const columnes = ['ID', 'Username', 'Email', 'Name', 'Role', 'Accions'];
     columnes.forEach(text => {
         const th = document.createElement('th');
-        th.textContent = text;
+        th.appendChild(document.createTextNode(text));
         header.appendChild(th);
     });
     taula.appendChild(header);
@@ -62,14 +62,14 @@ function mostrarUsuaris() {
         // Camps bàsics (adaptats a les claus en anglès)
         ['id', 'nickname', 'email', 'name'].forEach(clau => {
             const td = document.createElement('td');
-            td.textContent = usuari[clau];
+            td.appendChild(document.createTextNode(usuari[clau]));
             fila.appendChild(td);
         });
         
         // Introduim també el rol de cada usuari
         const rol = rols.find(r => r.id === usuari.rol_id);
         const tdRol = document.createElement('td');
-        tdRol.textContent = rol.name;
+        tdRol.appendChild(document.createTextNode(rol.name));
         fila.appendChild(tdRol);
 
         // Cel·la d'accions
@@ -77,13 +77,13 @@ function mostrarUsuaris() {
 
         // Botó editar
         const botoEditar = document.createElement('button');
-        botoEditar.textContent = 'Editar';
+        botoEditar.appendChild(document.createTextNode('Editar'));
         botoEditar.addEventListener('click', () => editarUsuari(usuari.id));
         accionsTd.appendChild(botoEditar);
 
         // Botó eliminar
         const botoEliminar = document.createElement('button');
-        botoEliminar.textContent = 'Eliminar';
+        botoEliminar.appendChild(document.createTextNode('Eliminar'));
         botoEliminar.addEventListener('click', () => eliminarUsuari(usuari.id));
         accionsTd.appendChild(botoEliminar);
 

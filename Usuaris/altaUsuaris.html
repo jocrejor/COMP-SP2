@@ -15,14 +15,14 @@
     <button id="usuaris">Tornar a la Llista</button>
     
     <!-- Formulari principal per donar d'alta usuaris -->
-    <form id="formulariUsuari">
+    <form id="formulariUsuari" novalidate>
         <table>
             <tr>
                 <td>Nom d'usuari:</td>
                 <td>
                     <!-- Camp amb validació per nom d'usuari (3-50 lletres) -->
                     <input type="text" name="nomUsuari" id="nomUsuari"
-                           pattern="[A-Za-z\s]{3,100}" required/>
+                           pattern="[A-Za-z\s]{3,50}" required/>
                 </td>
             </tr>
             <tr>
@@ -36,17 +36,17 @@
             <tr>
                 <td>Correu:</td>
                 <td>
-                    <!-- Camp de correu electrònic amb validació nativa d'HTML5 -->
-                    <input type="email" name="correu" id="correu" 
-                           pattern="{5,100}" required/>
+                    <!-- Validació d'email amb pattern i longitud (5-100 caràcters) -->
+                    <input type="email" name="correu" id="correu"
+                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required />
                 </td>
             </tr>
             <tr>
                 <td>Contrasenya:</td>
                 <td>
-                    <!-- Camp de contrasenya amb botó per mostrar/amagar -->
+                     <!-- Contrasenya segura: 5-30 caràcters, amb majúscules, minúscules, número i símbol -->
                     <input type="password" name="contrasenya" id="contrasenya" 
-                    pattern="{5,30}" required/>
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{5,30}$" required />
                     <button type="button" id="botoContrasenya">👁️</button>
                 </td>
             </tr>

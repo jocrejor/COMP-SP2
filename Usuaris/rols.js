@@ -38,10 +38,17 @@ function mostrarRols() {
     //for (let i = 0; i < rols.length; i++) {
      rols.forEach((rolObj, ind) => {  
         const element = document.createElement('li');
-        element.innerHTML = `
-            ${rolObj.name}
-            <button onclick="eliminarRol('${ind}')">Eliminar</button>
-        `;
+
+        // Afegir el nom del rol de manera segura
+        element.appendChild(document.createTextNode(rolObj.name + " "));
+
+        // Crear el botó d'eliminar
+        const boto = document.createElement('button');
+        boto.appendChild(document.createTextNode('Eliminar'));
+        boto.addEventListener('click', () => eliminarRol(ind));
+        element.appendChild(boto);
+
+        // Unim el element li a la llista
         llista.appendChild(element);
     });
 }

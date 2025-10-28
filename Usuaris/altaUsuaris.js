@@ -16,7 +16,7 @@ function main () {
     });
 
     // Configuració dels event listeners per als botons
-    document.getElementById("enviar").addEventListener("click", validar, false);
+    document.getElementById("formulariUsuari").addEventListener("submit", validar);
     document.getElementById("botoContrasenya").addEventListener("click", mostrarContrasenya, false);
     
     // Carreguem els usuaris
@@ -53,7 +53,7 @@ function actualitzarSelectorRolsHTML() {
     rols.forEach(rol => {
         const option = document.createElement("option");
         option.value = rol.id;
-        option.textContent = rol.name;
+        option.appendChild(document.createTextNode(rol.name));
         selectorRol.appendChild(option);
     });
 }
@@ -65,13 +65,13 @@ function guardarUsuaris() {
 
 // Funció per validar el nom.
 function validarNom() {
-    var element = document.getElementById("nom");
+    let element = document.getElementById("nom");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduïr un nom.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom d'usuari ha de tindre entre 3 i 100 caràcters.");
+            error(element, "El nom d'usuari ha de tindre entre 3 i 100 caràcters. A més no pots introduïr caracters especials");
         }
         return false;
     }
@@ -80,13 +80,13 @@ function validarNom() {
 
 // Funció per validar el nomUsuari.
 function validarnomUsuari() {
-    var element = document.getElementById("nomUsuari");
+    let element = document.getElementById("nomUsuari");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduïr un nom d'Usuari.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "El nom ha de tindre entre 3 i 50 caràcters.");
+            error(element, "El nom ha de tindre entre 3 i 50 caràcters. A més no pots introduïr caracters especials ni majuscules");
         }
         return false;
     }
@@ -95,7 +95,7 @@ function validarnomUsuari() {
 
 // Funció per validar el correu electrònic.
 function validarCorreu() {
-    var element = document.getElementById("correu");
+    let element = document.getElementById("correu");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduïr un correu electrònic.");
@@ -113,16 +113,17 @@ function validarCorreu() {
 
 //Funció per validar la contrasenya.
 function validarContrasenya() {
-    var element = document.getElementById("contrasenya");
+    let element = document.getElementById("contrasenya");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error(element, "Has d'introduïr una contrasenya.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "La contrasenya ha de tindre entre 5 i 30 caràcters.");
+            error(element, "La contrasenya ha de tindre entre 5 i 30 caràcters, amb majúscula, minúscula, número i símbol.");
         }
         return false;
     }
+    console.log("Validació:", document.getElementById("contrasenya").checkValidity());
     return true;
 }
 
@@ -223,7 +224,9 @@ function error(element, missatge) {
 
 // Funció per a esborrar els errors.
 function esborrarError() {
-    document.getElementById("missatgeError").textContent = "";
+    const contError = document.getElementById("missatgeError");
+    contError.replaceChildren();
+
     let formulari = document.getElementById("formulariUsuari");
     for (let i = 0; i < formulari.elements.length; i++) {
         formulari.elements[i].classList.remove("error");
@@ -232,14 +235,19 @@ function esborrarError() {
 
 // Funció per mostrar/amagar la contrasenya.
 function mostrarContrasenya() {
-    var campContrasenya = document.getElementById("contrasenya");
-    var boto = document.getElementById("botoContrasenya");
+    let campContrasenya = document.getElementById("contrasenya");
+    let boto = document.getElementById("botoContrasenya");
             
+ // Netejar contingut existent
+    while (boto.firstChild) {
+        boto.removeChild(boto.firstChild);
+    }
+
     if (campContrasenya.type === "password") {
         campContrasenya.type = "text";
-        boto.textContent = "🔒";
+        boto.appendChild(document.createTextNode("🔒"));
     } else {
         campContrasenya.type = "password";
-        boto.textContent = "👁️";
+        boto.appendChild(document.createTextNode("👁️"));
     }
 }
