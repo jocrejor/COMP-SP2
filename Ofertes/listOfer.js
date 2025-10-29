@@ -1,16 +1,16 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const tableBody = document.getElementById('tableBody');
-    const paginationContainer = document.createElement('div');
+document.addEventListener("DOMContentLoaded", function () {
+    const tableBody               = document.getElementById('tableBody');
+    const paginationContainer     = document.createElement('div');
     paginationContainer.className = 'pagination';
-    
+
     let data = JSON.parse(localStorage.getItem("formData")) || [];
     let currentPage = 1;
     const itemsPerPage = 10;
-    
+
     // Solo cargar datos de TendaFakeDades si NO hay datos en localStorage
     if (data.length === 0 && typeof Sale !== 'undefined' && Sale.length > 0) {
         console.log("Cargando datos iniciales de TendaFakeDades...");
-        data = Sale.map(function(sale) {
+        data = Sale.map(function (sale) {
             return {
                 oferta: sale.description,
                 percentaje: sale.discount_percent,
@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Usando datos existentes de localStorage:", data.length, "ofertas");
     }
 
-    function saveDataToLocalStorage(){
+    function saveDataToLocalStorage() {
         localStorage.setItem("formData", JSON.stringify(data));
     }
 
-    function deleteData(index){
+    function deleteData(index) {
         if (confirm("Estàs segur que vols eliminar aquesta oferta?")) {
             data.splice(index, 1);
             saveDataToLocalStorage();
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function renderTable() {
         if (!tableBody) return;
-        
+
         while (tableBody.firstChild) {
             tableBody.removeChild(tableBody.firstChild);
         }
@@ -53,25 +53,25 @@ document.addEventListener("DOMContentLoaded", function() {
             tableBody.appendChild(row);
             return;
         }
-        
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
+
+        const startIndex   = (currentPage - 1) * itemsPerPage;
+        const endIndex     = startIndex + itemsPerPage;
         const currentItems = data.slice(startIndex, endIndex);
-        
-        currentItems.forEach(function (item, index){
-            const globalIndex = startIndex + index;
-            const row = document.createElement("tr");
-            const idCell = document.createElement("td");
-            const ofertaCell = document.createElement("td");
+
+        currentItems.forEach(function (item, index) {
+            const globalIndex    = startIndex + index;
+            const row            = document.createElement("tr");
+            const idCell         = document.createElement("td");
+            const ofertaCell     = document.createElement("td");
             const percentajeCell = document.createElement("td");
-            const dataIniciCell = document.createElement("td");
-            const dataFiCell = document.createElement("td");
-            const couponCell = document.createElement("td");
-            const actionCell = document.createElement("td");
-            const productsCell = document.createElement("td");
-            
-            const editButton = document.createElement("button");
-            const deleteButton = document.createElement("button");
+            const dataIniciCell  = document.createElement("td");
+            const dataFiCell     = document.createElement("td");
+            const couponCell     = document.createElement("td");
+            const actionCell     = document.createElement("td");
+            const productsCell   = document.createElement("td");
+
+            const editButton     = document.createElement("button");
+            const deleteButton   = document.createElement("button");
             const addProductSale = document.createElement("button");
 
             idCell.appendChild(document.createTextNode(globalIndex + 1));
@@ -85,15 +85,15 @@ document.addEventListener("DOMContentLoaded", function() {
             deleteButton.appendChild(document.createTextNode("Delete"));
             addProductSale.appendChild(document.createTextNode("Productes aplicats"));
 
-            editButton.addEventListener("click", function(){
+            editButton.addEventListener("click", function () {
                 window.location.href = `edit.html?edit=${globalIndex}`;
             });
 
-            deleteButton.addEventListener("click", function(){
+            deleteButton.addEventListener("click", function () {
                 deleteData(globalIndex);
             });
 
-            addProductSale.addEventListener("click", function(){
+            addProductSale.addEventListener("click", function () {
                 window.location.href = `productsList.html?oferta=${globalIndex}`;
             });
 
@@ -112,13 +112,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
             tableBody.appendChild(row);
         });
-        
+
         renderPagination();
     }
 
     function renderPagination() {
         const totalPages = Math.ceil(data.length / itemsPerPage);
-        
+
         while (paginationContainer.firstChild) {
             paginationContainer.removeChild(paginationContainer.firstChild);
         }
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const prevButton = document.createElement("button");
         prevButton.appendChild(document.createTextNode("« Anterior"));
         prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener("click", function() {
+        prevButton.addEventListener("click", function () {
             if (currentPage > 1) {
                 currentPage--;
                 renderTable();
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (i === currentPage) {
                 pageButton.className = 'active';
             }
-            pageButton.addEventListener("click", function() {
+            pageButton.addEventListener("click", function () {
                 currentPage = i;
                 renderTable();
             });
@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const nextButton = document.createElement("button");
         nextButton.appendChild(document.createTextNode("Següent »"));
         nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener("click", function() {
+        nextButton.addEventListener("click", function () {
             if (currentPage < totalPages) {
                 currentPage++;
                 renderTable();

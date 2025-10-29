@@ -1,23 +1,23 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById('formOferta');
-    const ofertaInput = document.getElementById('ofertaInput');
+document.addEventListener("DOMContentLoaded", function () {
+    const form            = document.getElementById('formOferta');
+    const ofertaInput     = document.getElementById('ofertaInput');
     const percentajeInput = document.getElementById('percentajeInput');
-    const couponInput = document.getElementById('couponInput');
-    const dataIniciInput = document.getElementById('dataIniciInput');
-    const datafiInput = document.getElementById('datafiInput');
+    const couponInput     = document.getElementById('couponInput');
+    const dataIniciInput  = document.getElementById('dataIniciInput');
+    const datafiInput     = document.getElementById('datafiInput');
 
-    const params = new URLSearchParams(window.location.search);
+    const params    = new URLSearchParams(window.location.search);
     const editIndex = params.get('edit');
 
     let data = JSON.parse(localStorage.getItem("formData")) || [];
 
     if (editIndex !== null && !isNaN(editIndex) && data[editIndex]) {
-        const item = data[editIndex];
-        ofertaInput.value = item.oferta || "";
+        const item            = data[editIndex];
+        ofertaInput.value     = item.oferta || "";
         percentajeInput.value = item.percentaje || "";
-        couponInput.value = item.coupon || "";
-        dataIniciInput.value = item.dataInici || "";
-        datafiInput.value = item.dataFi || "";
+        couponInput.value     = item.coupon || "";
+        dataIniciInput.value  = item.dataInici || "";
+        datafiInput.value     = item.dataFi || "";
     }
 
     function mostrarMensaje(texto, tipo = "error") {
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", function() {
             return "La data d'inici és obligatòria.";
         }
         const dataInici = new Date(dataIniciInput.value);
-        const avui = new Date();
+        const avui      = new Date();
         avui.setHours(0, 0, 0, 0);
-        
+
         if (dataInici < avui) {
             return "La data d'inici no pot ser anterior a avui.";
         }
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (datafiInput.value && dataIniciInput.value) {
             const dataInici = new Date(dataIniciInput.value);
             const dataFi = new Date(datafiInput.value);
-            
+
             if (dataInici >= dataFi) {
                 return "La data d'inici ha de ser anterior a la data de fi.";
             }
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return "";
     }
 
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         let errors = [];
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function() {
             data.push(newData);
             mostrarMensaje("Oferta afegida correctament!", "success");
         }
-        
+
         localStorage.setItem("formData", JSON.stringify(data));
 
         setTimeout(() => window.location.href = "listOfer.html", 1200);
