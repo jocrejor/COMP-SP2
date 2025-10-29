@@ -2,10 +2,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("formRegistre");
   const btnCancelar = document.getElementById("cancelar");
 
-  //Si venim d'editar les dades
+  //Carregar registres del LocalStorage si hi ha, si no de la BBDD
+  function carregarRegistresBbdd() {
+    const local = localStorage.getItem("Register");
+    if (local) return JSON.parse(local);
+    if (typeof Register !== "undefined" && Array.isArray(Register)) {
+      localStorage.setItem("Register", JSON.stringify(Register));
+      return Register.slice();
+    }
+    return [];
+  }
+
+  function guardarLocal(regs) {
+    localStorage.setItem("Register", JSON.stringify(regs));
+  }
+
+  let registres = carregarRegistresBbdd();
+
   const editIndex = sessionStorage.getItem("editIndex");
-
-
   if (editIndex !== null && typeof Register !== "undefined" && Register[editIndex]) {
     const registre = registres[editIndex];
     if (registre) {
@@ -30,24 +44,28 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    let dadesRegistre;
-    //Vinculació BBDD
-    if (editIndex !== null && Register[editIndex]) {
-      // Editar registro existente de la BBDD
-      dadesRegistre = {
-        ...Register[editIndex], // session_id y user_agent existentes
+    registres = carregarRegistresBbdd();
+
+    // EDITAR: conservant id, session_id y user_agent de la BBDD
+    if (editIndex !== null && registres[editIndex]) {
+      const existing = registres[editIndex];
+      const updated = {
+        ...existing,
         client_id: document.getElementById("client_id").value,
         comparator_id: document.getElementById("comparator_id").value,
         favorite_id: document.getElementById("favorite_id").value,
         date_start,
         date_end,
       };
-      Register[editIndex] = dadesRegistre;
+      registres[editIndex] = updated;
       sessionStorage.removeItem("editIndex");
-    } else {
-      // Crear registro nuevo
-      dadesRegistre = {
-        id: Register.length ? Register[Register.length - 1].id + 1 : 1, // autoincrement
+
+    }
+    // AFEGIR: id autoincrementat, session_id y user_agent autogenerats
+    else {
+      const nextId = registres.length ? Math.max(...registres.map(r => r.id)) + 1 : 1;
+      const nou = {
+        id: nextId,
         session_id: crypto.randomUUID(),
         user_agent: navigator.userAgent,
         client_id: document.getElementById("client_id").value,
@@ -56,11 +74,11 @@ document.addEventListener("DOMContentLoaded", function () {
         date_start,
         date_end,
       };
-      Register.push(dadesRegistre);
+      registres.push(nou);
     }
-
-
-    window.location.href = "./HistoricLlistar.html"; //Tornar al llistat
+    // Guardar al localStorage y tornar al llistat
+    guardarLocal(registres);
+    window.location.href = "./HistoricLlistar.html";
   });
 
   btnCancelar.addEventListener("click", () => {
