@@ -11,12 +11,11 @@ function anarcrear() {
 }
 
 function carregarDadesLocal() {
-
- 
   if (typeof Product === "undefined" || !Array.isArray(Product)) {
     console.log("Error: la variable 'Product' no está definida o no es un array.");
     return;
   }
+
   if (!localStorage.getItem("productos")) {
     localStorage.setItem("productos", JSON.stringify(Product));
   }
@@ -24,24 +23,19 @@ function carregarDadesLocal() {
   if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
     localStorage.setItem("Family", JSON.stringify(Family));
   }
- if (typeof Attribute !== "undefined" && Array.isArray(Attribute) && !localStorage.getItem("Attribute")) {
+
+  if (typeof Attribute !== "undefined" && Array.isArray(Attribute) && !localStorage.getItem("Attribute")) {
     localStorage.setItem("Attribute", JSON.stringify(Attribute));
   }
 
-  if (typeof Productattribute !== "undefined" && Array.isArray(Productattribute) && !localStorage.getItem("Productattribute")) {
-    localStorage.setItem("Productattribute", JSON.stringify(Productattribute));
-  }
-  
+  const idSeleccionado = parseInt(localStorage.getItem("productoSeleccionado"));
+  const productos = JSON.parse(localStorage.getItem("productos")) || [];
+  const families = JSON.parse(localStorage.getItem("Family")) || [];
+  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  let idSeleccionado = parseInt(localStorage.getItem("productoSeleccionado"));
-  let productos = JSON.parse(localStorage.getItem("productos")) || [];
-  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
-  let families = JSON.parse(localStorage.getItem("Family")) || [];  
-
-  let producto = productos.find(p => p.id == idSeleccionado);
-  let contenedor = document.getElementById("detalle");
-  let cos = document.getElementById("cuerpoTabla");
+  const producto = productos.find(p => p.id == idSeleccionado);
+  const contenedor = document.getElementById("detalle");
+  const cos = document.getElementById("cuerpoTabla");
 
   contenedor.textContent = "";
   cos.textContent = "";
@@ -53,58 +47,44 @@ function carregarDadesLocal() {
 
   mostrarTexto(contenedor, producto.name);
 
-/* Intercanvi del id de la categoria al nom de la categoria*/
   let categoria = "Sense família";
   const familia = families.find(f => f.id === producto.family_id);
   if (familia) categoria = familia.name;
 
+  const atributosFamilia = attributes.filter(a => a.family_id === producto.family_id);
 
-  const caracteristicasProducto = productAttributes.filter(
-    productattribute => productattribute.product_id == idSeleccionado
-  );
-
-  if (caracteristicasProducto.length === 0) {
-    cos.textContent = "";
-    mostrarTexto(cos, "Este producto no tiene características aún.");
+  if (atributosFamilia.length === 0) {
+    mostrarTexto(cos, "Esta familia no tiene características asociadas.");
     return;
   }
 
-  cos.textContent = "";
-
-  caracteristicasProducto.forEach(caracteristica => {
-    const attr = attributes.find(a => a.id == caracteristica.attribute_id);
-
+  atributosFamilia.forEach(caracteristica => {
     let fila = document.createElement("tr");
+
     let tdNom = document.createElement("td");
-    let tdValor = document.createElement("td");
     let tdCategoria = document.createElement("td");
     let tdAcciones = document.createElement("td");
 
-    mostrarTexto(tdNom, attr ? attr.name : "(Atributo desconocido)");
-    mostrarTexto(tdValor, caracteristica.value);
-    mostrarTexto(tdCategoria, categoria); 
+    mostrarTexto(tdNom, caracteristica.name);
+    mostrarTexto(tdCategoria, categoria);
 
- 
     const btnEditar = document.createElement("button");
     mostrarTexto(btnEditar, "Modificar");
-    btnEditar.className = "btn btn-warning  me-2";
+    btnEditar.className = "btn btn-warning me-2";
     btnEditar.addEventListener("click", () => {
-      localStorage.setItem("atributoAEditar", caracteristica.attribute_id);
+      localStorage.setItem("atributoAEditar", caracteristica.id);
       window.location.href = "../modificar/modificarcaracteristica.html";
     });
 
- 
-const btnEliminar = document.createElement("button");
-mostrarTexto(btnEliminar, "Eliminar");
-btnEliminar.className = "btn btn-danger";
-btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica, fila));
-
+    const btnEliminar = document.createElement("button");
+    mostrarTexto(btnEliminar, "Eliminar");
+    btnEliminar.className = "btn btn-danger";
+    btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica, fila));
 
     tdAcciones.appendChild(btnEditar);
     tdAcciones.appendChild(btnEliminar);
 
     fila.appendChild(tdNom);
-    fila.appendChild(tdValor);
     fila.appendChild(tdCategoria);
     fila.appendChild(tdAcciones);
 
@@ -112,30 +92,18 @@ btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristic
   });
 }
 
+
 function eliminarCaracteristica(caracteristica, fila) {
   if (!confirm("¿Seguro que deseas eliminar esta característica?")) return;
 
-
-  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
   let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  productAttributes = productAttributes.filter(
-    item => !(item.product_id === caracteristica.product_id && item.attribute_id === caracteristica.attribute_id)
-  );
-  localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
-
-
-  const sigueEnUso = productAttributes.some(
-    item => item.attribute_id === caracteristica.attribute_id
-  );
-
-  if (!sigueEnUso) {
-    attributes = attributes.filter(attr => attr.id !== caracteristica.attribute_id);
-    localStorage.setItem("Attribute", JSON.stringify(attributes));
-  }
+  attributes = attributes.filter(attr => attr.id !== caracteristica.id);
+  localStorage.setItem("Attribute", JSON.stringify(attributes));
 
   fila.remove();
 }
+
 
 
 
