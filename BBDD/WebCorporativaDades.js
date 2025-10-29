@@ -1,9 +1,9 @@
 let User=[
-  { "id": 1, "name": "Juan Pérez", "password": "hashed_juan123", "email": "juan.perez@example.com" },
-  { "id": 2, "name": "María Gómez", "password": "hashed_maria456", "email": "maria.gomez@example.com" },
-  { "id": 3, "name": "Carlos Ruiz", "password": "hashed_carlos789", "email": "carlos.ruiz@example.com" },
-  { "id": 4, "name": "Lucía Torres", "password": "hashed_lucia321", "email": "lucia.torres@example.com" },
-  { "id": 5, "name": "Andrés López", "password": "hashed_andres654", "email": "andres.lopez@example.com" }
+  { "id": 1, "name": "Admin Juan Pérez", "password": "admin", "email": "admin@example.com", "rol" :"admin"},
+  { "id": 2, "name": "María Gómez", "password": "000000", "email": "maria.gomez@example.com", "rol" :"editor" },
+  { "id": 3, "name": "Carlos Ruiz", "password": "000000", "email": "carlos.ruiz@example.com", "rol" :"editor" },
+  { "id": 4, "name": "Lucía Torres", "password": "000000", "email": "lucia.torres@example.com", "rol" :"editor" },
+  { "id": 5, "name": "Andrés López", "password": "000000", "email": "andres.lopez@example.com", "rol" :"editor" }
 ]
 let Category = [
   { "id": 1, "name": "Tecnología" },

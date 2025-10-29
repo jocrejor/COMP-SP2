@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Inicialitzar usuaris desde l'array User
 function inicialitzarUsuaris() {
-    const sessioiniciada = sessionStorage.getItem("usuariActiu");
+    const sessioiniciada = sessionStorage.getItem("usuariActual");
     const usuarisGuardats = localStorage.getItem("usuaris");
     if(!sessioiniciada) {
         window.location.href='../login.html'
@@ -72,6 +72,7 @@ function llistaUsuaris() {
                 <td>${usuari.id}</td>
                 <td>${usuari.name || usuari.nom || ''}</td>
                 <td>${usuari.email || ''}</td>
+                <td>${usuari.rol || ''}</td>
                 <td>
                     <div class="accions">
                         <button class="btn-editar" onclick="editarUsuari(${index})">Editar</button>
@@ -128,7 +129,7 @@ function afegirUsuari() {
         return;
     }
     
-    // Obtenir el següent ID
+    // Obtenir el següent ID, traguent el id màxim amb reduce
     const maxId = usuaris.reduce((max, u) => Math.max(max, u.id || 0), 0);
     
     // Crear nou usuari
@@ -182,6 +183,7 @@ function actualitzarUsuari(index) {
     const nom = document.getElementById("nomUsuari").value.trim();
     const email = document.getElementById("emailUsuari").value.trim();
     const password = document.getElementById("passwordUsuari").value;
+    const rol = document.getElementById("rolUsuari").value;
     
     // Validacions
     if (!validarFormulari(nom, email, password)) {
