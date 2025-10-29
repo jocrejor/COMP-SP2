@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.location.href = "./HistoricLlistar.html"; //Tornar al llistat
   });
 
-  cancelarBtn.addEventListener("click", () => {
+  btnCancelar.addEventListener("click", () => {
     sessionStorage.removeItem("editIndex");
     window.location.href = "./HistoricLlistar.html";
   });
