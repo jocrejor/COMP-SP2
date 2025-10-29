@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
             dataFiCell.appendChild(document.createTextNode(item.dataFi));
             couponCell.appendChild(document.createTextNode(item.coupon || "-"));
 
-            editButton.appendChild(document.createTextNode("Edit"));
-            deleteButton.appendChild(document.createTextNode("Delete"));
+            editButton.appendChild(document.createTextNode("Editar"));
+            deleteButton.appendChild(document.createTextNode("Eliminar"));
             addProductSale.appendChild(document.createTextNode("Productes aplicats"));
 
             editButton.addEventListener("click", function () {
