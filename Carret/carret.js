@@ -80,6 +80,74 @@ function mostrarCarret() {
     totalSpan.textContent = `${total.toFixed(2)} €`;
 }
 
+function mostrarInfoCliente() {
+    const infoClientDiv = document.getElementById('infoClient');
+    const cliente = obtenerClienteActual();
+    const sesion = obtenerOCrearSesion();
+    
+    // Limpiar contenido anterior
+    infoClientDiv.textContent = '';
+    
+    const divContainer = document.createElement('div');
+    divContainer.style.cssText = 'padding: 10px; border-radius: 5px; margin-bottom: 20px;';
+    
+    if (cliente) {
+        divContainer.style.background = '#f0f0f0';
+        
+        const h3 = document.createElement('h3');
+        h3.textContent = 'Informació del client';
+        divContainer.appendChild(h3);
+        
+        const pNom = document.createElement('p');
+        const strongNom = document.createElement('strong');
+        strongNom.textContent = 'Nom: ';
+        pNom.appendChild(strongNom);
+        pNom.appendChild(document.createTextNode(`${cliente.name} ${cliente.surname}`));
+        divContainer.appendChild(pNom);
+        
+        const pEmail = document.createElement('p');
+        const strongEmail = document.createElement('strong');
+        strongEmail.textContent = 'Email: ';
+        pEmail.appendChild(strongEmail);
+        pEmail.appendChild(document.createTextNode(cliente.email));
+        divContainer.appendChild(pEmail);
+        
+        const pTelefon = document.createElement('p');
+        const strongTelefon = document.createElement('strong');
+        strongTelefon.textContent = 'Telèfon: ';
+        pTelefon.appendChild(strongTelefon);
+        pTelefon.appendChild(document.createTextNode(cliente.phone));
+        divContainer.appendChild(pTelefon);
+        
+        const pAdreca = document.createElement('p');
+        const strongAdreca = document.createElement('strong');
+        strongAdreca.textContent = 'Adreça: ';
+        pAdreca.appendChild(strongAdreca);
+        pAdreca.appendChild(document.createTextNode(`${cliente.address}, ${cliente.cp}`));
+        divContainer.appendChild(pAdreca);
+    } else {
+        divContainer.style.background = '#fff3cd';
+        
+        const pSessio = document.createElement('p');
+        const strongSessio = document.createElement('strong');
+        strongSessio.textContent = 'Sessió anònima';
+        pSessio.appendChild(strongSessio);
+        divContainer.appendChild(pSessio);
+        
+        const pId = document.createElement('p');
+        pId.textContent = `ID de carret: ${sesion.carretId}`;
+        divContainer.appendChild(pId);
+        
+        const pMensatge = document.createElement('p');
+        const em = document.createElement('em');
+        em.textContent = "Per a guardar les teues comandes, inicia sessió o registra't";
+        pMensatge.appendChild(em);
+        divContainer.appendChild(pMensatge);
+    }
+    
+    infoClientDiv.appendChild(divContainer);
+}
+
 // Funciones para modificar el carrito
 
 // Incrementa en 1 la cantidad del producto seleccionado
@@ -108,13 +176,14 @@ function eliminar(index) {
     mostrarCarret(); // Se actualiza la vista del carrito
 }
 
+// Gestión de usuario/sesión
 function obtenerOCrearSesion() {
     let sesion = JSON.parse(localStorage.getItem('sesion'));
     
     if (!sesion) {
         // Crear nueva sesión con ID de carrito único
         sesion = {
-            carretId: 'carret_' + Date.now(),
+            carretId: 'carret_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
             fecha: new Date().toISOString()
         };
         localStorage.setItem('sesion', JSON.stringify(sesion));
@@ -134,44 +203,46 @@ function obtenerClienteActual() {
     return null;
 }
 
-function mostrarInfoCliente() {
-    const infoClientDiv = document.getElementById('infoClient');
-    const cliente = obtenerClienteActual();
-    const sesion = obtenerOCrearSesion();
+
+// Función para finalizar la compra
+function finalitzarComanda() {
+    const carret = JSON.parse(localStorage.getItem('carret')) || [];
     
-    if (cliente) {
-        infoClientDiv.innerHTML = `
-            <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <h3>Informació del client</h3>
-                <p><strong>Nom:</strong> ${cliente.name} ${cliente.surname}</p>
-                <p><strong>Email:</strong> ${cliente.email}</p>
-                <p><strong>Telèfon:</strong> ${cliente.phone}</p>
-                <p><strong>Adreça:</strong> ${cliente.address}, ${cliente.cp}</p>
-            </div>
-        `;
-    } else {
-        infoClientDiv.innerHTML = `
-            <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <p><strong>Sessió anònima</strong></p>
-                <p>ID de carret: ${sesion.carretId}</p>
-                <p><em>Per a guardar les teues comandes, inicia sessió o registra't</em></p>
-            </div>
-        `;
+    if (!carret.length) {
+        alert('El carret està buit!');
+        return;
     }
-}
-
-// Función extra: Simular login de un cliente (para pruebas)
-function simularLogin(clienteId) {
-    localStorage.setItem('clienteId', clienteId);
-    mostrarInfoCliente();
-    alert('Login simulat per al client ID: ' + clienteId);
-}
-
-// Función extra: Cerrar sesión
-function cerrarSesion() {
-    localStorage.removeItem('clienteId');
-    mostrarInfoCliente();
-    alert('Sessió tancada');
+    
+    // Calcular total
+    const total = carret.reduce((sum, p) => sum + (p.price * p.quantity), 0);
+    
+    // Agregar imágenes a los productos del carrito
+    const carretConImagenes = carret.map(p => {
+        let imageUrl = null;
+        if (typeof Productimage !== 'undefined' && Array.isArray(Productimage)) {
+            const productImg = Productimage.find(img => img.product_id === p.id);
+            if (productImg && productImg.url) {
+                imageUrl = productImg.url;
+            }
+        }
+        return { ...p, image: imageUrl };
+    });
+    
+    // Crear objeto de comanda
+    const comanda = {
+        numeroComanda: 'ORD-' + Date.now(),
+        fecha: new Date().toISOString(),
+        productes: carretConImagenes,
+        total: total,
+        clienteId: localStorage.getItem('clienteId') || null,
+        sesionId: obtenerOCrearSesion().carretId
+    };
+    
+    // Guardar la última comanda
+    localStorage.setItem('ultimaComanda', JSON.stringify(comanda));
+    
+    // Vaciar el carrito
+    localStorage.removeItem('carret');
 }
 
 
