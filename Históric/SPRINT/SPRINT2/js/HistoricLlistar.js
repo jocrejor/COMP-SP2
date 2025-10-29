@@ -67,10 +67,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const btnEsborrar = document.createElement("button");
             btnEsborrar.textContent = "Esborrar";
             btnEsborrar.addEventListener("click", () => {
-                if (confirm("Vols esborrar aquest registre?")) return;
+                if (!confirm("Vols esborrar aquest registre?")) return;
 
                 // borrar en localStorage
-                const regs = carregarRegistresInicials();
+                const regs = carregarRegistresBbdd();
                 regs.splice(index, 1);
 
                 // reasignar ids para mantener consecutividad (opcional)
