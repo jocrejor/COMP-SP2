@@ -73,7 +73,7 @@ function mostrarComandes() {
 
     // Capçalera productes
     const capProductes = document.createElement("tr");
-    ["Producte", "Quantitat", "Preu", "Desc. (%)"].forEach(text => {
+    ["Producte", "Quantitat", "Preu", "Descompte (%)"].forEach(text => {
       const th = document.createElement("th");
       th.textContent = text;
       capProductes.appendChild(th);
@@ -145,13 +145,13 @@ function mostrarComandes() {
 // ------------------- VISUALITZAR COMANDA -------------------
 function visualitzarComanda(index) {
   localStorage.setItem("comandaVisualitzar", index);
-  window.location.href = "visualitzaComanda.html";
+  window.location.href = "visualitzarComanda.html";
 }
 
 // ------------------- MODIFICAR COMANDA -------------------
 function modificarComanda(index) {
   localStorage.setItem("comandaEditar", index);
-  window.location.href = "modificaComanda.html";
+  window.location.href = "modificarComanda.html";
 }
 
 // ------------------- ELIMINAR COMANDA -------------------
@@ -160,7 +160,7 @@ function eliminarComanda(index) {
   if (!confirm("Segur que vols eliminar aquesta comanda?")) return;
   comandes.splice(index, 1);
   localStorage.setItem("comandes", JSON.stringify(comandes));
-  mostrarComandes(); // refrescar DOM
+  mostrarComandes();
 }
 
 // ------------------- MAIN -------------------
