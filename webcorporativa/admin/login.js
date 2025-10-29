@@ -101,10 +101,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 mostrarError('Format de correu electrònic invàlid.');
                 return;
             }
-
             const regexcontrasenya = /^.{5,20}$/;
-            if (!regexcontrasenya.test(password)) {
-                mostrarError('La contrasenya no és vàlida');
+            if (!regexcontrasenya.test(contrasenya)) {
+                mostrarError('La contrasenya ha de tenir entre 5 i 20 caràcters.');
                 return;
             }
             
