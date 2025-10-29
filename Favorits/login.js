@@ -73,15 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const result = await loginUser(email, password);
         
         if (result.success) {
-            // Guardar sesión y redirigir
-            saveSession(result.user);
-            messageDiv.style.color = 'green';
-            messageDiv.textContent = `¡Bienvenido ${result.user.name}! Redirigiendo...`;
-            
-        } else {
-            messageDiv.style.color = 'red';
-            messageDiv.textContent = result.message;
-        }
+    saveSession(result.user);
+    window.location.replace('favorits.html'); 
+} else {
+    messageDiv.style.color = 'red';
+    messageDiv.textContent = result.message;
+}
+
+
     });
 });
 
