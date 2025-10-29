@@ -18,47 +18,48 @@ function carregarDadesLocal() {
     localStorage.setItem("Attribute", JSON.stringify(Attribute));
   }
 
-  const families = JSON.parse(localStorage.getItem("Family")) || [];
-  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  let families = JSON.parse(localStorage.getItem("Family")) || [];
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  const cos = document.getElementById("cuerpoTabla");
+  let cos = document.getElementById("cuerpoTabla");
 
   cos.textContent = "";
 
   if (attributes.length === 0) {
-    mostrarTexto(cuerpoTabla, "No hay características registradas.");
+    mostrarimformacio(cuerpoTabla, "No hay características registradas.");
     return;
   }
 
   attributes.forEach(caracteristica => {
-    const familia = families.find(f => f.id === caracteristica.family_id);
-    const nombreFamilia = familia ? familia.name : "Sense família";
+    let familia = families.find(f => f.id === caracteristica.family_id);
+    let nombreFamilia = familia ? familia.name : "Sense família";
 
     let fila = document.createElement("tr");
-
+    let tdId = document.createElement("td");
     let tdNom = document.createElement("td");
     let tdCategoria = document.createElement("td");
     let tdAcciones = document.createElement("td");
 
-    mostrarTexto(tdNom, caracteristica.name);
-    mostrarTexto(tdCategoria, nombreFamilia);
+      mostrarimformacio(tdId, caracteristica.id);
+    mostrarimformacio(tdNom, caracteristica.name);
+    mostrarimformacio(tdCategoria, nombreFamilia);
 
-    const btnEditar = document.createElement("button");
-    mostrarTexto(btnEditar, "Modificar");
+    let btnEditar = document.createElement("button");
+    mostrarimformacio(btnEditar, "Modificar");
     btnEditar.className = "btn btn-warning me-2";
     btnEditar.addEventListener("click", () => {
       localStorage.setItem("atributoAEditar", caracteristica.id);
       window.location.href = "../modificar/modificarcaracteristica.html";
     });
 
-    const btnEliminar = document.createElement("button");
-    mostrarTexto(btnEliminar, "Eliminar");
+    let btnEliminar = document.createElement("button");
+    mostrarimformacio(btnEliminar, "Eliminar");
     btnEliminar.className = "btn btn-danger";
     btnEliminar.addEventListener("click", () => eliminarCaracteristica(caracteristica, fila));
 
     tdAcciones.appendChild(btnEditar);
     tdAcciones.appendChild(btnEliminar);
-
+ fila.appendChild(tdId);
     fila.appendChild(tdNom);
     fila.appendChild(tdCategoria);
     fila.appendChild(tdAcciones);
@@ -77,7 +78,7 @@ function eliminarCaracteristica(caracteristica, fila) {
   fila.remove();
 }
 
-function mostrarTexto(contenedor, texto) {
+function mostrarimformacio(contenedor, texto) {
   let p = document.createElement("p");
   p.appendChild(document.createTextNode(texto));
   contenedor.appendChild(p);
