@@ -36,7 +36,7 @@ function obtenirUsuaris() {
 }
 
 // Guardar usuaris a localStorage
-function guardarUsuaris(usuaris) {
+function guardarUsuaris(usuaris) {mostrarError
     localStorage.setItem("usuaris", JSON.stringify(usuaris));
 }
 
@@ -316,6 +316,10 @@ function netejarMissatges() {
     document.getElementById("missatgeError").style.display = "none";
     document.getElementById("missatgeExit").style.display = "none";
 }
-
+// Tancar Sessió
+function tancarSessio() {
+    sessionStorage.removeItem(UsuariActual);
+    window.location.href='../login.html'
+}
 
 
