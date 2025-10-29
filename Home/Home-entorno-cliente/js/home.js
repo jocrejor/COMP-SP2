@@ -41,21 +41,6 @@ function mostrarProductos(productosFiltrados) {
     pDesc.textContent = product.description;
     div.appendChild(pDesc);
 
-    // Atributos
-    const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
-    if (atributosFamilia.length > 0) {
-      const h4 = document.createElement("h4");
-      h4.textContent = "Atributos:";
-      div.appendChild(h4);
-
-      const ul = document.createElement("ul");
-      atributosFamilia.forEach(attr => {
-        const li = document.createElement("li");
-        li.textContent = attr.name;
-        ul.appendChild(li);
-      });
-      div.appendChild(ul);
-    }
 
     // Enlace al detalle
     const aVer = document.createElement("button");
