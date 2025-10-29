@@ -257,7 +257,7 @@ function netejarFormulari() {
 }
 
 // Validar formulari
-function validarFormulari(nom, email, password) {
+function validarFormulari(nom, email, password, rol) {
     // Validar nom
     if (nom.length < 2) {
         mostrarError("El nom ha de tenir almenys 2 caràcters.");
