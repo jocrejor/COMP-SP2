@@ -7,9 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("formRegistre");
   const btnCancelar = document.getElementById("cancelar");
 
+  
+  let registres = JSON.parse(localStorage.getItem("registres")) || [];
+
   //Si venim d'editar les dades
   const editIndex = sessionStorage.getItem("editIndex");
-  let registres = JSON.parse(localStorage.getItem("registres")) || [];
 
 
   if (editIndex !== null) {
@@ -23,13 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Guardar (añadir o editar)
+  // Guardar (afegir o editar)
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const date_start = document.getElementById("date_start").value;
     const date_end = document.getElementById("date_end").value;
 
+    //Validació de dates
     if (date_start && date_end && new Date(date_end) < new Date(date_start)) {
       alert("ERROR. La data final no pot ser anterior a la data inicial.");
       return;
@@ -53,11 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     localStorage.setItem("registres", JSON.stringify(registres));
-    window.location.href = "../HistoricLlistar.html"; //Tornar al llistat
+    window.location.href = "./HistoricLlistar.html"; //Tornar al llistat
   });
 
   cancelarBtn.addEventListener("click", () => {
     sessionStorage.removeItem("editIndex");
-    window.location.href = "../HistoricLlistar.html";
+    window.location.href = "./HistoricLlistar.html";
   });
 });
