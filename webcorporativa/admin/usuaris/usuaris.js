@@ -312,39 +312,5 @@ function netejarMissatges() {
     document.getElementById("missatgeExit").style.display = "none";
 }
 
-// Funció per exportar usuaris (opcional)
-function exportarUsuaris() {
-    const usuaris = obtenirUsuaris();
-    const dataStr = JSON.stringify(usuaris, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-    
-    const exportFileDefaultName = 'usuaris_backup.json';
-    
-    const linkElement = document.createElement('a');
-    linkElement.setAttribute('href', dataUri);
-    linkElement.setAttribute('download', exportFileDefaultName);
-    linkElement.click();
-}
 
-// Funció per importar usuaris (opcional)
-function importarUsuaris(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const usuaris = JSON.parse(e.target.result);
-            if (Array.isArray(usuaris)) {
-                guardarUsuaris(usuaris);
-                llistaUsuaris();
-                mostrarExit("Usuaris importats correctament!");
-            } else {
-                mostrarError("Format de fitxer invàlid.");
-            }
-        } catch (error) {
-            mostrarError("Error en importar el fitxer.");
-        }
-    };
-    reader.readAsText(file);
-}
+
