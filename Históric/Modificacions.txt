@@ -6,3 +6,7 @@ He modificat:
 
 Canvis a realitzar:
 - Afegir validacions de data --> fi no pot ser anterior que la d'inici
+
+
+- Avís a l'usuari quan edita/elimina un Registre- Vincular a
+    la BBDD de la tendafake
