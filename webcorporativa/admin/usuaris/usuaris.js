@@ -272,7 +272,7 @@ function validarFormulari(nom, email, password, rol) {
     }
     
     // Validar password
-    const regexcontrasenya = /^.{8,20}$/;
+    const regexcontrasenya = /^.{5,20}$/;
     if (regexcontrasenya.test(password)) {
         mostrarError("La contrasenya ha de tenir entre 8 i 20 caràcters.");
         return false;
@@ -318,7 +318,7 @@ function netejarMissatges() {
 }
 // Tancar Sessió
 function tancarSessio() {
-    sessionStorage.removeItem(UsuariActual);
+    sessionStorage.removeItem(usuariActual);
     window.location.href='../login.html'
 }
 

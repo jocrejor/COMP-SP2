@@ -101,9 +101,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 mostrarError('Format de correu electrònic invàlid.');
                 return;
             }
-            
-            if (contrasenya.length < 8 || contrasenya.length > 20) {
-                mostrarError('La contrasenya ha de tenir entre 8 i 20 caràcters.');
+
+            const regexcontrasenya = /^.{5,20}$/;
+            if (!regexcontrasenya.test(password)) {
+                mostrarError('La contrasenya no és vàlida');
                 return;
             }
             
