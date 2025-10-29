@@ -1,93 +1,138 @@
-// ------------------- MOSTRAR COMANDES -------------------
-function mostrarComandes() {
-  const container = document.getElementById("listaPedidos");
+//  CÀRREGA DE DADES DES DE LA "BBDD" 
+function carregarDades() {
+  // Comprova si les dades globals Order i Orderdetail estan disponibles
+  if (!Order || !Orderdetail) {
+    console.error("Les dades Order o Orderdetail no estan disponibles.");
+    return;
+  }
 
-  // Eliminar contingut anterior
+  // Construeix una llista de comandes a partir de les dades base (BBDD simulada)
+  let comandesBase = Order.map(o => {
+    // Cerca els detalls de cada comanda segons el seu ID
+    let productes = Orderdetail
+      .filter(d => d.order_id === o.id)
+      .map(d => ({
+        producte: `Producte ${d.product_id}`,
+        quantitat: d.quantity,
+        preu: d.price,
+        descompte: d.discount
+      }));
+
+    // Retorna l’objecte comanda amb totes les seves dades
+    return {
+      id: o.id,
+      data: o.date,
+      client: `Client ${o.client_id}`,
+      pagament: o.payment,
+      enviament: o.shipping_amount,
+      productes: productes
+    };
+  });
+
+  // Recupera les comandes guardades localment (afegides per l’usuari)
+  let comandesLocal = JSON.parse(localStorage.getItem("comandes")) || [];
+  let idsBase = comandesBase.map(c => c.id);
+
+  // Combina les comandes base amb les noves (sense duplicar IDs)
+  let comandesTotals = [
+    ...comandesBase,
+    ...comandesLocal.filter(c => !idsBase.includes(c.id))
+  ];
+
+  // Desa totes les comandes actualitzades al localStorage
+  localStorage.setItem("comandes", JSON.stringify(comandesTotals));
+  console.log("Comandes carregades (base + noves). Total:", comandesTotals.length);
+}
+
+//  MOSTRAR COMANDES 
+function mostrarComandes() {
+  let container = document.getElementById("listaPedidos");
+
+  // Neteja el contingut del contenidor abans de tornar a generar-lo
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
 
-  // Recuperar comandes
-  const comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+  // Recupera totes les comandes del localStorage
+  let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
 
-  // Si no hi ha comandes, mostrar missatge
+  // Si no hi ha comandes, mostra un missatge i surt
   if (comandes.length === 0) {
-    const missatge = document.createElement("p");
+    let missatge = document.createElement("p");
     missatge.textContent = "No hi ha comandes registrades.";
     container.appendChild(missatge);
     return;
   }
 
-  // Crear taula
-  const taula = document.createElement("table");
+  // Crea una taula per mostrar totes les comandes
+  let taula = document.createElement("table");
   taula.setAttribute("border", "1");
   taula.setAttribute("cellpadding", "5");
   taula.setAttribute("cellspacing", "0");
 
-  // Capçalera
-  const cap = document.createElement("tr");
-  const capçaleres = ["#", "Data", "Client", "Forma de pagament", "Enviament (€)", "Productes", "Accions"];
+  // Crea la capçalera de la taula
+  let cap = document.createElement("tr");
+  let capçaleres = ["#", "Data", "Client", "Forma de pagament", "Enviament (€)", "Productes", "Accions"];
   capçaleres.forEach(text => {
-    const th = document.createElement("th");
+    let th = document.createElement("th");
     th.textContent = text;
     cap.appendChild(th);
   });
   taula.appendChild(cap);
 
-  // Files de comandes
+  // Recorre totes les comandes per afegir-les a la taula
   comandes.forEach((c, index) => {
-    const fila = document.createElement("tr");
+    let fila = document.createElement("tr");
 
-    // Columna #
-    const tdIndex = document.createElement("td");
+    // Número de comanda
+    let tdIndex = document.createElement("td");
     tdIndex.textContent = index + 1;
     fila.appendChild(tdIndex);
 
-    // Data
-    const tdData = document.createElement("td");
+    // Data de la comanda
+    let tdData = document.createElement("td");
     tdData.textContent = c.data || "N/A";
     fila.appendChild(tdData);
 
     // Client
-    const tdClient = document.createElement("td");
+    let tdClient = document.createElement("td");
     tdClient.textContent = c.client || "N/A";
     fila.appendChild(tdClient);
 
-    // Pagament
-    const tdPagament = document.createElement("td");
+    // Forma de pagament
+    let tdPagament = document.createElement("td");
     tdPagament.textContent = c.pagament || "N/A";
     fila.appendChild(tdPagament);
 
-    // Enviament
-    const tdEnviament = document.createElement("td");
+    // Import d’enviament
+    let tdEnviament = document.createElement("td");
     tdEnviament.textContent = (+c.enviament || 0).toFixed(2);
     fila.appendChild(tdEnviament);
 
-    // Productes
-    const tdProductes = document.createElement("td");
-
-    const subTaula = document.createElement("table");
+    //  Subtaula amb els productes de la comanda
+    let tdProductes = document.createElement("td");
+    let subTaula = document.createElement("table");
     subTaula.setAttribute("border", "1");
     subTaula.setAttribute("cellpadding", "2");
     subTaula.setAttribute("cellspacing", "0");
 
-    // Capçalera productes
-    const capProductes = document.createElement("tr");
+    // Capçalera de la subtaula
+    let capProductes = document.createElement("tr");
     ["Producte", "Quantitat", "Preu", "Descompte (%)"].forEach(text => {
-      const th = document.createElement("th");
+      let th = document.createElement("th");
       th.textContent = text;
       capProductes.appendChild(th);
     });
     subTaula.appendChild(capProductes);
 
-    // Files de productes
+    // Calcula i mostra cada producte amb el seu subtotal
     let total = 0;
     (c.productes || []).forEach(p => {
-      const f = document.createElement("tr");
-      const subtotal = p.quantitat * p.preu * (1 - (p.descompte || 0) / 100);
+      let f = document.createElement("tr");
+      let subtotal = p.quantitat * p.preu * (1 - (p.descompte || 0) / 100);
       total += subtotal;
 
-      const dades = [
+      let dades = [
         p.producte,
         p.quantitat,
         `${p.preu.toFixed(2)}€`,
@@ -95,7 +140,7 @@ function mostrarComandes() {
       ];
 
       dades.forEach(valor => {
-        const td = document.createElement("td");
+        let td = document.createElement("td");
         td.textContent = valor;
         f.appendChild(td);
       });
@@ -103,31 +148,41 @@ function mostrarComandes() {
       subTaula.appendChild(f);
     });
 
+    // Suma el cost d’enviament al total de la comanda
     total += c.enviament || 0;
 
-    const totalText = document.createElement("b");
+    // Mostra el total final
+    let totalText = document.createElement("b");
     totalText.textContent = `Total: ${total.toFixed(2)}€`;
 
+    // Afegeix la subtaula i el total a la cel·la de productes
     tdProductes.appendChild(subTaula);
     tdProductes.appendChild(totalText);
     fila.appendChild(tdProductes);
 
-    // Accions
-    const tdAccions = document.createElement("td");
+    // --- Accions disponibles per cada comanda ---
+    let tdAccions = document.createElement("td");
     tdAccions.style.textAlign = "center";
 
-    const botoVisualitzar = document.createElement("button");
+    // Botó per visualitzar la comanda
+    let botoVisualitzar = document.createElement("button");
     botoVisualitzar.textContent = "Visualitzar";
+    botoVisualitzar.classList.add("visualitzar");
     botoVisualitzar.addEventListener("click", () => visualitzarComanda(index));
 
-    const botoModificar = document.createElement("button");
+    // Botó per modificar la comanda
+    let botoModificar = document.createElement("button");
     botoModificar.textContent = "Modificar";
+    botoModificar.classList.add("modificar");
     botoModificar.addEventListener("click", () => modificarComanda(index));
 
-    const botoEliminar = document.createElement("button");
+    // Botó per eliminar la comanda
+    let botoEliminar = document.createElement("button");
     botoEliminar.textContent = "Eliminar";
+    botoEliminar.classList.add("eliminar");
     botoEliminar.addEventListener("click", () => eliminarComanda(index));
 
+    // Afegeix els botons a la cel·la d’accions
     tdAccions.appendChild(botoVisualitzar);
     tdAccions.appendChild(document.createTextNode(" "));
     tdAccions.appendChild(botoModificar);
@@ -135,39 +190,39 @@ function mostrarComandes() {
     tdAccions.appendChild(botoEliminar);
 
     fila.appendChild(tdAccions);
-
     taula.appendChild(fila);
   });
 
+  // Mostra la taula completa al contenidor principal
   container.appendChild(taula);
 }
-
-// ------------------- VISUALITZAR COMANDA -------------------
+//  ACCIONS 
+// Desa l’índex de la comanda per visualitzar-la i redirigeix a la pàgina corresponent
 function visualitzarComanda(index) {
   localStorage.setItem("comandaVisualitzar", index);
   window.location.href = "visualitzarComanda.html";
 }
-
-// ------------------- MODIFICAR COMANDA -------------------
+// Desa l’índex per editar la comanda i obre la pàgina de modificació
 function modificarComanda(index) {
   localStorage.setItem("comandaEditar", index);
   window.location.href = "modificarComanda.html";
 }
-
-// ------------------- ELIMINAR COMANDA -------------------
+// Elimina una comanda després de confirmar-ho amb l’usuari
 function eliminarComanda(index) {
-  const comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+  let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
   if (!confirm("Segur que vols eliminar aquesta comanda?")) return;
-  comandes.splice(index, 1);
+  comandes.splice(index, 1); // Elimina la comanda seleccionada
   localStorage.setItem("comandes", JSON.stringify(comandes));
-  mostrarComandes();
+  mostrarComandes(); // Actualitza la vista
 }
-
-// ------------------- MAIN -------------------
+//  MAIN 
+// Quan el document estigui carregat, s’executen aquestes accions inicials
 document.addEventListener("DOMContentLoaded", () => {
-  mostrarComandes();
+  carregarDades(); // Carrega dades base i locals
+  mostrarComandes(); // Mostra totes les comandes
 
-  const botoAfegir = document.getElementById("afegirPedido");
+  // Afegeix comportament al botó “Afegir comanda”
+  let botoAfegir = document.getElementById("afegirPedido");
   if (botoAfegir) {
     botoAfegir.addEventListener("click", () => {
       window.location.href = "altaComanda.html";

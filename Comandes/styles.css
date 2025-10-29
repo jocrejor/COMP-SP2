@@ -1,0 +1,141 @@
+/* Estils generals */
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: #f6f8fa;
+    margin: 40px;
+    color: #333;
+}
+
+h1, h3, h4 {
+    color: #2b4d85;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 15px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #e9edf5;
+}
+
+input[type="number"],
+input[type="date"],
+select {
+    width: 95%;
+    padding: 6px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #2b4d85;
+    color: #fff;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+button:hover {
+    background-color: #4169b1;
+}
+
+#missatgeError {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#productesAfegits {
+    background-color: #eef2f8;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.addProduct {
+    background-color: #3a944a;
+}
+
+.addProduct:hover {
+    background-color: #49a659;
+}
+
+#llista {
+    background-color: #888;
+}
+
+#llista:hover {
+    background-color: #666;
+}
+.afegirPedido{
+    background-color: #3a944a ;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 10px;
+font-family: Arial, sans-serif;
+}
+
+th {
+background-color: #f3f3f3;
+color: #333;
+padding: 8px;
+}
+
+td {
+padding: 8px;
+text-align: center;
+vertical-align: middle;
+}
+
+button {
+border: none;
+border-radius: 6px;
+padding: 6px 12px;
+font-size: 14px;
+cursor: pointer;
+transition: 0.2s ease;
+}
+
+button.visualitzar {
+background-color: #2196f3;
+color: white;
+}
+button.visualitzar:hover {
+background-color: #1976d2;
+}
+
+button.modificar {
+background-color: #ff9800;
+color: white;
+}
+button.modificar:hover {
+background-color: #e68900;
+}
+
+button.eliminar {
+background-color: #f44336;
+color: white;
+}
+button.eliminar:hover {
+background-color: #d32f2f;
+}
+
+td button {
+margin: 0 3px;
+}

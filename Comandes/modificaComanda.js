@@ -1,62 +1,40 @@
+// Executem el codi només quan tot el contingut del document estigui carregat
 document.addEventListener("DOMContentLoaded", () => {
-
-    // -----------------------------
     // CARREGAR PRODUCTES GLOBALS
-    // -----------------------------
+    // Comprovem que existeixi l’array global de productes
     if (!window.products || !Array.isArray(window.products)) {
+        // Si no existeix, intentem obtenir-lo de la variable "Product"
         if (typeof Product !== "undefined") {
-            window.products = Product; // Assignem Product a window.products
+            window.products = Product;
         } else {
-            console.error("La llista de productes no està disponible!");
+            console.error("❌ No s'ha pogut carregar la llista de productes!");
             return;
         }
     }
-
+    // Recuperem l’índex de la comanda a editar del localStorage
     let index = localStorage.getItem("comandaEditar");
     if (index === null) {
-        alert("No s'ha seleccionat cap comanda per modificar.");
+        alert("⚠️ No s'ha seleccionat cap comanda per modificar.");
         window.location.href = "comandesLlistar.html";
         return;
     }
-
+    // Obtenim totes les comandes i la que volem editar
     let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
     let comanda = comandes[index];
     if (!comanda) {
-        alert("Comanda no trobada.");
+        alert(" Comanda no trobada.");
         window.location.href = "comandesLlistar.html";
         return;
     }
-
-    // -----------------------------
-    // MOSTRAR INFORMACIÓ FIXA
-    // -----------------------------
+    // MOSTRAR INFORMACIÓ FIXA DE LA COMANDA
     document.getElementById("date").value = comanda.data || "";
-    document.getElementById("date").disabled = true;
-
     document.getElementById("payment").value = comanda.pagament || "";
-    document.getElementById("payment").disabled = true;
-
     document.getElementById("shipping").value = comanda.enviament || 0;
-    document.getElementById("shipping").disabled = true;
+    document.getElementById("client").innerHTML = `<option value="${comanda.client}">${comanda.client}</option>`;
 
-    let clientSelect = document.getElementById("client");
-    clientSelect.innerHTML = "";
-    let optionClient = document.createElement("option");
-    optionClient.value = comanda.client || "";
-    optionClient.textContent = comanda.client || "Desconegut";
-    clientSelect.appendChild(optionClient);
-    clientSelect.disabled = true;
-
-    // -----------------------------
-    // GESTIÓ PRODUCTES
-    // -----------------------------
     let productsTableBody = document.querySelector("#productsTable tbody");
-
-    // Netejar fila inicial
-    while (productsTableBody.firstChild) {
-        productsTableBody.removeChild(productsTableBody.firstChild);
-    }
-
+    // FUNCIONS AUXILIARS
+    // Omple el <select> amb la llista de productes disponibles
     function omplirSelect(select, producteId) {
         select.innerHTML = "";
         let defaultOption = document.createElement("option");
@@ -64,32 +42,31 @@ document.addEventListener("DOMContentLoaded", () => {
         defaultOption.textContent = "Selecciona producte...";
         select.appendChild(defaultOption);
 
+        // Creem una opció per a cada producte
         window.products.forEach(p => {
             let opt = document.createElement("option");
             opt.value = p.id;
             opt.textContent = p.name;
-
-            // Comparar com a número per seleccionar correctament
-            if (Number(p.id) === Number(producteId)) opt.selected = true;
-
+            if (Number(p.id) === Number(producteId)) opt.selected = true; // seleccionem si coincideix
             select.appendChild(opt);
         });
     }
 
+    // Crea una nova fila de producte a la taula (per editar o afegir)
     function crearProducteRow(producteData = {}) {
         let tr = document.createElement("tr");
         tr.classList.add("product-line");
 
-        // Producte
+        //  Cel·la PRODUCTE 
         let tdProducte = document.createElement("td");
         let select = document.createElement("select");
         select.name = "product_id[]";
         select.required = true;
+        omplirSelect(select, producteData.id);
         tdProducte.appendChild(select);
         tr.appendChild(tdProducte);
-        omplirSelect(select, producteData.id);
 
-        // Quantitat
+        //  Cel·la QUANTITAT 
         let tdQuantitat = document.createElement("td");
         let inputQuantitat = document.createElement("input");
         inputQuantitat.type = "number";
@@ -100,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tdQuantitat.appendChild(inputQuantitat);
         tr.appendChild(tdQuantitat);
 
-        // Preu
+        //  Cel·la PREU 
         let tdPreu = document.createElement("td");
         let inputPreu = document.createElement("input");
         inputPreu.type = "number";
@@ -112,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tdPreu.appendChild(inputPreu);
         tr.appendChild(tdPreu);
 
-        // Descompte
+        //  Cel·la DESCOMPTE 
         let tdDescompte = document.createElement("td");
         let inputDescompte = document.createElement("input");
         inputDescompte.type = "number";
@@ -123,70 +100,70 @@ document.addEventListener("DOMContentLoaded", () => {
         tdDescompte.appendChild(inputDescompte);
         tr.appendChild(tdDescompte);
 
-        // Acció
+        //  Cel·la ACCIÓ (Eliminar fila) 
         let tdAccio = document.createElement("td");
         let btnEliminar = document.createElement("button");
         btnEliminar.type = "button";
         btnEliminar.textContent = "Eliminar";
+        btnEliminar.classList.add("eliminar");
+        // Quan es clica, elimina la fila
         btnEliminar.addEventListener("click", () => tr.remove());
         tdAccio.appendChild(btnEliminar);
         tr.appendChild(tdAccio);
 
+        // Afegim la nova fila al cos de la taula
         productsTableBody.appendChild(tr);
     }
 
-    // Carregar productes existents de la comanda
+    // CARREGAR PRODUCTES EXISTENTS A LA COMANDA
     (comanda.productes || []).forEach(p => crearProducteRow(p));
 
-    // -----------------------------
-    // CREAR BOTÓ AFEGIR A LA TAULA
-    // -----------------------------
-    let addRowButton = document.createElement("button");
-    addRowButton.type = "button";
-    addRowButton.textContent = "Afegir";
-    addRowButton.classList.add("addProduct");
-    addRowButton.addEventListener("click", () => crearProducteRow());
-
-    // Afegim el botó al peu de la taula o on vulguis
-    let tableContainer = document.getElementById("productsTableContainer"); // afegeix un div al HTML amb id="productsTableContainer"
-    if (tableContainer) tableContainer.appendChild(addRowButton);
-
-    // Guardar modificacions
-    document.getElementById("pedidoForm").addEventListener("submit", e => {
+    // BOTÓ "AFEGIR PRODUCTE"
+    let btnAfegir = document.getElementById("afegirProducte");
+    if (btnAfegir) {
+        btnAfegir.addEventListener("click", e => {
+            e.preventDefault();
+            crearProducteRow(); // Afegim una fila buida
+        });
+    }
+    // GUARDAR CANVIS DE LA COMANDA
+    let form = document.getElementById("pedidoForm");
+    form.addEventListener("submit", e => {
         e.preventDefault();
 
+        // Recompilem totes les dades dels productes de la taula
         let productes = [];
         document.querySelectorAll(".product-line").forEach(tr => {
             let select = tr.querySelector("select[name='product_id[]']");
-            let productId = parseInt(select.value) || null;
+            let productId = parseInt(select.value);
+            if (!productId) return; // si no hi ha producte seleccionat, el saltem
+
+            // Extraiem les dades de cada camp
             let productNom = window.products.find(p => p.id === productId)?.name || "";
             let quantitat = parseFloat(tr.querySelector("input[name='quantity[]']").value) || 1;
             let preu = parseFloat(tr.querySelector("input[name='price[]']").value) || 0;
             let descompte = parseFloat(tr.querySelector("input[name='discount[]']").value) || 0;
 
-            if (productId) {
-                productes.push({
-                    id: productId,
-                    producte: productNom,
-                    quantitat,
-                    preu,
-                    descompte
-                });
-            }
+            // Afegim el producte a l’array final
+            productes.push({ id: productId, producte: productNom, quantitat, preu, descompte });
         });
 
+        // Actualitzem la comanda amb els nous productes
         comanda.productes = productes;
         comandes[index] = comanda;
+
+        // Guardem al localStorage
         localStorage.setItem("comandes", JSON.stringify(comandes));
 
-        alert("Comanda actualitzada!");
+        alert("✅ Comanda actualitzada correctament!");
         window.location.href = "comandesLlistar.html";
     });
-
-    // Botó tornar
-    document.getElementById("tornar").addEventListener("click", e => {
-        e.preventDefault();
-        window.location.href = "comandesLlistar.html";
-    });
-
+    // BOTÓ "TORNAR"
+    let btnTornar = document.getElementById("tornar");
+    if (btnTornar) {
+        btnTornar.addEventListener("click", e => {
+            e.preventDefault();
+            window.location.href = "comandesLlistar.html";
+        });
+    }
 });
