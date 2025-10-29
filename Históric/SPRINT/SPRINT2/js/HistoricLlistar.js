@@ -2,10 +2,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.querySelector("#taulaResultat tbody");
     const btnAfegir = document.getElementById("afegirNou");
 
+    //Vincular la BBDD
+    function obtenirRegistres() {
+        if (typeof Register !== "undefined" && Array.isArray(Register)) {
+            return Register;
+        } else {
+            console.error("No s'ha trobat la base de dades Register.");
+            return [];
+        }
+    }
+
     function mostrarTaula() {
         tbody.textContent = "";
 
-        const registres = JSON.parse(localStorage.getItem("registres")) || [];
+        const registres = obtenirRegistres();
 
         //Assegurar-se de que hi ha registres
         if (registres.length === 0) {

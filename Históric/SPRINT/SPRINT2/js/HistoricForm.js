@@ -7,14 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("formRegistre");
   const btnCancelar = document.getElementById("cancelar");
 
-  
-  let registres = JSON.parse(localStorage.getItem("registres")) || [];
-
   //Si venim d'editar les dades
   const editIndex = sessionStorage.getItem("editIndex");
 
 
-  if (editIndex !== null) {
+  if (editIndex !== null && typeof Register !== "undefined" && Register[editIndex]) {
     const registre = registres[editIndex];
     if (registre) {
       document.getElementById("client_id").value = registre.client_id;
@@ -48,14 +45,16 @@ document.addEventListener("DOMContentLoaded", function () {
       date_end,
     };
 
-    if (editIndex !== null) {
-      registres[editIndex] = dadesRegistre;
+    //Vincle amb la BBDD
+    if (editIndex !== null && typeof Register !== "undefined") {
+      Register[editIndex] = dadesRegistre;
       sessionStorage.removeItem("editIndex");
+    } else if (typeof Register !== "undefined") {
+      Register.push(dadesRegistre);
     } else {
-      registres.push(dadesRegistre);
+      alert("No s'ha trobat la base de dades Register.");
     }
 
-    localStorage.setItem("registres", JSON.stringify(registres));
     window.location.href = "./HistoricLlistar.html"; //Tornar al llistat
   });
 
