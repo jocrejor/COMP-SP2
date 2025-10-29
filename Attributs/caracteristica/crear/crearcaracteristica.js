@@ -25,24 +25,12 @@ function validarnom () {
     return true;
 }
 
-function validarvalor () {
-    var element = document.getElementById("valor");
-    if (!element.checkValidity()){
-        if (element.validity.valueMissing){
-            error(element,"Has d'introduir un valor.");
-        }
-        if (element.validity.patternMismatch){
-            error(element, "El valor ha de tindre entre 2 i 255 caràcters.");
-        }
-        return false;
-    }
-    return true;
-}
+
 
 function validar (e) {
     esborrarError();
 
-    if (validarnom() && validarvalor() && confirm("Confirma si vols enviar el formulari")) {
+    if (validarnom()  && confirm("Confirma si vols enviar el formulari")) {
        
 
         return true;
