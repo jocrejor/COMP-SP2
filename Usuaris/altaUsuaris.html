@@ -10,71 +10,100 @@
     <script type="text/javascript" src="altaUsuaris.js"></script>
 </head>
 <body>
-    <h1>Alta d'Usuaris</h1>
-    
-    <!-- Botó per tornar a la pàgina de llista d'usuaris -->
-    <button id="usuaris">Tornar a la Llista</button>
-    <!-- Formulari principal per donar d'alta usuaris -->
-    <form id="formulariUsuari" novalidate>
-        <br>
-        <table>
-            <tr>
-                <td>Nom d'usuari:</td>
-                <td>
-                    <!-- Camp amb validació per nom d'usuari (3-50 lletres) -->
-                    <input type="text" name="nomUsuari" id="nomUsuari"
-                           pattern="[A-Za-z\s]{3,50}" required/>
-                </td>
-            </tr>
-            <tr>
-                <td>Nom:</td>
-                <td>
-                    <!-- Camp amb validació per nom (3-100 lletres) -->
-                    <input type="text" name="nom" id="nom"
-                           pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{3,100}" required/>
-                </td>
-            </tr>
-            <tr>
-                <td>Correu:</td>
-                <td>
-                    <!-- Validació d'email amb pattern i longitud (5-100 caràcters) -->
-                    <input type="email" name="correu" id="correu"
-                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" required />
-                </td>
-            </tr>
-            <tr>
-                <td>Contrasenya:</td>
-                <td>
-                     <!-- Contrasenya segura: 5-30 caràcters, amb majúscules, minúscules, número i símbol -->
-                    <input type="password" name="contrasenya" id="contrasenya" 
-                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
-                    required />
-                    <button type="button" id="botoContrasenya">👁️</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Rol:</td>
-                <td>
-                    <!-- Selector de rol -->
-                    <select id="rol">
-                        <option value=""></option>                
-                    </select>
-                </td> 
-            </tr>
-            <tr>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- Botons per enviar i reiniciar el formulari -->
-                    <input type="submit" name="enviar" id="enviar" value="Enviar"/>
-                    <input type="reset" name="limpiar" id="limpiar" value="Reiniciar"/>
-                </td>
-            </tr>
-        </table>
+    <header>
+        <div class="logo">
+            <a href="#">
+                <img src="img/rankandvam.png" alt="No ha carregat l'imatge">
+            </a>
+        </div>
+        <div class="usuari">
+            <img src="img/usuari.webp" alt="No ha carregat l'imatge">
+        </div>
+    </header>
 
-        <!-- Àrea per mostrar missatges d'error a l'usuari -->
-        <div id="missatgeError" style="color:red;"></div>
-    </form>
+    <aside>
+        <div class="gestio">
+            <a href="#">Usuaris</a>
+            <a href="#">Productes</a>
+            <a href="#">Famílies</a>
+            <a href="#">Atributs</a>
+            <a href="#">Ofertes</a>
+            <a href="#">Clients</a>
+            <a href="#">Localització</a>
+            <a href="#">Panell de control</a>
+            <a href="#">Carret</a>
+            <a href="#">Comandes</a>
+            <a href="#">Històrics ús i estadístiques</a>
+        </div>
+    </aside>
+
+    <section>
+        <h1>Alta d'Usuaris</h1>
+    
+        <!-- Botó per tornar a la pàgina de llista d'usuaris -->
+        <button id="usuaris">Tornar a la Llista</button>
+        <!-- Formulari principal per donar d'alta usuaris -->
+        <form id="formulariUsuari" novalidate>
+            <br>
+            <table>
+                <tr>
+                    <td>Nom d'usuari:</td>
+                    <td>
+                        <!-- Camp amb validació per nom d'usuari (3-50 lletres) -->
+                        <input type="text" name="nomUsuari" id="nomUsuari"
+                            pattern="[A-Za-z\s]{3,50}" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nom:</td>
+                    <td>
+                        <!-- Camp amb validació per nom (3-100 lletres) -->
+                        <input type="text" name="nom" id="nom"
+                            pattern="[A-Za-zÀ-ÖØ-öø-ÿ\s]{3,100}" required/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Correu:</td>
+                    <td>
+                        <!-- Validació d'email amb pattern i longitud (5-100 caràcters) -->
+                        <input type="email" name="correu" id="correu"
+                        pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" required />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contrasenya:</td>
+                    <td>
+                        <!-- Contrasenya segura: 5-30 caràcters, amb majúscules, minúscules, número i símbol -->
+                        <input type="password" name="contrasenya" id="contrasenya" 
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
+                        required />
+                        <button type="button" id="botoContrasenya">👁️</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Rol:</td>
+                    <td>
+                        <!-- Selector de rol -->
+                        <select id="rol">
+                            <option value=""></option>                
+                        </select>
+                    </td> 
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- Botons per enviar i reiniciar el formulari -->
+                        <input type="submit" name="enviar" id="enviar" value="Enviar"/>
+                        <input type="reset" name="limpiar" id="limpiar" value="Reiniciar"/>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- Àrea per mostrar missatges d'error a l'usuari -->
+            <div id="missatgeError" style="color:red;"></div>
+        </form>
+    </section>
 </body>
 </html>

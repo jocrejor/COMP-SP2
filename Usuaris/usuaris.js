@@ -43,8 +43,6 @@ function mostrarUsuaris() {
     // Crear taula
     const taula = document.createElement('table');
     taula.id = 'taula_usuaris';
-    taula.border = '1';
-    taula.cellPadding = '5px';
 
     // Crear capçalera
     const header = document.createElement('tr');
@@ -75,6 +73,7 @@ function mostrarUsuaris() {
 
         // Cel·la d'accions
         const accionsTd = document.createElement('td');
+        accionsTd.classList.add('accions');
 
         // Botó editar
         const botoEditar = document.createElement('button');

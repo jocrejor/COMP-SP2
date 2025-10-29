@@ -10,27 +10,56 @@
     <script type="text/javascript" src="rols.js"></script>
 </head>
 <body>
-    <h1>Gestió de Rols</h1>
-    
-    <!-- Botó per tornar a la llista principal d'usuaris -->
-    <button id="usuaris">Tornar a la Llista</button>
-    
-    <div>
-        <h2>Afegir Nou Rol</h2>
-        <!-- Formulari per afegir nous rols al sistema -->
-        <form id="formulariRol" novalidate>
-            <input type="text" id="nouRol" placeholder="Nom del nou rol" pattern="^[A-Za-z]{3,15}$" required>
-            <button type="submit">Afegir Rol</button>
-        </form>
-    </div>
-    
-    <div>
-        <h2>Rols Disponibles</h2>
-        <!-- lista on es mostraran dinàmicament tots els rols existents -->
-        <!-- El JavaScript usuarisRol.js s'encarregarà d'omplir aquesta llista -->
-        <ul id="llistaRols">
-            <!-- Aquí es mostraran els rols -->
-        </ul>
-    </div>
+        <header>
+        <div class="logo">
+            <a href="#">
+                <img src="img/rankandvam.png" alt="No ha carregat l'imatge">
+            </a>
+        </div>
+        <div class="usuari">
+            <img src="img/usuari.webp" alt="No ha carregat l'imatge">
+        </div>
+    </header>
+
+    <aside>
+        <div class="gestio">
+            <a href="#">Usuaris</a>
+            <a href="#">Productes</a>
+            <a href="#">Famílies</a>
+            <a href="#">Atributs</a>
+            <a href="#">Ofertes</a>
+            <a href="#">Clients</a>
+            <a href="#">Localització</a>
+            <a href="#">Panell de control</a>
+            <a href="#">Carret</a>
+            <a href="#">Comandes</a>
+            <a href="#">Històrics ús i estadístiques</a>
+        </div>
+    </aside>
+
+    <section>
+        <h1>Gestió de Rols</h1>
+        
+        <!-- Botó per tornar a la llista principal d'usuaris -->
+        <button id="usuaris">Tornar a la Llista</button>
+        
+        <div>
+            <h2>Afegir Nou Rol</h2>
+            <!-- Formulari per afegir nous rols al sistema -->
+            <form id="formulariRol" novalidate>
+                <input type="text" id="nouRol" placeholder="Nom del nou rol" pattern="^[A-Za-z]{3,15}$" required>
+                <button type="submit">Afegir Rol</button>
+            </form>
+        </div>
+        
+        <div>
+            <h2>Rols Disponibles</h2>
+            <!-- lista on es mostraran dinàmicament tots els rols existents -->
+            <!-- El JavaScript usuarisRol.js s'encarregarà d'omplir aquesta llista -->
+            <ul id="llistaRols">
+                <!-- Aquí es mostraran els rols -->
+            </ul>
+        </div>
+    </section>
 </body>
 </html>
