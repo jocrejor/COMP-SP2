@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //Cel·la de Client -> mostrar el nom en lloc del nº
             const linkClient = document.createElement("a");
             linkClient.href = `./Visualitzar_Client.html?id=${registre.client_id}`;
-            linkClient.textContent = (clientObj ? clientObj.name : "Desconegut") + " &#128100;"; //Nom + simbool
+            linkClient.textContent = (clientNom ? clientNom.name : "Desconegut") + " →"; //Nom + fletxa
 
             const camps = [
                 registre.session_id,
