@@ -98,7 +98,7 @@ function mostrarComparador() {
 }
 
  
-//Eliminar producte del comparador
+
 function eliminarProducteComparador(index) {
     // Llig l'array dels productes comparats
     let currentCompareProduct = localStorage.getItem('compararProductes')

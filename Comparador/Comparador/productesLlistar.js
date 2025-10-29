@@ -1,14 +1,5 @@
 
-let Product = [
-    {name:"Televisor", price:500, img:"img/tv.png", descripton:"Televisor 4K UHD"},
-    {name:"Portàtil", price:700, img:"img/portatil.png", descripton:"Portàtil 15.6'' i7"},
-    {name:"Tablet", price:300, img:"img/tablet.png", descripton:"Tablet 10'' 64GB"},
-    {name:"Smartphone", price:400, img:"img/movil.png", descripton:"Smartphone 6.5'' 128GB"},
-    {name:"Smartwatch", price:200, img:"img/reloj.png", descripton:"Smartwatch GPS"}
-]
-
-
-
+let productos = localStorage.getItem('productes') ? JSON.parse(localStorage.getItem('productes')) : Product;
 
 document.addEventListener("DOMContentLoaded", main)
 
@@ -42,14 +33,17 @@ function main(){
         const tdName = document.createElement('td');
         tdName.textContent = product.name || '';
         tr.appendChild(tdName);
+        
+
+        const tdPrice = document.createElement('td');
+        tdPrice.textContent = (product.price != null) ? product.price : '';
+        tr.appendChild(tdPrice);
+
 
         const tdDesc = document.createElement('td');
         tdDesc.textContent = product.description || product.descripton || '';
         tr.appendChild(tdDesc);
 
-        const tdPrice = document.createElement('td');
-        tdPrice.textContent = (product.price != null) ? product.price : '';
-        tr.appendChild(tdPrice);
 
         productListTable.appendChild(tr);
     });
