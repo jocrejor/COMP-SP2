@@ -115,7 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 sessionStorage.setItem('usuariActual', JSON.stringify({
                     id: usuariTrobat.id,
                     name: usuariTrobat.name,
-                    email: usuariTrobat.email
+                    email: usuariTrobat.email,
+                    rol:usuariTrobat.rol
                 }));
                 
                 mostrarExit('Inici de sessió correcte! Redirigint...');
