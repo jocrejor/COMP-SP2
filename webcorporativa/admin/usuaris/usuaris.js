@@ -318,7 +318,7 @@ function netejarMissatges() {
 }
 // Tancar Sessió
 function tancarSessio() {
-    sessionStorage.removeItem(usuariActual);
+    sessionStorage.clear();
     window.location.href='../login.html'
 }
 
