@@ -1,50 +1,20 @@
 // Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
-
+let countryArray;
 let llista = new Array(); // Array on guardarem la llista de països
 let accio = "Afegir";     // Estat actual del botó (Afegir o Actualitzar)
 
-// Funció per carregar les dades del fitxer Location.js
-async function carregarPaïsosPredefinits() {
-    try {
-        // Import dinàmic del mòdul
-        const modul = await import('./Location.js');
-        return modul.Country.map(pais => ({
-            id: pais.id,
-            country: pais.name
-        }));
-    } catch (error) {
-        console.error('Error carregant països predefinits:', error);
-        return [];
-    }
-}
-
 async function main() {
+
+    countryArray =  JSON.parse(localStorage.getItem("localitzacioPais")) || localStorage.setItem("localitzacioPais",JSON.stringify(Country)); 
+    
+    console.log(countryArray)
+    
+    
+    
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
 
-    // Carregar països predefinits només si no existeixen dades prèvies
-    if (!localStorage.getItem("localitzacioPais")) {
-        console.log("Carregant països predefinits...");
-        llista = await carregarPaïsosPredefinits();
-        
-        if (llista.length > 0) {
-            localStorage.setItem("localitzacioPais", JSON.stringify(llista));
-            // Trobar l'ID més alt per inicialitzar countryLastId
-            const maxId = Math.max(...llista.map(pais => pais.id));
-            localStorage.setItem("countryLastId", maxId);
-            console.log(`S'han carregat ${llista.length} països predefinits`);
-        } else {
-            // Si no es poden carregar països predefinits, inicialitzar buit
-            localStorage.setItem("localitzacioPais", JSON.stringify([]));
-            localStorage.setItem("countryLastId", "0");
-        }
-    } else {
-        // Si ja hi ha dades, carregar-les
-        llista = JSON.parse(localStorage.getItem("localitzacioPais"));
-    }
-
-    // Pintem la llista inicial dels països
     mostrarLlista();
 
     // Si encara no existeix un ID automàtic al localStorage, el creem
@@ -122,14 +92,14 @@ function mostrarLlista() {
     let aux = "";
 
     // Per a cada país, creem un element <li> amb botons per Esborrar, Modificar i accedir a Província
-    llista.forEach((item, index) => {
+    countryArray.forEach((item, index) => {
         aux +=
             "<li><button onclick='esborrarPais(" +
-            index +
+            item.id +
             ")'>Esborrar</button><button onclick='actualitzar(" +
-            index +
+            item.id +
             ")'>Modificar</button>" +
-            item.country +
+            item.name +
             "<a href='./provincia/provinciaLocalitzacio.html?country=" +
             encodeURIComponent(item.country) +
             "'><button>Provincia</button></a></li>";
