@@ -94,11 +94,6 @@ button:hover, #enviar:hover {
 #rol {
     width: 100%;
     color: #1d1d1d;
-    background-color: #ffd620;
-}
-
-option:hover {
-    background-color: #ab9015;
 }
 
 .gestio {

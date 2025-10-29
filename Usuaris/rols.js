@@ -72,7 +72,7 @@ function mostrarRols() {
         // Botó eliminar
         const botoEliminar = document.createElement('button');
         botoEliminar.appendChild(document.createTextNode('Eliminar'));
-        botoEliminar.addEventListener('click', () => eliminarRol(rol.index));
+        botoEliminar.addEventListener('click', () => eliminarRol(index));
         accionsTd.appendChild(botoEliminar);
 
         fila.appendChild(accionsTd);
@@ -93,7 +93,9 @@ function afegirRol(e) {
     
     // Validacions per afegir el nou rol
     if (nouRol && !rols.includes(nouRol)) {
-        const rolObj = {'name': nouRol}; 
+        const nouId = rols.length > 0 ? Math.max(...rols.map(r => r.id || 0)) + 1 : 1;
+        const rolObj = { id: nouId, name: nouRol };
+
         rols.push(rolObj);
         guardarRols();
         mostrarRols();
@@ -106,12 +108,20 @@ function afegirRol(e) {
 
 // Funció per eliminar un rol amb confirmació.
 function eliminarRol(idRol) {
-    if (confirm(`Estàs segur que vols eliminar el rol "${rols[idRol].name}"?`)) {
+    const rol = rols[idRol];
+
+    // Impedir eliminar roles base
+    if (rol.name === "Admin" || rol.name === "Usuari") {
+        alert("No pots eliminar els rols base del sistema (Admin i Usuari).");
+        return;
+    }
+
+    if (confirm(`Estàs segur que vols eliminar el rol "${rol.name}}"?`)) {
         // Filtrar l'array per eliminar el rol especificat
         rols.splice(idRol, 1);
         guardarRols();
         mostrarRols();
-        alert(`Rol "${idRol}" eliminat correctament.`);
+        alert(`Rol "${rol.name}" eliminat correctament.`);
     }
 }
 
