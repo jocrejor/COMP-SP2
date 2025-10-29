@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <script src="../../BBDD/Location.js"></script>
     <!-- Fitxer JavaScript amb la lògica per gestionar les províncies -->
     <script src="./provinciaLocalitzacio.js"></script>
 
@@ -22,7 +23,7 @@
     <h2 id="id">País seleccionat:</h2>
 
     <!-- Camp de text per introduir una província nova -->
-    <input type="text" id="province" placeholder="Alacant" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+    <input type="text" id="province" placeholder="Anyadir nova Provincia" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
 
     <!-- Span per mostrar missatges d'error de validació -->
     <span id="mensajeError" style="color:red"></span>
@@ -39,7 +40,7 @@
     <input type="hidden" id="index" value="-1">
 
     <!-- Botó per tornar a la pàgina principal (llistat de països) -->
-    <a href="../indexLocalitzacio.html">
+    <a href="../index.html">
         <button id="torna">⬅️ Torna</button>
     </a>
 </body>

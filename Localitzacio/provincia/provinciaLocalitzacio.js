@@ -1,52 +1,52 @@
 // Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
-
-let llista = [];          // Array on guardarem totes les províncies
+let provinceArray;
+let llista = new Array();          // Array on guardarem totes les províncies
 let accio = "Afegir";     // Estat actual del botó
 let nombreCountry = "";   // Nom del país seleccionat, obtingut des de la URL
 
 // Funció principal que s'executa quan la pàgina està llesta
-function main() {
-  // Recuperem el nom del país de la URL
-  const urlCountry = window.location.href;
-  let partes = urlCountry.split("=");
-  nombreCountry = decodeURIComponent(partes[1]);
+async function main() {
 
-  // Mostrem el país seleccionat a l'encapçalament
-  document.getElementById("id").textContent =
-    "País seleccionat: " + nombreCountry;
+    provinceArray =  JSON.parse(localStorage.getItem("localitzacioPais")) || localStorage.setItem("localitzacioPais",JSON.stringify(Province)); 
+    
+    console.log(provinceArray)
+    
+    
+    
+    const afegirButton = document.getElementById("afegir");
+    afegirButton.textContent = accio;
 
-  // Configurem el botó inicial com "Afegir"
-  const afegirButton = document.getElementById("afegir");
-  afegirButton.textContent = accio;
+    mostrarLlista();
 
-  // Recuperem les províncies del localStorage o inicialitzem una llista buida
-  llista = localStorage.getItem("localitzacioprovince")
-    ? JSON.parse(localStorage.getItem("localitzacioprovince"))
-    : [];
-
-  // Mostrem les províncies associades al país actual
-  mostrarLlista();
-
-  // Afegim l'escoltador del botó Afegir/Actualitzar
-  afegirButton.addEventListener("click", () => {
-    let valida = validarProvincia(); // Comprovem que el nom és vàlid
-    if (valida === false) return;
-
-    // Segons l'acció actual, creem o actualitzem la província
-    if (accio === "Afegir") {
-      crearprovince();
-    } else {
-      actualitzarprovince();
-      accio = "Afegir"; // Tornem al mode inicial
-      afegirButton.textContent = accio;
+    // Si encara no existeix un ID automàtic al localStorage, el creem
+    if (!localStorage.getItem("countryLastId")) {
+        localStorage.setItem("countryLastId", 0);
     }
 
-    // Netejem camps i refresquem la llista
-    document.getElementById("province").value = "";
-    document.getElementById("index").value = "-1";
-    mostrarLlista();
-  });
+    // Listener del botó Afegir/Modificar
+    afegirButton.addEventListener("click", () => {
+        let validarPais = validarNomPais(); // Comprovem que el país siga vàlid
+
+        if (validarPais === false) {
+            return; // Si no és vàlid, parem l'execució
+        } else {
+            if (accio === "Afegir") {
+                crearPais(); // Mode afegir nou país
+            } else {
+                actualitzarPais(); // Mode actualitzar país existent
+                accio = "Afegir"; // Tornem a l'estat inicial
+                afegirButton.textContent = accio;
+            }
+        }
+
+        // Netejem el formulari després d'afegir o actualitzar
+        document.getElementById("country").value = "";
+        document.getElementById("index").value = "-1";
+
+        // Tornem a mostrar la llista actualitzada
+        mostrarLlista();
+    });
 }
 
 // Funció per afegir una nova província
