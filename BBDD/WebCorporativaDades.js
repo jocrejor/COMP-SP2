@@ -1,16 +1,16 @@
 let User=[
-  { "id": 1, "name": "Juan Pérez", "password": "hashed_juan123", "email": "juan.perez@example.com" },
-  { "id": 2, "name": "María Gómez", "password": "hashed_maria456", "email": "maria.gomez@example.com" },
-  { "id": 3, "name": "Carlos Ruiz", "password": "hashed_carlos789", "email": "carlos.ruiz@example.com" },
-  { "id": 4, "name": "Lucía Torres", "password": "hashed_lucia321", "email": "lucia.torres@example.com" },
-  { "id": 5, "name": "Andrés López", "password": "hashed_andres654", "email": "andres.lopez@example.com" }
+  { "id": 1, "name": "Admin Juan Pérez", "password": "admin", "email": "admin@example.com", "rol" :"admin"},
+  { "id": 2, "name": "María Gómez", "password": "000000", "email": "maria.gomez@example.com", "rol" :"editor" },
+  { "id": 3, "name": "Carlos Ruiz", "password": "000000", "email": "carlos.ruiz@example.com", "rol" :"editor" },
+  { "id": 4, "name": "Lucía Torres", "password": "000000", "email": "lucia.torres@example.com", "rol" :"editor" },
+  { "id": 5, "name": "Andrés López", "password": "000000", "email": "andres.lopez@example.com", "rol" :"editor" }
 ]
 let Category = [
   { "id": 1, "name": "Tecnología" },
   { "id": 2, "name": "Cultura" },
   { "id": 3, "name": "Política" },
   { "id": 4, "name": "Ciencia" },
-  { "id": 5, "name": "Deportes" }
+  { "id": 5, "name": "Deportes"}
 ]
 let New = 
 [
@@ -73,35 +73,35 @@ let New =
 let Image=[
   {
     "id": 1,
-    "url": "https://example.com/images/ia.jpg",
+    "url": "./img/ia.jpg",
     "name": "Portada IA",
     "order": 0,
     "id_new": 1
   },
   {
     "id": 2,
-    "url": "https://example.com/images/cine.jpg",
+    "url": "./img/cine.jpg",
     "name": "Festival Cine",
     "order": 0,
     "id_new": 2
   },
   {
     "id": 3,
-    "url": "https://example.com/images/politica.jpg",
+    "url": "./img/politica.jpg",
     "name": "Elecciones",
     "order": 0,
     "id_new": 3
   },
   {
     "id": 4,
-    "url": "https://example.com/images/espacio.jpg",
+    "url": "./img/espacio.jpg",
     "name": "Telescopio Artemis",
     "order": 0,
     "id_new": 4
   },
   {
     "id": 5,
-    "url": "https://example.com/images/champions.jpg",
+    "url": "./img/champions.jpg",
     "name": "Final Champions",
     "order": 0,
     "id_new": 5
