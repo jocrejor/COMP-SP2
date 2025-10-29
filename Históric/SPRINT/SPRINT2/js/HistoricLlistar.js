@@ -2,23 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.querySelector("#taulaResultat tbody");
     const btnAfegir = document.getElementById("afegirNou");
 
-    //Vincular la BBDD
-    function obtenirRegistres() {
-        if (typeof Register !== "undefined" && Array.isArray(Register)) {
-            return Register;
-        } else {
-            console.error("No s'ha trobat la base de dades Register.");
-            return [];
-        }
-    }
-
+    //Dades de la BBDD Register
     function mostrarTaula() {
         tbody.textContent = "";
 
-        const registres = obtenirRegistres();
-
-        //Assegurar-se de que hi ha registres
-        if (registres.length === 0) {
+        if (typeof Register === "undefined" || !Array.isArray(Register) || Register.length === 0) {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
             td.colSpan = 8;
@@ -27,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
             tbody.appendChild(tr);
             return;
         }
-
         registres.forEach((registre, index) => {
             const fila = document.createElement("tr");
 
@@ -61,13 +48,10 @@ document.addEventListener("DOMContentLoaded", function () {
             btnEsborrar.textContent = "Esborrar";
             btnEsborrar.addEventListener("click", () => {
                 if (confirm("Vols esborrar aquest registre?")) {
-                    const registres = JSON.parse(localStorage.getItem("registres")) || [];
-                    registres.splice(index, 1);
-                    localStorage.setItem("registres", JSON.stringify(registres));
-                    mostrarTaula();
+                    Register.splice(index, 1); // eliminar registre
+                    mostrarTaula(); // refresca la taula
                 }
             });
-
             tdAccions.appendChild(btnEditar);
             tdAccions.appendChild(btnEsborrar);
             fila.appendChild(tdAccions);

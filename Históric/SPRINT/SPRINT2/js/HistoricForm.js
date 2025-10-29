@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Generar un session_id únic si encara no existeix
-  if (!sessionStorage.getItem("session_id")) {
-    sessionStorage.setItem("session_id", crypto.randomUUID());
-  }
-
   const form = document.getElementById("formRegistre");
   const btnCancelar = document.getElementById("cancelar");
 
@@ -31,29 +26,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //Validació de dates
     if (date_start && date_end && new Date(date_end) < new Date(date_start)) {
-      alert("ERROR. La data final no pot ser anterior a la data inicial.");
+      alert("ERROR. La data final no pot ser anterior a la data d'inici.");
       return;
     }
 
-    const dadesRegistre = {
-      session_id: sessionStorage.getItem("session_id"),
-      user_agent: navigator.userAgent,
-      client_id: document.getElementById("client_id").value,
-      comparator_id: document.getElementById("comparator_id").value,
-      favorite_id: document.getElementById("favorite_id").value,
-      date_start,
-      date_end,
-    };
-
-    //Vincle amb la BBDD
-    if (editIndex !== null && typeof Register !== "undefined") {
+    let dadesRegistre;
+    //Vinculació BBDD
+    if (editIndex !== null && Register[editIndex]) {
+      // Editar registro existente de la BBDD
+      dadesRegistre = {
+        ...Register[editIndex], // session_id y user_agent existentes
+        client_id: document.getElementById("client_id").value,
+        comparator_id: document.getElementById("comparator_id").value,
+        favorite_id: document.getElementById("favorite_id").value,
+        date_start,
+        date_end,
+      };
       Register[editIndex] = dadesRegistre;
       sessionStorage.removeItem("editIndex");
-    } else if (typeof Register !== "undefined") {
-      Register.push(dadesRegistre);
     } else {
-      alert("No s'ha trobat la base de dades Register.");
+      // Crear registro nuevo
+      dadesRegistre = {
+        id: Register.length ? Register[Register.length - 1].id + 1 : 1, // autoincrement
+        session_id: crypto.randomUUID(),
+        user_agent: navigator.userAgent,
+        client_id: document.getElementById("client_id").value,
+        comparator_id: document.getElementById("comparator_id").value,
+        favorite_id: document.getElementById("favorite_id").value,
+        date_start,
+        date_end,
+      };
+      Register.push(dadesRegistre);
     }
+
 
     window.location.href = "./HistoricLlistar.html"; //Tornar al llistat
   });
