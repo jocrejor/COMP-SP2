@@ -71,3 +71,16 @@ button[type="submit"]:hover {
 #btnVolver:hover {
     background-color: #5a6268;
 }
+
+/* Validació */
+input.error, textarea.error, select.error {
+    border: 2px solid #e74c3c;
+    background-color: #fdf2f2;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
