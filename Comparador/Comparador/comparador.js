@@ -22,17 +22,32 @@ function main() {
         // Comprovar si ja existeix ja comparador
         if (!localStorage.getItem('comparar')) {
             localStorage.setItem('comparar', JSON.stringify(compare))
+            
         }
         // SI no existeix el producte afegir
         let Existeix = compareProduct.some(p => p.product == index);
         if (!Existeix) {
-            // Afegir producte a comparar
-            compareProduct.push({
-                "sessionId": compare.sessionId,
-                "product": index
-            });
-            localStorage.setItem('compararProductes', JSON.stringify(compareProduct));
-
+            // Comprovar que coincideixi la família amb els productes ja afegits
+            let canAdd = true;
+            if (compareProduct.length > 0) {
+                const firstIndex = compareProduct[0].product;
+                const firstProduct = productes[firstIndex];
+                const firstFamilyId = firstProduct ? firstProduct.family_id : null;
+                if (firstFamilyId != null && product.family_id != firstFamilyId) {
+                    canAdd = false;
+                    alert("El producte no és de la mateixa família que els que ja vols comparar.");
+                }
+            }
+            if (canAdd) {
+                // Afegir producte a comparar
+                compareProduct.push({
+                    "sessionId": compare.sessionId,
+                    "product": index
+                });
+                localStorage.setItem('compararProductes', JSON.stringify(compareProduct));
+            }
+        } else {
+            alert("Ja existeix el producte en el comparador");
         }
         //Neteja el comparador si lleves tots els productes encara que recàrregues la pàgina
         window.history.replaceState({}, document.title, "comparador.html");
