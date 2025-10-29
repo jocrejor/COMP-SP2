@@ -40,46 +40,70 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Precio
   const pPrice = document.createElement("p");
-  pPrice.textContent = ` Precio: $${product.price.toFixed(2)}`;
+  pPrice.textContent = ` Preu: $${product.price.toFixed(2)}`;
   div.appendChild(pPrice);
 
   // Atributos
-    const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
-    if (atributosFamilia.length > 0) {
-      const h4 = document.createElement("h4");
-      h4.textContent = "Atributos:";
-      h4.style.textAlign = "left";
-      div.appendChild(h4);
+const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
+if (atributosFamilia.length > 0) {
+  const h4 = document.createElement("h4");
+  h4.textContent = "Atributos:";
+  h4.style.textAlign = "left";
+  div.appendChild(h4);
 
-      const ul = document.createElement("ul");
-      atributosFamilia.forEach(attr => {
-        const li = document.createElement("li");
-        li.textContent = attr.name;
-        li.style.textAlign = "left";
-        ul.appendChild(li);
-      });
-      div.appendChild(ul);
+  const ul = document.createElement("ul");
+  ul.style.listStyle = "none";
+  ul.style.padding = "0";
+  ul.style.margin = "0";
+
+  atributosFamilia.forEach(attr => {
+    // Buscar el valor del atributo
+    const valor = Productattribute.find(
+      pa => pa.product_id === product.id && pa.attribute_id === attr.id
+    );
+
+    //Crear elementos
+    const li = document.createElement("li");
+    li.style.textAlign = "left";
+    li.style.marginBottom = "4px";
+
+    //Mostramos el valor si existe, si no solo mostramos el atributo
+    if (valor) {
+      li.textContent = `${attr.name}: ${valor.value}`;
+    } else {
+      li.textContent = `${attr.name}: -`;
     }
+
+    ul.appendChild(li);
+  });
+
+  div.appendChild(ul);
+}
+
+    
 
   // Descripción
   const tDesc = document.createElement("h4");
   tDesc.textContent = "Descripción:";
+  tDesc.style.marginTop = "1rem";
+  tDesc.style.textAlign = "left";
   div.appendChild(tDesc);
 
   const pDesc = document.createElement("p");
   pDesc.textContent = product.description;
+  pDesc.style.textAlign = "left";
   div.appendChild(pDesc);
 
   // Botón para añadir al carrito
   const btn = document.createElement("button");
-  btn.textContent = " Añadir al carrito";
-  btn.style.marginTop = "10px";
-  btn.style.marginRight= "10px";
+  btn.textContent = " Afegir al carret";
+  btn.style.marginTop = "1rem";
+  btn.style.marginRight= "1rem";
   div.appendChild(btn);
 
   //Boton para volver a la home
   const btnVol = document.createElement("button");
-  btnVol.textContent = "Volver a la página principal";
+  btnVol.textContent = "Tornar a la pagina principal";
   btnVol.onclick = () => {
   window.location.href = "home.html";
   };
