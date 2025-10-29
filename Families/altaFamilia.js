@@ -1,182 +1,315 @@
-// Afegeix un event listener quan el DOM està completament carregat
 document.addEventListener("DOMContentLoaded", main);
 
-// Declaració de variables globals
-let arrFamilia = new Array();
+let arrFamilia = [];
 let accio = "Afegir";
 
-// Funció principal que s'executa quan es carrega la pàgina
+// Carga las familias desde la base de datos externa
+function carregarFamiliesDeBBDD() {
+    console.log("Cargando familias de BBDD...");
+    
+    // Carga los datos del archivo externo TendaFakeDades.js
+    if (typeof Family !== "undefined" && Array.isArray(Family)) {
+        console.log("Datos cargados de TendaFakeDades.js:", Family);
+        arrFamilia = [];
+        
+        // Copia cada familia del array original al array de trabajo
+        Family.forEach(function(f) {
+            arrFamilia.push({ 
+                id: f.id,
+                name: f.name, 
+                description: f.description,
+                parent_id: f.parent_id,
+                image: f.image
+            });
+        });
+        
+        // Guarda una copia en el almacenamiento local del navegador
+        localStorage.setItem("families", JSON.stringify(arrFamilia));
+    } else {
+        console.error("ERROR: No se pudo cargar Family de TendaFakeDades.js");
+        arrFamilia = [];
+    }
+}
+
+// Función principal que se ejecuta al cargar la página
 function main() {
-    // Configuració inicial dels elements i esdeveniments
+    carregarFamiliesDeBBDD();
+    console.log("Familias cargadas:", arrFamilia);
+    
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
-    // Recupera les famílies del localStorage o crea un array buit
-    arrFamilia = localStorage.getItem("families") ? JSON.parse(localStorage.getItem("families")) : [];
+
     mostrarFamilies();
     actualitzarSelect();
 
-    // Gestiona el clic al botó d'afegir/actualitzar
-    afegirButton.addEventListener("click", (e) => {
+    // Evento para el botón de agregar/actualizar
+    afegirButton.addEventListener("click", function(e) {
         if (validar(e)) {
             if (accio === "Afegir") {
                 crearFamilia();
             } else {
                 actualitzarFamilia();
-                accio = "Afegir";
-                afegirButton.textContent = accio;
             }
-
-            // Neteja el formulari després d'afegir o actualitzar
-            document.getElementById("nom").value = "";
-            document.getElementById("familia_de").value = "";
-            document.getElementById("index").value = "-1";
-            document.getElementById("descripcio").value = "";
-            document.getElementById("imatge").value = "";
-            actualitzarSelect();
+            netejarFormulari();
             mostrarFamilies();
+            actualitzarSelect();
         }
     });
 }
 
-// Funció per crear una nova família
+// Limpia todos los campos del formulario
+function netejarFormulari() {
+    document.getElementById("nom").value = "";
+    document.getElementById("familia_de").value = "";
+    document.getElementById("index").value = "-1";
+    document.getElementById("descripcio").value = "";
+    document.getElementById("imatge").value = "";
+    accio = "Afegir";
+    document.getElementById("afegir").textContent = accio;
+    document.getElementById("alerta").innerHTML = "";
+}
+
+// Muestra todas las familias en la tabla con estructura jerárquica
+function mostrarFamilies() {
+    const taula = document.getElementById("taulaFamilia");
+    taula.innerHTML = "";
+
+    console.log("Mostrando familias:", arrFamilia);
+
+    const childrenMap = {};
+    
+    // Organiza las familias por su parent_id para crear la jerarquía
+    arrFamilia.forEach(function(f) {
+        const parentKey = f.parent_id === null ? "root" : f.parent_id;
+        if (!childrenMap[parentKey]) {
+            childrenMap[parentKey] = [];
+        }
+        childrenMap[parentKey].push(f);
+    });
+
+    // Función recursiva para mostrar familias y subfamilias
+    function agregarFila(fam, nivel) {
+        if (nivel === undefined) nivel = 0;
+        
+        const fila = document.createElement("tr");
+        fila.dataset.id = fam.id;
+        fila.dataset.nivel = nivel;
+        
+        // Aplica estilos según el nivel de jerarquía
+        if (nivel > 0) {
+            fila.classList.add("hidden", "subfam");
+        }
+        if (nivel === 0) {
+            fila.classList.add("fam-principal");
+        }
+
+        // Formatea el nombre según el nivel
+        var nombreTexto = fam.name;
+        if (nivel > 0) {
+            nombreTexto = '↳ ' + fam.name;
+        }
+        
+        var fontWeight = "normal";
+        if (nivel === 0) {
+            fontWeight = "bold";
+        }
+        
+        var anchoImagen = "40";
+        if (nivel === 0) {
+            anchoImagen = "50";
+        }
+        
+        var imagenHTML = "";
+        if (fam.image) {
+            imagenHTML = '<img src="../img/' + fam.image + '" width="' + anchoImagen + '">';
+        }
+
+        // Crea el HTML de la fila
+        fila.innerHTML = '<td style="padding-left: ' + (20 * nivel) + 'px; cursor: pointer; font-weight: ' + fontWeight + '">' + 
+                         nombreTexto + '</td>' +
+                         '<td>' + fam.description + '</td>' +
+                         '<td>' + imagenHTML + '</td>' +
+                         '<td>' +
+                         '<button onclick="editarFamilia(' + fam.id + ')">Editar</button> ' +
+                         '<button onclick="borrarFamilia(' + fam.id + ')">Eliminar</button>' +
+                         '</td>';
+        
+        taula.appendChild(fila);
+
+        // Si tiene subfamilias, añade funcionalidad de expandir/colapsar
+        if (childrenMap[fam.id] && childrenMap[fam.id].length > 0) {
+            const celdaNombre = fila.querySelector('td');
+            celdaNombre.style.cursor = 'pointer';
+            
+            celdaNombre.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'BUTTON') {
+                    childrenMap[fam.id].forEach(function(hijo) {
+                        const filaHijo = document.querySelector('tr[data-id="' + hijo.id + '"]');
+                        if (filaHijo) {
+                            filaHijo.classList.toggle("hidden");
+                        }
+                    });
+                }
+            });
+
+            // Añade recursivamente las subfamilias
+            childrenMap[fam.id].forEach(function(hijo) {
+                agregarFila(hijo, nivel + 1);
+            });
+        }
+    }
+
+    // Muestra primero las familias principales (sin padre)
+    if (childrenMap["root"]) {
+        childrenMap["root"].forEach(function(fam) {
+            agregarFila(fam, 0);
+        });
+    }
+}
+
+// Actualiza el dropdown con todas las familias disponibles
+function actualitzarSelect() {
+    const select = document.getElementById("familia_de");
+    select.innerHTML = '<option value=""></option>';
+
+    arrFamilia.forEach(function(item) {
+        const opcio = document.createElement("option");
+        opcio.value = item.id;
+        opcio.textContent = item.name;
+        select.appendChild(opcio);
+    });
+}
+
+// Guarda o actualiza una familia en el array
+function guardarFamilia(nom, familia_de, descripcio, archivo, index) {
+    // Calcula un nuevo ID para familias nuevas
+    var newId = 1;
+    if (index === null) {
+        // Encuentra el ID más alto actual
+        for (var i = 0; i < arrFamilia.length; i++) {
+            if (arrFamilia[i].id > newId) {
+                newId = arrFamilia[i].id;
+            }
+        }
+        newId = newId + 1;
+    } else {
+        newId = arrFamilia[index].id;
+    }
+    
+    // Convierte el valor del dropdown a número o null
+    var parentId = null;
+    if (familia_de !== "") {
+        parentId = parseInt(familia_de);
+    }
+    
+    // Maneja la imagen (nombre del archivo)
+    var imagen = "";
+    if (archivo) {
+        imagen = archivo.name;
+    } else if (index !== null) {
+        imagen = arrFamilia[index].image;
+    }
+
+    const familia = {
+        id: newId,
+        name: nom,
+        description: descripcio,
+        parent_id: parentId,
+        image: imagen
+    };
+
+    // Añade nueva familia o actualiza existente
+    if (index === null) {
+        arrFamilia.push(familia);
+    } else {
+        arrFamilia[index] = familia;
+    }
+
+    // Guarda los cambios en el almacenamiento local
+    localStorage.setItem("families", JSON.stringify(arrFamilia));
+}
+
+// Crea una nueva familia con los datos del formulario
 function crearFamilia() {
-    // Obté els valors del formulari i guarda la família
     const nom = document.getElementById("nom").value.trim();
     const familia_de = document.getElementById("familia_de").value;
     const descripcio = document.getElementById("descripcio").value.trim();
     const archivo = document.getElementById("imatge").files[0];
+    
     guardarFamilia(nom, familia_de, descripcio, archivo, null);
-    document.getElementById("alerta").innerHTML = "";
 }
 
-// Funció per actualitzar una família existent
+// Actualiza una familia existente con los datos del formulario
 function actualitzarFamilia() {
-    // Obté els valors actualitzats i actualitza la família
     const index = document.getElementById("index").value;
     const nom = document.getElementById("nom").value.trim();
     const familia_de = document.getElementById("familia_de").value;
     const descripcio = document.getElementById("descripcio").value.trim();
     const archivo = document.getElementById("imatge").files[0];
+    
     guardarFamilia(nom, familia_de, descripcio, archivo, index);
-    document.getElementById("alerta").innerHTML = "";
 }
 
-// Funció per mostrar totes les famílies en una taula
-function mostrarFamilies() {
-    const visualitzarFamilies = document.getElementById("taulaFamilia");
-    visualitzarFamilies.innerHTML = "";
-    let aux = "";
-    arrFamilia.forEach((item, index) => {
-        // Obté el nom de la família pare si existeix
-        let familiaDeText =
-            item.familia_de !== "" && item.familia_de !== null && item.familia_de !== undefined
-                ? arrFamilia[parseInt(item.familia_de)]?.nom || ""
-                : "";
-
-        // Genera l'HTML per a la imatge si existeix
-        let imgHTML = item.imatge
-            ? `<img src="${item.imatge}" alt="imatge" style="max-width: 100px; max-height: 100px;" />`
-            : "";
-
-        // Genera la fila de la taula
-        aux += `<tr>
-                    <td>${imgHTML}</td>
-                    <td>${item.nom}</td>
-                    <td>${item.descripcio}</td>
-                    <td>${familiaDeText}</td>
-                    <td>
-                        <button onclick='esborrar(${index})'>Del</button>
-                        <button onclick='actualitzar(${index})'>Upd</button>
-                    </td>
-                </tr>`;
-    });
-    visualitzarFamilies.innerHTML = aux;
-}
-
-// Funció per esborrar una família
-function esborrar(index) {
-    arrFamilia.splice(index, 1);
-    localStorage.setItem("families", JSON.stringify(arrFamilia));
-    actualitzarSelect();
-    mostrarFamilies();
-}
-
-// Funció per carregar les dades d'una família al formulari per actualitzar-la
-function actualitzar(index) {
-    const item = arrFamilia[index];
-    document.getElementById("index").value = index;
-    document.getElementById("nom").value = item.nom;
-    document.getElementById("familia_de").value = item.familia_de;
-    document.getElementById("descripcio").value = item.descripcio;
-    document.getElementById("imatge").value = "";
-    accio = "Actualitzar";
-    document.getElementById("afegir").textContent = accio;
-}
-
-// Funció per actualitzar el selector de famílies pare
-function actualitzarSelect() {
-    const select = document.getElementById("familia_de");
-    select.innerHTML = "";
-
-    // Afegeix l'opció buida
-    const opcioBuid = document.createElement("option");
-    opcioBuid.value = "";
-    opcioBuid.textContent = "";
-    select.appendChild(opcioBuid);
-
-    // Afegeix totes les famílies com a opcions
-    arrFamilia.forEach((item, index) => {
-        const opcio = document.createElement("option");
-        opcio.value = index;
-        opcio.textContent = item.nom;
-        select.appendChild(opcio);
-    });
-}
-
-// Funció per guardar o actualitzar una família
-function guardarFamilia(nom, familia_de, descripcio, archivo, index = null) {
-    if (archivo) {
-        // Si hi ha una nova imatge, la converteix a base64
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const familia = {
-                nom,
-                familia_de,
-                descripcio,
-                imatge: e.target.result
-            };
-            if (index === null) {
-                arrFamilia.push(familia);
-            } else {
-                arrFamilia[index] = familia;
-            }
-            localStorage.setItem("families", JSON.stringify(arrFamilia));
-            actualitzarSelect();
-            mostrarFamilies();
-        };
-        reader.readAsDataURL(archivo);
-    } else {
-        // Si no hi ha nova imatge, manté la imatge anterior o la deixa buida
-        const familia = {
-            nom,
-            familia_de,
-            descripcio,
-            imatge: index !== null ? (arrFamilia[index].imatge || "") : ""
-        };
-        if (index === null) {
-            arrFamilia.push(familia);
-        } else {
-            arrFamilia[index] = familia;
+// Prepara el formulario para editar una familia existente
+window.editarFamilia = function(id) {
+    for (var i = 0; i < arrFamilia.length; i++) {
+        if (arrFamilia[i].id === id) {
+            document.getElementById("index").value = i;
+            document.getElementById("nom").value = arrFamilia[i].name;
+            document.getElementById("familia_de").value = arrFamilia[i].parent_id || "";
+            document.getElementById("descripcio").value = arrFamilia[i].description;
+            document.getElementById("imatge").value = "";
+            accio = "Actualitzar";
+            document.getElementById("afegir").textContent = accio;
+            break;
         }
-        localStorage.setItem("families", JSON.stringify(arrFamilia));
-        actualitzarSelect();
-        mostrarFamilies();
     }
 }
 
-/* ---------------- VALIDACIONS ---------------- */
+// Elimina una familia después de confirmación
+window.borrarFamilia = function(id) {
+    if (confirm("¿Estás seguro de que quieres borrar esta familia?")) {
+        var index = -1;
+        // Busca el índice de la familia a borrar
+        for (var i = 0; i < arrFamilia.length; i++) {
+            if (arrFamilia[i].id === id) {
+                index = i;
+                break;
+            }
+        }
+        
+        if (index !== -1) {
+            // Verifica que no tenga subfamilias
+            var tieneSubfamilias = false;
+            for (var j = 0; j < arrFamilia.length; j++) {
+                if (arrFamilia[j].parent_id === id) {
+                    tieneSubfamilias = true;
+                    break;
+                }
+            }
+            
+            if (tieneSubfamilias) {
+                alert("No se puede borrar una familia que tiene subfamilias. Borra primero las subfamilias.");
+                return;
+            }
+            
+            // Elimina la familia y actualiza la visualización
+            arrFamilia.splice(index, 1);
+            localStorage.setItem("families", JSON.stringify(arrFamilia));
+            mostrarFamilies();
+            actualitzarSelect();
+            
+            // Si se estaba editando la familia borrada, limpia el formulario
+            if (document.getElementById("index").value == index) {
+                netejarFormulari();
+            }
+        }
+    }
+}
 
-// Validació del camp nom
+/* ---------------- VALIDACIONES ---------------- */
+
+// Valida que el nombre cumpla los requisitos
 function validarNom() {
     const element = document.getElementById("nom");
     if (!element.checkValidity()) {
@@ -194,7 +327,7 @@ function validarNom() {
     return true;
 }
 
-// Validació del camp descripció
+// Valida que la descripción cumpla los requisitos
 function validarDescripcio() {
     const element = document.getElementById("descripcio");
     if (!element.checkValidity()) {
@@ -210,18 +343,17 @@ function validarDescripcio() {
     return true;
 }
 
-
-// Validació de la imatge
+// Valida el tamaño del archivo de imagen
 function validarImatge() {
     const archivo = document.getElementById("imatge").files[0];
-    if (archivo && archivo.size > 2 * 1024 * 1024) { // 2 MB
+    if (archivo && archivo.size > 2 * 1024 * 1024) {
         error(document.getElementById("imatge"), "La imatge no pot pesar més de 2MB.");
         return false;
     }
     return true;
 }
 
-// Validació de la subfamília
+// Valida que una familia no sea subfamilia de sí misma
 function validarSubfamilia() {
     const index = document.getElementById("index").value;
     const familia_de = document.getElementById("familia_de").value;
@@ -232,7 +364,7 @@ function validarSubfamilia() {
     return true;
 }
 
-// Funció principal de validació
+// Función principal de validación que ejecuta todas las validaciones
 function validar(e) {
     esborrarError();
     if (validarNom() && validarDescripcio() && validarImatge() && validarSubfamilia()) {
@@ -243,7 +375,7 @@ function validar(e) {
     }
 }
 
-// Funcions d'error i neteja d'errors
+// Muestra un mensaje de error en el elemento especificado
 function error(element, missatge) {
     const alerta = document.getElementById("alerta");
     alerta.textContent = missatge;
@@ -251,8 +383,11 @@ function error(element, missatge) {
     element.focus();
 }
 
+// Limpia todos los mensajes de error
 function esborrarError() {
     document.getElementById("alerta").textContent = "";
     const inputs = document.querySelectorAll("input, textarea, select");
-    inputs.forEach(el => el.classList.remove("error"));
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].classList.remove("error");
+    }
 }
