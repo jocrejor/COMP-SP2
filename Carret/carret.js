@@ -1,83 +1,28 @@
-// Muestra el carrito automáticamente cuando la página termina de cargarse
-document.addEventListener('DOMContentLoaded', () => {
-        mostrarInfoCliente();
-        mostrarCarret();        
-});
-
-// Función principal para mostrar el carrito y gestionar las acciones
-function mostrarCarret() {
-    // Obtiene el carrito del localStorage o crea un array vacío si no existe
-    const carret = JSON.parse(localStorage.getItem('carret')) || [];
-    const elementsCarret = document.getElementById('elementsCarret');
-    const totalSpan = document.getElementById('total');
-    let total = 0;
+// Gestión de usuario/sesión
+function obtenerOCrearSesion() {
+    let sesion = JSON.parse(localStorage.getItem('sesion'));
     
-    // Si el carrito está vacío, muestra el mensaje y oculta el contenido
-    if (!carret.length) {
-        document.getElementById('carretBuit').style.display = 'block';
-        document.getElementById('contingutCarret').style.display = 'none';
-        return;
+    if (!sesion) {
+        // Crear nueva sesión con ID de carrito único
+        sesion = {
+            carretId: 'carret_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            fecha: new Date().toISOString()
+        };
+        localStorage.setItem('sesion', JSON.stringify(sesion));
     }
-
-    document.getElementById('carretBuit').style.display = 'none';
-    document.getElementById('contingutCarret').style.display = 'block';
-
-    elementsCarret.textContent = '';
-    const fragment = document.createDocumentFragment();
-
-    carret.forEach((p, i) => {
-        const div = document.createElement('div');
-
-        const productImg = Productimage ? Productimage.find(img => img.product_id === p.id) : null;
-        const img = document.createElement("img");
-        img.src = productImg && productImg.url ? productImg.url : "https://freesvg.org/img/Simple-Image-Not-Found-Icon.png";
-        img.alt = p.name || 'product';
-        img.width = 60;
-        img.height = 60;
-        div.appendChild(img);
-
-        const spanNom = document.createElement('span');
-        spanNom.textContent = p.name;
-        div.appendChild(spanNom);
-
-        const spanPreu = document.createElement('span');
-        spanPreu.textContent = p.price.toFixed(2) + ' €';
-        div.appendChild(spanPreu);
-
-        const spanQuantitat = document.createElement('span');
-
-        const btnRestar = document.createElement('button');
-        btnRestar.dataset.i = i;
-        btnRestar.textContent = '-';
-        btnRestar.addEventListener('click', () => restar(i));
-
-        const spanNumQuantitat = document.createElement('span');
-        spanNumQuantitat.textContent = p.quantity;
-
-        const btnSumar = document.createElement('button');
-        btnSumar.dataset.i = i;
-        btnSumar.textContent = '+';
-        btnSumar.addEventListener('click', () => sumar(i));
-
-        spanQuantitat.appendChild(btnRestar);
-        spanQuantitat.appendChild(spanNumQuantitat);
-        spanQuantitat.appendChild(btnSumar);
-        div.appendChild(spanQuantitat);
-
-        const btnEliminar = document.createElement('button');
-        btnEliminar.dataset.i = i;
-        btnEliminar.textContent = '✖';
-        btnEliminar.addEventListener('click', () => eliminar(i));
-        div.appendChild(btnEliminar);
-
-        fragment.appendChild(div);
-    });
     
+    return sesion;
+}
 
-    elementsCarret.appendChild(fragment);
-    // Calcula el total del carrito sumando el precio por cantidad de cada producto
-    total = carret.reduce((s, p) => s + p.price * p.quantity, 0);
-    totalSpan.textContent = `${total.toFixed(2)} €`;
+function obtenerClienteActual() {
+    // Intenta obtener el cliente del localStorage
+    const clienteId = localStorage.getItem('clienteId');
+    
+    if (clienteId && typeof Client !== 'undefined') {
+        return Client.find(c => c.id === parseInt(clienteId));
+    }
+    
+    return null;
 }
 
 function mostrarInfoCliente() {
@@ -148,6 +93,114 @@ function mostrarInfoCliente() {
     infoClientDiv.appendChild(divContainer);
 }
 
+// Muestra el carrito automáticamente cuando la página termina de cargarse
+document.addEventListener('DOMContentLoaded', () => {
+    mostrarInfoCliente();
+    mostrarCarret();
+    
+    // Agregar evento al botón de finalizar
+    const btnFinalitzar = document.getElementById('btnFinalitzar');
+    if (btnFinalitzar) {
+        btnFinalitzar.addEventListener('click', finalitzarComanda);
+    }
+});
+
+// Función principal para mostrar el carrito y gestionar las acciones
+function mostrarCarret() {
+    // Obtiene el carrito del localStorage o crea un array vacío si no existe
+    const carret = JSON.parse(localStorage.getItem('carret')) || [];
+    const elementsCarret = document.getElementById('elementsCarret');
+    const totalSpan = document.getElementById('total');
+    let total = 0;
+    
+    // Si el carrito está vacío, muestra el mensaje y oculta el contenido
+    if (!carret.length) {
+        document.getElementById('carretBuit').style.display = 'block';
+        document.getElementById('contingutCarret').style.display = 'none';
+        return;
+    }
+
+    document.getElementById('carretBuit').style.display = 'none';
+    document.getElementById('contingutCarret').style.display = 'block';
+
+    elementsCarret.textContent = '';
+    const fragment = document.createDocumentFragment();
+
+    carret.forEach((p, i) => {
+        const div = document.createElement('div');
+        div.style.cssText = 'border: 1px solid #ddd; padding: 10px; margin: 10px 0; display: flex; align-items: center; gap: 15px;';
+
+    
+        const productImg = Productimage ? Productimage.find(img => img.product_id === p.id) : null;
+        const img = document.createElement("img");
+        img.src = productImg && productImg.url ? productImg.url : "https://freesvg.org/img/Simple-Image-Not-Found-Icon.png";
+        img.alt = p.name || 'product';
+        img.width = 80;
+        img.height = 80;
+        img.style.objectFit = 'cover';
+        div.appendChild(img);
+
+        const divInfo = document.createElement('div');
+        divInfo.style.flex = '1';
+
+        const spanNom = document.createElement('p');
+        spanNom.textContent = p.name;
+        spanNom.style.cssText = 'margin: 0; font-weight: bold;';
+        divInfo.appendChild(spanNom);
+
+        const spanPreu = document.createElement('p');
+        spanPreu.textContent = 'Preu: ' + p.price.toFixed(2) + ' €';
+        spanPreu.style.margin = '5px 0';
+        divInfo.appendChild(spanPreu);
+
+        div.appendChild(divInfo);
+
+        const spanQuantitat = document.createElement('div');
+        spanQuantitat.style.cssText = 'display: flex; align-items: center; gap: 10px;';
+
+        const btnRestar = document.createElement('button');
+        btnRestar.dataset.i = i;
+        btnRestar.textContent = '-';
+        btnRestar.style.cssText = 'padding: 5px 10px; cursor: pointer;';
+        btnRestar.addEventListener('click', () => restar(i));
+
+        const spanNumQuantitat = document.createElement('span');
+        spanNumQuantitat.textContent = p.quantity;
+        spanNumQuantitat.style.cssText = 'min-width: 30px; text-align: center; font-weight: bold;';
+
+        const btnSumar = document.createElement('button');
+        btnSumar.dataset.i = i;
+        btnSumar.textContent = '+';
+        btnSumar.style.cssText = 'padding: 5px 10px; cursor: pointer;';
+        btnSumar.addEventListener('click', () => sumar(i));
+
+        spanQuantitat.appendChild(btnRestar);
+        spanQuantitat.appendChild(spanNumQuantitat);
+        spanQuantitat.appendChild(btnSumar);
+        div.appendChild(spanQuantitat);
+
+        const spanSubtotal = document.createElement('span');
+        spanSubtotal.textContent = (p.price * p.quantity).toFixed(2) + ' €';
+        spanSubtotal.style.cssText = 'min-width: 80px; text-align: right; font-weight: bold;';
+        div.appendChild(spanSubtotal);
+
+        const btnEliminar = document.createElement('button');
+        btnEliminar.dataset.i = i;
+        btnEliminar.textContent = '✖';
+        btnEliminar.style.cssText = 'padding: 5px 10px; cursor: pointer; background: #dc3545; color: white; border: none; border-radius: 3px;';
+        btnEliminar.addEventListener('click', () => eliminar(i));
+        div.appendChild(btnEliminar);
+
+        fragment.appendChild(div);
+    });
+    
+
+    elementsCarret.appendChild(fragment);
+    // Calcula el total del carrito sumando el precio por cantidad de cada producto
+    total = carret.reduce((s, p) => s + p.price * p.quantity, 0);
+    totalSpan.textContent = `${total.toFixed(2)} €`;
+}
+
 // Funciones para modificar el carrito
 
 // Incrementa en 1 la cantidad del producto seleccionado
@@ -176,33 +229,19 @@ function eliminar(index) {
     mostrarCarret(); // Se actualiza la vista del carrito
 }
 
-// Gestión de usuario/sesión
-function obtenerOCrearSesion() {
-    let sesion = JSON.parse(localStorage.getItem('sesion'));
-    
-    if (!sesion) {
-        // Crear nueva sesión con ID de carrito único
-        sesion = {
-            carretId: 'carret_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-            fecha: new Date().toISOString()
-        };
-        localStorage.setItem('sesion', JSON.stringify(sesion));
-    }
-    
-    return sesion;
+// Función extra: Simular login de un cliente (para pruebas)
+function simularLogin(clienteId) {
+    localStorage.setItem('clienteId', clienteId);
+    mostrarInfoCliente();
+    alert('Login simulat per al client ID: ' + clienteId);
 }
 
-function obtenerClienteActual() {
-    // Intenta obtener el cliente del localStorage
-    const clienteId = localStorage.getItem('clienteId');
-    
-    if (clienteId && typeof Client !== 'undefined') {
-        return Client.find(c => c.id === parseInt(clienteId));
-    }
-    
-    return null;
+// Función extra: Cerrar sesión
+function cerrarSesion() {
+    localStorage.removeItem('clienteId');
+    mostrarInfoCliente();
+    alert('Sessió tancada');
 }
-
 
 // Función para finalizar la compra
 function finalitzarComanda() {
@@ -215,7 +254,6 @@ function finalitzarComanda() {
     
     // Calcular total
     const total = carret.reduce((sum, p) => sum + (p.price * p.quantity), 0);
-    
     // Agregar imágenes a los productos del carrito
     const carretConImagenes = carret.map(p => {
         let imageUrl = null;
@@ -237,12 +275,12 @@ function finalitzarComanda() {
         clienteId: localStorage.getItem('clienteId') || null,
         sesionId: obtenerOCrearSesion().carretId
     };
-    
+
     // Guardar la última comanda
     localStorage.setItem('ultimaComanda', JSON.stringify(comanda));
     
     // Vaciar el carrito
     localStorage.removeItem('carret');
+ 
+    
 }
-
-
