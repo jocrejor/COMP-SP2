@@ -11,19 +11,7 @@ function mostrarCarret() {
     const totalSpan = document.getElementById('total');
     let total = 0;
 
-    // Obtener datos del cliente que está comprando (login no implementado aún)
-    const client = obtenerClient();
-    // Mostrar info básica del cliente en la UI (si hay un contenedor con id 'clientInfo', usarlo; si no, crear uno arriba)
-    let clientInfoEl = document.getElementById('clientInfo');
-    if (!clientInfoEl) {
-        clientInfoEl = document.createElement('div');
-        clientInfoEl.id = 'clientInfo';
-        // Insertar el bloque de cliente antes del contenido del carrito si existe
-        const cont = document.getElementById('contingutCarret') || elementsCarret;
-        if (cont && cont.parentNode) cont.parentNode.insertBefore(clientInfoEl, cont);
-    }
-    clientInfoEl.textContent = `Client: ${client.name || ''} ${client.surname || ''} — ${client.email || ''}`;
-
+  
     // Si el carrito está vacío, muestra el mensaje y oculta el contenido
     if (!carret.length) {
         document.getElementById('carretBuit').style.display = 'block';
