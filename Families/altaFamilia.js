@@ -130,8 +130,8 @@ function mostrarFamilies() {
                          '<td>' + fam.description + '</td>' +
                          '<td>' + imagenHTML + '</td>' +
                          '<td>' +
-                         '<button onclick="editarFamilia(' + fam.id + ')">Upd</button> ' +
-                         '<button onclick="borrarFamilia(' + fam.id + ')">Del</button>' +
+                         '<button onclick="editarFamilia(' + fam.id + ')">Editar</button> ' +
+                         '<button onclick="borrarFamilia(' + fam.id + ')">Eliminar</button>' +
                          '</td>';
         
         taula.appendChild(fila);
