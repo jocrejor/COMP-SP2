@@ -4,21 +4,24 @@ window.onload = iniciar;
 function iniciar (){
     document.getElementById("enviar").addEventListener("click", guardarEnLocalStorage, false);
     carregardades();
+  document.getElementById("cancelar").addEventListener("click", cancelar);
 }
 
-function carregardades(){
- const atributoId = parseInt(localStorage.getItem("atributoAEditar"));
-  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-  const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
-
-  const attr = attributes.find(a => a.id === atributoId);
-  const productatribut = productAttributes.find(producatr => producatr.attribute_id === atributoId);
-
-    if (!attr || !productatribut) {
-    alert("Error: Atribut no trobat.");
-    window.location.href = "../llistar/llistarcaracteristica.html";
-    return;
+  function cancelar() {
+   
+          window.location.href = "../llistar/llistarcaracteristica.html";
+      
   }
+
+function carregardades(){
+ let atributoId = parseInt(localStorage.getItem("atributoAEditar"));
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+
+  let attr = attributes.find(a => a.id === atributoId);
+  let productatribut = productAttributes.find(producatr => producatr.attribute_id === atributoId);
+    console.log(attr);
+    console.log(productatribut);
 
   document.getElementById("nom").value = attr.name;
   document.getElementById("valor").value = productatribut.value;
@@ -88,20 +91,20 @@ function guardarEnLocalStorage(e) {
 
   e.preventDefault();
 
-  const atributoId = parseInt(localStorage.getItem("atributoAEditar"));
-  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-  const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
+  let atributoId = parseInt(localStorage.getItem("atributoAEditar"));
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  let productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
 
-  const nuevoNombre = document.getElementById("nom").value.trim();
+  let nuevoNombre = document.getElementById("nom").value.trim();
   const nuevoValor = document.getElementById("valor").value.trim();
 //Actualiza el name
-  const attrIndex = attributes.findIndex(a => a.id === atributoId);
+  let attrIndex = attributes.findIndex(a => a.id === atributoId);
   if (attrIndex !== -1) {
     attributes[attrIndex].name = nuevoNombre;
   }
 
   // Actualiza el valor
-  const producteatribut = productAttributes.findIndex(prodatr => prodatr.attribute_id === atributoId);
+  let producteatribut = productAttributes.findIndex(prodatr => prodatr.attribute_id === atributoId);
   if (producteatribut !== -1) {
     productAttributes[producteatribut].value = nuevoValor;
   }

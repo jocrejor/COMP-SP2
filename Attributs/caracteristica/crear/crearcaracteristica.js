@@ -2,7 +2,14 @@ window.onload = iniciar;
 
 function iniciar (){
     document.getElementById("enviar").addEventListener("click", guardarEnLocalStorage, false);
+      document.getElementById("cancelar").addEventListener("click", cancelar);
 }
+
+  function cancelar() {
+
+    window.location.href = "../llistar/llistarcaracteristica.html";
+      
+  }
 
 function validarnom () {
     var element = document.getElementById("nom");
@@ -62,9 +69,9 @@ function esborrarError (){
 
 
 function comprobarid(id) {
-/*Torna 1 si no hi ha id*/
+
   if (!id || !id.some(e => e && e.id !== undefined)) return 1;
-/* Torna el ultim id +1 */
+
   let maxId = 0;
   for (const item of id) {
     const id = item && typeof item.id === "number" ? item.id : 0;
@@ -97,7 +104,7 @@ function guardarEnLocalStorage(e) {
   const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
   const productAttributes = JSON.parse(localStorage.getItem("Productattribute")) || [];
 
-  // Determinar family_id: si el producto tiene family_id lo usamos, si no, puedes asignar 1 o generar uno.
+  // Determina family_id
   const familyId = producto.family_id !== undefined ? producto.family_id : 1;
 
 
@@ -111,16 +118,16 @@ function guardarEnLocalStorage(e) {
       family_id: familyId
     };
     attributes.push(atributoExistente);
-
+// Guarda atribut
     localStorage.setItem("Attribute", JSON.stringify(attributes));
   }
 
 
-  const yaExistePA = productAttributes.some(pa =>
-    pa.product_id == producto.id && pa.attribute_id == atributoExistente.id
+  const existeproatr = productAttributes.some(proatr =>
+    proatr.product_id == producto.id && proatr.attribute_id == atributoExistente.id
   );
 
-  if (yaExistePA) {
+  if (existeproatr) {
     for (let i = 0; i < productAttributes.length; i++) {
       if (productAttributes[i].product_id == producto.id && productAttributes[i].attribute_id == atributoExistente.id) {
         productAttributes[i].value = value;
@@ -137,7 +144,7 @@ function guardarEnLocalStorage(e) {
     productAttributes.push(nuevoProductAttribute);
   }
 
-  // Guardar Productattribute 
+  // Guarda Productattribute 
   localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
 
 
