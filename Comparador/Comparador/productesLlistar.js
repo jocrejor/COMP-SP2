@@ -1,5 +1,8 @@
 
 let productos = localStorage.getItem('productes') ? JSON.parse(localStorage.getItem('productes')) : Product;
+let families  = localStorage.getItem('families') ? JSON.parse(localStorage.getItem('families')) : Family;
+
+
 
 document.addEventListener("DOMContentLoaded", main)
 
@@ -43,7 +46,10 @@ function main(){
         const tdDesc = document.createElement('td');
         tdDesc.textContent = product.description || product.descripton || '';
         tr.appendChild(tdDesc);
-
+        
+        const tdFam = document.createElement('td');
+        tdFam.textContent = voreFamilia(product.family_id) || product.family_id || '';
+        tr.appendChild(tdFam);
 
         productListTable.appendChild(tr);
     });
@@ -52,3 +58,13 @@ function main(){
 function obrirComparador(index){
    window.location.href = "comparador.html?index="+index;
 }
+
+function voreFamilia(id){
+
+    for (const family of families) {
+            if (family.id == id) {
+                return family.name;
+            }
+        }
+        return null;
+    }
