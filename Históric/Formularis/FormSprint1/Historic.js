@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
       date_start = document.getElementById("date_start").value,
         date_end = document.getElementById("date_end").value;
 
-      if (dateStart && dateEnd && new Date(dateEnd) < new Date(dateStart)) {
+      if (date_start && date_end && new Date(date_end) < new Date(date_start)) {
         alert("ERROR. La data final no pot ser anterior a la data inicial.");
         return;
       }
@@ -81,8 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
         client_id: document.getElementById("client_id").value,
         comparator_id: document.getElementById("comparator_id").value,
         favorite_id: document.getElementById("favorite_id").value,
-        date_start: dateStart,
-        date_end: dateEnd,
+        date_start: date_start,
+        date_end: date_end,
       };
 
       let registres = JSON.parse(localStorage.getItem("registres")) || [];
