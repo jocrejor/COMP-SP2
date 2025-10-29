@@ -338,6 +338,37 @@ body {
     font-size: 16px;
 }
 
+/* Estilos específicos para productsList */
+.products-info {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.products-info h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.products-info p {
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+/* Mejoras para la tabla de productos */
+.crud_table td:nth-child(3) { /* Columna de precio */
+    font-weight: 600;
+    color: #27ae60;
+}
+
+.crud_table td:nth-child(5) { /* Columna de familia */
+    color: #667eea;
+    font-weight: 500;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .container {
