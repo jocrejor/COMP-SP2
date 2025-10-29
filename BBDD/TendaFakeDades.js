@@ -137,15 +137,21 @@ let Product = [
 
 let Productimage = [
 
-{ "id": 1,"name":"p_pavilion_15_front", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 1,"product_id": 1},
-{ "id": 2,"name":"hp_pavilion_15_side", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 2,"product_id": 1},
-{ "id": 3,"name":"hp_pavilion_15_back", "url":"https://www.hp.com/us-en/shop/pdp/hp-pavilion-laptop-15-eg3097nr","order": 3,"product_id": 1},
-{ "id": 4,"name":"rtx4080_front", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 1,"product_id": 47},
-{ "id": 5,"name":"rtx4080_angled", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 2,"product_id": 47},
-{ "id": 6,"name":"rtx4080_backplate", "url":"https://www.newegg.com/p/1FT-0004-00844","order": 3,"product_id": 47},
-{ "id": 7,"name":"inno3d_4080_front", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 1,"product_id": 47},
-{ "id": 8,"name":"inno3d_4080_angle", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 2,"product_id": 47},
-{ "id": 9,"name":"inno3d_4080_side", "url":"https://inno3d.com/product/inno3d-geforce-rtx-4080-16gb-ichill-black","order": 3,"product_id": 47}
+{ "id": 1,"name":"hp_pavilion_15_front", "url":"https://img.pccomponentes.com/articles/1073/10733273/1864-hp-pavilion-15-eg3014ns-intel-core-i7-1355u-16gb-512gb-ssd-156.jpg","order": 1,"product_id": 1},
+{ "id": 2,"name":"hp_pavilion_15_side", "url":"https://img.pccomponentes.com/articles/1073/10733273/3451-hp-pavilion-15-eg3014ns-intel-core-i7-1355u-16gb-512gb-ssd-156-mejor-precio.jpg","order": 2,"product_id": 1},
+{ "id": 3,"name":"hp_pavilion_15_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1093/10936069/3890-hp-15-fd0279ns-156-intel-core-i5-1335u-16gb-1tb-ssd-iris-xe-graphics-mejor-precio.jpg","order": 3,"product_id": 1},
+{ "id": 4,"name":"lenovo_ideaPad_3_front", "url":"https://img.pccomponentes.com/articles/1074/10741770/1109-lenovo-ideapad-3-15alc6-amd-ryzen-7-5700u-16-gb-512-gb-ssd-156.jpg","order": 1,"product_id": 2},
+{ "id": 5,"name":"lenovo_ideaPad_3_side", "url":"https://img.pccomponentes.com/articles/1074/10741770/5640-lenovo-ideapad-3-15alc6-amd-ryzen-7-5700u-16-gb-512-gb-ssd-156-caracteristicas.jpg","order": 2,"product_id": 2},
+{ "id": 6,"name":"lenovo_ideaPad_3_back", "url":"https://img.pccomponentes.com/articles/1074/10741770/6578-lenovo-ideapad-3-15alc6-amd-ryzen-7-5700u-16-gb-512-gb-ssd-156-opiniones.jpg","order": 3,"product_id": 2},
+{ "id": 7,"name":"asus_zenBook_14_front", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1086/10868929/1210-asus-zenbook-14-oled-ux3405ca-pz284w-intel-core-ultra-7-255h-16gb-1tb-ssd-14-tactil-948d8a05-42bb-4815-9307-b6b810efc605.jpg","order": 1,"product_id": 3},
+{ "id": 8,"name":"asus_zenBook_14_side", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1086/10868929/3189-asus-zenbook-14-oled-ux3405ca-pz284w-intel-core-ultra-7-255h-16gb-1tb-ssd-14-tactil-mejor-precio.jpg","order": 2,"product_id": 3},
+{ "id": 9,"name":"asus_zenBook_14_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1086/10868929/6112-asus-zenbook-14-oled-ux3405ca-pz284w-intel-core-ultra-7-255h-16gb-1tb-ssd-14-tactil-opiniones.jpg","order": 3,"product_id": 3},
+{ "id": 10,"name":"acer_aspire_5_front", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1072/10726971/1293-acer-aspire-3-a315-58-32ee-intel-core-i3-1115g4-8gb-512gb-ssd-156-9d76b4ca-0ba6-4186-8cdc-bbe79b8703d7.jpg","order": 1,"product_id": 4},
+{ "id": 11,"name":"acer_aspire_5_side", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1072/10726971/291-acer-aspire-3-a315-58-32ee-intel-core-i3-1115g4-8gb-512gb-ssd-156-comprar.jpg","order": 2,"product_id": 4},
+{ "id": 12,"name":"acer_aspire_5_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1072/10726971/517-acer-aspire-3-a315-58-32ee-intel-core-i3-1115g4-8gb-512gb-ssd-156-caracteristicas.jpg","order": 3,"product_id": 4},
+{ "id": 13,"name":"gaming_laptop_MSI_katana_front", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/1528-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16.jpg","order": 1,"product_id": 5},
+{ "id": 14,"name":"gaming_laptop_MSI_katana_side", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/285-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16-comprar.jpg","order": 2,"product_id": 5},
+{ "id": 15,"name":"gaming_laptop_MSI_katana_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/6336-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16-opiniones.jpg","order": 3,"product_id": 5}
 ]
 
 let Order = [
