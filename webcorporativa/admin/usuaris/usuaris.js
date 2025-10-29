@@ -118,7 +118,7 @@ function afegirUsuari() {
     const rol = document.getElementById("rolUsuari");
     
     // Validacions
-    if (!validarFormulari(nom, email, password)) {
+    if (!validarFormulari(nom, email, password, rol)) {
         return;
     }
     
@@ -272,11 +272,16 @@ function validarFormulari(nom, email, password) {
     }
     
     // Validar password
-    if (password.length < 8 || password.length > 20) {
+    const regexcontrasenya = /^.{8,20}$/;
+    if (regexcontrasenya.test(password)) {
         mostrarError("La contrasenya ha de tenir entre 8 i 20 caràcters.");
         return false;
     }
-    
+    // Validar rol
+    if (rol!="admin" || rol!="editor") {
+        mostrarError("No ha assignat cap rol al usuari");
+        return false;
+    }
     return true;
 }
 
