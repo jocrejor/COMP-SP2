@@ -27,15 +27,70 @@ document.addEventListener("DOMContentLoaded", () => {
   div.style.textAlign = "center"
   div.appendChild(h2);
 
-  //Imagen
-  const productImg = Productimage.find(img => img.product_id === product.id);
+  //Imagen i carrusel para poder pasar las imagenes
+  const productImg = Productimage.filter(img => img.product_id === product.id);
+  let imgActual = 0;
+  const carrusel = document.createElement("div");
+  carrusel.style.display = "flex";
+  carrusel.style.flexDirection = "column";
+  carrusel.style.alignItems = "center";
+  carrusel.style.position = "relative";
+  carrusel.style.maxWidth = "500px";
+  carrusel.style.margin = "0 auto";
+
   const img = document.createElement("img");
-  img.src = productImg ? productImg.url : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
-  img.alt = product.name;
-  img.style.width = "50%";
+  img.style.width = "100%";
   img.style.height = "auto";
-  img.style.borderRadius = "8px";
-  div.appendChild(img);
+  img.style.objectFit = "cover";
+
+  //Logica para el carrusel
+  if(productImg.length > 0){
+    img.src = productImg[imgActual].url;
+  }else {
+    img.src = "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
+  }
+  carrusel.appendChild(img);
+
+  // Crear botones de navegación
+  const btnAnt = document.createElement("button");
+  btnAnt.textContent = "<-";
+  btnAnt.style.position = "absolute";
+  btnAnt.style.left = "10px";
+  btnAnt.style.top = "50%";
+  btnAnt.style.fontSize = "24px";
+  btnAnt.style.background = "rgba(255, 255, 255, 1)";
+  btnAnt.style.border = "none";
+  btnAnt.style.cursor = "pointer";
+
+  const btnSeg = document.createElement("button");
+  btnSeg.textContent = "->";
+  btnSeg.style.position = "absolute";
+  btnSeg.style.right = "10px";
+  btnSeg.style.top = "50%";
+  btnSeg.style.fontSize = "24px";
+  btnSeg.style.background = "rgba(255, 255, 255, 1)";
+  btnSeg.style.border = "none";
+  btnSeg.style.cursor = "pointer";
+
+  // Funciones para cambiar de imagen
+  btnAnt.onclick = () => {
+    if (productImg.length === 0) return;
+    imgActual = (imgActual - 1 + productImg.length) % productImg.length;
+    img.src = productImg[imgActual].url;
+  };
+
+  btnSeg.onclick = () => {
+    if (productImg.length === 0) return;
+    imgActual = (imgActual + 1) % productImg.length;
+    img.src = productImg[imgActual].url;
+  };
+
+  // Añadir botones al carrusel
+  carrusel.appendChild(btnAnt);
+  carrusel.appendChild(btnSeg);
+
+  // Añadir carrusel al div principal
+  div.appendChild(carrusel);
 
   
   // Precio
@@ -44,8 +99,8 @@ document.addEventListener("DOMContentLoaded", () => {
   div.appendChild(pPrice);
 
   // Atributos
-const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
-if (atributosFamilia.length > 0) {
+  const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
+  if (atributosFamilia.length > 0) {
   const h4 = document.createElement("h4");
   h4.textContent = "Atributos:";
   h4.style.textAlign = "left";
@@ -59,7 +114,7 @@ if (atributosFamilia.length > 0) {
   atributosFamilia.forEach(attr => {
     // Buscar el valor del atributo
     const valor = Productattribute.find(
-      pa => pa.product_id === product.id && pa.attribute_id === attr.id
+      pAttri => pAttri.product_id === product.id && pAttri.attribute_id === attr.id
     );
 
     //Crear elementos

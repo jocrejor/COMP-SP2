@@ -16,19 +16,20 @@ function mostrarProductos(productosFiltrados) {
     div.style.padding = "10px";
     div.style.margin = "10px";
 
-
-    // Imagen
-    const img = document.createElement("img");
-    img.src = product.image;
-    img.alt = product.name;
-    img.width = 150;
-    img.height = 150;
-    div.appendChild(img);
-
     // Nombre
     const h2 = document.createElement("h2");
     h2.textContent = product.name;
     div.appendChild(h2);
+
+    // Imagen
+    const productImg = Productimage.find(img => img.product_id === product.id);
+    const img = document.createElement("img");
+    img.src = productImg ? productImg.url : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
+    img.alt = product.name;
+    img.style.width = "50%";
+    img.style.height = "auto";
+    img.style.borderRadius = "8px";
+    div.appendChild(img);
 
     // Precio
     const pPrice = document.createElement("p");
