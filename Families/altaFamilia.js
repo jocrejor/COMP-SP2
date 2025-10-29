@@ -97,7 +97,7 @@ function mostrarFamilies() {
         
         // Aplica estilos según el nivel de jerarquía
         if (nivel > 0) {
-            fila.classList.add("hidden", "subfam");
+            fila.classList.add("subfamilia", "oculto");
         }
         if (nivel === 0) {
             fila.classList.add("fam-principal");
@@ -141,16 +141,17 @@ function mostrarFamilies() {
             const celdaNombre = fila.querySelector('td');
             celdaNombre.style.cursor = 'pointer';
             
-            celdaNombre.addEventListener('click', function(e) {
+                        celdaNombre.addEventListener('click', function(e) {
                 if (e.target.tagName !== 'BUTTON') {
                     childrenMap[fam.id].forEach(function(hijo) {
                         const filaHijo = document.querySelector('tr[data-id="' + hijo.id + '"]');
                         if (filaHijo) {
-                            filaHijo.classList.toggle("hidden");
+                            filaHijo.classList.toggle("oculto");
                         }
                     });
                 }
             });
+
 
             // Añade recursivamente las subfamilias
             childrenMap[fam.id].forEach(function(hijo) {

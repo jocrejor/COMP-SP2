@@ -1,131 +1,201 @@
-/* -------------------- General -------------------- */
+/* -------------------- Estilos Básicos -------------------- */
 body {
-    margin: 24px;
+    margin: 20px;
     font-family: Arial, sans-serif;
-    background: #f5f6fa;
-    color: #111;
+    background: #f9f9f9;
+    color: #333;
+    line-height: 1.5;
 }
 
-h1 {
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.encabezado {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding: 20px;
+}
+
+.encabezado h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+.subtitulo {
+    color: #7f8c8d;
+    font-size: 1rem;
 }
 
 /* -------------------- Tabla -------------------- */
-table {
+.seccion-tabla {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.cabecera-seccion h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.2rem;
+}
+
+.tabla-contenedor table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background: white;
 }
 
 th, td {
     padding: 12px 10px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
-    vertical-align: middle;
+    border-bottom: 1px solid #ecf0f1;
 }
 
 th {
-    background: #4f46e5;
+    background: #34495e;
     color: white;
     font-weight: 600;
 }
 
-tbody tr:nth-child(even) {
-    background: #f9f9f9;
+tbody tr:hover {
+    background: #f8f9fa;
 }
 
-td img {
-    max-width: 60px;
-    max-height: 60px;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+/* -------------------- Familias y Subfamilias -------------------- */
+.familia {
+    background: #ecf0f1;
+    font-weight: 600;
 }
 
-/* -------------------- Filas jerárquicas -------------------- */
-.fam-principal {
-    background-color: #eef2ff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.fam-principal:hover {
-    background-color: #dbeafe;
-}
-
-.subfam {
-    background-color: #fdfdfd;
-    font-weight: normal;
-    font-style: italic;
-    cursor: pointer;
-}
-
-.subfam.hidden {
+.subfamilia.oculto {
     display: none;
 }
 
+td img {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 4px;
+}
+
+/* -------------------- Formulario -------------------- */
+.seccion-formulario {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.grupo-formulario {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+input[type="text"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
 /* -------------------- Botones -------------------- */
+.acciones-formulario {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
 button {
+    padding: 10px 20px;
     border: none;
-    padding: 6px 10px;
     border-radius: 4px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
+    font-weight: 600;
 }
 
-button:hover {
-    opacity: 0.85;
-}
-
-td > button:first-child { /* Editar */
-    background-color: #2563eb;
+.btn-principal {
+    background: #3498db;
     color: white;
+}
+
+.btn-principal:hover {
+    background: #2980b9;
+}
+
+.btn-secundario {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secundario:hover {
+    background: #7f8c8d;
+}
+
+/* Botones de la tabla */
+td button {
+    padding: 6px 12px;
     margin-right: 5px;
+    font-size: 0.8rem;
 }
 
-td > button:first-child:hover {
-    background-color: #1e40af;
-}
-
-td > button:last-child { /* Eliminar */
-    background-color: #dc2626;
+td button:first-child {
+    background: #27ae60;
     color: white;
 }
 
-td > button:last-child:hover {
-    background-color: #991b1b;
+td button:last-child {
+    background: #e74c3c;
+    color: white;
 }
 
-/* -------------------- Formularios -------------------- */
-input[type="text"],
-textarea,
-input[type="file"] {
-    display: block;
-    width: 100%;
-    max-width: 600px;
+/* -------------------- Alertas -------------------- */
+.mensaje-alerta {
+    margin-top: 15px;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background: #fff;
+    color: #d35400;
+    border-radius: 4px;
+    font-weight: 600;
 }
 
-textarea {
-    resize: vertical;
+input.error,
+select.error,
+textarea.error {
+    border-color: #e74c3c;
+    background: #fed7d7;
 }
 
-/* -------------------- Alerta -------------------- */
-#alerta {
-    margin-top: 10px;
-    color: #dc2626;
-    font-weight: bold;
-}
-
-/* -------------------- Indentación visual -------------------- */
-td:first-child {
-    transition: padding-left 0.2s;
+/* -------------------- Responsive -------------------- */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+    }
+    
+    .acciones-formulario {
+        flex-direction: column;
+    }
+    
+    button {
+        width: 100%;
+    }
 }

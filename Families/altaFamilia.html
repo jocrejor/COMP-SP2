@@ -3,51 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulari Alta Families</title>
+    <title>Formulario Alta Familias</title>
     <link rel="stylesheet" href="style.css">
     <script src="../BBDD/TendaFakeDades.js"></script>
     <script src="altaFamilia.js"></script>
-
 </head>
 <body>
-    <h1>Formulari Families</h1>
-    <table border>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Descripció</th>
-                <th>Imatge</th>
-                <th>Accions</th>
-            </tr>
-        </thead>
-        <tbody id="taulaFamilia"></tbody>
-    </table>
-    <br>
+    <div class="contenedor">
+        <header class="encabezado">
+            <h1>Gestión de Familias</h1>
+            <p class="subtitulo">Administra las familias y subfamilias del catálogo</p>
+        </header>
 
-    <input type="hidden" id="index" value="-1">
+        <main class="contenido-principal">
+            <section class="seccion-tabla">
+                <div class="cabecera-seccion">
+                    <h2>Listado de Familias</h2>
+                </div>
+                <div class="tabla-contenedor">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taulaFamilia"></tbody>
+                    </table>
+                </div>
+            </section>
 
-    <input 
-        type="text" id="nom" 
-        placeholder="Nova familia" 
-        required minlength="3" maxlength="100"
-        pattern="^[A-Za-z0-9áéíóúàèìòùäëïöüñÁÉÍÓÚÀÈÌÒÙÄËÏÖÜÑ\s'’]+$"
-    >
+            <section class="seccion-formulario">
+                <div class="cabecera-seccion">
+                    <h2>Formulario</h2>
+                </div>
+                
+                <input type="hidden" id="index" value="-1">
+                
+                <div class="formulario-cuadricula">
+                    <div class="grupo-formulario">
+                        <label for="nom">Nombre de la familia</label>
+                        <input 
+                            type="text" id="nom" 
+                            placeholder="Introduce el nombre de la familia" 
+                            required minlength="3" maxlength="100"
+                            pattern="^[A-Za-z0-9áéíóúàèìòùäëïöüñÁÉÍÓÚÀÈÌÒÙÄËÏÖÜÑ\s'']+$"
+                        >
+                    </div>
 
-    <label>Familia de: </label>
-    <select id="familia_de">
-        <option value=""></option>
-    </select>
+                    <div class="grupo-formulario">
+                        <label for="familia_de">Familia padre</label>
+                        <select id="familia_de">
+                            <option value="">-- Selecciona una familia padre --</option>
+                        </select>
+                    </div>
 
-    <input type="file" id="imatge" accept="image/*"><br><br>
+                    <div class="grupo-formulario">
+                        <label for="imatge">Imagen</label>
+                        <input type="file" id="imatge" accept="image/*">
+                    </div>
 
-    <textarea 
-        id="descripcio" 
-        rows="3" cols="50" 
-        placeholder="Descripció de la familia" 
-        required minlength="3" maxlength="250"
-    ></textarea><br><br>
+                    <div class="grupo-formulario ancho-completo">
+                        <label for="descripcio">Descripción</label>
+                        <textarea 
+                            id="descripcio" 
+                            rows="3" 
+                            placeholder="Descripción de la familia" 
+                            required minlength="3" maxlength="250"
+                        ></textarea>
+                    </div>
+                </div>
 
-    <button id="afegir">Afegir</button>
-    <p id="alerta"></p>
+                <div class="acciones-formulario">
+                    <button id="afegir" class="btn-principal">Añadir</button>
+                    <button type="button" onclick="netejarFormulari()" class="btn-secundario">Limpiar</button>
+                </div>
+                
+                <p id="alerta" class="mensaje-alerta"></p>
+            </section>
+        </main>
+    </div>
 </body>
 </html>
