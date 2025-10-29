@@ -19,17 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let registres = carregarRegistresBbdd();
 
-  const editIndex = sessionStorage.getItem("editIndex");
-  if (editIndex !== null && typeof Register !== "undefined" && Register[editIndex]) {
-    const registre = registres[editIndex];
-    if (registre) {
-      document.getElementById("client_id").value = registre.client_id;
-      document.getElementById("comparator_id").value = registre.comparator_id;
-      document.getElementById("favorite_id").value = registre.favorite_id;
-      document.getElementById("date_start").value = registre.date_start;
-      document.getElementById("date_end").value = registre.date_end;
+    const editIndex = sessionStorage.getItem("editIndex");
+    if (editIndex !== null && registres[editIndex]) {
+        const registre = registres[editIndex];
+        if (registre) {
+            document.getElementById("client_id").value = String(registre.client_id);
+            document.getElementById("comparator_id").value = registre.comparator_id;
+            document.getElementById("favorite_id").value = registre.favorite_id;
+            document.getElementById("date_start").value = registre.date_start;
+            document.getElementById("date_end").value = registre.date_end;
+        }
     }
-  }
 
   // Guardar (afegir o editar)
   form.addEventListener("submit", function (e) {
