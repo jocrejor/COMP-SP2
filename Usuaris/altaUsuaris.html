@@ -39,7 +39,7 @@
                 <td>
                     <!-- Validació d'email amb pattern i longitud (5-100 caràcters) -->
                     <input type="email" name="correu" id="correu"
-                    pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required />
+                    pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" required />
                 </td>
             </tr>
             <tr>
@@ -47,7 +47,8 @@
                 <td>
                      <!-- Contrasenya segura: 5-30 caràcters, amb majúscules, minúscules, número i símbol -->
                     <input type="password" name="contrasenya" id="contrasenya" 
-                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._-])[A-Za-z\d@$!%*?&._-]{5,30}$" required />
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
+                    required />
                     <button type="button" id="botoContrasenya">👁️</button>
                 </td>
             </tr>

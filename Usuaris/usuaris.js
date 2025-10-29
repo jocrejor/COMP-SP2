@@ -48,7 +48,7 @@ function mostrarUsuaris() {
 
     // Crear capçalera
     const header = document.createElement('tr');
-    const columnes = ['ID', 'Username', 'Email', 'Name', 'Role', 'Accions'];
+    const columnes = ['ID', 'Usuari', 'Email', 'Nom', 'Rol', 'Accions'];
     columnes.forEach(text => {
         const th = document.createElement('th');
         th.appendChild(document.createTextNode(text));

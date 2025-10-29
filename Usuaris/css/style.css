@@ -9,14 +9,14 @@ header {
 }
 
 aside {
-    width: 10%;
+    width: 15%;
     height: 90vh;
     background-color: #931621;
     float: left;
 }
 
 section {
-    width: 78%;
+    width: 75%;
     margin-left: 2%;
     float: left;
 }
@@ -26,7 +26,7 @@ h1 {
 }
 
 #taula_usuaris {
-    width: 65%;
+    width: 100%;
     border-collapse: collapse;
 }
 
@@ -63,4 +63,24 @@ option:hover {
 #limpiar {
     color: #1d1d1d;
     background-color: #ffd620;
+}
+
+.gestio {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.gestio a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px;
+    padding-left: 25px;
+}
+
+.gestio a:hover {
+    color: #ffd620;
+    background-color: #6d0b13;
 }
