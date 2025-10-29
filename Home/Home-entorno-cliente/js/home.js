@@ -16,6 +16,7 @@ function mostrarProductos(productosFiltrados) {
     div.style.padding = "10px";
     div.style.margin = "10px";
 
+
     // Nombre
     const h2 = document.createElement("h2");
     h2.textContent = product.name;
@@ -34,17 +35,20 @@ function mostrarProductos(productosFiltrados) {
     // Precio
     const pPrice = document.createElement("p");
     pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
-    div.appendChild(pPrice);4
+    div.appendChild(pPrice);
 
     // Descripción
     const pDesc = document.createElement("p");
     pDesc.textContent = product.description;
+    pDesc.style.marginTop = "0.5rem";
     div.appendChild(pDesc);
 
 
     // Enlace al detalle
     const aVer = document.createElement("button");
     aVer.textContent = "Ver producto";
+    aVer.style.marginTop = "0.5rem";
+    aVer.style.width= "120px";
     aVer.onclick = () => {
       window.location.href = `product.html?id=${product.id}`;
     };
@@ -54,6 +58,7 @@ function mostrarProductos(productosFiltrados) {
     //Boton para añadir al carrito
     const aCar = document.createElement("button");
     aCar.textContent = "Añadir al carrito";
+    aCar.style.width= "120px";
     div.appendChild(aCar);
 
     const hr = document.createElement("hr");
