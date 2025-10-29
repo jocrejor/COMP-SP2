@@ -32,6 +32,8 @@ function guardarRols() {
 function mostrarRols() {
     const llista = document.getElementById('llistaRols');
     
+    llista.replaceChildren();
+
     // Crear taula
     const taula = document.createElement('table');
     taula.id = 'taula_rols';
@@ -50,7 +52,7 @@ function mostrarRols() {
     
     //for (let i = 0; i < rols.length; i++) {
 // Crear files per a cada rol
-    rols.forEach((rol, ind) => {
+    rols.forEach((rol, index) => {
         const fila = document.createElement('tr');
 
         // ID
@@ -70,7 +72,7 @@ function mostrarRols() {
         // Botó eliminar
         const botoEliminar = document.createElement('button');
         botoEliminar.appendChild(document.createTextNode('Eliminar'));
-        botoEliminar.addEventListener('click', () => eliminarRol(rol.id));
+        botoEliminar.addEventListener('click', () => eliminarRol(rol.index));
         accionsTd.appendChild(botoEliminar);
 
         fila.appendChild(accionsTd);
