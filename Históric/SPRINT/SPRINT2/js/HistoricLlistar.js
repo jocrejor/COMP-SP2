@@ -2,11 +2,30 @@ document.addEventListener("DOMContentLoaded", function () {
     const tbody = document.querySelector("#taulaResultat tbody");
     const btnAfegir = document.getElementById("afegirNou");
 
-    //Dades de la BBDD Register
-    function mostrarTaula() {
-        tbody.textContent = "";
+    //Mostrar les dades de la BBDD si no hi ha al LocalStorage
+    function carregarRegistresBbdd() {
+        const local = localStorage.getItem("Register");
+        if (local) {
+            return JSON.parse(local);
+        } else if (typeof Register !== "undefined" && Array.isArray(Register)) {
+            localStorage.setItem("Register", JSON.stringify(Register));
+            return Register.slice();
+        } else {
+            return [];
+        }
+    }
 
-        if (typeof Register === "undefined" || !Array.isArray(Register) || Register.length === 0) {
+    function guardarLocal(regs) {
+        localStorage.setItem("Register", JSON.stringify(regs));
+    }
+
+    function mostrarTaula() {
+        const registres = carregarRegistresBbdd();
+
+        // netejar tbody
+        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+
+        if (!registres || registres.length === 0) {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
             td.colSpan = 8;
@@ -15,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
             tbody.appendChild(tr);
             return;
         }
+
         registres.forEach((registre, index) => {
             const fila = document.createElement("tr");
 
@@ -30,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             camps.forEach((valor) => {
                 const td = document.createElement("td");
-                td.textContent = valor || "-";
+                td.textContent = valor ?? "-";
                 fila.appendChild(td);
             });
 
@@ -47,11 +67,21 @@ document.addEventListener("DOMContentLoaded", function () {
             const btnEsborrar = document.createElement("button");
             btnEsborrar.textContent = "Esborrar";
             btnEsborrar.addEventListener("click", () => {
-                if (confirm("Vols esborrar aquest registre?")) {
-                    Register.splice(index, 1); // eliminar registre
-                    mostrarTaula(); // refresca la taula
-                }
+                if (confirm("Vols esborrar aquest registre?")) return;
+
+                // borrar en localStorage
+                const regs = carregarRegistresInicials();
+                regs.splice(index, 1);
+
+                // reasignar ids para mantener consecutividad (opcional)
+                regs.forEach((r, i) => {
+                    r.id = i + 1;
+                });
+
+                guardarLocal(regs);
+                mostrarTaula();
             });
+
             tdAccions.appendChild(btnEditar);
             tdAccions.appendChild(btnEsborrar);
             fila.appendChild(tdAccions);
@@ -61,9 +91,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     btnAfegir.addEventListener("click", () => {
-        sessionStorage.removeItem("editIndex"); //Per afegir
+        sessionStorage.removeItem("editIndex"); // modo añadir
         window.location.href = "./HistoricForm.html";
     });
 
+    // mostrar al inicio
     mostrarTaula();
 });
