@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Función para cerrar sesión (la puedes usar en otras páginas)
+// Función para cerrar sesión 
 function logout() {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('isLoggedIn');
