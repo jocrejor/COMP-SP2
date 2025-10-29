@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Contacte amb l'empresa</title>
+  <link rel="stylesheet" href="contacte.css">
+  <script src="contacte.js" defer></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Contacta amb nosaltres</h2>
+    <p>Si tens dubtes o suggeriments, omple el formulari i et respondrem el més aviat possible.</p>
+
+    <form id="contactForm">
+      <label for="name">Nom complet:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Correu electrònic:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="phone">Telèfon (opcional):</label>
+      <input type="tel" id="phone" name="phone" placeholder="Ex: 612345678">
+
+      <label for="subject">Assumpte:</label>
+      <input type="text" id="subject" name="subject" required>
+
+      <label for="message">Missatge:</label>
+      <textarea id="message" name="message" rows="6" required></textarea>
+
+      <button type="submit" id="sendBtn">Enviar missatge</button>
+    </form>
+  </div>
+</body>
+
+</html>
