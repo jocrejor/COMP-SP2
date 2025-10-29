@@ -47,6 +47,7 @@ function mostrarProductos(productosFiltrados) {
     aVer.onclick = () => {
       window.location.href = `product.html?id=${product.id}`;
     };
+    aVer.style.marginRight = "10px";
     div.appendChild(aVer);
 
     //Boton para añadir al carrito

@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.createElement("button");
   btn.textContent = " Añadir al carrito";
   btn.style.marginTop = "10px";
+  btn.style.marginRight= "10px";
   div.appendChild(btn);
 
   //Boton para volver a la home

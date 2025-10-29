@@ -1,35 +1,60 @@
 /*Estilos universales*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 a{
     text-decoration: none;
     color: black;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
 }
 /*Estilos del header*/
 .header{
     width: 100%;
     height: auto;
-
     background-color: blueviolet;
-
     display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
 }
-.containerTitul{
-    width: 60%;
-    height: auto;
 
+.containerTitul{
     display: flex;
-    justify-content: right;
     align-items: center;
+}
+
+.titulHome{
+    font-size: 1.8rem;
+    font-weight: 700;
 }
 .containerBotons{
-    width: 40%;
-    height: auto;
-
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 5%;
-    gap: 10px;
+    gap: 1rem;
+}
+
+.utilBotons {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.utilBotons:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
 }
 
 /*Estilos del main*/
@@ -37,11 +62,43 @@ a{
     display: flex;
 }
 
-.aside{
-    width: 15%;
-    height: auto;
+.aside {
+    width: 20%;
+    background-color: white;
+    padding: 1.5rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
 
-    background-color: lightgray;
+.aside h4 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+#familia {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    background-color: white;
+    font-size: 1rem;
+}
+
+.botonsUtilAside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.botonsUtilAside button {
+    color: white;
+    padding: 0.7rem;
+    font-weight: 500;
+}
+
+.botonsUtilAside button:hover {
+    background-color:  rgba(68, 4, 77, 0.315);
+    transform: translateY(-2px);
 }
 
 .productList{
