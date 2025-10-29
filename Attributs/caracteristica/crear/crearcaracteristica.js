@@ -58,12 +58,24 @@ function validarnom() {
 function validar(e) {
   esborrarError();
 
-  if (validarnom() && confirm("Confirma si vols enviar el formulari")) {
+  if (validarnom() && validarfamilia() && confirm("Confirma si vols enviar el formulari")) {
     return true;
   } else {
     e.preventDefault();
     return false;
   }
+}
+
+function validarfamilia() {
+  const element = document.getElementById("familia");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has de seleccionar una família.");
+    }
+    return false;
+  }
+  return true;
 }
 
 function error(element, missatge) {
@@ -100,10 +112,7 @@ function guardarEnLocalStorage(e) {
   const name = document.getElementById("nom").value.trim();
   const familiaId = document.getElementById("familia").value;
 
-  if (!familiaId) {
-    alert("Has de seleccionar una família.");
-    return;
-  }
+
 
   const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
