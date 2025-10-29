@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!sessionStorage.getItem("session_id")) {
     sessionStorage.setItem("session_id", crypto.randomUUID());
   }
-})
+
 
 
 // Variable per saber si estem editant un registre concret
@@ -24,7 +24,6 @@ function mostrarTaula() {
     // Afegim totes les cel·les de dades
     const camps = [
       registre.session_id,
-      registre.user_agent,
       registre.client_id,
       registre.comparator_id,
       registre.favorite_id,
@@ -114,7 +113,7 @@ document
 // Funció per esborrar un registre
 function esborrarRegistre(index) {
   let registres = JSON.parse(localStorage.getItem("registres")) || [];
-  //registres.splice(index, 1); // eliminar l'element
+  registres.splice(index, 1); // eliminar l'element
   localStorage.setItem("registres", JSON.stringify(registres));
   mostrarTaula();
 }
@@ -135,7 +134,6 @@ function editarRegistre(index) {
   indexEdicio = index; // Guardem quin registre s'està editant
 }
 
-//AÑADIR VALIDACIONES DE FECHA --> LA FECHA FINAL NO PUEDE SER ANTERIOR A LA DE INICIAL de edición
-
 // Mostrar la taula quan carreguem la pàgina
 mostrarTaula();
+});
