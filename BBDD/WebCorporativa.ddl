@@ -12,11 +12,13 @@ DROP TABLE IF EXISTS User;
 
 
 -- Tabla de usuarios
+-- ROL (admin, editor )
 CREATE TABLE User (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(150) UNIQUE NOT NULL
+    email VARCHAR(150) UNIQUE NOT NULL,
+    rol ENUM('admin', 'editor') NOT NULL
 );
 
 -- Tabla de categorías
@@ -60,6 +62,3 @@ CREATE TABLE Contact (
     subject TEXT NOT NULL,
     date DATETIME NOT NULL
 );
-
-
-
