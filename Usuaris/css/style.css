@@ -41,23 +41,27 @@ section {
     float: left;
 }
 
-h1 {
+h1, h2 {
     color: #931621;
 }
 
-#taula_usuaris {
+#taula_usuaris, #taula_rols {
     width: 90%;
     border-collapse: collapse;
     border: 1px solid black;
 }
 
-#taula_usuaris th {
+#taula_rols {
+    width: 20%;
+}
+
+#taula_usuaris th , #taula_rols th{
     border: #1d1d1d;
     background-color: #1d1d1d;
     color: #ffd620;
 }
 
-#taula_usuaris td {
+#taula_usuaris td , #taula_rols td{
     border: 1px solid black;
     padding: 5px;
 }
@@ -122,6 +126,10 @@ option:hover {
     min-width: 150px;
     text-align: center;
     gap: 20px;
+}
+
+.accio {
+    text-align: center;
 }
 
 .accions button {

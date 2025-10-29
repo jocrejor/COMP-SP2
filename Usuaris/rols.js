@@ -28,29 +28,59 @@ function guardarRols() {
     actualitzarSelectorRols();
 }
 
-// Funció per mostrar tots els rols en la llista HTML.
+// Funció per mostrar tots els rols en una taula HTML.
 function mostrarRols() {
     const llista = document.getElementById('llistaRols');
-    llista.replaceChildren(); // Netejar la llista abans d'afegir
     
-    // Crear dinàmicament cada element de la llista amb el seu botó d'eliminar
+    // Crear taula
+    const taula = document.createElement('table');
+    taula.id = 'taula_rols';
+
+    // Crear capçalera
+    const header = document.createElement('tr');
+    const columnes = ['ID', 'Nom', 'Accio'];
+    columnes.forEach(text => {
+        const th = document.createElement('th');
+        th.appendChild(document.createTextNode(text));
+        header.appendChild(th);
+    });
+    taula.appendChild(header);
+
+    // Crear dinàmicament cada element de la taula amb el seu botó d'eliminar
     
     //for (let i = 0; i < rols.length; i++) {
-     rols.forEach((rolObj, ind) => {  
-        const element = document.createElement('li');
+// Crear files per a cada rol
+    rols.forEach((rol, ind) => {
+        const fila = document.createElement('tr');
 
-        // Afegir el nom del rol de manera segura
-        element.appendChild(document.createTextNode(rolObj.name + " "));
+        // ID
+        const tdId = document.createElement('td');
+        tdId.appendChild(document.createTextNode(rol.id));
+        fila.appendChild(tdId);
 
-        // Crear el botó d'eliminar
-        const boto = document.createElement('button');
-        boto.appendChild(document.createTextNode('Eliminar'));
-        boto.addEventListener('click', () => eliminarRol(ind));
-        element.appendChild(boto);
+        // Nom del rol
+        const tdNom = document.createElement('td');
+        tdNom.appendChild(document.createTextNode(rol.name));
+        fila.appendChild(tdNom);
 
-        // Unim el element li a la llista
-        llista.appendChild(element);
+        // Cel·la d'accions
+        const accionsTd = document.createElement('td');
+        accionsTd.classList.add('accio');
+
+        // Botó eliminar
+        const botoEliminar = document.createElement('button');
+        botoEliminar.appendChild(document.createTextNode('Eliminar'));
+        botoEliminar.addEventListener('click', () => eliminarRol(rol.id));
+        accionsTd.appendChild(botoEliminar);
+
+        fila.appendChild(accionsTd);
+
+        // Afegir la fila a la taula
+        taula.appendChild(fila);
     });
+
+    // Afegir taula al contenidor
+    llista.appendChild(taula);
 }
 
 // Funció per afegir un nou rol des del formulari.
