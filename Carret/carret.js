@@ -10,8 +10,7 @@ function mostrarCarret() {
     const elementsCarret = document.getElementById('elementsCarret');
     const totalSpan = document.getElementById('total');
     let total = 0;
-
-  
+    
     // Si el carrito está vacío, muestra el mensaje y oculta el contenido
     if (!carret.length) {
         document.getElementById('carretBuit').style.display = 'block';
@@ -28,9 +27,17 @@ function mostrarCarret() {
     carret.forEach((p, i) => {
         const div = document.createElement('div');
 
-        const img = document.createElement('img');
-        img.src = p.image;
-        img.alt = p.name;
+        // Obtener imagen: preferimos Productimage (si está cargado), si no usamos p.image si existe
+        let imageUrl = null;
+        if (typeof Productimage !== 'undefined' && Array.isArray(Productimage)) {
+            const productImg = Productimage.find(img => img.product_id === p.id);
+            if (productImg && productImg.url) imageUrl = productImg.url;
+        }
+        if (!imageUrl && p.image) imageUrl = p.image;
+
+        const img = document.createElement("img");
+        img.src = imageUrl || "https://freesvg.org/img/Simple-Image-Not-Found-Icon.png";
+        img.alt = p.name || 'product';
         img.width = 60;
         img.height = 60;
         div.appendChild(img);
@@ -71,6 +78,7 @@ function mostrarCarret() {
 
         fragment.appendChild(div);
     });
+    
 
     elementsCarret.appendChild(fragment);
     // Calcula el total del carrito sumando el precio por cantidad de cada producto
