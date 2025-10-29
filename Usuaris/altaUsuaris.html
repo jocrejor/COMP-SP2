@@ -8,6 +8,7 @@
     <!-- Inclou el fitxer JavaScript extern que gestionarà la lògica del formulari -->
     <script type="text/javascript" src="../BBDD/TendaFakeDades.js"></script>
     <script type="text/javascript" src="altaUsuaris.js"></script>
+    <script type="text/javascript" src="logout.js"></script>
 </head>
 <body>
     <header>
@@ -17,13 +18,15 @@
             </a>
         </div>
         <div class="usuari">
+            <p id="usuariNom"></p>
+            <button id="logout">Tancar sessió</button>
             <img src="img/usuari.webp" alt="No ha carregat l'imatge">
         </div>
     </header>
 
     <aside>
         <div class="gestio">
-            <a href="#">Usuaris</a>
+            <a href="usuaris.html">Usuaris</a>
             <a href="#">Productes</a>
             <a href="#">Famílies</a>
             <a href="#">Atributs</a>
@@ -75,7 +78,7 @@
                     <td>
                         <!-- Contrasenya segura: 5-30 caràcters, amb majúscules, minúscules, número i símbol -->
                         <input type="password" name="contrasenya" id="contrasenya" 
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
                         required />
                         <button type="button" id="botoContrasenya">👁️</button>
                     </td>
@@ -93,7 +96,7 @@
                     <td>&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="2">
                         <!-- Botons per enviar i reiniciar el formulari -->
                         <input type="submit" name="enviar" id="enviar" value="Enviar"/>
                         <input type="reset" name="limpiar" id="limpiar" value="Reiniciar"/>

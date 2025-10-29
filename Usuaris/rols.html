@@ -8,6 +8,7 @@
     <!-- Inclou el fitxer JavaScript que gestionarà la lògica dels rols -->
     <script type="text/javascript" src="../BBDD/TendaFakeDades.js"></script>
     <script type="text/javascript" src="rols.js"></script>
+    <script type="text/javascript" src="logout.js"></script>
 </head>
 <body>
         <header>
@@ -17,13 +18,15 @@
             </a>
         </div>
         <div class="usuari">
+            <p id="usuariNom"></p>
+            <button id="logout">Tancar sessió</button>
             <img src="img/usuari.webp" alt="No ha carregat l'imatge">
         </div>
     </header>
 
     <aside>
         <div class="gestio">
-            <a href="#">Usuaris</a>
+            <a href="usuaris.html">Usuaris</a>
             <a href="#">Productes</a>
             <a href="#">Famílies</a>
             <a href="#">Atributs</a>

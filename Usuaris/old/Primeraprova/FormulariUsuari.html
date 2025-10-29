@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulari Usuaris</title>
+    <script type="text/javascript" src="FormulariUsuari.js"></script>
+</head>
+<body>
+    <h1>Alta d'Usuaris</h1>
+    
+    <form id="formulariUsuari">
+        <table>
+            <tr>
+                <td>Nom d'usuari:</td>
+                <td>
+                    <input type="text" name="nomUsuari" id="nomUsuari" maxlength="15" pattern="[A-Za-z\s]{2,15}" title="Introdueix entre 2 i 15 lletres" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Nom:</td>
+                <td>
+                    <input type="text" name="nom" id="nom" maxlength="15" pattern="[A-Za-z\s]{2,15}" title="Introdueix entre 2 i 15 lletres" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Correu:</td>
+                <td>
+                    <input type="correu" name="correu" id="correu" required/>
+                </td>
+            </tr>
+            <tr>
+                <td>Contrasenya:</td>
+                <td>
+                    <input type="password" name="contrasenya" id="contrasenya" maxlength="15" required/>
+                    <button type="button" id="botoContrasenya">👁️</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Rol:</td>
+                <td>
+                    <select id="rol">
+                    <option value="Usuari">Usuari</option>
+                    <option value="Admin">Admin</option>                    
+                    </select>
+                </td> 
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input type="submit" name="enviar" id="enviar" value="Enviar"/>
+                    <input type="reset" name="limpiar" id="limpiar" value="Reset"/>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Div per a mostrar missatges d'error -->
+        <div id="missatgeError"></div>
+    </form>
+
+    <hr>
+    <h2>Llista d'Usuaris</h2>
+    <div id="llistaUsuaris">
+        <!-- Ací es mostraran els usuaris afegits -->
+    </div>
+</body>
+</html>

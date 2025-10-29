@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inici de Sessió</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="login.js"></script>
+</head>
+<body>
+    <section id="login-section">
+        <div id="login">
+            <h2>Inici de Sessió</h2>
+
+            <form id="formulariLogin" novalidate>
+                <div class="apartats_form">
+                    <label for="correu">Correu electrònic:</label>
+                    <input type="email" id="correu" name="correu"
+                        pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}"
+                        required>
+                </div>
+
+                <div class="apartats_form">
+                    <label for="contrasenya">Contrasenya:</label>
+                    <div class="password-group">
+                        <input type="password" id="contrasenya" name="contrasenya"
+                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&._\-])[A-Za-z\d@$!%*?&._\-]{5,30}$"
+                            required>
+                    </div>
+                </div>
+                <button type="submit" id="entrar">Entrar</button>
+            </form>
+
+            <p id="missatgeError" style="color:red;"></p>
+        </div>
+    </section>
+</body>
+</html>

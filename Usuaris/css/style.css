@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font-family:'Times New Roman', Times, serif;
 }
 
 /* Estils del header */
@@ -17,6 +18,21 @@ header {
 .logo img {
     width: 80px;
     padding-left: 5px;
+}
+
+.usuari {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#usuariNom {
+    color: white;
+    padding-right: 20px;
+}
+
+.usuari button {
+    padding: 8px;
 }
 
 .usuari img {
@@ -43,6 +59,22 @@ section {
 
 h1, h2 {
     color: #931621;
+}
+
+#formulariUsuari table {
+    width: 480px;
+}
+
+#formulariUsuari {
+    font-weight: bold;
+}
+
+#formulariUsuari input[type="text"],
+#formulariUsuari input[type="email"],
+#formulariUsuari input[type="password"],
+#formulariUsuari select {
+    width: 260px;
+    box-sizing: border-box;
 }
 
 #taula_usuaris, #taula_rols {
@@ -129,4 +161,62 @@ button:hover, #enviar:hover {
 
 .accions button {
     margin: 2px;
+}
+
+#missatgeError {
+    color: red;
+    font-weight: bold;
+}
+
+/* Estils del login i logout */
+
+#login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+}
+
+#login{
+    background-color: white;
+    color: #1d1d1d;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-align: center;
+    min-width: 350px;
+}
+
+.apartats_form {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.apartats_form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.apartats_form input {
+    width: 95%;
+    padding: 8px;
+    border: 1px solid #931621;
+    border-radius: 5px;
+}
+
+#entrar {
+    width: 100%;
+    background-color: #931621;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#entrar:hover {
+    background-color: #db2231;
 }

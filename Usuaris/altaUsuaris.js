@@ -119,7 +119,7 @@ function validarContrasenya() {
             error(element, "Has d'introduïr una contrasenya.");
         }
         if (element.validity.patternMismatch) {
-            error(element, "La contrasenya ha de tindre entre 5 i 30 caràcters, amb majúscula, minúscula, número i símbol.");
+            error(element, "La contrasenya ha de tindre entre 5 i 30 caràcters, amb majúscula, minúscula i símbol.");
         }
         return false;
     }

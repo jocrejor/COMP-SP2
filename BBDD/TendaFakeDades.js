@@ -549,8 +549,7 @@ let Register = [
 
 let Rol = [
   { "id": 1, "name": "Admin" },
-  { "id": 2, "name": "Usuari" },
-  { "id": 3, "name": "Miguel"}
+  { "id": 2, "name": "Usuari" }
 ];
 
 let User = [
@@ -565,6 +564,7 @@ let User = [
   { "id": 9, "name": "Sofía Ramos", "email": "sofia.ramos@fakecommerce.com", "nickname": "sofiar", "password": "Sr_Admin!", "rol_id": 1 },
   { "id": 10, "name": "Miguel Sánchez", "email": "miguel.sanchez@fakecommerce.com", "nickname": "miguels", "password": "Ms_admin@25", "rol_id": 1 }
 ];
+
 const Attribute = [
 
   { id: 1, name: "Procesador", family_id: 1 },
