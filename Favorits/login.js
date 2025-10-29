@@ -2,7 +2,7 @@
 async function loadClientData() {
     try {
         // Importar datos directamente del objeto Client desde TendaFakeDades.js
-        return Client; // Asumiendo que Client está disponible globalmente
+        return Client; 
     } catch (error) {
         console.error('Error cargando datos:', error);
         return [];
