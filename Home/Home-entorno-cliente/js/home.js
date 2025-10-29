@@ -1,5 +1,4 @@
-
-
+document.addEventListener("DOMContentLoaded", () => {
 const selectFamilia = document.getElementById("familia");
 const container = document.getElementById("productList");
 
@@ -75,4 +74,5 @@ selectFamilia.addEventListener("change", function() {
     const filtrados = Product.filter(p => p.family_id === familiaId);
     mostrarProductos(filtrados);
   }
+});
 });
