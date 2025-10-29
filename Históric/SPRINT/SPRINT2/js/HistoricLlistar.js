@@ -15,12 +15,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    //Carregar la taula Client de la BBDD
+    function carregarClientBbdd() {
+        if (typeof Client !== "undefined" && Array.isArray(Client)) {
+            return Client;
+        } else {
+            return [];
+        }
+    }
     function guardarLocal(regs) {
         localStorage.setItem("Register", JSON.stringify(regs));
     }
 
     function mostrarTaula() {
         const registres = carregarRegistresBbdd();
+        const clients = carregarClientBbdd();
+
 
         // netejar tbody
         while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
@@ -38,10 +48,18 @@ document.addEventListener("DOMContentLoaded", function () {
         registres.forEach((registre, index) => {
             const fila = document.createElement("tr");
 
+            //Buscar el nom de client segons el nº de id de Client
+            const clientNom = clients.find(c => c.id == registre.client_id) || null;
+
+            //Cel·la de Client -> mostrar el nom en lloc del nº
+            const linkClient = document.createElement("a");
+            linkClient.href = `./Visualitzar_Client.html?id=${registre.client_id}`;
+            linkClient.textContent = (clientObj ? clientObj.name : "Desconegut") + " &#128100;"; //Nom + simbool
+
             const camps = [
                 registre.session_id,
                 registre.user_agent,
-                registre.client_id,
+                linkClient,
                 registre.comparator_id,
                 registre.favorite_id,
                 registre.date_start,
