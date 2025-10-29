@@ -3,7 +3,6 @@ window.onload = iniciar;
 function iniciar() {
   carregarDadesLocal();
   document.getElementById("enviar").addEventListener("click", anarcrear);
-  
 }
 
 function anarcrear() {
@@ -11,15 +10,6 @@ function anarcrear() {
 }
 
 function carregarDadesLocal() {
-  if (typeof Product === "undefined" || !Array.isArray(Product)) {
-    console.log("Error: la variable 'Product' no está definida o no es un array.");
-    return;
-  }
-
-  if (!localStorage.getItem("productos")) {
-    localStorage.setItem("productos", JSON.stringify(Product));
-  }
-
   if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
     localStorage.setItem("Family", JSON.stringify(Family));
   }
@@ -28,37 +18,22 @@ function carregarDadesLocal() {
     localStorage.setItem("Attribute", JSON.stringify(Attribute));
   }
 
-  const idSeleccionado = parseInt(localStorage.getItem("productoSeleccionado"));
-  const productos = JSON.parse(localStorage.getItem("productos")) || [];
   const families = JSON.parse(localStorage.getItem("Family")) || [];
   const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  const producto = productos.find(p => p.id == idSeleccionado);
-  const contenedor = document.getElementById("detalle");
   const cos = document.getElementById("cuerpoTabla");
 
-  contenedor.textContent = "";
   cos.textContent = "";
 
-  if (!producto) {
-    mostrarTexto(contenedor, "Producto no encontrado.");
+  if (attributes.length === 0) {
+    mostrarTexto(cuerpoTabla, "No hay características registradas.");
     return;
   }
 
-  mostrarTexto(contenedor, producto.name);
+  attributes.forEach(caracteristica => {
+    const familia = families.find(f => f.id === caracteristica.family_id);
+    const nombreFamilia = familia ? familia.name : "Sense família";
 
-  let categoria = "Sense família";
-  const familia = families.find(f => f.id === producto.family_id);
-  if (familia) categoria = familia.name;
-
-  const atributosFamilia = attributes.filter(a => a.family_id === producto.family_id);
-
-  if (atributosFamilia.length === 0) {
-    mostrarTexto(cos, "Esta familia no tiene características asociadas.");
-    return;
-  }
-
-  atributosFamilia.forEach(caracteristica => {
     let fila = document.createElement("tr");
 
     let tdNom = document.createElement("td");
@@ -66,7 +41,7 @@ function carregarDadesLocal() {
     let tdAcciones = document.createElement("td");
 
     mostrarTexto(tdNom, caracteristica.name);
-    mostrarTexto(tdCategoria, categoria);
+    mostrarTexto(tdCategoria, nombreFamilia);
 
     const btnEditar = document.createElement("button");
     mostrarTexto(btnEditar, "Modificar");
@@ -92,20 +67,15 @@ function carregarDadesLocal() {
   });
 }
 
-
 function eliminarCaracteristica(caracteristica, fila) {
   if (!confirm("¿Seguro que deseas eliminar esta característica?")) return;
 
   let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-
   attributes = attributes.filter(attr => attr.id !== caracteristica.id);
   localStorage.setItem("Attribute", JSON.stringify(attributes));
 
   fila.remove();
 }
-
-
-
 
 function mostrarTexto(contenedor, texto) {
   let p = document.createElement("p");
