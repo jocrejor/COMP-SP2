@@ -66,16 +66,12 @@ function llistaUsuaris() {
         usuaris.forEach((usuari, index) => {
             const fila = document.createElement("tr");
             
-            // Ocultar parcialment la contrasenya
-            const passwordOcult = usuari.password ? 
-                usuari.password.substring(0, 3) + "●●●●●●" : 
-                "●●●●●●";
+            
             
             fila.innerHTML = `
                 <td>${usuari.id}</td>
                 <td>${usuari.name || usuari.nom || ''}</td>
                 <td>${usuari.email || ''}</td>
-                <td>${passwordOcult}</td>
                 <td>
                     <div class="accions">
                         <button class="btn-editar" onclick="editarUsuari(${index})">Editar</button>
