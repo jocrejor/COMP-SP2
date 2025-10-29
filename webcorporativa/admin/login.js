@@ -131,83 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Gestionar formulari de registre
-    const formulariRegistre = document.getElementById('formulariRegistre');
-    if (formulariRegistre) {
-        formulariRegistre.addEventListener('submit', function(event) {
-            event.preventDefault();
-            netejarMissatges();
-            
-            const nouNom = document.getElementById('nouNom').value.trim();
-            const nouEmail = document.getElementById('nouEmail').value.trim();
-            const novaContrasenya = document.getElementById('novaContrasenya').value;
-            const confirmarContrasenya = document.getElementById('confirmarContrasenya').value;
-            
-            // Validar nom
-            if (nouNom.length < 2) {
-                mostrarError('El nom ha de tenir almenys 2 caràcters.');
-                return;
-            }
-            
-            // Validar format de l'email
-            if (!validarEmail(nouEmail)) {
-                mostrarError('Format de correu electrònic invàlid.');
-                return;
-            }
-            
-            if (novaContrasenya.length < 8 || novaContrasenya.length > 20) {
-                mostrarError('La contrasenya ha de tenir entre 8 i 20 caràcters.');
-                return;
-            }
-            
-            // Comprovar que les contrasenyes coincideixen
-            if (novaContrasenya !== confirmarContrasenya) {
-                mostrarError('Les contrasenyes no coincideixen.');
-                return;
-            }
-            
-            // Comprovar si l'email ja existeix
-            if (emailExisteix(nouEmail)) {
-                mostrarError('Aquest correu electrònic ja està registrat.');
-                return;
-            }
-            
-            // Afegir nou usuari
-            if (afegirNouUsuari(nouNom, nouEmail, novaContrasenya)) {
-                mostrarExit('Usuari registrat correctament! Ara pots iniciar sessió.');
-                
-                // Netejar formulari
-                formulariRegistre.reset();
-                
-                // Tornar al formulari de login després de 2 segons
-                setTimeout(() => {
-                    mostrarFormulariLogin();
-                }, 2000);
-            }
-        });
-    }
+    
 });
 
-// Funcions per alternar entre formularis
-function mostrarFormulariRegistre() {
-    document.getElementById('formulariLogin').classList.add('hidden');
-    document.getElementById('formulariRegistre').classList.remove('hidden');
-    document.getElementById('missatgeError').textContent = '';
-    document.getElementById('missatgeExit').textContent = '';
-}
-
-function mostrarFormulariLogin() {
-    document.getElementById('formulariRegistre').classList.add('hidden');
-    document.getElementById('formulariLogin').classList.remove('hidden');
-    document.getElementById('missatgeError').textContent = '';
-    document.getElementById('missatgeExit').textContent = '';
-}
 
 // Funció per verificar si l'usuari està autenticat (per usar en altres pàgines)
 function verificarSessio() {
     const usuariActual = sessionStorage.getItem('usuariActual');
     if (!usuariActual) {
-        window.location.href = '/login.html'; // Ajustar la ruta segons sigui necessari
+        window.location.href = '/login.html';
         return false;
     }
     return JSON.parse(usuariActual);
@@ -216,5 +148,5 @@ function verificarSessio() {
 // Funció per tancar sessió
 function tancarSessio() {
     sessionStorage.removeItem('usuariActual');
-    window.location.href = '/login.html'; // Ajustar la ruta segons sigui necessari
+    window.location.href = '/login.html'; 
 }
