@@ -1,51 +1,71 @@
 document.addEventListener("DOMContentLoaded", main);
 
-function main () {
+function main() {
     carregardadeslocal();
     document.getElementById("enviar").addEventListener("click", anarcrear);
 }
 
-function anarcrear () {
+function anarcrear() {
     window.location.href = "../crear/crearnoticies.html";
 
 }
 
-function carregardadeslocal () {
-    let noticies   = JSON.parse(localStorage.getItem("noticies")) || [];
+function carregardadeslocal() {
+    let noticies = JSON.parse(localStorage.getItem("noticies")) || [];
     let contenedor = document.getElementById("llistatnoticies");
-    contenedor.innerHTML = ""; // 🔧 evita duplicats al tornar a carregar
+
+    while (contenedor.firstChild) {
+        contenedor.removeChild(contenedor.firstChild);
+    }
 
     if (noticies.length === 0) {
-        contenedor.textContent = "No hi ha notícies guardades.";
+        let missatge = document.createElement("p");
+        missatge.textContent = "No hi ha notícies guardades.";
+        contenedor.appendChild(missatge);
         return;
     }
 
     noticies.forEach(function (noticia) {
         let parrafo = document.createElement("p");
         parrafo.style.whiteSpace = "pre-line";
-        parrafo.textContent =
-            `ID: ${noticia.id}\nTítol: ${noticia.title}\nSubtítol: ${noticia.description}\nContingut: ${noticia.body}\nData: ${noticia.date}\nID categoria: ${noticia.id_category}\nID usuari: ${noticia.id_user}\nID imatge associada: ${noticia.id_image}\n\n`;
 
+        let text = document.createTextNode(
+            `ID: ${noticia.id}\n` +
+            `Títol: ${noticia.title}\n` +
+            `Subtítol: ${noticia.description}\n` +
+            `Contingut: ${noticia.body}\n` +
+            `Data: ${noticia.date}\n` +
+            `ID categoria: ${noticia.id_category}\n` +
+            `ID usuari: ${noticia.id_user}\n` +
+            `ID imatge associada: ${noticia.id_image}\n\n`
+        );
+        parrafo.appendChild(text);
+
+        // Botón "Modificar"
         let btnModificar = document.createElement("button");
         btnModificar.textContent = "Modificar";
         btnModificar.addEventListener("click", function () {
             editarNoticia(noticia.id);
         });
 
+        // Botón "Eliminar"
         let btnEliminar = document.createElement("button");
         btnEliminar.textContent = "Eliminar";
         btnEliminar.addEventListener("click", function () {
             eliminarNoticia(noticia.id);
         });
 
+        // Añadir botones al párrafo
+        parrafo.appendChild(document.createElement("br"));
         parrafo.appendChild(btnModificar);
         parrafo.appendChild(btnEliminar);
+
+        // Añadir la noticia al contenedor
         contenedor.appendChild(parrafo);
     });
 }
 
-
-function eliminarNoticia (id) {
+function eliminarNoticia(id) {
     if (confirm("Segur que vols eliminar aquesta notícia?")) {
         let noticies = JSON.parse(localStorage.getItem("noticies")) || [];
         noticies = noticies.filter(noticia => noticia.id !== id);
@@ -54,7 +74,7 @@ function eliminarNoticia (id) {
     }
 }
 
-function editarNoticia (id) {
+function editarNoticia(id) {
     localStorage.setItem("indiceEdicion", id);
     window.location.href = "../modificar/modificarnoticies.html";
 }
