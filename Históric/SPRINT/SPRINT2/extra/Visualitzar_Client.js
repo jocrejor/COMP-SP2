@@ -1,36 +1,65 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const tbody = document.querySelector("#taulaClient tbody");
+    const tbody = document.querySelector("#taulaClient tbody");
 
-  function obtenirClientPerId(id) {
-    if (typeof Client === "undefined") return null;
-    return Client.find(c => c.id == id);
-  }
+    // Carregar clients de la BBDD
+    function carregarClientBbdd() {
+        if (typeof Client !== "undefined" && Array.isArray(Client)) {
+            return Client;
+        }
+        return [];
+    }
 
-  // Obtenir ID de la URL
-  const params = new URLSearchParams(window.location.search);
-  const clientId = params.get("id");
+    // Obtindre ID de la URL
+    const params = new URLSearchParams(window.location.search);
+    const clientId = params.get("id");
 
-  const client = obtenirClientPerId(clientId);
+    function mostrarTaula() {
+        const clients = carregarClientBbdd();
 
-  if (!client) {
-    const tr = document.createElement("tr");
-    const td = document.createElement("td");
-    td.colSpan = 2;
-    td.textContent = "Client no trobat.";
-    tr.appendChild(td);
-    tbody.appendChild(tr);
-    return;
-  }
+        // Netejar tbody
+        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-  // Mostrar totes les dades del CLient 
-  Object.entries(client).forEach(([clau, valor]) => {
-    const tr = document.createElement("tr");
-    const tdClau = document.createElement("td");
-    const tdValor = document.createElement("td");
-    tdClau.textContent = clau;
-    tdValor.textContent = valor;
-    tr.appendChild(tdClau);
-    tr.appendChild(tdValor);
-    tbody.appendChild(tr);
-  });
+        // Buscar cliente
+        const client = clients.find(c => c.id == clientId);
+
+        if (!client) {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.colSpan = 14; 
+            td.textContent = "Client no trobat.";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+            return;
+        }
+
+        //Mostrar camps a la taula
+        const tr = document.createElement("tr");
+
+        const camps = [
+            client.id,
+            client.taxidtype,
+            client.taxid,
+            client.name,
+            client.surname,
+            client.email,
+            client.password,
+            client.phone,
+            client.birth_date,
+            client.address,
+            client.cp,
+            client.country_id,
+            client.province_id,
+            client.city_id
+        ];
+
+        camps.forEach(valor => {
+            const td = document.createElement("td");
+            td.textContent = valor ?? "-";
+            tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+    }
+
+    mostrarTaula();
 });
