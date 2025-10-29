@@ -68,8 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             camps.forEach((valor) => {
                 const td = document.createElement("td");
-                td.textContent = valor ?? "-";
-                fila.appendChild(td);
+                // Si el valor es un <a>, lo añadimos directamente
+                if (valor && valor.tagName === "A") {
+                    td.appendChild(valor);
+                } else {
+                    td.textContent = valor ?? "-";
+                } fila.appendChild(td);
             });
 
             // Accions
