@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirigir després d'un petit delay
                 setTimeout(() => {
-                    window.location.href = 'admin/dashboard/dashboard.html';
+                    window.location.href = 'dashboard/dashboard.html';
                 }, 1000);
             } else {
                 mostrarError('Correu electrònic o contrasenya incorrectes.');

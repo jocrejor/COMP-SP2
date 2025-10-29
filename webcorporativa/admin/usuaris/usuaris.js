@@ -11,8 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Inicialitzar usuaris desde l'array User
 function inicialitzarUsuaris() {
+    const sessioiniciada = sessionStorage.getItem("usuariActiu");
     const usuarisGuardats = localStorage.getItem("usuaris");
-    
+    if(!sessioiniciada) {
+        window.location.href='../login.html'
+    }
     if (!usuarisGuardats) {
         // Si localStorage està buit, copiar l'array User si existeix
         if (typeof User !== 'undefined' && User) {
