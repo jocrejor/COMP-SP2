@@ -118,6 +118,7 @@ function afegirUsuari() {
     const nom = document.getElementById("nomUsuari").value.trim();
     const email = document.getElementById("emailUsuari").value.trim();
     const password = document.getElementById("passwordUsuari").value;
+    const rol = document.getElementById("rolUsuari");
     
     // Validacions
     if (!validarFormulari(nom, email, password)) {
@@ -139,7 +140,8 @@ function afegirUsuari() {
         id: maxId + 1,
         name: nom,
         password: password,
-        email: email
+        email: email,
+        rol:rol
     };
     
     // Afegir a l'array i guardar
@@ -164,6 +166,7 @@ function editarUsuari(index) {
     document.getElementById("nomUsuari").value = usuari.name || usuari.nom || '';
     document.getElementById("emailUsuari").value = usuari.email || '';
     document.getElementById("passwordUsuari").value = usuari.password || '';
+    document.getElementById("rolUsuari").value = usuari.rol||'';
     
     // Canviar títol i botons
     document.getElementById("titolFormulari").textContent = "Editar Usuari";
@@ -203,7 +206,8 @@ function actualitzarUsuari(index) {
         ...usuaris[index],
         name: nom,
         email: email,
-        password: password
+        password: password,
+        rol:rol
     };
     
     // Guardar canvis
