@@ -24,6 +24,15 @@ input[type="text"] {
     margin-left: 33%;
 }
 
+input #buscar{
+    padding: 8px;
+    border: 1px solid #368cd3;
+    border-radius: 4px;
+    width: 500px;
+    margin: 10px;
+    margin-left: 33%;
+}
+
 button {
     background-color: #368cd3;
     color: white;

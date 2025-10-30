@@ -68,11 +68,11 @@ function mostrarLlista(array) {
     array.forEach((prov, index) => {
         html += `
             <li>
-                <button onclick="esborrarProvincia(${index})">🗑️</button>
-                <button onclick="prepararActualitzar(${index})">✏️</button>
+                <button onclick="esborrarProvincia(${index})">🗑️ Esborrar</button>
+                <button onclick="prepararActualitzar(${index})">✏️ Modificar</button>
                 ${prov.name}
                 <a href="../poblacio/poblacioLocalitzacio.html?country_id=${countryId}&province_id=${prov.id}&province=${encodeURIComponent(prov.name)}">
-                    <button>🏙️ Poblacions</button>
+                    <button>Poblacions</button>
                 </a>
             </li>
         `;

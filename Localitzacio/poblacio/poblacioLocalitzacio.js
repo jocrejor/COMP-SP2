@@ -72,8 +72,8 @@ function mostrarLlista(array) {
   array.forEach((city, index) => {
     html += `
       <li>
-        <button onclick="esborrarPoblacio(${index})">🗑️</button>
-        <button onclick="prepararActualitzar(${index})">✏️</button>
+        <button onclick="esborrarPoblacio(${index})">🗑️ Esborrar</button>
+        <button onclick="prepararActualitzar(${index})">✏️ Modificar</button>
         ${city.name}
       </li>
     `;

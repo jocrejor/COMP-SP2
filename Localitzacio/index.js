@@ -96,9 +96,9 @@ function mostrarLlista() {
         aux +=
             "<li><button onclick='esborrarPais(" +
             item.id +
-            ")'>Esborrar</button><button onclick='actualitzar(" +
+            ")'>🗑️ Esborrar</button><button onclick='actualitzar(" +
             item.id +
-            ")'>Modificar</button>" +
+            ")'>✏️ Modificar</button>" +
             item.name +
             "<a href='./provincia/provinciaLocalitzacio.html?id=" + 
             item.id + "&country=" + encodeURIComponent(item.name) + 
