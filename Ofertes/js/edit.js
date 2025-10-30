@@ -1,3 +1,5 @@
+// Arxiu per a editar ofertes existents
+// Carrega les dades de l'oferta i gestiona el formulari d'edició
 document.addEventListener("DOMContentLoaded", function () {
     const form            = document.getElementById('formOferta');
     const ofertaInput     = document.getElementById('ofertaInput');
@@ -96,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function validarFechas() {
         if (datafiInput.value && dataIniciInput.value) {
             const dataInici = new Date(dataIniciInput.value);
-            const dataFi = new Date(datafiInput.value);
+            const dataFi    = new Date(datafiInput.value);
 
             if (dataInici >= dataFi) {
                 return "La data d'inici ha de ser anterior a la data de fi.";

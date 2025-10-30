@@ -1,3 +1,5 @@
+// Arxiu principal per a llistar les ofertes
+// Gestiona la taula d'ofertes amb paginació i accions CRUD
 document.addEventListener("DOMContentLoaded", function () {
     const tableBody               = document.getElementById('tableBody');
     const paginationContainer     = document.createElement('div');
@@ -24,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Usando datos existentes de localStorage:", data.length, "ofertas");
     }
 
+    // Guarda les dades actualitzades en el localStorage
+    // S'utilitza després de qualsevol modificació en les ofertes
     function saveDataToLocalStorage() {
         localStorage.setItem("formData", JSON.stringify(data));
     }
@@ -36,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Funció principal per a mostrar la taula d'ofertes
+    // Gestiona la paginació i mostra les dades amb les seues accions
     function renderTable() {
         if (!tableBody) return;
 
@@ -116,6 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
         renderPagination();
     }
 
+    // Crea i actualitza els controls de paginació
+    // Inclou botons anterior/següent i informació de pàgines
     function renderPagination() {
         const totalPages = Math.ceil(data.length / itemsPerPage);
 

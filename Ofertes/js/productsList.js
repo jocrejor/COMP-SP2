@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const tableBody = document.getElementById('tableBody');
-    const pageTitle = document.getElementById('pageTitle');
-    const paginationInfo = document.getElementById('paginationInfo');
+    const tableBody        = document.getElementById('tableBody');
+    const pageTitle        = document.getElementById('pageTitle');
+    const paginationInfo   = document.getElementById('paginationInfo');
     const addProductButton = document.getElementById('addProductButton');
     
     const params = new URLSearchParams(window.location.search);
@@ -24,7 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
     cargarProductosAplicados(ofertaId);
 });
 
-// Función para obtener ProductSale desde localStorage o usar el original
+// Funció per a obtindre ProductSale des de localStorage o utilitzar l'original
+// Si no existeix en localStorage, torna un array buit
 function obtenerProductSale() {
     const productSaleGuardado = localStorage.getItem('productSaleData');
     if (productSaleGuardado) {
@@ -42,6 +43,8 @@ function guardarProductSale(productSale) {
     localStorage.setItem('productSaleData', JSON.stringify(productSale));
 }
 
+// Funció principal que carrega i mostra els productes aplicats a una oferta específica
+// Utilitza buscarProductosAplicados per obtindre els productes i després els mostra en la taula
 function cargarProductosAplicados(ofertaId) {
     const productosAplicados = buscarProductosAplicados(ofertaId);
     
@@ -58,6 +61,8 @@ function cargarProductosAplicados(ofertaId) {
     renderTable(productosAplicados, ofertaId);
 }
 
+// Funció que busca tots els productes que estan associats a una oferta específica
+// Retorna un array amb els productes trobats
 function buscarProductosAplicados(ofertaId) {
     const productosAplicados = [];
     const productSale = obtenerProductSale();
@@ -90,6 +95,8 @@ function buscarProductosAplicados(ofertaId) {
     return productosAplicados;
 }
 
+// Funció que renderitza la taula amb els productes
+// S'encarrega de netejar la taula i mostrar els productes amb les seues accions
 function renderTable(productos, ofertaId) {
     if (!tableBody) return;
     
@@ -100,10 +107,10 @@ function renderTable(productos, ofertaId) {
     productos.forEach(function(producto, index) {
         const row = document.createElement("tr");
         
-        const idCell = document.createElement("td");
-        const nameCell = document.createElement("td");
-        const priceCell = document.createElement("td");
-        const descCell = document.createElement("td");
+        const idCell     = document.createElement("td");
+        const nameCell   = document.createElement("td");
+        const priceCell  = document.createElement("td");
+        const descCell   = document.createElement("td");
         const familyCell = document.createElement("td");
         const actionCell = document.createElement("td");
         
@@ -132,20 +139,22 @@ function renderTable(productos, ofertaId) {
     });
 }
 
+// Funció que mostra un modal amb els productes disponibles per a afegir a l'oferta
+// Crea dinàmicament el modal amb tots els seus components i controls
 function mostrarModalProductos(ofertaId) {
-    const modal = document.createElement("div");
+    const modal     = document.createElement("div");
     modal.className = 'modal';
     
-    const modalContent = document.createElement("div");
+    const modalContent     = document.createElement("div");
     modalContent.className = 'modal-content';
     
-    const modalTitle = document.createElement("h2");
+    const modalTitle     = document.createElement("h2");
     modalTitle.className = 'modal-title';
     modalTitle.appendChild(document.createTextNode("Seleccionar Productes per a l'Oferta"));
     
     const productosDisponibles = obtenerProductosDisponibles(ofertaId);
     
-    const productList = document.createElement("div");
+    const productList     = document.createElement("div");
     productList.className = 'product-list';
     
     if (productosDisponibles.length === 0) {
@@ -157,17 +166,17 @@ function mostrarModalProductos(ofertaId) {
         productList.appendChild(noProductsMsg);
     } else {
         productosDisponibles.forEach(function(producto) {
-            const productItem = document.createElement("div");
+            const productItem     = document.createElement("div");
             productItem.className = 'product-item';
             
-            const productInfo = document.createElement("div");
+            const productInfo     = document.createElement("div");
             productInfo.className = 'product-info';
             
-            const productName = document.createElement("div");
+            const productName     = document.createElement("div");
             productName.className = 'product-name';
             productName.appendChild(document.createTextNode(producto.name));
             
-            const productDetails = document.createElement("div");
+            const productDetails     = document.createElement("div");
             productDetails.className = 'product-details';
             productDetails.appendChild(document.createTextNode(
                 `${producto.price} € | ${producto.familyName}`
@@ -176,7 +185,7 @@ function mostrarModalProductos(ofertaId) {
             productInfo.appendChild(productName);
             productInfo.appendChild(productDetails);
             
-            const addButton = document.createElement("button");
+            const addButton     = document.createElement("button");
             addButton.className = 'modal-add-button';
             addButton.appendChild(document.createTextNode("Afegir"));
             addButton.addEventListener('click', function() {
@@ -190,7 +199,7 @@ function mostrarModalProductos(ofertaId) {
         });
     }
     
-    const closeButton = document.createElement("button");
+    const closeButton     = document.createElement("button");
     closeButton.className = 'modal-close-button';
     closeButton.appendChild(document.createTextNode("Tancar"));
     closeButton.addEventListener('click', function() {
@@ -212,7 +221,7 @@ function mostrarModalProductos(ofertaId) {
 }
 
 function obtenerProductosDisponibles(ofertaId) {
-    const productosAplicados = buscarProductosAplicados(ofertaId);
+    const productosAplicados    = buscarProductosAplicados(ofertaId);
     const productosAplicadosIds = productosAplicados.map(p => p.id);
     
     const productosDisponibles = [];
@@ -237,8 +246,10 @@ function obtenerProductosDisponibles(ofertaId) {
     return productosDisponibles;
 }
 
+// Funció per a afegir un producte a una oferta
+// Comprova si ja existeix la relació i si no, la crea i guarda en localStorage
 function afegirProducteAOferta(ofertaId, productId) {
-    const productSale = obtenerProductSale();
+    const productSale      = obtenerProductSale();
     const saleIdAproximado = parseInt(ofertaId) + 1;
     
     // Buscar si ya existe la relación
@@ -265,9 +276,11 @@ function afegirProducteAOferta(ofertaId, productId) {
     }
 }
 
+// Funció que elimina un producte d'una oferta específica
+// Demana confirmació abans d'eliminar i actualitza la vista després
 function eliminarProductoDeOferta(ofertaId, productId) {
     if (confirm("Estàs segur que vols eliminar aquest producte de l'oferta?")) {
-        const productSale = obtenerProductSale();
+        const productSale      = obtenerProductSale();
         const saleIdAproximado = parseInt(ofertaId) + 1;
         
         const index = productSale.findIndex(function(rel) {
@@ -284,7 +297,7 @@ function eliminarProductoDeOferta(ofertaId, productId) {
 }
 
 function mostrarMensaje(texto, tipo = "success") {
-    const mensaje = document.createElement("div");
+    const mensaje     = document.createElement("div");
     mensaje.className = `notification ${tipo}`;
     mensaje.appendChild(document.createTextNode(texto));
     
@@ -298,7 +311,7 @@ function mostrarMensaje(texto, tipo = "success") {
 function mostrarError(mensaje) {
     if (!tableBody) return;
     
-    const row = document.createElement("tr");
+    const row  = document.createElement("tr");
     const cell = document.createElement("td");
     cell.setAttribute("colspan", "6");
     cell.className = 'no-data';
@@ -310,7 +323,7 @@ function mostrarError(mensaje) {
 function mostrarNoProductos() {
     if (!tableBody) return;
     
-    const row = document.createElement("tr");
+    const row  = document.createElement("tr");
     const cell = document.createElement("td");
     cell.setAttribute("colspan", "6");
     cell.className = 'no-data';

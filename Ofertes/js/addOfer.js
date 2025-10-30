@@ -1,3 +1,5 @@
+// Arxiu principal per a afegir noves ofertes
+// Gestiona el formulari d'alta i les seues validacions
 document.addEventListener("DOMContentLoaded", function () {
     const form            = document.getElementById('formOferta');
     const ofertaInput     = document.getElementById('ofertaInput');
@@ -20,6 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
         datafiInput.value     = item.dataFi || "";
     }
 
+    // Funció per a mostrar missatges d'error o èxit
+    // Crea o actualitza un element p amb el missatge i el color corresponent
     function mostrarMensaje(texto, tipo = "error") {
         let mensaje = document.getElementById("mensaje");
         if (!mensaje) {
@@ -40,6 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // Validació del nom de l'oferta
+    // Comprova que no estiga buit i tinga almenys 2 caràcters
     function validarOferta() {
         const valor = ofertaInput.value.trim();
         if (!valor) {
