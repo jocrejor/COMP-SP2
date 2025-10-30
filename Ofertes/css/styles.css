@@ -17,14 +17,12 @@ body {
     margin: 0 auto;
 }
 
-
 .crud_title {
     text-align: center;
     color: #2c3e50;
     margin-bottom: 20px;
     font-size: 2rem;
 }
-
 
 .crud_add-button {
     display: inline-block;
@@ -42,7 +40,6 @@ body {
 .crud_add-button:hover {
     background: #2980b9;
 }
-
 
 .table-container {
     background: white;
@@ -342,11 +339,6 @@ body {
     background: #e74c3c;
 }
 
-.form-group {
-    position: relative;
-    margin-bottom: 20px;
-}
-
 .error-message {
     color: #e74c3c;
     font-size: 12px;
@@ -372,7 +364,6 @@ body {
     box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
 }
 
-/* Estil per a camps requerits */
 .form_input:required:not(:placeholder-shown):invalid {
     border-color: #e74c3c;
 }
@@ -381,7 +372,6 @@ body {
     border-color: #27ae60;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     body {
         padding: 10px;

@@ -173,7 +173,7 @@ function main() {
     entradaDataInici.addEventListener('change', function() {
         if (this.value && entradaDataFi.value) {
             const dataInici = new Date(this.value);
-            const dataFi = new Date(entradaDataFi.value);
+            const dataFi    = new Date(entradaDataFi.value);
             if (dataFi > dataInici) {
                 mostrarErrorCamp('datafi');
             }
@@ -183,7 +183,7 @@ function main() {
     entradaDataFi.addEventListener('change', function() {
         if (entradaDataInici.value && this.value) {
             const dataInici = new Date(entradaDataInici.value);
-            const dataFi = new Date(this.value);
+            const dataFi    = new Date(this.value);
             if (dataFi > dataInici) {
                 mostrarErrorCamp('datafi');
             }
