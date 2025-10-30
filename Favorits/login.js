@@ -1,7 +1,7 @@
-// Función para cargar los datos desde el archivo externo
-async function loadClientData() {
+
+// Función para cargar los datos del cliente
+async function cargarDatosCliente() {
     try {
-        // Importar datos directamente del objeto Client desde TendaFakeDades.js
         return Client; 
     } catch (error) {
         console.error('Error cargando datos:', error);
@@ -10,90 +10,83 @@ async function loadClientData() {
 }
 
 // Función para verificar el login
-async function loginUser(email, password) {
+async function iniciarSesion(email, password) {
     try {
-        // Cargar datos desde el archivo externo
-        const Client = await loadClientData();
+        const Cliente = await cargarDatosCliente();
         
-        // Buscar el usuario por email
-        const user = Client.find(client => client.email === email);
+        const usuario = Cliente.find(cliente => cliente.email === email);
         
-        if (user) {
-            // Verificar la contraseña
-            if (user.password === password) {
-                return { success: true, user: user };
+        if (usuario) {
+            if (usuario.password === password) {
+                return { exito: true, usuario: usuario };
             } else {
-                return { success: false, message: "Contraseña incorrecta" };
+                return { exito: false, mensaje: "Contraseña incorrecta" };
             }
         } else {
-            return { success: false, message: "Usuario no encontrado" };
+            return { exito: false, mensaje: "Usuario no encontrado" };
         }
     } catch (error) {
-        console.error('Error en login:', error);
-        return { success: false, message: "Error del servidor" };
+        console.error('Error en inicio de sesión:', error);
+        return { exito: false, mensaje: "Error del servidor" };
     }
 }
 
 // Función para guardar datos de sesión
-function saveSession(user) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    localStorage.setItem('isLoggedIn', 'true');
+function guardarSesion(usuario) {
+    localStorage.setItem('usuarioActual', JSON.stringify(usuario));
+    localStorage.setItem('sesionIniciada', 'true');
 }
 
 // Función para verificar si el usuario está logueado
-function checkLogin() {
-    return localStorage.getItem('isLoggedIn') === 'true';
+function verificarSesion() {
+    return localStorage.getItem('sesionIniciada') === 'true';
 }
 
 // Función para redirigir si ya está logueado
-function redirectIfLoggedIn() {
-    if (checkLogin()) {
-        window.location.href = 'favorits.html';
+function redirigirSiLogueado() {
+    if (verificarSesion()) {
+        window.location.href = 'favoritos.html';
     }
 }
 
 // Manejar el envío del formulario
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar si ya está logueado
-    redirectIfLoggedIn();
+    redirigirSiLogueado();
     
-    const loginForm = document.getElementById('loginForm');
-    const messageDiv = document.getElementById('message');
+    const formularioLogin = document.getElementById('formularioLogin');
+    const divMensaje = document.getElementById('mensaje');
     
-    loginForm.addEventListener('submit', async function(e) {
+    formularioLogin.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         
-        // Mostrar mensaje de carga
-        messageDiv.style.color = 'blue';
-        messageDiv.textContent = 'Verificando credenciales...';
+        divMensaje.style.color = 'blue';
+        divMensaje.textContent = 'Verificando credenciales...';
         
-        const result = await loginUser(email, password);
+        const resultado = await iniciarSesion(email, password);
         
-        if (result.success) {
-    saveSession(result.user);
-    window.location.replace('favorits.html'); 
-} else {
-    messageDiv.style.color = 'red';
-    messageDiv.textContent = result.message;
-}
-
-
+        if (resultado.exito) {
+            guardarSesion(resultado.usuario);
+            window.location.replace('favoritos.html'); 
+        } else {
+            divMensaje.style.color = 'red';
+            divMensaje.textContent = resultado.mensaje;
+        }
     });
 });
 
 // Función para cerrar sesión 
-function logout() {
-    localStorage.removeItem('currentUser');
-    localStorage.removeItem('isLoggedIn');
+function cerrarSesion() {
+    localStorage.removeItem('usuarioActual');
+    localStorage.removeItem('sesionIniciada');
     window.location.href = 'login.html';
     console.log('Sesión cerrada');
 }
 
 // Función para obtener el usuario actual
-function getCurrentUser() {
-    const user = localStorage.getItem('currentUser');
-    return user ? JSON.parse(user) : null;
+function obtenerUsuarioActual() {
+    const usuario = localStorage.getItem('usuarioActual');
+    return usuario ? JSON.parse(usuario) : null;
 }

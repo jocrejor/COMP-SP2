@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Comparador Universal</title>
+    <title>Iniciar Sesión - Comparador Universal</title>
+    <script src="login.js"></script>
 </head>
 <body>
-    <div class="login-container">
+    <div class="contenedor-login">
         <h1>Iniciar Sesión</h1>
-        <form id="loginForm">
-            <div class="input-group">
+        <form id="formularioLogin">
+            <div class="grupo-input">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
             </div>
             
-            <div class="input-group">
+            <div class="grupo-input">
                 <label for="password">Contraseña:</label>
                 <input type="password" id="password" name="password" required>
             </div>
@@ -22,11 +23,8 @@
             <button type="submit">Iniciar Sesión</button>
         </form>
         
-        <div id="message" style="margin-top: 15px; color: red;"></div>
+        <div id="mensaje" style="margin-top: 15px; color: red;"></div>
     </div>
-    <!-- Primero carga TendaFakeDades.js -->
     <script src="../BBDD/TendaFakeDades.js"></script>
-    <!-- Después carga login.js -->
-    <script src="login.js"></script>
 </body>
 </html>
