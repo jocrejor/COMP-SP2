@@ -47,5 +47,6 @@ function main() {
     tbody.appendChild(tr);
   }
 
-  mostrarTaula();
+  mostrarTaula(); 
+  
 }
