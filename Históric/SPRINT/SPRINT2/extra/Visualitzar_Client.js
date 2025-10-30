@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Netejar tbody
         while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-        // Buscar cliente
+        // Buscar client
         const client = clients.find(c => c.id == clientId);
 
         if (!client) {

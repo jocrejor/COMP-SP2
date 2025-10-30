@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             camps.forEach((valor) => {
                 const td = document.createElement("td");
-                // Si el valor es un <a>, lo añadimos directamente
+                // Si el valor es un <a>, afegir-lo
                 if (valor && valor.tagName === "A") {
                     td.appendChild(valor);
                 } else {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const regs = carregarRegistresBbdd();
                 regs.splice(index, 1);
 
-                // reasignar ids para mantener consecutividad (opcional)
+                // reasignar ids 
                 regs.forEach((r, i) => {
                     r.id = i + 1;
                 });
@@ -113,10 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     btnAfegir.addEventListener("click", () => {
-        sessionStorage.removeItem("editIndex"); // modo añadir
+        sessionStorage.removeItem("editIndex"); // modo afegir
         window.location.href = "./HistoricForm.html";
     });
 
-    // mostrar al inicio
+    // mostrar al inici
     mostrarTaula();
 });
