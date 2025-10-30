@@ -3,36 +3,36 @@ document.addEventListener("DOMContentLoaded", main);
 let clients = [];
 
 function main() {
-  
+
   carregaSelect();
 
-    const formulari = document.getElementById("formClient");
-    formulari.addEventListener("submit", (event)=>{
-        event.preventDefault();
+  const formulari = document.getElementById("formClient");
+  formulari.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-        // Validem tots els camps
-        const valid = validarCampsIndividuals(); 
+    // Validem tots els camps
+    const valid = validarCampsIndividuals();
 
-        if (valid) {
-            guardarClient();
-            formulari.reset(); 
-            carregaSelect();
-        }
-    });
+    if (valid) {
+      guardarClient();
+      formulari.reset();
+      carregaSelect();
+    }
+  });
 
   document.getElementById("area").addEventListener("click", () => {
     const clients = JSON.parse(localStorage.getItem("clients") || "[]");
 
     if (clients.length === 0) {
-        alert("No hi ha cap client registrat.");
-        return;
+      alert("No hi ha cap client registrat.");
+      return;
     }
 
     const client = clients[clients.length - 1];
     localStorage.setItem("area", JSON.stringify(client));
 
     window.location.href = "./registre/registreAreaPersonal.html";
-});
+  });
 
 }
 
@@ -84,83 +84,172 @@ function guardarClient() {
 // Part de les validacions
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-function validarNom (){
+function validarNom() {
   let element = document.getElementById("name");
-    if(!element.checkValidity()){
-      if (element.validity.valueMissing){
-        error(element, "Deus d'introduïr un nom");
-      }
-      if(element.validity.patternMismatch){
-        error(element, "El nom ha de tindre entre 3 y 15 caracters");
-      }
-      return false;
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un nom");
     }
-    return true;
-}
-
-// Funció per fer les validacions del formulari generals
-function validarFormulari() {
-  validarUnCamp("name", "El nom és obligatori");
-  validarUnCamp("surname", "El cognom és obligatori");
-  validarUnCamp("taxid", "El DNI no és vàlid");
-  validarUnCamp("phone", "El telèfon és obligatori");
-  validarUnCamp("email", "El email és obligatori");
-  validarUnCamp("address", "L'adreça és obligatoria");
-  validarUnCamp("cp", "El codi postal és obligatori");
-  validarUnCamp("password", "La contrasenya és obligatoria");
-}
-
-function validarUnCamp(id, missatge) {
-  const input = document.getElementById(id);
-  const error = document.getElementById("error_" + id);
-
-  if (!input.checkValidity()) {
-    error.textContent = missatge;
-  } else {
-    error.textContent = "";
-  }
-}
-
-// Funció per fer validacions més concretes
-
-// Validació del nom
-function validarNom(){
-    const input = document.getElementById("name");
-    const error = document.getElementById("error_name");
-    const valor = input.value.trim();
-
-   // El camp està buit
-  if (valor === "") {
-    error.textContent = "El nom és obligatori";
+    if (element.validity.patternMismatch) {
+      error(element, "El nom ha de tindre entre 3 i 15 caracters");
+    }
     return false;
   }
+  return true;
+}
 
-  // El camp es massa curt
-  if (valor.length < 3) {
-    error.textContent = "El nom ha de tenir almenys 3 caràcters";
+function validarCognom() {
+  let element = document.getElementById("surname");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un cognom");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "El cognom ha de tindre entre 3 i 15 caracters");
+    }
     return false;
   }
+  return true;
+}
 
-  // Sols espais i lletres
-  const regex = /^[A-Za-zÀ-ÿ\s]+$/;
-  if (!regex.test(valor)) {
-    error.textContent = "El nom només pot contenir lletres i espais";
+function validarTaxid() {
+  let element = document.getElementById("taxid");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un número de document vàlid");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "El format del document no és vàlid");
+    }
     return false;
   }
+  return true;
+}
 
-  // Tot correcte
-  error.textContent = "";
+function validarDataNeixement() {
+  let element = document.getElementById("birth_date");
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Deus d'introduïr una data");
+    }
+    if (element.validity.rangeUnderflow) {
+      error(element, "La data mínima ha de ser superior al 01/01/1900.");
+    }
+    if (element.validity.rangeOverflow) {
+      error(element, "La data màxima ha de ser inferior al 01/01/2007");
+    }
+    return false;
+  }
+  return true;
+}
+
+function validarTelefon() {
+  let element = document.getElementById("phone");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un telèfon");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "El telèfon ha de tindre entre 7 i 20 números");
+    }
+    return false;
+  }
+  return true;
+}
+
+function validarEmail() {
+  let element = document.getElementById("email");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un email");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "El format del email no és vàlid");
+    }
+    return false;
+  }
+  return true;
+}
+
+function validarAddress() {
+  let element = document.getElementById("address");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr una adreça");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "L'adreça ha de tindre un format vàlid");
+    }
+    return false;
+  }
+  return true;
+}
+
+function validarCp() {
+  let element = document.getElementById("cp");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un codi postal");
+    }
+    if (element.validity.patternMismatch) {
+      error(element, "El codi postal no és vàlid");
+    }
+    return false;
+  }
   return true;
 }
 
 
+
+
+
+
+
+// ----------------- Cambiar per les noves validacions --------------------------------------------------------------------------//
+function validar(e) {
+  esborrarError();
+  if (validarNom() && validarNeix() && validarTel() && confirm("Confirma si vols enviar el formulari")) {
+
+    return true;
+
+  } else {
+    e.preventDefault();
+    return false;
+  }
+}
+
+function error(element, missatge) {
+  let miss = document.createTextNode(missatge);
+  document.getElementById("missatgeError").appendChild(miss);
+  element.classList.add("error");
+  element.focus();
+}
+
+
+function esborrarError() {
+  document.getElementById("missatgeError").textContent = "";
+  let formulari = document.forms[0];
+  for (let i = 0; i < formulari.elements.length; i++) {
+    formulari.elements[i].classList.remove("error");
+  }
+}
+
+
+//----------------------------------------- BORRAR ---------------------------------------------------------------------------------------//
 // Validar el cognom
 function validarCognom() {
   const input = document.getElementById("surname");
   const error = document.getElementById("error_surname");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "El cognom és obligatori";
     return false;
@@ -206,7 +295,7 @@ function validarTaxid() {
   const error = document.getElementById("error_taxid");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "El número de document és obligatori";
     return false;
@@ -265,14 +354,14 @@ function validarTelefon() {
   const error = document.getElementById("error_phone");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "El telèfon és obligatori";
     return false;
   }
 
   // Comprovem el format: només números, opcional '+' al principi
-  const regex = /^\+?[0-9]{7,15}$/; 
+  const regex = /^\+?[0-9]{7,15}$/;
   if (!regex.test(valor)) {
     error.textContent = "El telèfon només pot contenir números i un '+' al principi, 7-15 dígits";
     return false;
@@ -290,7 +379,7 @@ function validarEmail() {
   const error = document.getElementById("error_email");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "L'email és obligatori";
     return false;
@@ -315,7 +404,7 @@ function validarAdreca() {
   const error = document.getElementById("error_address");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "L'adreça és obligatoria";
     return false;
@@ -351,7 +440,7 @@ function validarCP() {
   const error = document.getElementById("error_cp");
   const valor = input.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valor === "") {
     error.textContent = "El codi postal és obligatori";
     return false;
@@ -424,7 +513,7 @@ function validarContrasenya() {
   const valorPwd = pwd.value.trim();
   const valorRepetir = repetirPwd.value.trim();
 
-   // El camp està buit
+  // El camp està buit
   if (valorPwd === "") {
     errorPwd.textContent = "La contrasenya és obligatoria";
     return false;
@@ -452,10 +541,10 @@ function validarContrasenya() {
   }
 
   //  Que continga lletra, número i símbol
-   const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/;
-   if (!regex.test(valorPwd)) {
-     errorPwd.textContent = "La contrasenya ha de tenir lletra, número i símbol";
-     return false;
+  const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/;
+  if (!regex.test(valorPwd)) {
+    errorPwd.textContent = "La contrasenya ha de tenir lletra, número i símbol";
+    return false;
   }
 
   // Tot correcte
@@ -466,23 +555,23 @@ function validarContrasenya() {
 
 
 // Funció per cridar totes les validacions individuals
-function validarCampsIndividuals(){
-    const res =
-        validarNom() &&
-        validarCognom() &&
-        validarTipusDocument() &&
-        validarTaxid() &&
-        validarAniversari() &&
-        validarTelefon() &&
-        validarEmail() &&
-        validarAdreca() &&
-        validarCP() &&
-        validarCountry() &&
-        validarProvince() &&
-        validarCity() &&
-        validarContrasenya();
+function validarCampsIndividuals() {
+  const res =
+    validarNom() &&
+    validarCognom() &&
+    validarTipusDocument() &&
+    validarTaxid() &&
+    validarAniversari() &&
+    validarTelefon() &&
+    validarEmail() &&
+    validarAdreca() &&
+    validarCP() &&
+    validarCountry() &&
+    validarProvince() &&
+    validarCity() &&
+    validarContrasenya();
 
-    return res;
+  return res;
 }
 
 
@@ -493,76 +582,76 @@ function validarCampsIndividuals(){
 
 // Neteja el select
 function netejaSelect(select) {
-    while (select.options.length > 0) {
-        select.remove(0);
-    }
+  while (select.options.length > 0) {
+    select.remove(0);
+  }
 }
 
 // Carreguem els selects de location
 function carregaSelect() {
-    const countrySelect = document.getElementById("country_id");
-    const provinceSelect = document.getElementById("province_id");
-    const citySelect = document.getElementById("city_id");
+  const countrySelect = document.getElementById("country_id");
+  const provinceSelect = document.getElementById("province_id");
+  const citySelect = document.getElementById("city_id");
 
-    // Netejem els selects
-    netejaSelect(countrySelect);
+  // Netejem els selects
+  netejaSelect(countrySelect);
+  netejaSelect(provinceSelect);
+  netejaSelect(citySelect);
+
+  // Posem les opciones per defecte del select
+  const crearOpcioPerDefecte = (select, texto) => {
+    let option = document.createElement("option");
+    option.value = "";
+    option.disabled = true;
+    option.selected = true;
+    option.textContent = texto;
+    select.appendChild(option);
+  };
+
+  crearOpcioPerDefecte(provinceSelect, "Selecciona una provincia");
+  crearOpcioPerDefecte(citySelect, "Selecciona una ciutat");
+
+  // Carrega els països
+  crearOpcioPerDefecte(countrySelect, "Selecciona un país");
+  for (let i = 0; i < Country.length; i++) {
+    let option = document.createElement("option");
+    option.value = Country[i].id;
+    option.textContent = Country[i].name;
+    countrySelect.appendChild(option);
+  }
+
+  // Listener per poder canviar les provincies segons el pais
+  countrySelect.addEventListener("change", () => {
     netejaSelect(provinceSelect);
     netejaSelect(citySelect);
-
-    // Posem les opciones per defecte del select
-    const crearOpcioPerDefecte = (select, texto) => {
-        let option = document.createElement("option");
-        option.value = "";
-        option.disabled = true;
-        option.selected = true;
-        option.textContent = texto;
-        select.appendChild(option);
-    };
 
     crearOpcioPerDefecte(provinceSelect, "Selecciona una provincia");
     crearOpcioPerDefecte(citySelect, "Selecciona una ciutat");
 
-    // Carrega els països
-    crearOpcioPerDefecte(countrySelect, "Selecciona un país");
-    for (let i = 0; i < Country.length; i++) {
+    const paisSeleccionado = parseInt(countrySelect.value);
+    Province.forEach(province => {
+      if (province.country_id === paisSeleccionado) {
         let option = document.createElement("option");
-        option.value = Country[i].id;
-        option.textContent = Country[i].name;
-        countrySelect.appendChild(option);
-    }
-
-    // Listener per poder canviar les provincies segons el pais
-    countrySelect.addEventListener("change", () => {
-        netejaSelect(provinceSelect);
-        netejaSelect(citySelect);
-
-        crearOpcioPerDefecte(provinceSelect, "Selecciona una provincia");
-        crearOpcioPerDefecte(citySelect, "Selecciona una ciutat");
-
-        const paisSeleccionado = parseInt(countrySelect.value);
-        Province.forEach(province => {
-            if (province.country_id === paisSeleccionado) {
-                let option = document.createElement("option");
-                option.value = province.id;
-                option.textContent = province.name;
-                provinceSelect.appendChild(option);
-            }
-        });
+        option.value = province.id;
+        option.textContent = province.name;
+        provinceSelect.appendChild(option);
+      }
     });
+  });
 
-    // Listener per canviar les ciutats segons la provincia
-    provinceSelect.addEventListener("change", () => {
-        netejaSelect(citySelect);
-        crearOpcioPerDefecte(citySelect, "Selecciona una ciutat");
+  // Listener per canviar les ciutats segons la provincia
+  provinceSelect.addEventListener("change", () => {
+    netejaSelect(citySelect);
+    crearOpcioPerDefecte(citySelect, "Selecciona una ciutat");
 
-        const provinciaSeleccionada = parseInt(provinceSelect.value);
-        City.forEach(city => {
-            if (city.id_state === provinciaSeleccionada) {
-                let option = document.createElement("option");
-                option.value = city.id;
-                option.textContent = city.name;
-                citySelect.appendChild(option);
-            }
-        });
+    const provinciaSeleccionada = parseInt(provinceSelect.value);
+    City.forEach(city => {
+      if (city.id_state === provinciaSeleccionada) {
+        let option = document.createElement("option");
+        option.value = city.id;
+        option.textContent = city.name;
+        citySelect.appendChild(option);
+      }
     });
+  });
 }
