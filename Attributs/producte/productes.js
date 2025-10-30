@@ -50,7 +50,7 @@ function carregardadeslocal() {
 
     boton.addEventListener("click", () => {
       localStorage.setItem("productoSeleccionado", prod.id);
-      window.location.href = "../productattribute/crear/crearproductattribuct.html";
+      window.location.href = "../productattribute/productattribute.html";
     });
 
     tdBoton.appendChild(boton);

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear i Llistar Product Attributes</title>
+ 
+  <link 
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+    rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" 
+    crossorigin="anonymous"
+  >
+  <script src="../../BBDD/TendaFakeDades.js"></script>
+  <script src="./productattribute.js" defer></script>
+</head>
+
+<body class="bg-light">
+
+  <div class="container py-4">
+
+    <h2 class="text-center fw-bold mb-4">Gestió de Product Attributes</h2>
+
+    <div id="nomProducte" class="text-center mb-4 fs-5 fw-semibold text-primary"></div>
+
+    <form id="formulario" class="border rounded-3 bg-white p-4 shadow-sm">
+
+      <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+          <label for="atributo" class="form-label fw-bold">Selecciona un atribut</label>
+          <select id="atributo" class="form-select" required></select>
+        </div>
+      </div>
+
+      <div class="row justify-content-center mb-3">
+        <div class="col-md-6">
+          <label for="valor" class="form-label fw-bold">Valor</label>
+          <input 
+            type="text" 
+            id="valor" 
+            maxlength="255"
+            pattern="[A-Za-z0-9À-ÿ\s]{1,255}"
+            title="Només lletres, números i espais (màxim 255 caràcters)"
+            required
+            class="form-control"
+          >
+        </div>
+      </div>
+
+      <div class="row justify-content-center mb-3">
+        <div class="col-md-6 text-center">
+          <button type="submit" id="enviar" class="btn btn-primary px-4">Guardar</button>
+  
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12 text-center">
+          <p id="missatgeError" class="text-danger fw-semibold"></p>
+        </div>
+      </div>
+    </form>
+
+    <div class="mt-5">
+      <h4 class="text-center fw-bold mb-3">Llistat de Product Attributes</h4>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" class="text-center">Producte</th>
+              <th scope="col" class="text-center">Atribut</th>
+              <th scope="col" class="text-center">Valor</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpoTabla" class="text-center"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
