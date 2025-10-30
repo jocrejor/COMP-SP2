@@ -13,6 +13,17 @@ h2{
     color: #555;
 }
 
+button#torna{
+    margin-left: 25%;
+    width: 100px;
+    height: 35px;
+    background-color: #235b8a;
+}
+
+button#torna:hover {
+    background-color: darkred;
+}
+
 input[type="text"] {
     padding: 8px;
     border: 1px solid #368cd3;
@@ -60,13 +71,3 @@ ol #llista {
     margin-left: 10px;
 }
 
-button#torna{
-    margin-left: 45%;
-    width: 100px;
-    height: 35px;
-    background-color: #235b8a;
-}
-
-button#torna:hover {
-    background-color: darkred;
-}

@@ -100,9 +100,9 @@ function mostrarLlista() {
             item.id +
             ")'>Modificar</button>" +
             item.name +
-            "<a href='./provincia/provinciaLocalitzacio.html?country=" +
-            encodeURIComponent(item.country) +
-            "'><button>Provincia</button></a></li>";
+            "<a href='./provincia/provinciaLocalitzacio.html?id=" + item.id + "&country=" + encodeURIComponent(item.name) + "'><button>Provincia</button></a>"
+
+
     });
 
     // Pintem la llista generada dins del <ol>
