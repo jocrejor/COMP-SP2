@@ -55,24 +55,12 @@ function validarnom() {
   return true;
 }
 
-function validarvalor () {
-    var element = document.getElementById("valor");
-    if (!element.checkValidity()){
-        if (element.validity.valueMissing){
-            error(element,"Has d'introduir un valor.");
-        }
-        if (element.validity.patternMismatch){
-            error(element, "El valor ha de tindre entre 2 i 255 caràcters.");
-        }
-        return false;
-    }
-    return true;
-}
+
 
 function validar (e) {
     esborrarError();
 
-    if (validarnom() && validarvalor() && confirm("Confirma si vols enviar el formulari")) {
+    if (validarnom() && validarfamilia() && confirm("Confirma si vols enviar el formulari")) {
        
 
         return true;
@@ -132,7 +120,7 @@ function guardarEnLocalStorage(e) {
 
   const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  // Comprobar si el atributo ya existe en esa familia
+  // Comproba si el atribut ya existeix en eixa familia
   const atributoExistente = attributes.find(a => a.name === name && a.family_id == familiaId);
 
   if (!atributoExistente) {
