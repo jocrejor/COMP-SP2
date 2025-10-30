@@ -8,7 +8,7 @@ async function main() {
 
     countryArray =  JSON.parse(localStorage.getItem("localitzacioPais")) || localStorage.setItem("localitzacioPais",JSON.stringify(Country)); 
     
-    console.log(countryArray)
+    console.log(countryArray);
     
     
     
