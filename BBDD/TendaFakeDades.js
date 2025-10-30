@@ -912,7 +912,7 @@ const ProductSale = [
   { sale_id: 30, product_id: 28 }
 ];
 
-let Favorites = [
+let Favorite = [
   { "id": 1, "name": "Portátiles Gaming" },
   { "id": 2, "name": "Monitores 4K" },
   { "id": 3, "name": "Ratones Inalámbricos" },
