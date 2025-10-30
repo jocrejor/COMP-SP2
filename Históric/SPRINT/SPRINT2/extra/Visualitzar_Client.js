@@ -1,4 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", main)
+
+function main() {
     const tbody = document.querySelector("#taulaClient tbody");
 
     // Carregar clients de la BBDD
@@ -25,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!client) {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
-            td.colSpan = 14; 
+            td.colSpan = 14;
             td.textContent = "Client no trobat.";
             tr.appendChild(td);
             tbody.appendChild(tr);
@@ -62,4 +64,4 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     mostrarTaula();
-});
+}

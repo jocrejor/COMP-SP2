@@ -1,17 +1,17 @@
-document.addEventListener("DOMContentLoaded", main )
+document.addEventListener("DOMContentLoaded", main)
 
 
-function main () {
+function main() {
   // carregar dades de la BBDD o del LocalStorage
   let ClientArray = JSON.parse(localStorage.getItem("Client")) || Client;
-  console.log( ClientArray);
+  console.log(ClientArray);
   // Carregar Favorits
   let FavoriteArray = JSON.parse(localStorage.getItem("Favorite")) || Favorite;
   // Carregar Comparadors
   //let ComparatorArray = JSON.parse(localStorage.getItem("Comparator")) || Comparator;
 
 
-carregarSelects(ClientArray);
+  carregarSelects(ClientArray);
 
 
   const form = document.getElementById("formRegistre");
@@ -33,7 +33,7 @@ carregarSelects(ClientArray);
     const clientSelect = document.getElementById("client_id");
     clients.forEach(client => {
       const option = document.createElement("option");
-      option.setAttribute("value",client.id);
+      option.setAttribute("value", client.id);
       const nomClient = document.createTextNode(`${client.name} ${client.surname}`);
       option.appendChild(nomClient);
       clientSelect.appendChild(option);
@@ -47,17 +47,17 @@ carregarSelects(ClientArray);
 
   let registres = carregarRegistresBbdd();
 
-    const editIndex = sessionStorage.getItem("editIndex");
-    if (editIndex !== null && registres[editIndex]) {
-        const registre = registres[editIndex];
-        if (registre) {
-            document.getElementById("client_id").value = String(registre.client_id);
-            document.getElementById("comparator_id").value = registre.comparator_id;
-            document.getElementById("favorite_id").value = registre.favorite_id;
-            document.getElementById("date_start").value = registre.date_start;
-            document.getElementById("date_end").value = registre.date_end;
-        }
+  const editIndex = sessionStorage.getItem("editIndex");
+  if (editIndex !== null && registres[editIndex]) {
+    const registre = registres[editIndex];
+    if (registre) {
+      document.getElementById("client_id").value = String(registre.client_id);
+      document.getElementById("comparator_id").value = registre.comparator_id;
+      document.getElementById("favorite_id").value = registre.favorite_id;
+      document.getElementById("date_start").value = registre.date_start;
+      document.getElementById("date_end").value = registre.date_end;
     }
+  }
 
   // Guardar (afegir o editar)
   form.addEventListener("submit", function (e) {

@@ -1,4 +1,6 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", main)
+
+function main() {
     const tbody = document.querySelector("#taulaResultat tbody");
     const btnAfegir = document.getElementById("afegirNou");
 
@@ -119,4 +121,4 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // mostrar al inici
     mostrarTaula();
-});
+}
