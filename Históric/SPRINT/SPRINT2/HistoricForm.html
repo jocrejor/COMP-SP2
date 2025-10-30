@@ -13,29 +13,27 @@
     <h2>Formulari de Registre</h2>
     <form id="formRegistre">
       <label for="client_id">Client ID:</label>
-      <!-- Dropdown de clientes -->
-      <º id="client_id" name="client_id" required>
-        <!--MODIFICAR a select amb els id de Favorit i Comparador-->
-       
 
+      <select id="client_id" name="client_id" required>       
+        <option value="">-- Selecciona un client --</option>
       </select>
-      <br /><br />
+      <br />
 
       <label for="comparator_id">Comparador ID:</label>
       <input type="number" id="comparator_id" name="comparator_id" required />
-      <br /><br />
+      <br />
 
       <label for="favorite_id">Favorit ID:</label>
       <input type="number" id="favorite_id" name="favorite_id" required />
-      <br /><br />
+      <br />
 
       <label for="date_start">Data inici:</label>
       <input type="datetime-local" id="date_start" name="date_start" />
-      <br /><br />
+      <br />
 
       <label for="date_end">Data fi:</label>
       <input type="datetime-local" id="date_end" name="date_end" />
-      <br /><br />
+      <br />
 
       <button type="submit">Guardar</button>
       <button type="button" id="cancelar">Cancel·lar</button>

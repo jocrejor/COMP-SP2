@@ -5,8 +5,11 @@ function main() {
   // carregar dades de la BBDD o del LocalStorage
   let ClientArray = JSON.parse(localStorage.getItem("Client")) || Client;
   console.log(ClientArray);
+
   // Carregar Favorits
   let FavoriteArray = JSON.parse(localStorage.getItem("Favorite")) || Favorite;
+  console.log(FavoriteArray);
+
   // Carregar Comparadors
   //let ComparatorArray = JSON.parse(localStorage.getItem("Comparator")) || Comparator;
 
@@ -28,9 +31,11 @@ function main() {
     return [];
   }
 
-  //Afegir els demés SELECTS
+  //Funció per carregar les dades de la BBDD - Clients, Favorit i Comparador
+  // Afegir els demés SELECTS
   function carregarSelects(clients) {
     const clientSelect = document.getElementById("client_id");
+
     clients.forEach(client => {
       const option = document.createElement("option");
       option.setAttribute("value", client.id);
