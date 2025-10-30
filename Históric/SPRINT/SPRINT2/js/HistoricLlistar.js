@@ -61,7 +61,7 @@ function main() {
 
             //link del comparador 
             const linkComparador = document.createElement("a");
-            linkComparador.href = `extra/Visualitzar_Comparador.html?id=${registre.comparator_id}`;
+            linkComparador.href = `extra/Visualitzar_Comp.html?id=${registre.comparator_id}`;
             linkComparador.textContent = registre.comparator_id ? `${registre.comparator_id}` : "-";
 
             //link del fav 

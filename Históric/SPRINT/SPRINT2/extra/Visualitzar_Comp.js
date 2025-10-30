@@ -9,7 +9,7 @@ function main() {
     }
     return [];
   }
- 
+
   const params = new URLSearchParams(window.location.search);
   const comparadorId = params.get("id");
 
