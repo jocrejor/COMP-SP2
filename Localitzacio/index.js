@@ -100,8 +100,9 @@ function mostrarLlista() {
             item.id +
             ")'>Modificar</button>" +
             item.name +
-            "<a href='./provincia/provinciaLocalitzacio.html?id=" + item.id + "&country=" + encodeURIComponent(item.name) + "'><button>Provincia</button></a>"
-
+            "<a href='./provincia/provinciaLocalitzacio.html?id=" + 
+            item.id + "&country=" + encodeURIComponent(item.name) + 
+            "'><button>Provincia</button></a>"
 
     });
 
