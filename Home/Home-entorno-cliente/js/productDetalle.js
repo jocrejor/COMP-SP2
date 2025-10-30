@@ -93,10 +93,44 @@ document.addEventListener("DOMContentLoaded", () => {
   div.appendChild(carrusel);
 
   
-  // Precio
+    // Preu i ofertes
+  const now = new Date();
+
+  // Obtener los IDs de las ofertas asociadas a este producto
+  const saleIds = [];
+  ProductSale.forEach(ps => {
+    if (ps.product_id === product.id) {
+      saleIds.push(ps.sale_id);
+    }
+  });
+
+  // Filtrar las ofertas activas según la fecha
+  const oPrice = Sale.filter(s => 
+    saleIds.includes(s.id) &&
+    new Date(s.start_date) <= now &&
+    now <= new Date(s.end_date)
+  );
+
+  // Crear elemento para mostrar el precio
   const pPrice = document.createElement("p");
-  pPrice.textContent = ` Preu: $${product.price.toFixed(2)}`;
+  pPrice.style.fontWeight = "bold";
+  pPrice.style.fontSize = "1.2rem";
+
+  // Mostrar precio con descuento si hay oferta activa
+  if(oPrice.length > 0){
+    const oferta = oPrice[0]; // Tomamos la primera oferta activa
+    const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
+    pPrice.textContent = `Precio: ${priceWithDiscount.toFixed(2)}$ (Antes: ${product.price.toFixed(2)}$) - ${oferta.description}`;
+    pPrice.style.color = "red";
+  } else {
+    pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
+    pPrice.style.color = "black";
+  }
+
+  // Añadir el precio al div principal
   div.appendChild(pPrice);
+
+  
 
   // Atributos
   const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
