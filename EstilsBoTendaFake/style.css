@@ -1,0 +1,222 @@
+body {
+    margin: 0;
+    font-family:'Times New Roman', Times, serif;
+}
+
+/* Estils del header */
+
+header {
+    width: 100%;
+    height: 10vh;
+    background-color: #1d1d1d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.logo img {
+    width: 80px;
+    padding-left: 5px;
+}
+
+.usuari {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#usuariNom {
+    color: white;
+    padding-right: 20px;
+}
+
+.usuari button {
+    padding: 8px;
+}
+
+.usuari img {
+    width: 80px;
+    padding-right: 20px;
+}
+
+/* Estils del menu lateral*/
+
+aside {
+    width: 15%;
+    height: 90vh;
+    background-color: #931621;
+    float: left;
+}
+
+/* Estils del main */
+
+section {
+    width: 75%;
+    margin-left: 2%;
+    float: left;
+}
+
+h1, h2 {
+    color: #931621;
+}
+
+#formulariUsuari table {
+    width: 480px;
+}
+
+#formulariUsuari {
+    font-weight: bold;
+}
+
+#formulariUsuari input[type="text"],
+#formulariUsuari input[type="email"],
+#formulariUsuari input[type="password"],
+#formulariUsuari select {
+    width: 260px;
+    box-sizing: border-box;
+}
+
+#taula_usuaris, #taula_rols {
+    width: 90%;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+#taula_rols {
+    width: 20%;
+}
+
+#taula_usuaris th , #taula_rols th{
+    border: #1d1d1d;
+    background-color: #1d1d1d;
+    color: #ffd620;
+}
+
+#taula_usuaris td , #taula_rols td{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+button, #limpiar, #enviar{
+    border-radius: 10px;
+    background-color: #931621;
+    color: white;
+    padding: 5px;
+    font-weight: bold;
+    border: 1px solid grey;
+    min-width: 70px;
+}
+
+button:hover, #enviar:hover {
+    background-color: #db2231;
+}
+
+#limpiar:hover {
+    background-color: #9c820f;
+}
+
+#botoContrasenya {
+    width: 32px;
+    min-width: 32px;
+    background-color: white;
+    color: #1d1d1d;   
+}
+
+#rol {
+    width: 100%;
+    color: #1d1d1d;
+}
+
+.gestio {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.gestio a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px;
+    padding-left: 25px;
+}
+
+.gestio a:hover {
+    color: #ffd620;
+    background-color: #6d0b13;
+}
+
+.accions {
+    width: 100px;
+    min-width: 150px;
+    text-align: center;
+    gap: 20px;
+}
+
+.accio {
+    text-align: center;
+}
+
+.accions button {
+    margin: 2px;
+}
+
+#missatgeError {
+    color: red;
+    font-weight: bold;
+}
+
+/* Estils del login i logout */
+
+#login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+}
+
+#login{
+    background-color: white;
+    color: #1d1d1d;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    text-align: center;
+    min-width: 350px;
+}
+
+.apartats_form {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.apartats_form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.apartats_form input {
+    width: 95%;
+    padding: 8px;
+    border: 1px solid #931621;
+    border-radius: 5px;
+}
+
+#entrar {
+    width: 100%;
+    background-color: #931621;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#entrar:hover {
+    background-color: #db2231;
+}
