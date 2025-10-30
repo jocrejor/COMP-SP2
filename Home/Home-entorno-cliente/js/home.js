@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const selectFamilia = document.getElementById("familia");
 const container = document.getElementById("productList");
 
-  //Guardar les dades en el localStorage per a la seua manipulacio
+  // Obtenir i guardar les dades en localStorage per a la seua manipulació
   let productsLS = localStorage.getItem("products");
   let ProductData = productsLS ? JSON.parse(productsLS) : Product;
   if (!productsLS) localStorage.setItem("products", JSON.stringify(ProductData));
@@ -11,7 +11,6 @@ const container = document.getElementById("productList");
   let ProductimageData = productImagesLS ? JSON.parse(productImagesLS) : Productimage;
   if (!productImagesLS) localStorage.setItem("productImages", JSON.stringify(ProductimageData));
 
-  // Carregar les families en el select
   let familiesLS = localStorage.getItem("families");
   let FamilyData = familiesLS ? JSON.parse(familiesLS) : Family;
   if (!familiesLS) localStorage.setItem("families", JSON.stringify(FamilyData));
@@ -24,43 +23,36 @@ const container = document.getElementById("productList");
   let ProductSaleData = productSalesLS ? JSON.parse(productSalesLS) : ProductSale;
   if (!productSalesLS) localStorage.setItem("productSales", JSON.stringify(ProductSaleData));
 
-
-
-// Función para mostrar productos
+// Funció per a mostrar productes
 function mostrarProductos(productosFiltrados) {
-  container.replaceChildren(); // limpia el contenedor
+  // Netejar el contenidor
+  container.replaceChildren();
 
+  // Recórrer cada producte filtrat
   productosFiltrados.forEach(product => {
-    // Contenedor del producto
+    // Contenidor del producte
     const div = document.createElement("div");
-    div.style.width = "100%";
-    div.style.maxWidth = "500px";
-    div.style.height = "auto";
-    div.style.border = "1px solid #ccc";
-    div.style.padding = "10px";
-    div.style.margin = "10px";
+    div.className = "product-card";
 
-
-    // Nombre
+    // Nom del producte
     const h2 = document.createElement("h2");
-    h2.textContent = product.name;
+    h2.className = "product-card-title";
+    h2.appendChild(document.createTextNode(product.name));
     div.appendChild(h2);
 
-    // Imagen
+    // Imatge del producte
     const productImg = ProductimageData.find(img => img.product_id === product.id);
     const img = document.createElement("img");
+    img.className = "product-card-image";
     img.src = productImg ? productImg.url : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
     img.alt = product.name;
-    img.style.width = "50%";
-    img.style.height = "auto";
-    img.style.borderRadius = "8px";
     div.appendChild(img);
 
 
-        // Preu i ofertes
+    // Preu i ofertes
     const now = new Date();
 
-    // Obtener los IDs de las ofertas asociadas a este producto
+    // Obtenir els IDs de les ofertes associades a este producte
     const saleIds = [];
     ProductSaleData.forEach(ps => {
       if (ps.product_id === product.id) {
@@ -68,68 +60,61 @@ function mostrarProductos(productosFiltrados) {
       }
     });
 
-    // Filtrar las ofertas activas según la fecha
+  // Filtrar les ofertes actives segons la data
   const oPrice = SaleData.filter(s => 
   saleIds.includes(s.id) &&
   new Date(s.start_date) <= now &&
   now <= new Date(s.end_date)
   );
 
-  // Crear elemento para mostrar el precio
   const pPrice = document.createElement("p");
-  pPrice.style.fontWeight = "bold";
-  pPrice.style.fontSize = "1.2rem";
+  pPrice.className = "product-card-price";
 
-  // Mostrar precio con descuento si hay oferta activa
+  // Mostrar preu amb descompte si hi ha oferta activa
   if(oPrice.length > 0){
-    const oferta = oPrice[0]; // Tomamos la primera oferta activa
+    const oferta = oPrice[0]; 
     const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.textContent = `Precio: ${priceWithDiscount.toFixed(2)}$ - ${oferta.discount_percent}% (${oferta.description})`;
-    pPrice.style.color = "red";
+    pPrice.classList.add("product-card-price-discount");
+    pPrice.appendChild(document.createTextNode(`Precio: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
   } else {
-    pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
-    pPrice.style.color = "black";
+    pPrice.classList.add("product-card-price-normal");
+    pPrice.appendChild(document.createTextNode(`Precio: ${product.price.toFixed(2)} €`));
   }
 
-  // Añadir el precio al div principal
   div.appendChild(pPrice);
 
-    // Descripción
+    // Descripció del producte
     const pDesc = document.createElement("p");
-    pDesc.textContent = product.description;
-    pDesc.style.marginTop = "0.5rem";
+    pDesc.className = "product-card-description";
+    pDesc.appendChild(document.createTextNode(product.description));
     div.appendChild(pDesc);
 
-
-    // Enlace al detalle
+    // Botó per a veure el producte
     const aVer = document.createElement("button");
-    aVer.textContent = "Ver producto";
-    aVer.style.marginTop = "0.5rem";
-    aVer.style.width= "120px";
+    aVer.className = "btn-view-product";
+    aVer.appendChild(document.createTextNode("Veure producte"));
     aVer.onclick = () => {
       window.location.href = `product.html?id=${product.id}`;
     };
-    aVer.style.marginRight = "10px";
     div.appendChild(aVer);
 
-    //Boton para añadir al carrito
+    // Botó per a afegir al carret
     const aCar = document.createElement("button");
-    aCar.textContent = "Añadir al carrito";
-    aCar.style.width= "120px";
+    aCar.className = "btn-add-to-cart";
+    aCar.appendChild(document.createTextNode("Afexir al carret"));
     div.appendChild(aCar);
 
     const hr = document.createElement("hr");
     div.appendChild(hr);
 
-    // Añadir el producto al contenedor principal
     container.appendChild(div);
   });
 }
 
-// Mostrar todos al inicio
+// Mostrar tots els productes a l'inici
 mostrarProductos(ProductData);
 
-// Filtrar por familia
+// Filtrar per familia quan canvie el select
 selectFamilia.addEventListener("change", function() {
   const familiaId = parseInt(this.value);
   if (isNaN(familiaId)) {

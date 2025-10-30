@@ -1,10 +1,10 @@
-// Esperar a que el DOM esté cargado
 document.addEventListener("DOMContentLoaded", () => {
+  // Obtenir els paràmetres de la URL
   const params = new URLSearchParams(window.location.search);
-  const productId = parseInt(params.get("id")); // Obtener ID de la URL
+  const productId = parseInt(params.get("id")); // Obtenir l'ID de la URL
   const container = document.getElementById("productDetail");
 
-  //Obtindre les dades i guardes en localStorage per a la seua manipulacio
+  // Obtenir i guardar les dades en localStorage per a la seua manipulació
   let productsLS = localStorage.getItem("products");
   let ProductData = productsLS ? JSON.parse(productsLS) : Product;
   if (!productsLS) localStorage.setItem("products", JSON.stringify(ProductData));
@@ -29,49 +29,36 @@ document.addEventListener("DOMContentLoaded", () => {
   let ProductattributeData = productAttributesLS ? JSON.parse(productAttributesLS) : Productattribute;
   if (!productAttributesLS) localStorage.setItem("productAttributes", JSON.stringify(ProductattributeData));
 
-
-
-
-  // Buscar el producto con ese ID
+  // Buscar el producte amb eixe ID
   const product = ProductData.find(p => p.id === productId);
 
+  // Si no existeix el producte, mostrar missatge d'error
   if (!product) {
-    container.textContent = "Producto no encontrado ";
+    const errorMsg = document.createElement("p");
+    errorMsg.className = "error-message";
+    errorMsg.appendChild(document.createTextNode("Producte no trobat"));
+    container.appendChild(errorMsg);
     return;
   }
 
-  // Crear estructura del detalle
   const div = document.createElement("div");
-  div.style.maxWidth = "600px";
-  div.style.margin = "20px auto";
-  div.style.padding = "20px";
-  div.style.border = "1px solid #ccc";
-  div.style.borderRadius = "8px";
-  div.style.boxShadow = "0 2px 6px rgba(0,0,0,0.1)";
+  div.className = "product-detail-container";
 
-  // Nombre
+  // Nom del producte
   const h2 = document.createElement("h2");
-  h2.textContent = product.name;
-  div.style.textAlign = "center"
+  h2.className = "product-title";
+  h2.appendChild(document.createTextNode(product.name));
   div.appendChild(h2);
 
-  //Imagen i carrusel para poder pasar las imagenes
-  const productImg = ProductData.filter(img => img.product_id === product.id);
+  // Imatges i carrusel per a poder passar les imatges
+  const productImg = ProductimageData.filter(img => img.product_id === product.id);
   let imgActual = 0;
   const carrusel = document.createElement("div");
-  carrusel.style.display = "flex";
-  carrusel.style.flexDirection = "column";
-  carrusel.style.alignItems = "center";
-  carrusel.style.position = "relative";
-  carrusel.style.maxWidth = "500px";
-  carrusel.style.margin = "0 auto";
+  carrusel.className = "carousel-container";
 
   const img = document.createElement("img");
-  img.style.width = "100%";
-  img.style.height = "auto";
-  img.style.objectFit = "cover";
+  img.className = "carousel-image";
 
-  //Logica para el carrusel
   if(productImg.length > 0){
     img.src = productImg[imgActual].url;
   }else {
@@ -79,28 +66,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   carrusel.appendChild(img);
 
-  // Crear botones de navegación
+  // Crear botons de navegació del carrusel
   const btnAnt = document.createElement("button");
-  btnAnt.textContent = "<-";
-  btnAnt.style.position = "absolute";
-  btnAnt.style.left = "10px";
-  btnAnt.style.top = "50%";
-  btnAnt.style.fontSize = "24px";
-  btnAnt.style.background = "rgba(255, 255, 255, 1)";
-  btnAnt.style.border = "none";
-  btnAnt.style.cursor = "pointer";
+  btnAnt.className = "carousel-btn carousel-btn-prev";
+  btnAnt.appendChild(document.createTextNode("<-"));
 
   const btnSeg = document.createElement("button");
-  btnSeg.textContent = "->";
-  btnSeg.style.position = "absolute";
-  btnSeg.style.right = "10px";
-  btnSeg.style.top = "50%";
-  btnSeg.style.fontSize = "24px";
-  btnSeg.style.background = "rgba(255, 255, 255, 1)";
-  btnSeg.style.border = "none";
-  btnSeg.style.cursor = "pointer";
+  btnSeg.className = "carousel-btn carousel-btn-next";
+  btnSeg.appendChild(document.createTextNode("->"));
 
-  // Funciones para cambiar de imagen
+  // Funcions per a canviar d'imatge
   btnAnt.onclick = () => {
     if (productImg.length === 0) return;
     imgActual = (imgActual - 1 + productImg.length) % productImg.length;
@@ -113,18 +88,18 @@ document.addEventListener("DOMContentLoaded", () => {
     img.src = productImg[imgActual].url;
   };
 
-  // Añadir botones al carrusel
+  // Posar els botons al carrusel
   carrusel.appendChild(btnAnt);
   carrusel.appendChild(btnSeg);
 
-  // Añadir carrusel al div principal
+  // Afegir carrusel al div principal
   div.appendChild(carrusel);
 
-  
-    // Preu i ofertes
+
+  // Preu i ofertes
   const now = new Date();
 
-  // Obtener los IDs de las ofertas asociadas a este producto
+  // Obtenir els IDs de les ofertes associades a este producte
   const saleIds = [];
   ProductSaleData.forEach(ps => {
     if (ps.product_id === product.id) {
@@ -132,99 +107,90 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Filtrar las ofertas activas según la fecha
+  // Filtrar les ofertes actives segons la data
   const oPrice = SaleData.filter(s => 
     saleIds.includes(s.id) &&
     new Date(s.start_date) <= now &&
     now <= new Date(s.end_date)
   );
 
-  // Crear elemento para mostrar el precio
+  // Crear element per a mostrar el preu
   const pPrice = document.createElement("p");
-  pPrice.style.fontWeight = "bold";
-  pPrice.style.fontSize = "1.2rem";
+  pPrice.className = "product-price";
 
-  // Mostrar precio con descuento si hay oferta activa
+  // Mostrar preu amb descompte si hi ha oferta activa
   if(oPrice.length > 0){
-    const oferta = oPrice[0]; // Tomamos la primera oferta activa
+    const oferta = oPrice[0]; // Agafem la primera oferta activa
     const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.textContent = `Precio: ${priceWithDiscount.toFixed(2)}$ - ${oferta.discount_percent}% (${oferta.description})`;
-    pPrice.style.color = "red";
+    pPrice.classList.add("product-price-discount");
+    pPrice.appendChild(document.createTextNode(`Preu: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
   } else {
-    pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
-    pPrice.style.color = "black";
+    pPrice.classList.add("product-price-normal");
+    pPrice.appendChild(document.createTextNode(`Preu: ${product.price.toFixed(2)} €`));
   }
 
-  // Añadir el precio al div principal
+  // Afegir el preu al div principal
   div.appendChild(pPrice);
 
-  
-
-  // Atributos
+  // Atributs del producte
   const atributosFamilia = AttributeData.filter(a => a.family_id === product.family_id);
   if (atributosFamilia.length > 0) {
-  const h4 = document.createElement("h4");
-  h4.textContent = "Atributos:";
-  h4.style.textAlign = "left";
-  div.appendChild(h4);
+    const h4 = document.createElement("h4");
+    h4.className = "attributes-title";
+    h4.appendChild(document.createTextNode("Atributs:"));
+    div.appendChild(h4);
 
-  const ul = document.createElement("ul");
-  ul.style.listStyle = "none";
-  ul.style.padding = "0";
-  ul.style.margin = "0";
+    const ul = document.createElement("ul");
+    ul.className = "attributes-list";
 
-  atributosFamilia.forEach(attr => {
-    // Buscar el valor del atributo
-    const valor = ProductattributeData.find(
-      pAttri => pAttri.product_id === product.id && pAttri.attribute_id === attr.id
-    );
+    atributosFamilia.forEach(attr => {
+      // Buscar el valor de l'atribut
+      const valor = ProductattributeData.find(
+        pAttri => pAttri.product_id === product.id && pAttri.attribute_id === attr.id
+      );
 
-    //Crear elementos
-    const li = document.createElement("li");
-    li.style.textAlign = "left";
-    li.style.marginBottom = "4px";
+      const li = document.createElement("li");
+      li.className = "attribute-item";
 
-    //Mostramos el valor si existe, si no solo mostramos el atributo
-    if (valor) {
-      li.textContent = `${attr.name}: ${valor.value}`;
-    } else {
-      li.textContent = `${attr.name}: -`;
-    }
+      // Mostrem el valor si existeix, si no només mostrem l'atribut
+      if (valor) {
+        li.appendChild(document.createTextNode(`${attr.name}: ${valor.value}`));
+      } else {
+        li.appendChild(document.createTextNode(`${attr.name}: -`));
+      }
 
-    ul.appendChild(li);
-  });
+      ul.appendChild(li);
+    });
 
-  div.appendChild(ul);
-}
+    div.appendChild(ul);
+  }
 
-    
-
-  // Descripción
+  // Descripció del producte
   const tDesc = document.createElement("h4");
-  tDesc.textContent = "Descripción:";
-  tDesc.style.marginTop = "1rem";
-  tDesc.style.textAlign = "left";
+  tDesc.className = "description-title";
+  tDesc.appendChild(document.createTextNode("Descripcio:"));
   div.appendChild(tDesc);
 
   const pDesc = document.createElement("p");
-  pDesc.textContent = product.description;
-  pDesc.style.textAlign = "left";
+  pDesc.className = "description-text";
+  pDesc.appendChild(document.createTextNode(product.description));
   div.appendChild(pDesc);
 
-  // Botón para añadir al carrito
+  // Botó per a afegir al carret
   const btn = document.createElement("button");
-  btn.textContent = " Afegir al carret";
-  btn.style.marginTop = "1rem";
-  btn.style.marginRight= "1rem";
+  btn.className = "btn-add-cart";
+  btn.appendChild(document.createTextNode("Afegir al carret"));
   div.appendChild(btn);
 
-  //Boton para volver a la home
+  // Botó per a tornar a la pàgina principal
   const btnVol = document.createElement("button");
-  btnVol.textContent = "Tornar a la pagina principal";
+  btnVol.className = "btn-back-home";
+  btnVol.appendChild(document.createTextNode("Tornar a la pagina principal"));
   btnVol.onclick = () => {
-  window.location.href = "home.html";
+    window.location.href = "home.html";
   };
   div.appendChild(btnVol);
   
+  // Afegir tot al contenidor principal
   container.appendChild(div);
 });
