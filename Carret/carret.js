@@ -112,81 +112,20 @@ function mostrarInfoCliente() {
 }
 
 // Función para mostrar un formulario simple de login simulado
-function mostrarFormularioLogin(onLoginSuccess = null) {
-    // Crear un div para el formulario
-    const formDiv = document.createElement('div');
-    formDiv.style.textAlign = 'center';
-
-    const input = document.createElement('input');
-    input.type = 'number';
-    input.min = '1';
-    input.max = '5';
-    input.value = '1';
-    input.style.cssText = 'padding: 5px; margin: 10px 0; width: 100px; text-align: center;';
-    formDiv.appendChild(input);
-
-    // Mostrar el modal con el input
-    let modalOverlay = document.getElementById('modalOverlay');
-    if (!modalOverlay) {
-        modalOverlay = document.createElement('div');
-        modalOverlay.id = 'modalOverlay';
-        modalOverlay.className = 'modal-overlay';
-        document.body.appendChild(modalOverlay);
-    }
-
-    const modalContent = document.createElement('div');
-    modalContent.className = 'modal';
-
-    const title = document.createElement('h3');
-    title.style.marginBottom = '15px';
-    title.appendChild(document.createTextNode('Introdueix l\'ID del client (1-5)'));
-    modalContent.appendChild(title);
-
-    modalContent.appendChild(formDiv);
-
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '10px';
-    buttonContainer.style.justifyContent = 'center';
-    buttonContainer.style.marginTop = '15px';
-
-    const acceptButton = document.createElement('button');
-    acceptButton.className = 'modal-button';
-    acceptButton.appendChild(document.createTextNode('Acceptar'));
-    acceptButton.onclick = () => {
-        const clienteIdInput = input.value;
-        modalOverlay.style.display = 'none';
-        
-        if (clienteIdInput && !isNaN(clienteIdInput)) {
-            const id = parseInt(clienteIdInput);
-            if (typeof Client !== 'undefined') {
-                const cliente = Client.find(c => c.id === id);
-                if (cliente) {
-                    simularLogin(id);
-                } else {
-                    showModal('Client no trobat');
-                }
+function mostrarFormularioLogin() {
+    const clienteIdInput = prompt('Introdueix l\'ID del client (1-5):', '1');
+    
+    if (clienteIdInput && !isNaN(clienteIdInput)) {
+        const id = parseInt(clienteIdInput);
+        if (typeof Client !== 'undefined') {
+            const cliente = Client.find(c => c.id === id);
+            if (cliente) {
+                simularLogin(id);
+            } else {
+                showModal('client no trobat');
             }
         }
-    };
-    buttonContainer.appendChild(acceptButton);
-
-    const cancelButton = document.createElement('button');
-    cancelButton.className = 'modal-button modal-button-cancel';
-    cancelButton.appendChild(document.createTextNode('Cancel·lar'));
-    cancelButton.onclick = () => {
-        modalOverlay.style.display = 'none';
-    };
-    buttonContainer.appendChild(cancelButton);
-
-    modalContent.appendChild(buttonContainer);
-
-    modalOverlay.textContent = '';
-    modalOverlay.appendChild(modalContent);
-    modalOverlay.style.display = 'flex';
-
-    // Enfocar el input
-    input.focus();
+    }
 }
 
 // Función principal para mostrar el carrito y gestionar las acciones
@@ -352,36 +291,11 @@ function finalitzarComanda() {
     const clienteId = localStorage.getItem('clienteId');
     
     if (!clienteId) {
-        // Mostrar mensaje más detallado y preguntar si quiere hacer login
-        showModal(
-            'Has d\'iniciar sessió per finalitzar la compra.\n\n' +
-            'Vols iniciar sessió ara?',
-            () => {
-                // Este código se ejecutará cuando el usuario pulse Acceptar
-                mostrarFormularioLogin(() => {
-                    // Este código se ejecutará después de un login exitoso
-                    procesarFinalizacionCompra();
-                });
-            },
-            true // Mostrar botón de Cancel·lar
-        );
-        return;
-    }
-
-    // Si ya hay un cliente logueado, proceder directamente
-    procesarFinalizacionCompra();
+    showModal('Has d\'iniciar sessió per finalitzar la compra.');
+    return; // Deté la funció i es manté a la pàgina
 }
 
-// Función auxiliar para procesar la finalización de la compra
-function procesarFinalizacionCompra() {
-    const carret = JSON.parse(localStorage.getItem('carret')) || [];
-    const clienteId = localStorage.getItem('clienteId');
-
-    // Verificar que seguimos teniendo un cliente y productos
-    if (!clienteId || !carret.length) {
-        return;
-    }
-
+    // Si llegamos aquí, el usuario está logueado
     // Calcular total
     const total = carret.reduce((sum, p) => sum + (p.price * p.quantity), 0);
     
@@ -413,14 +327,12 @@ function procesarFinalizacionCompra() {
     // Vaciar el carrito
     localStorage.removeItem('carret');
 
-    // Mostrar mensaje de éxito y luego redirigir
-    showModal('Comanda processada correctament!', () => {
-        window.location.href = 'finalitzar.html';
-    });
+    // Redirigir a la página de confirmación
+    window.location.href = 'finalitzar.html';
 }
 
 // Función para mostrar el modal
-function showModal(message, onAccept = null, showCancel = false) {
+function showModal(message, onClose = null) {
     // Crear o reutilizar el overlay del modal
     let modalOverlay = document.getElementById('modalOverlay');
     if (!modalOverlay) {
@@ -439,35 +351,14 @@ function showModal(message, onAccept = null, showCancel = false) {
     messageP.appendChild(document.createTextNode(message));
     modalContent.appendChild(messageP);
 
-    // Contenedor para los botones
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '10px';
-    buttonContainer.style.justifyContent = 'center';
-    buttonContainer.style.marginTop = '15px';
-
-    // Botón Acceptar
-    const acceptButton = document.createElement('button');
-    acceptButton.className = 'modal-button';
-    acceptButton.appendChild(document.createTextNode('Acceptar'));
-    acceptButton.onclick = () => {
+    const closeButton = document.createElement('button');
+    closeButton.className = 'modal-button';
+    closeButton.appendChild(document.createTextNode('Acceptar'));
+    closeButton.onclick = () => {
         modalOverlay.style.display = 'none';
-        if (onAccept) onAccept();
+        if (onClose) onClose();
     };
-    buttonContainer.appendChild(acceptButton);
-
-    // Botón Cancel·lar (opcional)
-    if (showCancel) {
-        const cancelButton = document.createElement('button');
-        cancelButton.className = 'modal-button modal-button-cancel';
-        cancelButton.appendChild(document.createTextNode('Cancel·lar'));
-        cancelButton.onclick = () => {
-            modalOverlay.style.display = 'none';
-        };
-        buttonContainer.appendChild(cancelButton);
-    }
-
-    modalContent.appendChild(buttonContainer);
+    modalContent.appendChild(closeButton);
 
     // Limpiar y mostrar el modal
     modalOverlay.textContent = '';
