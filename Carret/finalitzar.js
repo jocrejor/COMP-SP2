@@ -39,8 +39,6 @@ function mostrarInfoCliente() {
         clientInfoDiv.appendChild(p2);
         clientInfoDiv.appendChild(p3);
     } else {
-        clientInfoDiv.style.background = '#fff3cd';
-        h3.style.color = '#856404';
         h3.textContent = 'Sessió anònima';
         p1.textContent = `ID: ${sesion ? sesion.carretId : 'N/A'}`;
         
@@ -51,7 +49,6 @@ function mostrarInfoCliente() {
 
 function mostrarResumenCompra() {
     const comandaStr = localStorage.getItem('ultimaComanda');
-    console.log('Comanda recuperada:', comandaStr); // Debug
     
     if (!comandaStr) {
         const container = document.querySelector('.container');
@@ -80,7 +77,6 @@ function mostrarResumenCompra() {
     }
 
     const comanda = JSON.parse(comandaStr);
-    console.log('Comanda parseada:', comanda); // Debug
 
     document.getElementById('numComanda').textContent = comanda.numeroComanda || 'N/A';
     
@@ -97,7 +93,6 @@ function mostrarResumenCompra() {
     document.getElementById('numProductes').textContent = totalProductes;
     document.getElementById('totalComanda').textContent = comanda.total.toFixed(2) + ' €';
 
-    // Mostrar lista de productos
     const productsListDiv = document.getElementById('productsList');
     productsListDiv.textContent = '';
 

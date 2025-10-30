@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="va">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,34 +11,43 @@
 </head>
 
 <body>
-    
+
+    <div style="margin-top: 15px;">
+        <button onclick="simularLogin(1)">Login Jose</button>
+        <button onclick="simularLogin(2)">Login Alejandro</button>
+        <button onclick="cerrarSesion()">Tancar sessió</button>
+    </div>
 
     <main>
         <h1>El teu carret de compra</h1>
-        
+
         <div id="infoClient">
             <!-- Informació del client ací -->
         </div>
 
         <div id="carretBuit">
             <p>El teu carret està buit</p>
-            <a href="listarproductes.html">Continua comprant</a>
+            <button id="btnSeguirComprant" onclick="window.location.href = 'listarproductes.html'">Seguir
+                    comprant</button>
         </div>
 
         <div id="contingutCarret">
             <div id="elementsCarret">
                 <!-- Els productes del carret ací -->
             </div>
-            
+
             <div>
                 <h2>Resum de la comanda</h2>
                 <p>Total: <span id="total">0,00 €</span></p>
-                
-                <button id="btnFinalitzar" onclick= "window.location.href = 'finalitzar.html'" >Finalitzar comanda</button>
-                <button id="btnSeguirComprant" onclick= "window.location.href = 'listarproductes.html'" >Seguir comprant</button>
+
+                <button id="btnFinalitzar" onclick="window.location.href = 'finalitzar.html'">Finalitzar
+                    comanda</button>
+                <button id="btnSeguirComprant" onclick="window.location.href = 'listarproductes.html'">Seguir
+                    comprant</button>
             </div>
         </div>
     </main>
 
 </body>
+
 </html>

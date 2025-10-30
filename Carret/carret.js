@@ -5,12 +5,11 @@ function obtenerOCrearSesion() {
     if (!sesion) {
         // Crear nueva sesión con ID de carrito único
         sesion = {
-            carretId: 'carret_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+            carretId: 'carret_' + Date.now(),
             fecha: new Date().toISOString()
         };
         localStorage.setItem('sesion', JSON.stringify(sesion));
     }
-    
     return sesion;
 }
 
@@ -229,14 +228,14 @@ function eliminar(index) {
     mostrarCarret(); // Se actualiza la vista del carrito
 }
 
-// Función extra: Simular login de un cliente (para pruebas)
+//Simular login de un cliente (para pruebas)
 function simularLogin(clienteId) {
     localStorage.setItem('clienteId', clienteId);
     mostrarInfoCliente();
     alert('Login simulat per al client ID: ' + clienteId);
 }
 
-// Función extra: Cerrar sesión
+//Cerrar sesión
 function cerrarSesion() {
     localStorage.removeItem('clienteId');
     mostrarInfoCliente();
