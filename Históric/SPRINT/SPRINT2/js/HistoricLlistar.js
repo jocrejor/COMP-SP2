@@ -53,18 +53,28 @@ function main() {
             //Buscar el nom de client segons el nº de id de Client
             const clientNom = clients.find(c => c.id == registre.client_id) || null;
 
-            //Cel·la de Client -> mostrar el nom en lloc del nº
+            //Cel·la de Client -> mostrar el nom+cognom en lloc del nº
             const linkClient = document.createElement("a");
             linkClient.href = `extra/Visualitzar_Client.html?id=${registre.client_id}`;
             linkClient.textContent = (clientNom ? clientNom.name : "Desconegut") + " " +
                 (clientNom ? clientNom.surname : "") + " →"; //Nom i cognom + fletxa
 
+            //link del comparador 
+            const linkComparador = document.createElement("a");
+            linkComparador.href = `extra/Visualitzar_Comparador.html?id=${registre.comparator_id}`;
+            linkComparador.textContent = registre.comparator_id ? `${registre.comparator_id}` : "-";
+
+            //link del fav 
+            const linkFavorit = document.createElement("a");
+            linkFavorit.href = `extra/Visualitzar_Favorit.html?id=${registre.favorite_id}`;
+            linkFavorit.textContent = registre.favorite_id ? `${registre.favorite_id}` : "-";
+
             const camps = [
                 registre.session_id,
                 registre.user_agent,
                 linkClient,
-                registre.comparator_id,
-                registre.favorite_id,
+                linkComparador,
+                linkFavorit,
                 registre.date_start,
                 registre.date_end,
             ];
