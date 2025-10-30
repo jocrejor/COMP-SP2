@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", main);
 function main() {
     const id = obtenerIdDeUrl();
     if (!id) {
-        alert("ID de producto no especificado.");
+        alert("ID de producte no especificat.");
         window.location.href = "index.html";
         return;
     }
@@ -22,7 +22,7 @@ function main() {
         window.location.href = "index.html";
     });
 
-    // Agregar validación en tiempo real
+    // Afegir validació en temps real
     agregarValidacionEnTiempoReal(id);
 }
 
@@ -42,13 +42,13 @@ function cargarFamilias() {
     const select = document.getElementById("family_id");
     const familias = obtenerFamilias();
 
-    // Limpiar opciones existentes
+    // Netejar opcions existents
     select.innerHTML = '';
 
-    // Agregar opción por defecto
+    // Afegir opció per defecte
     const defaultOption = document.createElement("option");
     defaultOption.value = "";
-    defaultOption.textContent = "Selecciona una familia";
+    defaultOption.textContent = "Selecciona una família";
     defaultOption.disabled = true;
     select.appendChild(defaultOption);
 
@@ -76,7 +76,7 @@ function cargarProducto(id) {
     }
 
     if (!producto) {
-        alert("Producto no encontrado.");
+        alert("Producte no trobat.");
         window.location.href = "index.html";
         return;
     }
@@ -93,53 +93,53 @@ function agregarValidacionEnTiempoReal(productoId) {
     const descriptionInput = document.getElementById("description");
     const familySelect = document.getElementById("family_id");
 
-    // Validar nombre
+    // Validar nom
     nameInput.addEventListener("blur", function () {
         const name = this.value.trim();
         if (name === "") {
-            mostrarError(this, "El nombre es obligatorio");
+            mostrarError(this, "El nom és obligatori");
         } else if (name.length < 2) {
-            mostrarError(this, "El nombre debe tener al menos 2 caracteres");
+            mostrarError(this, "El nom ha de tenir almenys 2 caràcters");
         } else if (name.length > 100) {
-            mostrarError(this, "El nombre no puede tener más de 100 caracteres");
+            mostrarError(this, "El nom no pot tenir més de 100 caràcters");
         } else if (existeProductoConNombre(name, productoId)) {
-            mostrarError(this, "Ya existe un producto con este nombre");
+            mostrarError(this, "Ja existeix un producte amb este nom");
         } else {
             limpiarError(this);
         }
     });
 
-    // Validar precio
+    // Validar preu
     priceInput.addEventListener("blur", function () {
         const price = parseFloat(this.value);
         if (isNaN(price)) {
-            mostrarError(this, "El precio debe ser un número válido");
+            mostrarError(this, "El preu ha de ser un número vàlid");
         } else if (price < 0) {
-            mostrarError(this, "El precio no puede ser negativo");
+            mostrarError(this, "El preu no pot ser negatiu");
         } else if (price > 1000000) {
-            mostrarError(this, "El precio no puede ser mayor a 1,000,000");
+            mostrarError(this, "El preu no pot ser major a 1.000.000");
         } else {
             limpiarError(this);
         }
     });
 
-    // Validar descripción
+    // Validar descripció
     descriptionInput.addEventListener("blur", function () {
         const description = this.value.trim();
         if (description === "") {
-            mostrarError(this, "La descripción es obligatoria");
+            mostrarError(this, "La descripció és obligatòria");
         } else if (description.length > 500) {
-            mostrarError(this, "La descripción no puede tener más de 500 caracteres");
+            mostrarError(this, "La descripció no pot tenir més de 500 caràcters");
         } else {
             limpiarError(this);
         }
     });
 
-    // Validar familia
+    // Validar família
     familySelect.addEventListener("change", function () {
         const familyId = parseInt(this.value);
         if (isNaN(familyId)) {
-            mostrarError(this, "Debes seleccionar una familia válida");
+            mostrarError(this, "Has de seleccionar una família vàlida");
         } else {
             limpiarError(this);
         }
@@ -147,26 +147,26 @@ function agregarValidacionEnTiempoReal(productoId) {
 }
 
 function mostrarError(input, mensaje) {
-    // Limpiar error anterior
+    // Netejar error anterior
     limpiarError(input);
 
-    // Agregar clase de error
+    // Afegir classe d'error
     input.classList.add("error");
 
-    // Crear elemento de error
+    // Crear element d'error
     const errorElement = document.createElement("div");
     errorElement.className = "error-message";
     errorElement.textContent = mensaje;
 
-    // Insertar después del input
+    // Inserir després de l'input
     input.parentNode.insertBefore(errorElement, input.nextSibling);
 }
 
 function limpiarError(input) {
-    // Remover clase de error
+    // Eliminar classe d'error
     input.classList.remove("error");
 
-    // Remover mensaje de error si existe
+    // Eliminar missatge d'error si existeix
     const errorElement = input.parentNode.querySelector(".error-message");
     if (errorElement) {
         errorElement.remove();
@@ -189,44 +189,44 @@ function validarFormulario(productoId) {
 
     let esValido = true;
 
-    // Validar nombre
+    // Validar nom
     if (name === "") {
-        mostrarError(document.getElementById("name"), "El nombre es obligatorio");
+        mostrarError(document.getElementById("name"), "El nom és obligatori");
         esValido = false;
     } else if (name.length < 2) {
-        mostrarError(document.getElementById("name"), "El nombre debe tener al menos 2 caracteres");
+        mostrarError(document.getElementById("name"), "El nom ha de tenir almenys 2 caràcters");
         esValido = false;
     } else if (name.length > 100) {
-        mostrarError(document.getElementById("name"), "El nombre no puede tener más de 100 caracteres");
+        mostrarError(document.getElementById("name"), "El nom no pot tenir més de 100 caràcters");
         esValido = false;
     } else if (existeProductoConNombre(name, productoId)) {
-        mostrarError(document.getElementById("name"), "Ya existe un producto con este nombre");
+        mostrarError(document.getElementById("name"), "Ja existeix un producte amb este nom");
         esValido = false;
     }
 
-    // Validar precio
+    // Validar preu
     if (isNaN(price)) {
-        mostrarError(document.getElementById("price"), "El precio debe ser un número válido");
+        mostrarError(document.getElementById("price"), "El preu ha de ser un número vàlid");
         esValido = false;
     } else if (price < 0) {
-        mostrarError(document.getElementById("price"), "El precio no puede ser negativo");
+        mostrarError(document.getElementById("price"), "El preu no pot ser negatiu");
         esValido = false;
     } else if (price > 1000000) {
-        mostrarError(document.getElementById("price"), "El precio no puede ser mayor a 1,000,000");
+        mostrarError(document.getElementById("price"), "El preu no pot ser major a 1.000.000");
         esValido = false;
     }
 
     if (description === "") {
-        mostrarError(document.getElementById("description"), "La descripción es obligatoria");
+        mostrarError(document.getElementById("description"), "La descripció és obligatòria");
         esValido = false;
     } else if (description.length > 500) {
-        mostrarError(document.getElementById("description"), "La descripción no puede tener más de 500 caracteres");
+        mostrarError(document.getElementById("description"), "La descripció no pot tenir més de 500 caràcters");
         esValido = false;
     }
 
-    // Validar familia
+    // Validar família
     if (isNaN(familyId)) {
-        mostrarError(document.getElementById("family_id"), "Debes seleccionar una familia válida");
+        mostrarError(document.getElementById("family_id"), "Has de seleccionar una família vàlida");
         esValido = false;
     }
 
@@ -234,9 +234,9 @@ function validarFormulario(productoId) {
 }
 
 function guardarCambios(id) {
-    // Validar formulario
+    // Validar formulari
     if (!validarFormulario(id)) {
-        alert("Por favor, corrige los errores en el formulario");
+        alert("Per favor, corregeix els errors en el formulari");
         return;
     }
 
@@ -250,7 +250,7 @@ function guardarCambios(id) {
     }
 
     if (!producto) {
-        alert("Producto no encontrado.");
+        alert("Producte no trobat.");
         window.location.href = "index.html";
         return;
     }
@@ -260,13 +260,13 @@ function guardarCambios(id) {
     const description = document.getElementById("description").value.trim();
     const family_id = parseInt(document.getElementById("family_id").value);
 
-    // Actualizar el producto
+    // Actualitzar el producte
     producto.name = name;
     producto.price = price;
     producto.description = description;
     producto.family_id = family_id;
 
     guardarProductos(productos);
-    alert("Producto modificado correctamente");
+    alert("Producte modificat correctament");
     window.location.href = "index.html";
 }

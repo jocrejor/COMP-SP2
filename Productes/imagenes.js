@@ -85,7 +85,7 @@ function cargarImagenesProducto(id) {
         return;
     }
 
-    // Crear un contenedor grid centrado para las imágenes
+    // Crear un contenidor grid centrat per a les imatges
     const grid = document.createElement("div");
     grid.classList.add("grid-imagenes");
 
@@ -93,7 +93,7 @@ function cargarImagenesProducto(id) {
         const card = document.createElement("div");
         card.classList.add("card-imagen");
 
-        // Imagen
+        // Imatge
         const imagen = document.createElement("img");
         imagen.src = img.url;
         imagen.alt = img.name;
@@ -101,7 +101,7 @@ function cargarImagenesProducto(id) {
             this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZThlOGU4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYXRnZSBubyBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==';
         };
 
-        // Nombre
+        // Nom
         const nombre = document.createElement("p");
         nombre.textContent = `Nom: ${img.name}`;
         nombre.style.fontWeight = '500';
@@ -110,7 +110,7 @@ function cargarImagenesProducto(id) {
         const orden = document.createElement("p");
         orden.textContent = `Ordre: ${img.order}`;
 
-        // Botones
+        // Botons
         const botones = document.createElement("div");
         botones.classList.add("botones-card");
 
