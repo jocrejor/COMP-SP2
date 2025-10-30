@@ -2,17 +2,19 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Visualizar Pedido</title>
-    <script src="visualitzaComanada.js"></script>
-    <script src="../BBDD/TendaFakeDades.js"></script>
+    <title>Visualitzar Comanda</title>
     <link rel="stylesheet" href="styles.css">
 
+    <!-- ⚠️ Carrega PRIMER la base de dades -->
+    <script src="../BBDD/TendaFakeDades.js"></script>
+
+    <!-- Després el nostre script -->
+    <script src="visualitzaComanada.js" defer></script>
 </head>
 <body>
     <h2>Detall de la comanda</h2>
     <div id="detallePedido"></div>
     <br>
-    <button id="tornar">Tornar a la lista</button>
-
+    <button id="tornar">Tornar a la llista</button>
 </body>
 </html>

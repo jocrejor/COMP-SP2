@@ -6,24 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alta Comandes</title>
     <script src="../BBDD/TendaFakeDades.js"></script>
-    <script src="altaComanda.js"></script>
+    <script src="altaComanda.js" defer></script>
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
-
     <h1>Alta Comanda</h1>
-
-    <div id="missatgeError"></div>
 
     <form id="pedidoForm" novalidate>
         <table border="1" cellpadding="4" cellspacing="0">
             <tr>
-
                 <td><label for="datetime">Data i hora:</label></td>
                 <td><input type="datetime-local" id="datetime" name="datetime" required></td>
-
             </tr>
             <tr>
                 <td><label for="payment">Forma de Pagament:</label></td>
@@ -78,15 +72,15 @@
             </tbody>
         </table>
 
-        <div id="productesAfegits">
-            <h4>Productes a afegint-se</h4>
-        </div>
+        <div id="productesAfegits"></div>
+
+        <br>
+        <div id="missatgeError"></div>
 
         <br>
         <button type="submit">Guardar Comanda</button>
         <button type="button" id="llista">Llista Comandes</button>
     </form>
-
 </body>
 
 </html>

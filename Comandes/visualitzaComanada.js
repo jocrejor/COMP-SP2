@@ -1,111 +1,172 @@
-// Assegurar que tot s'executa després de carregar el DOM
+//  EXECUTAR TOT QUAN EL DOM ESTIGUI CARREGAT 
 document.addEventListener("DOMContentLoaded", main);
 
-// FUNCIÓ PRINCIPAL MAIN
 function main() {
-  mostrarComanda(); // Mostrar la comanda seleccionada
+    // Mostrem tota la informació de la comanda seleccionada
+    mostrarComanda();
 
-  // Configurar el botó "Tornar" per anar a la llista de comandes
-  let botoTornar = document.getElementById("tornar");
-  if (botoTornar) {
-    botoTornar.addEventListener("click", () => {
-      window.location.href = "comandesLlistar.html";
+    //  BOTÓ "TORNAR" 
+    let botoTornar = document.getElementById("tornar");
+    // Si existeix el botó, afegim event listener per tornar a la llista
+    botoTornar?.addEventListener("click", () => {
+        window.location.href = "comandesLlistar.html";
     });
-  }
 }
 
-// FUNCIÓ PRINCIPAL: MOSTRAR COMANDA
+/**
+ * Mostra tota la informació de la comanda seleccionada
+ */
 function mostrarComanda() {
-  let index = localStorage.getItem("comandaVisualitzar");
-  let detalleContainer = document.getElementById("detallePedido");
-  detalleContainer.replaceChildren(); // Netejar el contingut previ
+    // Recuperem l'índex de la comanda seleccionada del localStorage
+    let index = localStorage.getItem("comandaVisualitzar");
+    let detalleContainer = document.getElementById("detallePedido");
 
-  if (index === null) {
-    let p = document.createElement("p");
-    p.appendChild(document.createTextNode("No hi ha cap comanda seleccionada."));
-    detalleContainer.appendChild(p);
-    return;
-  }
+    // Neteja el contenidor abans de mostrar la informació
+    detalleContainer.replaceChildren();
 
-  let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
-  let comanda = comandes[index];
+    if (index === null) {
+        mostrarMissatge(detalleContainer, " No hi ha cap comanda seleccionada.");
+        return;
+    }
 
-  if (!comanda) {
-    let p = document.createElement("p");
-    p.appendChild(document.createTextNode("Comanda no trobada."));
-    detalleContainer.appendChild(p);
-    return;
-  }
+    // Recuperem totes les comandes del localStorage i seleccionem la corresponent
+    let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+    let comanda = comandes[index];
 
-  // Informació bàsica
-  let infoBàsica = [
-    { label: "Data", value: comanda.data },
-    { label: "Client", value: comanda.client },
-    { label: "Tipus de pagament", value: comanda.pagament },
-    { label: "Enviament", value: (+comanda.enviament || 0).toFixed(2) }
-  ];
+    if (!comanda) {
+        mostrarMissatge(detalleContainer, " Comanda no trobada.");
+        return;
+    }
 
-  infoBàsica.forEach(info => {
-    let p = document.createElement("p");
-    p.appendChild(document.createTextNode(`${info.label}: ${info.value || "N/A"}`));
-    detalleContainer.appendChild(p);
-  });
-
-  // Taula de productes
-  let taula = document.createElement("table");
-  taula.setAttribute("border", "1");
-  taula.setAttribute("cellpadding", "5");
-  taula.setAttribute("cellspacing", "0");
-
-  // Capçalera
-  let cap = document.createElement("tr");
-  ["Producte", "Quantitat", "Preu (€)", "Descompte (%)", "Subtotal (€)"].forEach(text => {
-    let th = document.createElement("th");
-    th.appendChild(document.createTextNode(text));
-    cap.appendChild(th);
-  });
-  taula.appendChild(cap);
-
-  // Files i total
-  let total = 0;
-  (comanda.productes || []).forEach(p => {
-    let fila = document.createElement("tr");
-    let subtotal = p.quantitat * p.preu * (1 - (p.descompte || 0) / 100);
-    total += subtotal;
-
-    let dades = [
-      p.producte,
-      p.quantitat,
-      p.preu.toFixed(2),
-      (p.descompte || 0).toFixed(2),
-      subtotal.toFixed(2)
+    //  INFORMACIÓ BÀSICA DE LA COMANDA 
+    let infoBàsica = [
+        { label: "Data", value: comanda.data || "N/A" },
+        { label: "Client", value: comanda.client || "N/A" },
+        { label: "Tipus de pagament", value: comanda.pagament || "N/A" },
+        { label: "Enviament (€)", value: (+comanda.enviament || 0).toFixed(2) }
     ];
 
-    dades.forEach(valor => {
-      let td = document.createElement("td");
-      td.appendChild(document.createTextNode(valor));
-      fila.appendChild(td);
+    // Creem paràgrafs per cada dada bàsica
+    infoBàsica.forEach(info => {
+        let p = document.createElement("p");
+        let textNode = document.createTextNode(info.label + ": " + info.value);
+        p.appendChild(textNode);
+        detalleContainer.appendChild(p);
     });
 
-    taula.appendChild(fila);
-  });
+    //  TAULA DE PRODUCTES 
+    let taula = document.createElement("table");
+    taula.border = "1";
+    taula.cellPadding = "5";
+    taula.cellSpacing = "0";
+    taula.style.borderCollapse = "collapse";
+    taula.style.marginTop = "10px";
 
-  total += +comanda.enviament || 0;
+    // Capçalera de la taula
+    let cap = document.createElement("tr");
+    ["Producte", "Quantitat", "Preu (€)", "Descompte (%)", "Subtotal (€)"].forEach(text => {
+        let th = document.createElement("th");
+        let textNode = document.createTextNode(text);
+        th.appendChild(textNode);
+        cap.appendChild(th);
+    });
+    taula.appendChild(cap);
 
-  // Fila total
-  let filaTotal = document.createElement("tr");
+    //  FILES DE PRODUCTES 
+    let total = 0;
+    let productes = comanda.productes || [];
 
-  let tdTotal = document.createElement("td");
-  tdTotal.setAttribute("colspan", "4");
-  tdTotal.style.textAlign = "right";
-  tdTotal.appendChild(document.createTextNode("Total:"));
+    if (productes.length === 0) {
+        // Mostrem fila buida si no hi ha productes
+        let filaBuida = document.createElement("tr");
+        let td = document.createElement("td");
+        td.colSpan = 5;
+        td.style.textAlign = "center";
+        td.appendChild(document.createTextNode("Cap producte a la comanda."));
+        filaBuida.appendChild(td);
+        taula.appendChild(filaBuida);
+    } else {
+        // Creem fila per cada producte
+        productes.forEach(p => {
+            let fila = document.createElement("tr");
 
-  let tdTotalValor = document.createElement("td");
-  tdTotalValor.appendChild(document.createTextNode(total.toFixed(2)));
+            // Obtenim el nom real del producte
+            let producteNom = obtenirNomProducte(p);
 
-  filaTotal.appendChild(tdTotal);
-  filaTotal.appendChild(tdTotalValor);
-  taula.appendChild(filaTotal);
+            let quantitat = +p.quantitat || 0;
+            let preu = +p.preu || 0;
+            let descompte = +p.descompte || 0;
 
-  detalleContainer.appendChild(taula);
+            let subtotal = quantitat * preu * (1 - descompte / 100);
+            total += subtotal;
+
+            // Dades de la fila
+            let dades = [
+                producteNom,
+                quantitat,
+                preu.toFixed(2),
+                descompte.toFixed(2),
+                subtotal.toFixed(2)
+            ];
+
+            dades.forEach(valor => {
+                let td = document.createElement("td");
+                td.appendChild(document.createTextNode(valor));
+                fila.appendChild(td);
+            });
+
+            taula.appendChild(fila);
+        });
+    }
+
+    //  TOTAL FINAL 
+    total += +comanda.enviament || 0;
+
+    let filaTotal = document.createElement("tr");
+
+    let tdTotal = document.createElement("td");
+    tdTotal.colSpan = 4;
+    tdTotal.style.textAlign = "right";
+    tdTotal.appendChild(document.createTextNode("Total amb enviament (€):"));
+
+    let tdValor = document.createElement("td");
+    tdValor.appendChild(document.createTextNode(total.toFixed(2)));
+
+    filaTotal.append(tdTotal, tdValor);
+    taula.appendChild(filaTotal);
+
+    // Afegim la taula al contenidor
+    detalleContainer.appendChild(taula);
+}
+
+/**
+ * Mostra un missatge simple dins d'un contenidor
+ */
+function mostrarMissatge(container, text) {
+    let p = document.createElement("p");
+    let textNode = document.createTextNode(text);
+    p.appendChild(textNode);
+    container.appendChild(p);
+}
+
+/**
+ * Retorna sempre el NOM del producte.
+ * Si el localStorage guarda un número, busca el nom a window.products.
+ */
+function obtenirNomProducte(p) {
+    // Si el camp "producte" ja és un nom (no numèric)
+    if (typeof p.producte === "string" && isNaN(p.producte)) {
+        return p.producte;
+    }
+
+    // Si tenim la llista global de productes carregada
+    if (window.products && Array.isArray(window.products)) {
+        let trobat = window.products.find(prod =>
+            Number(prod.id) === Number(p.producte) || Number(prod.id) === Number(p.id)
+        );
+        if (trobat) return trobat.name;
+    }
+
+    // Últim recurs si no es troba el nom
+    return "Nom no disponible";
 }
