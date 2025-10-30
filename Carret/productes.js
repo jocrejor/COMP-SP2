@@ -1,26 +1,35 @@
-document.addEventListener('DOMContentLoaded', () => {
-        mostrarProductes();
-});
+document.addEventListener('DOMContentLoaded', main)
 
+function main() {
+    mostrarProductes();
+
+    if (!localStorage.getItem('productes')) {
+        localStorage.setItem('productes', JSON.stringify(Product));
+    }
+}
 function mostrarProductes() {
     const container = document.getElementById('productes-container');
-    Product.forEach(p => {
+    const productes = JSON.parse(localStorage.getItem('productes'));
+    productes.forEach(p => {
         const div = document.createElement('div');
 
         const pName = document.createElement('p');
         const strong = document.createElement('strong');
-        strong.textContent = p.name;
+        const textName = document.createTextNode(p.name);
+        strong.appendChild(textName);
         pName.appendChild(strong);
         div.appendChild(pName);
 
         const pDesc = document.createElement('p');
-        pDesc.textContent = p.description;
+        const textDesc = document.createTextNode(p.description);
+        pDesc.appendChild(textDesc);
         div.appendChild(pDesc);
 
         const pPrice = document.createElement('p');
-        pPrice.textContent = `Preu: ${p.price.toFixed(2)} €`;
+        const textPrice = document.createTextNode(`Preu: ${p.price.toFixed(2)} €`);
+        pPrice.appendChild(textPrice);
         div.appendChild(pPrice);
-        
+
         // Buscar la imagen asociada usando la id del producto actual (p)
         const productImg = Productimage ? Productimage.find(img => img.product_id === p.id) : null;
         const img = document.createElement("img");
@@ -33,8 +42,9 @@ function mostrarProductes() {
         div.appendChild(document.createElement('br'));
 
         const btn = document.createElement('button');
-        btn.textContent = 'Afegir al carret';
-    btn.addEventListener('click', () => afegirAlCarret(p.id));
+        const textBtn = document.createTextNode('Afegir al carret');
+        btn.appendChild(textBtn);
+        btn.addEventListener('click', () => afegirAlCarret(p.id));
         div.appendChild(btn);
 
         div.appendChild(document.createElement('hr'));
@@ -44,8 +54,8 @@ function mostrarProductes() {
 }
 
 function afegirAlCarret(id) {
-    // Buscar el producto por id en el array Product
-    const producte =  Product ? Product.find(pr => pr.id === id) : null;
+    const productes = JSON.parse(localStorage.getItem('productes'));
+    const producte = productes ? productes.find(pr => pr.id === id) : null;
     if (!producte) {
         alert('Producte no trobat');
         return;
