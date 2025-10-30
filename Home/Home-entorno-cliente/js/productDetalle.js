@@ -4,8 +4,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const productId = parseInt(params.get("id")); // Obtener ID de la URL
   const container = document.getElementById("productDetail");
 
+  //Obtindre les dades i guardes en localStorage per a la seua manipulacio
+  let productsLS = localStorage.getItem("products");
+  let ProductData = productsLS ? JSON.parse(productsLS) : Product;
+  if (!productsLS) localStorage.setItem("products", JSON.stringify(ProductData));
+  
+  let productImagesLS = localStorage.getItem("productImages");
+  let ProductimageData = productImagesLS ? JSON.parse(productImagesLS) : Productimage;
+  if (!productImagesLS) localStorage.setItem("productImages", JSON.stringify(ProductimageData));
+
+  let salesLS = localStorage.getItem("sales");
+  let SaleData = salesLS ? JSON.parse(salesLS) : Sale;
+  if (!salesLS) localStorage.setItem("sales", JSON.stringify(SaleData));
+  
+  let productSalesLS = localStorage.getItem("productSales");
+  let ProductSaleData = productSalesLS ? JSON.parse(productSalesLS) : ProductSale;
+  if (!productSalesLS) localStorage.setItem("productSales", JSON.stringify(ProductSaleData));
+
+  let attributesLS = localStorage.getItem("attributes");
+  let AttributeData = attributesLS ? JSON.parse(attributesLS) : Attribute;
+  if (!attributesLS) localStorage.setItem("attributes", JSON.stringify(AttributeData));
+
+  let productAttributesLS = localStorage.getItem("productAttributes");
+  let ProductattributeData = productAttributesLS ? JSON.parse(productAttributesLS) : Productattribute;
+  if (!productAttributesLS) localStorage.setItem("productAttributes", JSON.stringify(ProductattributeData));
+
+
+
+
   // Buscar el producto con ese ID
-  const product = Product.find(p => p.id === productId);
+  const product = ProductData.find(p => p.id === productId);
 
   if (!product) {
     container.textContent = "Producto no encontrado ";
@@ -28,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   div.appendChild(h2);
 
   //Imagen i carrusel para poder pasar las imagenes
-  const productImg = Productimage.filter(img => img.product_id === product.id);
+  const productImg = ProductData.filter(img => img.product_id === product.id);
   let imgActual = 0;
   const carrusel = document.createElement("div");
   carrusel.style.display = "flex";
@@ -98,14 +126,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Obtener los IDs de las ofertas asociadas a este producto
   const saleIds = [];
-  ProductSale.forEach(ps => {
+  ProductSaleData.forEach(ps => {
     if (ps.product_id === product.id) {
       saleIds.push(ps.sale_id);
     }
   });
 
   // Filtrar las ofertas activas según la fecha
-  const oPrice = Sale.filter(s => 
+  const oPrice = SaleData.filter(s => 
     saleIds.includes(s.id) &&
     new Date(s.start_date) <= now &&
     now <= new Date(s.end_date)
@@ -133,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
 
   // Atributos
-  const atributosFamilia = Attribute.filter(a => a.family_id === product.family_id);
+  const atributosFamilia = AttributeData.filter(a => a.family_id === product.family_id);
   if (atributosFamilia.length > 0) {
   const h4 = document.createElement("h4");
   h4.textContent = "Atributos:";
@@ -147,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   atributosFamilia.forEach(attr => {
     // Buscar el valor del atributo
-    const valor = Productattribute.find(
+    const valor = ProductattributeData.find(
       pAttri => pAttri.product_id === product.id && pAttri.attribute_id === attr.id
     );
 
