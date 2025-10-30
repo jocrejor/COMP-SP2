@@ -138,7 +138,7 @@ button{
 
 /*Estilos productDetalle.js*/
 /* Contenedor principal del detalle */
-.product-detail-container {
+.contenidor-detall-producte {
   max-width: 600px;
   margin: 20px auto;
   padding: 20px;
@@ -149,12 +149,12 @@ button{
 }
 
 /* Título del producto */
-.product-title {
+.titol-producte {
   margin: 0 0 20px 0;
 }
 
 /* Carrusel de imágenes */
-.carousel-container {
+.contenidor-carrusel {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,14 +163,14 @@ button{
   margin: 0 auto 20px auto;
 }
 
-.carousel-image {
+.imatge-carrusel {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
 
 /* Botones del carrusel */
-.carousel-btn {
+.boto-carrusel {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -181,73 +181,73 @@ button{
   padding: 10px 15px;
 }
 
-.carousel-btn-prev {
+.boto-carrusel-anterior {
   left: 10px;
 }
 
-.carousel-btn-next {
+.boto-carrusel-seguent {
   right: 10px;
 }
 
 /* Precio */
-.product-price {
+.preu-producte {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 15px 0;
 }
 
-.product-price-discount {
+.preu-producte-descompte {
   color: red;
 }
 
-.product-price-normal {
+.preu-producte-normal {
   color: black;
 }
 
 /* Sección de atributos */
-.attributes-title {
+.titol-atributs {
   text-align: left;
   margin: 20px 0 10px 0;
 }
 
-.attributes-list {
+.llista-atributs {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.attribute-item {
+.item-atribut {
   text-align: left;
   margin-bottom: 4px;
 }
 
 /* Descripción */
-.description-title {
+.titol-descripcio {
   text-align: left;
   margin-top: 1rem;
   margin-bottom: 10px;
 }
 
-.description-text {
+.text-descripcio {
   text-align: left;
   line-height: 1.6;
 }
 
 /* Botones de acción */
-.btn-add-cart {
+.boto-afegir-carret {
   margin-top: 1rem;
   margin-right: 1rem;
   padding: 10px 20px;
   cursor: pointer;
 }
 
-.btn-back-home {
+.boto-tornar-inici {
   padding: 10px 20px;
   cursor: pointer;
 }
 
 /* Mensaje de error */
-.error-message {
+.missatge-error {
   text-align: center;
   color: #d32f2f;
   font-size: 1.2rem;
@@ -255,7 +255,7 @@ button{
 
 /*Estilos home.js*/
 /* Contenedor de producto en lista */
-.product-card {
+.targeta-producte {
   width: 100%;
   max-width: 500px;
   height: auto;
@@ -265,39 +265,39 @@ button{
 }
 
 /* Título del producto */
-.product-card-title {
+.titol-targeta-producte {
   margin: 0 0 10px 0;
 }
 
 /* Imagen del producto */
-.product-card-image {
+.imatge-targeta-producte {
   width: 50%;
   height: auto;
   border-radius: 8px;
 }
 
 /* Precio del producto */
-.product-card-price {
+.preu-targeta-producte {
   font-weight: bold;
   font-size: 1.2rem;
   margin: 10px 0;
 }
 
-.product-card-price-discount {
+.preu-targeta-producte-descompte {
   color: red;
 }
 
-.product-card-price-normal {
+.preu-targeta-producte-normal {
   color: black;
 }
 
 /* Descripción del producto */
-.product-card-description {
+.descripcio-targeta-producte {
   margin-top: 0.5rem;
 }
 
 /* Botón ver producto */
-.btn-view-product {
+.boto-veure-producte {
   margin-top: 0.5rem;
   margin-right: 10px;
   width: 120px;
@@ -306,13 +306,13 @@ button{
 }
 
 /* Botón añadir al carrito */
-.btn-add-to-cart {
+.boto-afegir-carret {
   width: 120px;
   padding: 8px;
   cursor: pointer;
 }
 
 /* Separador */
-.product-card hr {
+.targeta-producte hr {
   margin-top: 15px;
 }

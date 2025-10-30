@@ -35,18 +35,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Si no existeix el producte, mostrar missatge d'error
   if (!product) {
     const errorMsg = document.createElement("p");
-    errorMsg.className = "error-message";
+    errorMsg.className = "missatge-error";
     errorMsg.appendChild(document.createTextNode("Producte no trobat"));
     container.appendChild(errorMsg);
     return;
   }
 
   const div = document.createElement("div");
-  div.className = "product-detail-container";
+  div.className = "contenidor-detall-producte";
 
   // Nom del producte
   const h2 = document.createElement("h2");
-  h2.className = "product-title";
+  h2.className = "titol-producte";
   h2.appendChild(document.createTextNode(product.name));
   div.appendChild(h2);
 
@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const productImg = ProductimageData.filter(img => img.product_id === product.id);
   let imgActual = 0;
   const carrusel = document.createElement("div");
-  carrusel.className = "carousel-container";
+  carrusel.className = "contenidor-carrusel";
 
   const img = document.createElement("img");
-  img.className = "carousel-image";
+  img.className = "imatge-carrusel";
 
   if(productImg.length > 0){
     img.src = productImg[imgActual].url;
@@ -68,11 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Crear botons de navegació del carrusel
   const btnAnt = document.createElement("button");
-  btnAnt.className = "carousel-btn carousel-btn-prev";
+  btnAnt.className = "boto-carrusel boto-carrusel-anterior";
   btnAnt.appendChild(document.createTextNode("<-"));
 
   const btnSeg = document.createElement("button");
-  btnSeg.className = "carousel-btn carousel-btn-next";
+  btnSeg.className = "boto-carrusel boto-carrusel-seguent";
   btnSeg.appendChild(document.createTextNode("->"));
 
   // Funcions per a canviar d'imatge
@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Afegir carrusel al div principal
   div.appendChild(carrusel);
 
-
   // Preu i ofertes
   const now = new Date();
 
@@ -116,16 +115,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Crear element per a mostrar el preu
   const pPrice = document.createElement("p");
-  pPrice.className = "product-price";
+  pPrice.className = "preu-producte";
 
   // Mostrar preu amb descompte si hi ha oferta activa
   if(oPrice.length > 0){
     const oferta = oPrice[0]; // Agafem la primera oferta activa
     const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.classList.add("product-price-discount");
+    pPrice.classList.add("preu-producte-descompte");
     pPrice.appendChild(document.createTextNode(`Preu: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
   } else {
-    pPrice.classList.add("product-price-normal");
+    pPrice.classList.add("preu-producte-normal");
     pPrice.appendChild(document.createTextNode(`Preu: ${product.price.toFixed(2)} €`));
   }
 
@@ -136,12 +135,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const atributosFamilia = AttributeData.filter(a => a.family_id === product.family_id);
   if (atributosFamilia.length > 0) {
     const h4 = document.createElement("h4");
-    h4.className = "attributes-title";
+    h4.className = "titol-atributs";
     h4.appendChild(document.createTextNode("Atributs:"));
     div.appendChild(h4);
 
     const ul = document.createElement("ul");
-    ul.className = "attributes-list";
+    ul.className = "llista-atributs";
 
     atributosFamilia.forEach(attr => {
       // Buscar el valor de l'atribut
@@ -150,7 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       const li = document.createElement("li");
-      li.className = "attribute-item";
+      li.className = "item-atribut";
 
       // Mostrem el valor si existeix, si no només mostrem l'atribut
       if (valor) {
@@ -167,24 +166,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Descripció del producte
   const tDesc = document.createElement("h4");
-  tDesc.className = "description-title";
+  tDesc.className = "titol-descripcio";
   tDesc.appendChild(document.createTextNode("Descripcio:"));
   div.appendChild(tDesc);
 
   const pDesc = document.createElement("p");
-  pDesc.className = "description-text";
+  pDesc.className = "text-descripcio";
   pDesc.appendChild(document.createTextNode(product.description));
   div.appendChild(pDesc);
 
   // Botó per a afegir al carret
   const btn = document.createElement("button");
-  btn.className = "btn-add-cart";
+  btn.className = "boto-afegir-carret";
   btn.appendChild(document.createTextNode("Afegir al carret"));
   div.appendChild(btn);
 
   // Botó per a tornar a la pàgina principal
   const btnVol = document.createElement("button");
-  btnVol.className = "btn-back-home";
+  btnVol.className = "boto-tornar-inici";
   btnVol.appendChild(document.createTextNode("Tornar a la pagina principal"));
   btnVol.onclick = () => {
     window.location.href = "home.html";

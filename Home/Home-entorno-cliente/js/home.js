@@ -32,22 +32,21 @@ function mostrarProductos(productosFiltrados) {
   productosFiltrados.forEach(product => {
     // Contenidor del producte
     const div = document.createElement("div");
-    div.className = "product-card";
+    div.className = "targeta-producte";
 
     // Nom del producte
     const h2 = document.createElement("h2");
-    h2.className = "product-card-title";
+    h2.className = "titol-targeta-producte";
     h2.appendChild(document.createTextNode(product.name));
     div.appendChild(h2);
 
     // Imatge del producte
     const productImg = ProductimageData.find(img => img.product_id === product.id);
     const img = document.createElement("img");
-    img.className = "product-card-image";
+    img.className = "imatge-targeta-producte";
     img.src = productImg ? productImg.url : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
     img.alt = product.name;
     div.appendChild(img);
-
 
     // Preu i ofertes
     const now = new Date();
@@ -68,30 +67,30 @@ function mostrarProductos(productosFiltrados) {
   );
 
   const pPrice = document.createElement("p");
-  pPrice.className = "product-card-price";
+  pPrice.className = "preu-targeta-producte";
 
   // Mostrar preu amb descompte si hi ha oferta activa
   if(oPrice.length > 0){
     const oferta = oPrice[0]; 
     const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.classList.add("product-card-price-discount");
-    pPrice.appendChild(document.createTextNode(`Precio: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
+    pPrice.classList.add("preu-targeta-producte-descompte");
+    pPrice.appendChild(document.createTextNode(`Preu: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
   } else {
-    pPrice.classList.add("product-card-price-normal");
-    pPrice.appendChild(document.createTextNode(`Precio: ${product.price.toFixed(2)} €`));
+    pPrice.classList.add("preu-targeta-producte-normal");
+    pPrice.appendChild(document.createTextNode(`Preu: ${product.price.toFixed(2)} €`));
   }
 
   div.appendChild(pPrice);
 
     // Descripció del producte
     const pDesc = document.createElement("p");
-    pDesc.className = "product-card-description";
+    pDesc.className = "descripcio-targeta-producte";
     pDesc.appendChild(document.createTextNode(product.description));
     div.appendChild(pDesc);
 
     // Botó per a veure el producte
     const aVer = document.createElement("button");
-    aVer.className = "btn-view-product";
+    aVer.className = "boto-veure-producte";
     aVer.appendChild(document.createTextNode("Veure producte"));
     aVer.onclick = () => {
       window.location.href = `product.html?id=${product.id}`;
@@ -100,7 +99,7 @@ function mostrarProductos(productosFiltrados) {
 
     // Botó per a afegir al carret
     const aCar = document.createElement("button");
-    aCar.className = "btn-add-to-cart";
+    aCar.className = "boto-afegir-carret";
     aCar.appendChild(document.createTextNode("Afexir al carret"));
     div.appendChild(aCar);
 
