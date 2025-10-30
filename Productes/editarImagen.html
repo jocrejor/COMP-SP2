@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Imatge</title>
+    <link rel="stylesheet" href="css/form.css" />
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="editarImagen.js"></script>
+</head>
+<body>
+    <h1>Editar Imatge</h1>
+    
+    <form id="formImagen">
+        <label for="nombre">Nom:</label>
+        <input type="text" id="nombre" required />
+        <br />
+        
+        <label for="url">URL:</label>
+        <input type="text" id="url" required />
+        <br />
+        
+        <label for="orden">Ordre:</label>
+        <input type="number" id="orden" value="1" />
+        <br />
+        
+        <button type="submit">Guardar Canvis</button>
+    </form>
+    
+    <br />
+    <button id="btnVolver">Tornar a la gestió d'imatges</button>
+</body>
+</html>

@@ -80,34 +80,31 @@ function cargarImagenesProducto(id) {
     if (imagenesProducto.length === 0) {
         const p = document.createElement("p");
         p.textContent = "No hi ha imatges per a este producte.";
+        p.classList.add("mensaje-vacio");
         contenedor.appendChild(p);
         return;
     }
 
-    // Crear un contenedor flex para las imágenes
+    // Crear un contenedor grid centrado para las imágenes
     const grid = document.createElement("div");
-    grid.style.display = "flex";
-    grid.style.flexWrap = "wrap";
-    grid.style.gap = "20px";
-    grid.style.marginTop = "20px";
+    grid.classList.add("grid-imagenes");
 
     imagenesProducto.forEach(img => {
         const card = document.createElement("div");
-        card.style.border = "1px solid #ccc";
-        card.style.padding = "10px";
-        card.style.borderRadius = "5px";
-        card.style.width = "200px";
+        card.classList.add("card-imagen");
 
         // Imagen
         const imagen = document.createElement("img");
         imagen.src = img.url;
         imagen.alt = img.name;
-        imagen.style.maxWidth = "100%";
-        imagen.style.height = "auto";
+        imagen.onerror = function() {
+            this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZThlOGU4Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYXRnZSBubyBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==';
+        };
 
         // Nombre
         const nombre = document.createElement("p");
         nombre.textContent = `Nom: ${img.name}`;
+        nombre.style.fontWeight = '500';
 
         // Orden
         const orden = document.createElement("p");
@@ -115,16 +112,18 @@ function cargarImagenesProducto(id) {
 
         // Botones
         const botones = document.createElement("div");
-        botones.style.marginTop = "10px";
+        botones.classList.add("botones-card");
 
         const btnEditar = document.createElement("button");
         btnEditar.textContent = "Editar";
+        btnEditar.classList.add("btn", "btn-edit");
         btnEditar.addEventListener("click", () => {
             editarImagen(id, img.id);
         });
 
         const btnEliminar = document.createElement("button");
         btnEliminar.textContent = "Eliminar";
+        btnEliminar.classList.add("btn", "btn-delete");
         btnEliminar.addEventListener("click", () => {
             eliminarImagen(id, img.id);
         });
