@@ -26,8 +26,8 @@ table {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     border-radius: 8px;
     overflow: hidden;
-    width: 95%;        /* casi todo el ancho de la pantalla */
-    min-width: 1200px; /* evita que se colapse la info */
+    width: 95%;        
+    min-width: 1200px; 
 }
 
 thead {
@@ -39,7 +39,7 @@ th, td {
     padding: 12px 15px;
     text-align: center;
     word-break: break-word;
-    white-space: nowrap; /* evita que las palabras largas se rompan */
+    white-space: nowrap; 
 }
 
 tbody tr:nth-child(even) {
@@ -50,7 +50,7 @@ tbody tr:hover {
     background-color: #e0e0e0;
 }
 
-/* Botó de volver */
+/* Botó de tornar */
 button {
     padding: 10px 20px;
     border-radius: 6px;
@@ -61,9 +61,6 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
-    opacity: 0.9;
-}
 
 button[onclick] {
     background-color: #6c757d;

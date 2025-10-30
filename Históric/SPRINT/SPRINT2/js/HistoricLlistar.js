@@ -94,6 +94,7 @@ function main() {
 
             const btnEditar = document.createElement("button");
             btnEditar.textContent = "Editar";
+            btnEditar.classList.add("accio", "editar");
             btnEditar.addEventListener("click", () => {
                 sessionStorage.setItem("editIndex", index);
                 window.location.href = "./HistoricForm.html";
@@ -101,6 +102,7 @@ function main() {
 
             const btnEsborrar = document.createElement("button");
             btnEsborrar.textContent = "Esborrar";
+            btnEsborrar.classList.add("accio", "eliminar");
             btnEsborrar.addEventListener("click", () => {
                 if (!confirm("Vols esborrar aquest registre?")) return;
 
