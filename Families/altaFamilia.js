@@ -66,13 +66,20 @@ function netejarFormulari() {
     document.getElementById("imatge").value = "";
     accio = "Afegir";
     document.getElementById("afegir").textContent = accio;
-    document.getElementById("alerta").innerHTML = "";
+    const alerta = document.getElementById("alerta");
+while (alerta.firstChild) {
+    alerta.removeChild(alerta.firstChild);
+}
+
 }
 
 // Muestra todas las familias en la tabla con estructura jerárquica
 function mostrarFamilies() {
     const taula = document.getElementById("taulaFamilia");
-    taula.innerHTML = "";
+    while (taula.firstChild) {
+    taula.removeChild(taula.firstChild);
+}
+
 
     console.log("Mostrando familias:", arrFamilia);
 
@@ -125,14 +132,36 @@ function mostrarFamilies() {
         }
 
         // Crea el HTML de la fila
-        fila.innerHTML = '<td style="padding-left: ' + (20 * nivel) + 'px; cursor: pointer; font-weight: ' + fontWeight + '">' + 
-                         nombreTexto + '</td>' +
-                         '<td>' + fam.description + '</td>' +
-                         '<td>' + imagenHTML + '</td>' +
-                         '<td>' +
-                         '<button onclick="editarFamilia(' + fam.id + ')">Editar</button> ' +
-                         '<button onclick="borrarFamilia(' + fam.id + ')">Eliminar</button>' +
-                         '</td>';
+        const celdaNom = document.createElement("td");
+celdaNom.style.paddingLeft = (20 * nivel) + "px";
+celdaNom.style.cursor = "pointer";
+celdaNom.style.fontWeight = fontWeight;
+celdaNom.textContent = nombreTexto;
+
+const celdaDesc = document.createElement("td");
+celdaDesc.textContent = fam.description;
+
+const celdaImg = document.createElement("td");
+if (fam.image) {
+    const img = document.createElement("img");
+    img.src = "../img/" + fam.image;
+    img.width = anchoImagen;
+    celdaImg.appendChild(img);
+}
+
+const celdaBotons = document.createElement("td");
+const btnEditar = document.createElement("button");
+btnEditar.textContent = "Editar";
+btnEditar.addEventListener("click", () => editarFamilia(fam.id));
+
+const btnEliminar = document.createElement("button");
+btnEliminar.textContent = "Eliminar";
+btnEliminar.addEventListener("click", () => borrarFamilia(fam.id));
+
+celdaBotons.append(btnEditar, btnEliminar);
+
+fila.append(celdaNom, celdaDesc, celdaImg, celdaBotons);
+
         
         taula.appendChild(fila);
 
@@ -171,12 +200,18 @@ function mostrarFamilies() {
 // Actualiza el dropdown con todas las familias disponibles
 function actualitzarSelect() {
     const select = document.getElementById("familia_de");
-    select.innerHTML = '<option value=""></option>';
+    while (select.firstChild) {
+    select.removeChild(select.firstChild);
+}
+const opcioBuida = document.createElement("option");
+opcioBuida.value = "";
+select.appendChild(opcioBuida);
+
 
     arrFamilia.forEach(function(item) {
         const opcio = document.createElement("option");
         opcio.value = item.id;
-        opcio.textContent = item.name;
+        opcio.appendChild(document.createTextNode(item.name));
         select.appendChild(opcio);
     });
 }
