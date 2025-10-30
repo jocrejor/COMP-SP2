@@ -141,7 +141,139 @@ function mostrarComparador() {
     });
 }
 
- 
+
+//Esta part esta treta amb ia i sera modifica i adapta, pero es lo que fa falta asi agafem de la array producteMesatribut 
+//agafem el id del producte com a clau i la id del atribut com a valor dins de esta funció generem la array todosAtributos de esta manera asosiem els productes en els atributs 
+//esta taula dibuixa com a columnes de la clau producte el nom i de columnes de la clau id_product la fila el contingut de la celda es el valor del producte 
+//que esta en la array todosAtributos
+// Crear tabla de comparación de atributos
+function crearTaulaComparacio() {
+    const compararDiv = document.getElementById('compararDiv');
+    
+    // Crear el contenedor de la tabla
+    const tableContainer = document.createElement('div');
+    tableContainer.style.marginBottom = "20px";
+    
+    const title = document.createElement('h3');
+    title.textContent = "Comparació d'Atributs";
+    tableContainer.appendChild(title);
+    
+    // Crear la tabla
+    const table = document.createElement('table');
+    table.style.border = "1px solid #000";
+    table.style.borderCollapse = "collapse";
+    table.style.width = "100%";
+    
+    // Obtener productos a comparar
+    const productesComparar = compareProduct.map(item => productes[item.product]).filter(p => p);
+    
+    if (productesComparar.length === 0) return;
+    
+    // Crear cabecera de la tabla
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    
+    // Primera columna: Atributos
+    const attrHeader = document.createElement('th');
+    attrHeader.textContent = "Atributs";
+    attrHeader.style.border = "1px solid #000";
+    attrHeader.style.padding = "10px";
+    attrHeader.style.backgroundColor = "#f0f0f0";
+    headerRow.appendChild(attrHeader);
+    
+    // Columnas de productos
+    productesComparar.forEach(product => {
+        const productHeader = document.createElement('th');
+        productHeader.textContent = product.name || product.descripton;
+        productHeader.style.border = "1px solid #000";
+        productHeader.style.padding = "10px";
+        productHeader.style.backgroundColor = "#f0f0f0";
+        headerRow.appendChild(productHeader);
+    });
+    
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+    
+    // Crear cuerpo de la tabla
+    const tbody = document.createElement('tbody');
+    
+    // Añadir fila del precio primero
+    const priceRow = document.createElement('tr');
+    
+    // Primera columna: "Preu"
+    const priceAttrCell = document.createElement('td');
+    priceAttrCell.textContent = "Preu";
+    priceAttrCell.style.border = "1px solid #000";
+    priceAttrCell.style.padding = "10px";
+    priceAttrCell.style.fontWeight = "bold";
+    priceRow.appendChild(priceAttrCell);
+    
+    // Columnas de precios para cada producto
+    productesComparar.forEach(product => {
+        const priceCell = document.createElement('td');
+        priceCell.style.border = "1px solid #000";
+        priceCell.style.padding = "10px";
+        priceCell.style.textAlign = "center";
+        priceCell.textContent = product.price ? `${product.price}€` : "N/A";
+        priceRow.appendChild(priceCell);
+    });
+    
+    tbody.appendChild(priceRow);
+    
+    // Obtener todos los atributos únicos de los productos
+    const todosAtributos = new Set();
+    productesComparar.forEach(product => {
+        const productAttrs = productAtribut.filter(attr => attr.product_id === product.id);
+        productAttrs.forEach(attr => {
+            const atributoInfo = atribute.find(a => a.id === attr.attribute_id);
+            if (atributoInfo) {
+                todosAtributos.add(JSON.stringify({id: atributoInfo.id, name: atributoInfo.name}));
+            }
+        });
+    });
+    
+    // Crear filas para cada atributo
+    Array.from(todosAtributos).forEach(attrStr => {
+        const attr = JSON.parse(attrStr);
+        const row = document.createElement('tr');
+        
+        // Primera columna: nombre del atributo
+        const attrCell = document.createElement('td');
+        attrCell.textContent = attr.name;
+        attrCell.style.border = "1px solid #000";
+        attrCell.style.padding = "10px";
+        attrCell.style.fontWeight = "bold";
+        row.appendChild(attrCell);
+        
+        // Columnas de valores para cada producto
+        productesComparar.forEach(product => {
+            const valueCell = document.createElement('td');
+            valueCell.style.border = "1px solid #000";
+            valueCell.style.padding = "10px";
+            valueCell.style.textAlign = "center";
+            
+            // Buscar el valor del atributo para este producto
+            const productAttr = productAtribut.find(pa => 
+                pa.product_id === product.id && pa.attribute_id === attr.id
+            );
+            
+            if (productAttr) {
+                valueCell.textContent = productAttr.value || "N/A";
+            } else {
+                valueCell.textContent = "-";
+                valueCell.style.color = "#999";
+            }
+            
+            row.appendChild(valueCell);
+        });
+        
+        tbody.appendChild(row);
+    });
+    
+    table.appendChild(tbody);
+    tableContainer.appendChild(table);
+    compararDiv.appendChild(tableContainer);
+}
 
 function eliminarProducteComparador(index) {
     // Llig l'array dels productes comparats
