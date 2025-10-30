@@ -15,7 +15,7 @@ async function main() {
     // Mostrem el país seleccionat
     document.getElementById("id").textContent = "País seleccionat: " + (countryName || "(Desconegut)");
 
-    // Si no tenim country_id, intentem trobar-lo pel nom
+    // Si no tenim country_id, intentem trobar-lo pel nom.
     if (!countryId && countryName) {
         const paisTrobat = Country.find(c => c.name.toLowerCase() === countryName.toLowerCase());
         if (paisTrobat) countryId = paisTrobat.id;

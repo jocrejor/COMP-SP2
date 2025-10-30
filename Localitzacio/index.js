@@ -1,7 +1,7 @@
 // Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
 let countryArray = [];
-let accio = "Afegir";     // Estat actual del botó (Afegir o Actualitzar)
+let accio = "Afegir";     // Estat actual del botó
 
 async function main() {
     // Carreguem les dades de Location.js i les sincronitzem amb localStorage

@@ -15,7 +15,7 @@ function main() {
   provinceId = Number(params.get("province_id")) || null;
   provinceName = params.get("province") ? decodeURIComponent(params.get("province")) : "(Desconeguda)";
 
-  // Busquem el nom del país (per mostrar-lo)
+  // Busquem el nom del país
   if (countryId) {
     const paisTrobat = Country.find(c => c.id === countryId);
     if (paisTrobat) countryName = paisTrobat.name;
