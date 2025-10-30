@@ -154,6 +154,7 @@ let Productimage = [
 { "id": 15,"name":"gaming_laptop_MSI_katana_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/6336-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16-opiniones.jpg","order": 3,"product_id": 5}
 ]
 
+
 let Order = [
   { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 101 },
   { "id": 2, "date": "2025-10-05 09:15", "payment": "PayPal", "total_amount": 75.99, "shipping_amount": 0.00, "client_id": 102 },
