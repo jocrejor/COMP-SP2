@@ -8,7 +8,7 @@ function iniciar() {
 }
 
 function cancelar() {
-  window.location.href = "../llistar/llistarproductattribute.html";
+  window.location.href = "../llistar/lilistarproductattribute.html";
 }
 
 function mostrarnomproducte() {
@@ -129,10 +129,9 @@ function guardarProductAttribute(e) {
     productAttributes.push({ product_id: productId, attribute_id: attributeId, value });
   }
 
-  localStorage.setItem("Productattribute", JSON.stringify(productAttributes));
+  localStorage.setItem("ProductAttribute", JSON.stringify(productAttributes));
 
-  alert("Product attribute guardado correctamente.");
-
+alert("Creacio del productattribute exitosa");
   document.getElementById("atributo").value = "";
   document.getElementById("valor").value = "";
 }
