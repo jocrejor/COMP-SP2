@@ -1,115 +1,226 @@
-
-
-// Cuando la página carga, mostramos todos los contactos guardados
-document.addEventListener("DOMContentLoaded", showContacts);
-
-//  Capturamos el formulario
-const form = document.getElementById("contactForm");
-const cancelEdit = document.getElementById("cancelEdit");
-
-//  Evento para guardar un nuevo contacto
-form.addEventListener("submit", function (event) {
-  event.preventDefault(); // Evita que se recargue la página
-
-  // Obtenemos los valores del formulario
-  const id = document.getElementById("contactId").value;
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const email = document.getElementById("email").value;
-  const subject = document.getElementById("subject").value;
-  const date = document.getElementById("date").value;
-
-  // Leemos los contactos del localStorage
-  let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-
-  // Si hay id → se está editando un contacto existente
-  if (id) {
-    contacts[id] = { name, phone, email, subject, date };
-  } else {
-    // Si no hay id → es un contacto nuevo
-    contacts.push({ name, phone, email, subject, date });
-  }
-
-  // Guardamos la lista actualizada
-  localStorage.setItem("contacts", JSON.stringify(contacts));
-
-  // Limpiamos el formulario y actualizamos la lista
-  form.reset();
-  document.getElementById("contactId").value = "";
+// Quan la pàgina carrega, mostrem tots els contactes guardats
+document.addEventListener("DOMContentLoaded", function() {
   showContacts();
-});
+  
+  // Capturem el formulari
+  const form = document.getElementById("contactForm");
+  const cancelEdit = document.getElementById("cancelEdit");
 
-//  Cancelar la edición
-cancelEdit.addEventListener("click", function () {
-  form.reset();
-  document.getElementById("contactId").value = "";
-});
-
-// Mostrar los contactos en la página
-function showContacts() {
-  const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-  const list = document.getElementById("contactList");
-  list.replaceChildren(); // Limpiamos la lista
-
-  // Si no hay contactos guardados
-  if (contacts.length === 0) {
-    const p = document.createElement("p");
-    p.textContent = "No hay contactos guardados.";
-    list.appendChild(p);
-    return;
+  // Funció per a validar el nom
+  function validarNom(nom) {
+    if (nom.trim().length < 3) {
+      mostrarError("errorName", "El nom ha de tindre almenys 3 caràcters");
+      return false;
+    }
+    amagarError("errorName");
+    return true;
   }
 
-  // Si hay contactos, los mostramos uno por uno
-  contacts.forEach((contact, index) => {
-    const div = document.createElement("div");
+  // Funció per a validar el telèfon
+  function validarTelefon(telefon) {
+    const regexTelefon = /^[0-9]{9}$/;
+    if (!regexTelefon.test(telefon.trim())) {
+      mostrarError("errorPhone", "El telèfon ha de tindre 9 dígits");
+      return false;
+    }
+    amagarError("errorPhone");
+    return true;
+  }
 
-    div.appendChild(document.createTextNode(`name: ${contacts.name}`));
-    div.appendChild(document.createElement("br"));
+  // Funció per a validar l'email
+  function validarEmail(email) {
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regexEmail.test(email.trim())) {
+      mostrarError("errorEmail", "L'email no és vàlid");
+      return false;
+    }
+    amagarError("errorEmail");
+    return true;
+  }
 
-    div.appendChild(document.createTextNode(`teléfono: ${contacts.phone}`));
-    div.appendChild(document.createElement("br"));
+  // Funció per a validar el missatge
+  function validarMissatge(missatge) {
+    if (missatge.trim().length < 10) {
+      mostrarError("errorSubject", "El missatge ha de tindre almenys 10 caràcters");
+      return false;
+    }
+    amagarError("errorSubject");
+    return true;
+  }
 
-    div.appendChild(document.createTextNode(`email: ${contacts.email}`));
-    div.appendChild(document.createElement("br"));
+  // Funció per a validar la data
+  function validarData(data) {
+    if (!data) {
+      mostrarError("errorDate", "La data és obligatòria");
+      return false;
+    }
+    amagarError("errorDate");
+    return true;
+  }
 
-    div.appendChild(document.createTextNode(`fecha: ${contacts.date}`));
-    div.appendChild(document.createElement("br"));
+  // Funció per a mostrar error
+  function mostrarError(idElement, missatge) {
+    const element = document.getElementById(idElement);
+    element.replaceChildren();
+    element.appendChild(document.createTextNode(missatge));
+    element.classList.add("actiu");
+  }
 
-    div.appendChild(document.createTextNode(`subject: ${contacts.subject}`));
-    div.appendChild(document.createElement("br"));
+  // Funció per a amagar error
+  function amagarError(idElement) {
+    const element = document.getElementById(idElement);
+    element.replaceChildren();
+    element.classList.remove("actiu");
+  }
 
-    list.appendChild(div);
+  // Esdeveniment per a guardar un nou contacte
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-    // Botón editar
-    const editBtn = document.createElement("button");
-    editBtn.textContent = "Editar";
-    editBtn.style.marginRight = "5px";
-    editBtn.addEventListener("click", () => editContact(index));
-    div.appendChild(editBtn);
+    // Obtenim els valors del formulari
+    const id = document.getElementById("contactId").value;
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const subject = document.getElementById("subject").value;
+    const date = document.getElementById("date").value;
 
-    // Botón eliminar
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Eliminar";
-    deleteBtn.addEventListener("click", () => deleteContact(index));
-    div.appendChild(deleteBtn);
+    // Validem tots els camps
+    const nomValid = validarNom(name);
+    const telefonValid = validarTelefon(phone);
+    const emailValid = validarEmail(email);
+    const misatgeValid = validarMissatge(subject);
+    const dataValid = validarData(date);
 
-    list.appendChild(div);
+    // Si algun camp no és vàlid, no continuem
+    if (!nomValid || !telefonValid || !emailValid || !misatgeValid || !dataValid) {
+      return;
+    }
 
+    // Llegim els contactes del localStorage
+    let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
 
-        // Rellenamos los campos del formulario
-  document.getElementById("contactId").value = index;
-  document.getElementById("name").value = c.name;
-  document.getElementById("phone").value = c.phone;
-  document.getElementById("email").value = c.email;
-  document.getElementById("subject").value = c.subject;
-  document.getElementById("date").value = c.date;
+    // Si hi ha id i no està buit → s'està editant un contacte existent
+    if (id !== "") {
+      contacts[parseInt(id)] = { name, phone, email, subject, date };
+    } else {
+      // Si no hi ha id → és un contacte nou
+      contacts.push({ name, phone, email, subject, date });
+    }
+
+    // Guardem la llista actualitzada
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+
+    // Netegem el formulari i actualitzem la llista
+    form.reset();
+    document.getElementById("contactId").value = "";
+    
+    // Amagar tots els errors després de guardar
+    amagarError("errorName");
+    amagarError("errorPhone");
+    amagarError("errorEmail");
+    amagarError("errorSubject");
+    amagarError("errorDate");
+    
+    showContacts();
   });
 
+  // Cancel·lar l'edició
+  cancelEdit.addEventListener("click", function () {
+    form.reset();
+    document.getElementById("contactId").value = "";
+    // Amagar tots els errors
+    amagarError("errorName");
+    amagarError("errorPhone");
+    amagarError("errorEmail");
+    amagarError("errorSubject");
+    amagarError("errorDate");
+  });
 
-}
+  // Mostrar els contactes en la pàgina
+  function showContacts() {
+    const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    const list = document.getElementById("contactList");
+    list.replaceChildren();
 
+    if (contacts.length === 0) {
+      const p = document.createElement("p");
+      p.appendChild(document.createTextNode("No hi ha contactes guardats."));
+      list.appendChild(p);
+      return;
+    }
 
+    // Si hi ha contactes, els mostrem un per un
+    contacts.forEach((contact, index) => {
+      const div = document.createElement("div");
+      div.className = "item-contacte-llista";
 
+      const capsalera = document.createElement("div");
+      capsalera.className = "capsalera-item-contacte";
 
+      const nomElement = document.createElement("span");
+      nomElement.className = "nom-contacte-llista";
+      nomElement.appendChild(document.createTextNode(contact.name));
+      capsalera.appendChild(nomElement);
 
+      const accions = document.createElement("div");
+      accions.className = "accions-contacte-llista";
 
+      // Botó editar
+      const editBtn = document.createElement("button");
+      editBtn.className = "boto-editar-contacte";
+      editBtn.appendChild(document.createTextNode("Editar"));
+      editBtn.addEventListener("click", () => editContact(index));
+      accions.appendChild(editBtn);
+
+      // Botó eliminar
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "boto-eliminar-contacte";
+      deleteBtn.appendChild(document.createTextNode("Eliminar"));
+      deleteBtn.addEventListener("click", () => deleteContact(index));
+      accions.appendChild(deleteBtn);
+
+      capsalera.appendChild(accions);
+      div.appendChild(capsalera);
+
+      const infoDiv = document.createElement("div");
+      infoDiv.className = "info-contacte-llista";
+
+      infoDiv.appendChild(document.createTextNode(`Telèfon: ${contact.phone}`));
+      infoDiv.appendChild(document.createElement("br"));
+
+      infoDiv.appendChild(document.createTextNode(`Email: ${contact.email}`));
+      infoDiv.appendChild(document.createElement("br"));
+
+      infoDiv.appendChild(document.createTextNode(`Data: ${contact.date}`));
+      infoDiv.appendChild(document.createElement("br"));
+
+      infoDiv.appendChild(document.createTextNode(`Missatge: ${contact.subject}`));
+
+      div.appendChild(infoDiv);
+      list.appendChild(div);
+    });
+  }
+
+  // Funció per a editar un contacte
+  function editContact(index) {
+    const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    const c = contacts[index];
+
+    // Omplim els camps del formulari
+    document.getElementById("contactId").value = index;
+    document.getElementById("name").value = c.name;
+    document.getElementById("phone").value = c.phone;
+    document.getElementById("email").value = c.email;
+    document.getElementById("subject").value = c.subject;
+    document.getElementById("date").value = c.date;
+  }
+
+  // Funció per a eliminar un contacte
+  function deleteContact(index) {
+    let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    contacts.splice(index, 1);
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+    showContacts();
+  }
+});

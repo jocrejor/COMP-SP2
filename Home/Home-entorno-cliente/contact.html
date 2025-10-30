@@ -1,44 +1,68 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Contacto - Efecto LED</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacte - Efecte LED</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/contact.js"></script>
+  <script src="js/contact.js" defer></script>
 </head>
 <body>
-  <h1>Formulario de contacto</h1>
-  <p>Rellena el formulario o modifica un contacto existente:</p>
+  <div class="contenidor-contacte">
+    <header class="capsalera-contacte">
+      <h1 class="titol-principal">Formulari de contacte</h1>
+      <p class="subtitol-contacte">Ompli el formulari o modifica un contacte existent:</p>
+    </header>
 
-  <form id="contactForm">
-    <input type="hidden" id="contactId">
-    <label>Nombre:</label><br>
-    <input type="text" id="name" required><br><br>
+    <section class="seccio-formulari-contacte">
+      <form id="contactForm" class="formulari-contacte">
+        <input type="hidden" id="contactId">
+        
+        <div class="grup-camp-contacte">
+          <label for="name">Nom:</label>
+          <input type="text" id="name" class="camp-entrada-contacte" required>
+          <span class="missatge-error-camp" id="errorName"></span>
+        </div>
 
-    <label>Teléfono:</label><br>
-    <input type="text" id="phone" required><br><br>
+        <div class="grup-camp-contacte">
+          <label for="phone">Telèfon:</label>
+          <input type="text" id="phone" class="camp-entrada-contacte" required>
+          <span class="missatge-error-camp" id="errorPhone"></span>
+        </div>
 
-    <label>Email:</label><br>
-    <input type="email" id="email" required><br><br>
+        <div class="grup-camp-contacte">
+          <label for="email">Email:</label>
+          <input type="email" id="email" class="camp-entrada-contacte" required>
+          <span class="missatge-error-camp" id="errorEmail"></span>
+        </div>
 
-    <label>Mensaje:</label><br>
-    <textarea id="subject" rows="4" required></textarea><br><br>
+        <div class="grup-camp-contacte">
+          <label for="subject">Missatge:</label>
+          <textarea id="subject" rows="4" class="camp-textarea-contacte" required></textarea>
+          <span class="missatge-error-camp" id="errorSubject"></span>
+        </div>
 
-    <label>Fecha:</label><br>
-    <input type="datetime-local" id="date" required><br><br>
+        <div class="grup-camp-contacte">
+          <label for="date">Data:</label>
+          <input type="date" id="date" class="camp-entrada-contacte" required>
+          <span class="missatge-error-camp" id="errorDate"></span>
+        </div>
 
-    <button type="submit">Guardar</button>
-    <button type="button" id="cancelEdit">Cancelar</button>
-  </form>
+        <div class="botons-formulari-contacte">
+          <button type="submit" class="boto-guardar-contacte">Guardar</button>
+          <button type="button" id="cancelEdit" class="boto-cancelar-contacte">Cancel·lar</button>
+        </div>
+      </form>
+    </section>
 
-  <h2>Lista de contactos</h2>
-  <div id="contactList"></div>
+    <section class="seccio-llista-contactes">
+      <h2 class="titol-llista-contactes">Llista de contactes</h2>
+      <div id="contactList" class="llista-contactes"></div>
+    </section>
 
-  <br>
-  <!-- Enlace para volver al Home -->
-  <a href="home.html">⬅️ Volver al inicio</a>
-
-
+    <footer class="peu-contacte">
+      <a href="home.html" class="enllac-tornar-contacte">Tornar a l'inici</a>
+    </footer>
+  </div>
 </body>
 </html>
