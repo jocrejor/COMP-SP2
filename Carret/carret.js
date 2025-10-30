@@ -4,19 +4,19 @@ function main() {
     mostrarInfoCliente();
     mostrarCarret();
 
-    // Agregar evento al botón de finalizar
+    // Afegir esdeveniment al botó de finalitzar
     const btnFinalitzar = document.getElementById('btnFinalitzar');
     if (btnFinalitzar) {
         btnFinalitzar.addEventListener('click', finalitzarComanda);
     }
 }
 
-// Gestión de usuario/sesión
+// Gestió d'usuari/sessió
 function obtenerOCrearSesion() {
     let sesion = JSON.parse(localStorage.getItem('sesion'));
 
     if (!sesion) {
-        // Crear nueva sesión con ID de carrito único
+        // Crear una nova sessió amb un ID de carret únic
         sesion = {
             carretId: 'carret_' + Date.now(),
             fecha: new Date().toISOString()
@@ -27,7 +27,7 @@ function obtenerOCrearSesion() {
 }
 
 function obtenerClienteActual() {
-    // Intenta obtener el cliente del localStorage
+    // Intenta obtindre el client del localStorage
     const clienteId = localStorage.getItem('clienteId');
 
     if (clienteId && typeof Client !== 'undefined') {
@@ -42,7 +42,7 @@ function mostrarInfoCliente() {
     const cliente = obtenerClienteActual();
     const sesion = obtenerOCrearSesion();
 
-    // Limpiar contenido anterior
+    // Netejar el contingut anterior
     while (infoClientDiv.firstChild) {
         infoClientDiv.removeChild(infoClientDiv.firstChild);
     }
@@ -105,13 +105,12 @@ function mostrarInfoCliente() {
         em.appendChild(textMensatge);
         pMensatge.appendChild(em);
         divContainer.appendChild(pMensatge);
-
     }
 
     infoClientDiv.appendChild(divContainer);
 }
 
-// Función para mostrar un formulario simple de login simulado
+// Funció per a mostrar un formulari simple de login simulat
 function mostrarFormularioLogin() {
     const clienteIdInput = prompt('Introdueix l\'ID del client (1-5):', '1');
     
@@ -122,21 +121,21 @@ function mostrarFormularioLogin() {
             if (cliente) {
                 simularLogin(id);
             } else {
-                showModal('client no trobat');
+                showModal('Client no trobat');
             }
         }
     }
 }
 
-// Función principal para mostrar el carrito y gestionar las acciones
+// Funció principal per a mostrar el carret i gestionar les accions
 function mostrarCarret() {
-    // Obtiene el carrito del localStorage o crea un array vacío si no existe
+    // Obté el carret del localStorage o crea un array buit si no existix
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
     const elementsCarret = document.getElementById('elementsCarret');
     const totalSpan = document.getElementById('total');
     let total = 0;
 
-    // Si el carrito está vacío, muestra el mensaje y oculta el contenido
+    // Si el carret està buit, mostra el missatge i oculta el contingut
     if (!carret.length) {
         document.getElementById('carretBuit').style.display = 'block';
         document.getElementById('contingutCarret').style.display = 'none';
@@ -158,7 +157,7 @@ function mostrarCarret() {
         const productImg = Productimage ? Productimage.find(img => img.product_id === p.id) : null;
         const img = document.createElement("img");
         img.src = productImg && productImg.url ? productImg.url : "https://freesvg.org/img/Simple-Image-Not-Found-Icon.png";
-        img.alt = p.name || 'product';
+        img.alt = p.name || 'producte';
         img.width = 80;
         img.height = 80;
         img.style.objectFit = 'cover';
@@ -226,7 +225,7 @@ function mostrarCarret() {
     });
 
     elementsCarret.appendChild(fragment);
-    // Calcula el total del carrito sumando el precio por cantidad de cada producto
+    // Calcula el total del carret sumant el preu per quantitat de cada producte
     total = carret.reduce((s, p) => s + p.price * p.quantity, 0);
     const totalText = document.createTextNode(`${total.toFixed(2)} €`);
     while (totalSpan.firstChild) {
@@ -235,9 +234,9 @@ function mostrarCarret() {
     totalSpan.appendChild(totalText);
 }
 
-// Funciones para modificar el carrito
+// Funcions per a modificar el carret
 
-// Incrementa en 1 la cantidad del producto seleccionado
+// Incrementa en 1 la quantitat del producte seleccionat
 function sumar(index) {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
     carret[index].quantity++;
@@ -245,7 +244,7 @@ function sumar(index) {
     mostrarCarret();
 }
 
-// Disminuye en 1 la cantidad del producto seleccionado (siempre que sea mayor a 1)
+// Disminuïx en 1 la quantitat del producte seleccionat (sempre que siga major que 1)
 function restar(index) {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
     if (carret[index].quantity > 1) {
@@ -255,7 +254,7 @@ function restar(index) {
     }
 }
 
-// Elimina completamente el producto seleccionado del carrito
+// Elimina completament el producte seleccionat del carret
 function eliminar(index) {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
     carret.splice(index, 1);
@@ -263,43 +262,43 @@ function eliminar(index) {
     mostrarCarret();
 }
 
-// Simular login de un cliente (para pruebas)
+// Simula un login d’un client (per a proves)
 function simularLogin(clienteId) {
     localStorage.setItem('clienteId', clienteId);
     mostrarInfoCliente();
     showModal('Login simulat per al client ID: ' + clienteId);
 }
 
-// Cerrar sesión
+// Tancar sessió
 function cerrarSesion() {
     localStorage.removeItem('clienteId');
     mostrarInfoCliente();
     showModal('Sessió tancada');
 }
 
-// Función para finalizar la compra
+// Funció per a finalitzar la comanda
 function finalitzarComanda() {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
 
-    // Verificar si el carrito está vacío
+    // Comprovar si el carret està buit
     if (!carret.length) {
         showModal('El carret està buit!');
         return;
     }
 
-    // Verificar si hay un cliente logueado
+    // Comprovar si hi ha un client amb sessió iniciada
     const clienteId = localStorage.getItem('clienteId');
     
     if (!clienteId) {
-    showModal('Has d\'iniciar sessió per finalitzar la compra.');
-    return; // Deté la funció i es manté a la pàgina
-}
+        showModal('Has d\'iniciar sessió per finalitzar la compra.');
+        return; // Deté la funció i es manté a la pàgina
+    }
 
-    // Si llegamos aquí, el usuario está logueado
+    // Si arribem ací, l’usuari està loguejat
     // Calcular total
     const total = carret.reduce((sum, p) => sum + (p.price * p.quantity), 0);
     
-    // Agregar imágenes a los productos del carrito
+    // Afegir imatges als productes del carret
     const carretConImagenes = carret.map(p => {
         let imageUrl = null;
         if (typeof Productimage !== 'undefined' && Array.isArray(Productimage)) {
@@ -311,7 +310,7 @@ function finalitzarComanda() {
         return { ...p, image: imageUrl };
     });
 
-    // Crear objeto de comanda
+    // Crear objecte de comanda
     const comanda = {
         numeroComanda: 'ORD-' + Date.now(),
         fecha: new Date().toISOString(),
@@ -321,19 +320,19 @@ function finalitzarComanda() {
         sesionId: obtenerOCrearSesion().carretId
     };
 
-    // Guardar la última comanda
+    // Guardar l’última comanda
     localStorage.setItem('ultimaComanda', JSON.stringify(comanda));
 
-    // Vaciar el carrito
+    // Buidar el carret
     localStorage.removeItem('carret');
 
-    // Redirigir a la página de confirmación
+    // Redirigir a la pàgina de confirmació
     window.location.href = 'finalitzar.html';
 }
 
-// Función para mostrar el modal
+// Funció per a mostrar el modal
 function showModal(message, onClose = null) {
-    // Crear o reutilizar el overlay del modal
+    // Crear o reutilitzar el fons del modal
     let modalOverlay = document.getElementById('modalOverlay');
     if (!modalOverlay) {
         modalOverlay = document.createElement('div');
@@ -342,7 +341,7 @@ function showModal(message, onClose = null) {
         document.body.appendChild(modalOverlay);
     }
 
-    // Crear el contenido del modal
+    // Crear el contingut del modal
     const modalContent = document.createElement('div');
     modalContent.className = 'modal';
 
@@ -360,7 +359,7 @@ function showModal(message, onClose = null) {
     };
     modalContent.appendChild(closeButton);
 
-    // Limpiar y mostrar el modal
+    // Netejar i mostrar el modal
     modalOverlay.textContent = '';
     modalOverlay.appendChild(modalContent);
     modalOverlay.style.display = 'flex';

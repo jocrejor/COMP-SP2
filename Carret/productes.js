@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', main)
 
 function main() {
-    // Inicializar productos en localStorage si no existen
+    // Inicialitzar productes en localStorage si no existixen
     if (!localStorage.getItem('productes') && typeof Product !== 'undefined') {
         localStorage.setItem('productes', JSON.stringify(Product));
     }
@@ -12,40 +12,40 @@ function main() {
 function mostrarProductes() {
     const container = document.getElementById('productes-container');
     
-    // Verificar que el contenedor existe
+    // Comprovar que el contenidor existix
     if (!container) {
         console.error('No s\'ha trobat el contenidor #productes-container');
         return;
     }
     
-    // Obtener productos del localStorage o usar Product directamente
+    // Obté els productes del localStorage o usa Product directament
     let productes = null;
     
-    // Intentar obtener del localStorage primero
+    // Intentar obtindre’ls del localStorage primer
     const productesStorage = localStorage.getItem('productes');
     if (productesStorage) {
         productes = JSON.parse(productesStorage);
     } else if (typeof Product !== 'undefined') {
-        // Si no hay en localStorage, usar la variable global Product
+        // Si no n’hi ha en localStorage, usar la variable global Product
         productes = Product;
         localStorage.setItem('productes', JSON.stringify(Product));
     }
     
-    // Verificar que tenemos productos
+    // Comprovar que tenim productes
     if (!productes || !Array.isArray(productes) || productes.length === 0) {
         container.innerHTML = '<p>No hi ha productes disponibles</p>';
         console.error('No s\'han trobat productes');
         return;
     }
     
-    // Limpiar el contenedor
+    // Netejar el contenidor
     container.innerHTML = '';
     
     productes.forEach(p => {
         const div = document.createElement('div');
         div.style.cssText = 'border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 5px;';
 
-        // Buscar la imagen asociada usando la id del producto actual (p)
+        // Busca la imatge associada utilitzant la id del producte actual (p)
         const productImg = (typeof Productimage !== 'undefined') 
             ? Productimage.find(img => img.product_id === p.id) 
             : null;
@@ -92,7 +92,7 @@ function mostrarProductes() {
 }
 
 function afegirAlCarret(id) {
-    // Obtener productos del localStorage o de la variable global
+    // Obté els productes del localStorage o de la variable global
     let productes = null;
     const productesStorage = localStorage.getItem('productes');
     
@@ -102,7 +102,7 @@ function afegirAlCarret(id) {
         productes = Product;
     }
     
-    // Buscar el producto
+    // Busca el producte
     const producte = productes ? productes.find(pr => pr.id === id) : null;
     
     if (!producte) {
@@ -111,15 +111,15 @@ function afegirAlCarret(id) {
         return;
     }
 
-    // Obtener carrito actual
+    // Obté el carret actual
     let carret = JSON.parse(localStorage.getItem('carret')) || [];
     const index = carret.findIndex(p => p.id === id);
 
     if (index >= 0) {
-        // Si ya existe, incrementar cantidad
+        // Si ja existix, incrementa la quantitat
         carret[index].quantity = (carret[index].quantity || 1) + 1;
     } else {
-        // Si no existe, añadirlo con cantidad 1
+        // Si no existix, afig-lo amb quantitat 1
         carret.push({ 
             id: producte.id, 
             name: producte.name, 
@@ -128,14 +128,14 @@ function afegirAlCarret(id) {
         });
     }
 
-    // Guardar en localStorage
+    // Guarda’l en localStorage
     localStorage.setItem('carret', JSON.stringify(carret));
     showModal(`Producte "${producte.name}" afegit al carret!`);
 }
 
-// Función para mostrar el modal
+// Funció per mostrar el modal
 function showModal(message, onClose = null) {
-    // Crear o reutilizar el overlay del modal
+    // Crea o reutilitza el fons del modal
     let modalOverlay = document.getElementById('modalOverlay');
     if (!modalOverlay) {
         modalOverlay = document.createElement('div');
@@ -144,7 +144,7 @@ function showModal(message, onClose = null) {
         document.body.appendChild(modalOverlay);
     }
 
-    // Crear el contenido del modal
+    // Crea el contingut del modal
     const modalContent = document.createElement('div');
     modalContent.className = 'modal';
 
@@ -162,7 +162,7 @@ function showModal(message, onClose = null) {
     };
     modalContent.appendChild(closeButton);
 
-    // Limpiar y mostrar el modal
+    // Neteja i mostra el modal
     modalOverlay.textContent = '';
     modalOverlay.appendChild(modalContent);
     modalOverlay.style.display = 'flex';
