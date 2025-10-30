@@ -3,10 +3,12 @@ document.addEventListener("DOMContentLoaded", main)
 let compare = localStorage.getItem('comparar') ? JSON.parse(localStorage.getItem('comparar')) : {};
 let compareProduct = localStorage.getItem('compararProductes') ? JSON.parse(localStorage.getItem('compararProductes')) : [];
 let productes = localStorage.getItem('productes') ? JSON.parse(localStorage.getItem('productes')) : [];
-let productesMesAtributs = localStorage.getItem('productesAtributs') ? JSON.parse(localStorage.getItem('productesAtributs')) : [];
+let productesMesAtributs = localStorage.getItem('productesMesAtributs') ? JSON.parse(localStorage.getItem('productesMesAtributs')) : {};
 let productAtribut  = localStorage.getItem('productAtribut') ? JSON.parse(localStorage.getItem('productAtribut')) : Productattribute;
+let atribute  = localStorage.getItem('atribute') ? JSON.parse(localStorage.getItem('atribute')) : Attribute;
 
 function main() {
+     
     // Obtenir l'index del producte a través de la URL
     const params = new URLSearchParams(window.location.search);
     const index = params.get('index');
@@ -18,8 +20,8 @@ function main() {
         const compare = {
             "sessionId": obtindreSessionId(),
             "userAgent": navigator.userAgent,
-            "dateStart": new Date().toISOString()
-        };
+                "dateStart": new Date().toISOString()
+            };
 
         // Comprovar si ja existeix ja comparador
         if (!localStorage.getItem('comparar')) {
@@ -55,6 +57,10 @@ function main() {
         window.history.replaceState({}, document.title, "comparador.html");
 
     }
+    
+    // Llamar a la función para crear el array de atributos
+    arrayMesAtribut();
+    
     mostrarComparador();
 
 }
@@ -64,14 +70,20 @@ function main() {
 function arrayMesAtribut(){
 
     productes.forEach((product, index) => {
-     
         if (product.id) {
-            productesAtributs[product.id] = product;
+            // Buscar el attribute_id que corresponde a este product_id
+            const atribut = productAtribut.find(attr => attr.product_id === product.id);
+            if (atribut) {
+                productesMesAtributs[product.id] = atribut.attribute_id;
+            }
         }
     });
     
 
-    localStorage.setItem('productesAtributs', JSON.stringify(productesAtributs));
+    localStorage.setItem('productesAtributs', JSON.stringify(productesMesAtributs));
+    
+    // Mostrar el contenido en la consola del navegador
+    console.log('Contenido de productesMesAtributs:', productesMesAtributs);
 }
 
 
@@ -85,27 +97,27 @@ function mostrarComparador() {
     const compararDiv = document.getElementById('compararDiv');
     compararDiv.innerHTML = ""; // Limpiar contenido anterior
 
-
     if (!compareProduct || compareProduct.length === 0) {
         alert("No tens productes per a comparar");
         return;
     }
 
+    // Crear la tabla de comparación de atributos
+    crearTaulaComparacio();
+
+    // Mostrar productos individuales (código existente)
     compareProduct.forEach((item) => {
         const product = productes[item.product];
         if (product) {
-
             const productDiv = document.createElement('div');
             productDiv.style.border = "1px solid #000";
             productDiv.style.margin = "10px";
             productDiv.style.padding = "10px";
 
-
             const descP = document.createElement('p');
             descP.textContent = product.descripton;
             productDiv.appendChild(descP);
 
-       
             const priceP = document.createElement('p');
             priceP.textContent = `Preu: ${product.price}€`;
             productDiv.appendChild(priceP);
@@ -115,7 +127,6 @@ function mostrarComparador() {
             img.alt = product.name;
             img.style.maxWidth = "100px";
             productDiv.appendChild(img);
-
 
             const hr = document.createElement('hr');
             productDiv.appendChild(hr);
