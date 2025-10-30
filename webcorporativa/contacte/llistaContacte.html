@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Llista de Contactes</title>
+  <link rel="stylesheet" href="llistaContacte.css">
+  <script src="/BBDD/WebCorporativaDades.js" defer></script>
+  <script src="llistaContacte.js" defer></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Llista de Contactes</h2>
+    <p>Gestiona els contactes que s'han posat en contacte amb nosaltres.</p>
+    
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="Cercar per nom, email o assumpte...">
+      <button id="clearSearch">Netejar cerca</button>
+    </div>
+    
+    <div id="contactesList" class="contactes-list">
+      <!-- Els contactes es carregaran aquí dinàmicament -->
+    </div>
+    
+    <div class="actions">
+      <button id="backBtn" class="secondary-btn">Tornar a Contacte</button>
+    </div>
+  </div>
+
+  <!-- Modal per veure detalls -->
+  <div id="detailModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Detall del Contacte</h3>
+      <div id="contactDetail" class="contact-detail">
+        <!-- Els detalls es carregaran aquí -->
+      </div>
+      <div class="modal-actions">
+        <button id="editBtn" class="edit-btn">Editar</button>
+        <button id="deleteBtn" class="delete-btn">Eliminar</button>
+        <button id="closeDetailBtn" class="secondary-btn">Tancar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal per editar -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Editar Contacte</h3>
+      <form id="editForm">
+        <div class="form-group">
+          <label for="editName">Nom complet:</label>
+          <input type="text" id="editName" name="name" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editEmail">Correu electrònic:</label>
+          <input type="email" id="editEmail" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editPhone">Telèfon:</label>
+          <input type="tel" id="editPhone" name="phone">
+        </div>
+        
+        <div class="form-group">
+          <label for="editSubject">Assumpte:</label>
+          <input type="text" id="editSubject" name="subject" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="editMessage">Missatge:</label>
+          <textarea id="editMessage" name="message" rows="4" required></textarea>
+        </div>
+        
+        <div class="modal-actions">
+          <button type="submit" class="save-btn">Guardar Canvis</button>
+          <button type="button" id="cancelEditBtn" class="secondary-btn">Cancel·lar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de confirmació -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content confirm-modal">
+      <h3>Confirmar Eliminació</h3>
+      <p>Estàs segur que vols eliminar aquest contacte? Aquesta acció no es pot desfer.</p>
+      <div class="modal-actions">
+        <button id="confirmDeleteBtn" class="delete-btn">Sí, Eliminar</button>
+        <button id="cancelDeleteBtn" class="secondary-btn">Cancel·lar</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
