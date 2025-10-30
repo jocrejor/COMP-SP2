@@ -11,24 +11,24 @@
 </head>
 <body>
     <h1>Gestió de Clients</h1>
-    <button onclick="window.location.href='clientCrear.html'">+ Nou Client</button>
 
-    <table border="0">
+    <button onclick="window.location.href='clientCrear.html'">➕ Nou Client</button>
+
+    <table border="1" cellpadding="6">
         <thead>
             <tr>
-                <th>Index</th>
+                <th>ID</th>
                 <th>Nom</th>
                 <th>Cognoms</th>
                 <th>Adreça</th>
                 <th>Telèfon</th>
                 <th>Email</th>
-                <th>País</th>
-                <th>Província</th>
-                <th>Ciutat</th>
                 <th>Accions</th>
             </tr>
         </thead>
-        <tbody id="taulaClients"></tbody>
+        <tbody id="taulaClients">
+            <!-- Files generades dinàmicament -->
+        </tbody>
     </table>
 </body>
 </html>

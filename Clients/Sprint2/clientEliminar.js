@@ -1,27 +1,73 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
-    const index = params.get("index");
+document.addEventListener("DOMContentLoaded", main);
 
-    const clients = JSON.parse(localStorage.getItem("Client"));
-    const client = clients[index];
+function main() {
+    const params = new URLSearchParams(window.location.search);
+    const idParam = parseInt(params.get("id"), 10);
+
+    if (isNaN(idParam)) {
+        showError("ID de client invàlid.");
+        return;
+    }
+
+    const clients = JSON.parse(localStorage.getItem("Client")) || [];
+    const client = clients.find(c => c.id === idParam);
+
+    if (!client) {
+        showError("Client no trobat.");
+        return;
+    }
+
+    mostrarDetallsClient(client);
+
+    const orders = getArrayFromLSorGlobal("Order");
+    const comparators = getArrayFromLSorGlobal("Comparator");
+    const carts = getArrayFromLSorGlobal("Cart");
+
+    const dependencias =
+        (orders?.some(o => o.client_id === idParam) ||
+         comparators?.some(c => c.client_id === idParam) ||
+         carts?.some(c => c.client_id === idParam));
+
+    const confirmar = document.getElementById("confirmar");
+    const cancelar = document.getElementById("cancelar");
     const missatge = document.getElementById("missatge");
 
-    // Comprovar si el client té ordres, comparadors o carret
-    const orders = Order.filter(o => o.client_id === client.id);
-    const comparators = Comparator.filter(c => c.client_id === client.id);
-    const carts = Cart.filter(c => c.client_id === client.id);
-
-    if (orders.length > 0 || comparators.length > 0 || carts.length > 0) {
-        missatge.textContent = "⚠️ No es pot eliminar aquest client perquè té dades associades (comandes, comparadors o carrets).";
-        document.getElementById("confirmar").disabled = true;
+    if (dependencias) {
+        missatge.textContent = "⚠️ No es pot eliminar el client perquè té dependències actives.";
+        confirmar.disabled = true;
     } else {
         missatge.textContent = `Vols eliminar el client ${client.name} ${client.surname}?`;
-        document.getElementById("confirmar").addEventListener("click", () => {
-            clients.splice(index, 1);
+        confirmar.addEventListener("click", () => {
+            const idx = clients.findIndex(c => c.id === idParam);
+            clients.splice(idx, 1);
             localStorage.setItem("Client", JSON.stringify(clients));
             alert("Client eliminat correctament!");
             window.location.href = "clientLlistar.html";
         });
     }
-});
+
+    cancelar.addEventListener("click", () => window.location.href = "clientLlistar.html");
+}
+
+function mostrarDetallsClient(c) {
+    document.getElementById("detallsClient").innerHTML = `
+        <p><strong>ID:</strong> ${c.id}</p>
+        <p><strong>Nom:</strong> ${c.name} ${c.surname}</p>
+        <p><strong>Email:</strong> ${c.email}</p>
+        <p><strong>Telèfon:</strong> ${c.phone}</p>
+    `;
+}
+
+function getArrayFromLSorGlobal(name) {
+    try {
+        return JSON.parse(localStorage.getItem(name)) || window[name] || [];
+    } catch {
+        return window[name] || [];
+    }
+}
+
+function showError(msg) {
+    document.getElementById("contenedor").innerHTML =
+        `<p style="color:red">${msg}</p><button onclick="window.location.href='clientLlistar.html'">Tornar</button>`;
+}
 

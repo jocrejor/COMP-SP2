@@ -4,24 +4,35 @@
     <meta charset="UTF-8">
     <title>Editar Client</title>
     <link rel="stylesheet" href="style.css">
-    <script src="../../BBDD/TendaFakeDades.js"></script>
     <script src="../../BBDD/Location.js"></script>
+    <script src="../../BBDD/TendaFakeDades.js"></script>
     <script src="clientEditar.js"></script>
 </head>
 <body>
     <h1>Editar Client</h1>
+
     <form id="formEditar">
+        <input type="hidden" id="id">
+
+        <label for="name">Nom:</label><br>
         <input type="text" id="name" required><br>
+
+        <label for="surname">Cognoms:</label><br>
         <input type="text" id="surname" required><br>
+
+        <label for="email">Email:</label><br>
         <input type="email" id="email" required><br>
-        <input type="text" id="phone" required><br>
+
+        <label for="phone">Telèfon:</label><br>
+        <input type="text" id="phone" pattern="[0-9]{9}" required><br>
+
+        <label for="address">Adreça:</label><br>
         <input type="text" id="address" required><br>
 
-        <select id="country"></select>
-        <select id="province"></select>
-        <select id="city"></select><br>
+        <label for="cp">Codi Postal:</label><br>
+        <input type="text" id="cp" required><br>
 
-        <button type="submit">Guardar Canvis</button>
+        <button type="submit">💾 Guardar Canvis</button>
         <button type="button" onclick="window.location.href='clientLlistar.html'">Cancel·lar</button>
     </form>
 </body>

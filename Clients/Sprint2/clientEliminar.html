@@ -5,13 +5,17 @@
     <title>Eliminar Client</title>
     <link rel="stylesheet" href="style.css">
     <script src="../../BBDD/TendaFakeDades.js"></script>
+    <script src="../../BBDD/Location.js"></script>
     <script src="clientEliminar.js"></script>
 </head>
 <body>
     <h1>Eliminar Client</h1>
-    <p id="missatge"></p>
-    <button id="confirmar">Sí, eliminar</button>
-    <button onclick="window.location.href='clientLlistar.html'">Cancel·lar</button>
+    <div id="contenedor">
+        <p id="missatge"></p>
+        <div id="detallsClient"></div>
+        <button id="confirmar">Sí, eliminar</button>
+        <button id="cancelar">Cancel·lar</button>
+    </div>
 </body>
 </html>
 

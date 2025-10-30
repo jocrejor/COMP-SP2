@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    // Inicialitzar dades si no existeixen
+    // Inicialitzar dades si no hi són
     if (!localStorage.getItem("Client")) {
         localStorage.setItem("Client", JSON.stringify(Client));
     }
@@ -14,47 +14,23 @@ function carregarClients(clients) {
     const taula = document.getElementById("taulaClients");
     taula.innerHTML = "";
 
-    clients.forEach((client, index) => {
+    clients.forEach(client => {
         const fila = document.createElement("tr");
+
         fila.innerHTML = `
-            <td>${index}</td>
+            <td>${client.id}</td>
             <td>${client.name}</td>
             <td>${client.surname}</td>
             <td>${client.address}</td>
             <td>${client.phone}</td>
             <td>${client.email}</td>
-            <td>${getCountryName(client.country_id)}</td>
-            <td>${getProvinceName(client.province_id)}</td>
-            <td>${getCityName(client.city_id)}</td>
             <td>
-                <button onclick="editarClient(${index})">✏️</button>
-                <button onclick="eliminarClient(${index})">🗑️</button>
+                <button onclick="window.location.href='clientEditar.html?id=${client.id}'">✏️ Editar</button>
+                <button onclick="window.location.href='clientEliminar.html?id=${client.id}'">🗑️ Eliminar</button>
             </td>
         `;
+
         taula.appendChild(fila);
     });
-}
-
-function getCountryName(id) {
-    const country = Country.find(c => c.id === id);
-    return country ? country.name : "-";
-}
-
-function getProvinceName(id) {
-    const province = Province.find(p => p.id === id);
-    return province ? province.name : "-";
-}
-
-function getCityName(id) {
-    const city = City.find(c => c.id === id);
-    return city ? city.name : "-";
-}
-
-function editarClient(index) {
-    window.location.href = `clientEditar.html?index=${index}`;
-}
-
-function eliminarClient(index) {
-    window.location.href = `clientEliminar.html?index=${index}`;
 }
 
