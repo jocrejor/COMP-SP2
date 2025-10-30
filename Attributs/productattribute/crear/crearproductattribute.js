@@ -37,32 +37,32 @@ function mostrarnomproducte() {
 }
 
 function carregarAttributes() {
+  const select = document.getElementById("atributo");
+  if (!select) return;
+
   if (typeof Attribute !== "undefined" && Array.isArray(Attribute) && !localStorage.getItem("Attribute")) {
     localStorage.setItem("Attribute", JSON.stringify(Attribute));
   }
 
-  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-  let select = document.getElementById("atributo");
+  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
-  if (!select) return;
+  select.textContent = "";
 
-  while (select.firstChild) select.removeChild(select.firstChild);
-
-  let opcionInicial = document.createElement("option");
-  opcionInicial.value = "";
-  opcionInicial.appendChild(document.createTextNode(" Selecciona un atribut "));
+  const opcionInicial = document.createElement("option");
+  opcionInicial.setAttribute("value", "");
+  opcionInicial.appendChild(document.createTextNode("Selecciona un atribut"));
   select.appendChild(opcionInicial);
 
-  for (let i = 0; i < attributes.length; i++) {
-    let attr = attributes[i];
+  attributes.forEach(attr => {
     if (attr && attr.name) {
-      let option = document.createElement("option");
-      option.value = attr.id;
+      const option = document.createElement("option");
+      option.setAttribute("value", attr.id); 
       option.appendChild(document.createTextNode(attr.name));
       select.appendChild(option);
     }
-  }
+  });
 }
+
 
 function validarAtributo() {
   let element = document.getElementById("atributo");

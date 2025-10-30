@@ -59,7 +59,7 @@ function carregarDadesLocal() {
 
     tdAcciones.appendChild(btnEditar);
     tdAcciones.appendChild(btnEliminar);
- fila.appendChild(tdId);
+    fila.appendChild(tdId);
     fila.appendChild(tdNom);
     fila.appendChild(tdCategoria);
     fila.appendChild(tdAcciones);

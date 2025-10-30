@@ -11,38 +11,35 @@ function cancelar() {
 }
 
 function carregarFamilies() {
+  let select = document.getElementById("familia");
 
   if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
     localStorage.setItem("Family", JSON.stringify(Family));
   }
 
-  const families = JSON.parse(localStorage.getItem("Family")) || [];
-  const select = document.getElementById("familia");
+  let families = JSON.parse(localStorage.getItem("Family")) || [];
 
-  while (select.firstChild) {
-    select.removeChild(select.firstChild);
-  }
+  select.textContent = "";
 
-  // Opció inicial
-  const opcionInicial = document.createElement("option");
-  opcionInicial.value = "";
-  opcionInicial.appendChild(document.createTextNode(" Selecciona una família "));
+  let opcionInicial = document.createElement("option");
+  opcionInicial.setAttribute("value", "");
+  opcionInicial.appendChild(document.createTextNode("Selecciona una família"));
   select.appendChild(opcionInicial);
 
-  // Crear una opció por cada familia
-  for (let i = 0; i < families.length; i++) {
-    const familia = families[i];
+  families.forEach(familia => {
     if (familia && familia.name) {
       const option = document.createElement("option");
-      option.value = familia.id;
+      option.setAttribute("value", familia.id); 
       option.appendChild(document.createTextNode(familia.name));
       select.appendChild(option);
     }
-  }
+  });
 }
 
+
+
 function validarnom() {
-  var element = document.getElementById("nom");
+  let element = document.getElementById("nom");
   if (!element.checkValidity()) {
     if (element.validity.valueMissing) {
       error(element, "Has d'introduir un nom.");
@@ -55,14 +52,11 @@ function validarnom() {
   return true;
 }
 
-
-
 function validar (e) {
     esborrarError();
 
     if (validarnom() && validarfamilia() && confirm("Confirma si vols enviar el formulari")) {
        
-
         return true;
     } else {
         e.preventDefault();
@@ -71,7 +65,7 @@ function validar (e) {
 }
 
 function validarfamilia() {
-  const element = document.getElementById("familia");
+  let element = document.getElementById("familia");
 
   if (!element.checkValidity()) {
     if (element.validity.valueMissing) {
@@ -97,35 +91,37 @@ function esborrarError() {
   }
 }
 
-function comprobarid(array) {
-  if (!array || !array.some(e => e && e.id !== undefined)) return 1;
-
+function comprobarId(id) {
   let maxId = 0;
-  for (const item of array) {
-    const id = item && typeof item.id === "number" ? item.id : 0;
-    if (id > maxId) maxId = id;
+
+  if (!id) return 1;
+
+  for (let item of id) {
+    if (item && typeof item.id === "number" && item.id > maxId) {
+      maxId = item.id;
+    }
   }
+
   return maxId + 1;
 }
+
 
 function guardarEnLocalStorage(e) {
   if (!validar(e)) {
     return;
   }
 
-  const name = document.getElementById("nom").value.trim();
-  const familiaId = document.getElementById("familia").value;
+  let name = document.getElementById("nom").value.trim();
+  let familiaId = document.getElementById("familia").value;
 
-
-
-  const attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
 
   // Comproba si el atribut ya existeix en eixa familia
-  const atributoExistente = attributes.find(a => a.name === name && a.family_id == familiaId);
+  let atributoExistente = attributes.find(a => a.name === name && a.family_id == familiaId);
 
   if (!atributoExistente) {
-    const nuevoAttrId = comprobarid(attributes);
-    const nuevoAtributo = {
+    let nuevoAttrId = comprobarid(attributes);
+    let nuevoAtributo = {
       id: nuevoAttrId,
       name: name,
       family_id: parseInt(familiaId)
