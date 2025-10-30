@@ -1,7 +1,7 @@
 window.onload = iniciar;
 
 function iniciar() {
-  mostrarNombreProductoDOM(); 
+  mostrarnomproducte(); 
   carregarAttributes();       
   document.getElementById("enviar").addEventListener("click", guardarProductAttribute, false);
   document.getElementById("cancelar").addEventListener("click", cancelar);
@@ -11,7 +11,7 @@ function cancelar() {
   window.location.href = "../llistar/llistarproductattribute.html";
 }
 
-function mostrarNombreProductoDOM() {
+function mostrarnomproducte() {
     if (typeof Product !== "undefined" && Array.isArray(Product) && !localStorage.getItem("productos")) {
   localStorage.setItem("productos", JSON.stringify(Product));
 }
@@ -104,7 +104,7 @@ function esborrarError() {
 function validar(e) {
   esborrarError();
 
-  if (validarnom() && validarfamilia() && validarAtributo() && validarValor() && confirm("Confirma si vols enviar el formulari")) {
+  if ( validarAtributo() && validarValor() && confirm("Confirma si vols enviar el formulari")) {
     return true;
   } else {
     e.preventDefault();
