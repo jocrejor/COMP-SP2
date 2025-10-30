@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', main)
 
 function main() {
@@ -44,7 +43,9 @@ function mostrarInfoCliente() {
     const sesion = obtenerOCrearSesion();
 
     // Limpiar contenido anterior
-    infoClientDiv.textContent = '';
+    while (infoClientDiv.firstChild) {
+        infoClientDiv.removeChild(infoClientDiv.firstChild);
+    }
 
     const divContainer = document.createElement('div');
     divContainer.style.cssText = 'padding: 10px; border-radius: 5px; margin-bottom: 20px;';
@@ -53,42 +54,43 @@ function mostrarInfoCliente() {
         divContainer.style.background = '#f0f0f0';
 
         const h3 = document.createElement('h3');
-        h3.textContent = 'Informació del client';
+        h3.appendChild(document.createTextNode('Informació del client'));
         divContainer.appendChild(h3);
 
         const pNom = document.createElement('p');
         const strongNom = document.createElement('strong');
-        strongNom.textContent = 'Nom: ';
+        strongNom.appendChild(document.createTextNode('Nom: '));
         pNom.appendChild(strongNom);
         pNom.appendChild(document.createTextNode(`${cliente.name} ${cliente.surname}`));
         divContainer.appendChild(pNom);
 
         const pEmail = document.createElement('p');
         const strongEmail = document.createElement('strong');
-        strongEmail.textContent = 'Email: ';
+        strongEmail.appendChild(document.createTextNode('Email: '));
         pEmail.appendChild(strongEmail);
         pEmail.appendChild(document.createTextNode(cliente.email));
         divContainer.appendChild(pEmail);
 
         const pTelefon = document.createElement('p');
         const strongTelefon = document.createElement('strong');
-        strongTelefon.textContent = 'Telèfon: ';
+        strongTelefon.appendChild(document.createTextNode('Telèfon: '));
         pTelefon.appendChild(strongTelefon);
         pTelefon.appendChild(document.createTextNode(cliente.phone));
         divContainer.appendChild(pTelefon);
 
         const pAdreca = document.createElement('p');
         const strongAdreca = document.createElement('strong');
-        strongAdreca.textContent = 'Adreça: ';
+        strongAdreca.appendChild(document.createTextNode('Adreça: '));
         pAdreca.appendChild(strongAdreca);
         pAdreca.appendChild(document.createTextNode(`${cliente.address}, ${cliente.cp}`));
         divContainer.appendChild(pAdreca);
+
     } else {
         divContainer.style.background = '#fff3cd';
 
         const pSessio = document.createElement('p');
         const strongSessio = document.createElement('strong');
-        strongSessio.textContent = 'Sessió anònima';
+        strongSessio.appendChild(document.createTextNode('Sessió anònima'));
         pSessio.appendChild(strongSessio);
         divContainer.appendChild(pSessio);
 
@@ -103,12 +105,89 @@ function mostrarInfoCliente() {
         em.appendChild(textMensatge);
         pMensatge.appendChild(em);
         divContainer.appendChild(pMensatge);
+
     }
 
     infoClientDiv.appendChild(divContainer);
 }
 
+// Función para mostrar un formulario simple de login simulado
+function mostrarFormularioLogin(onLoginSuccess = null) {
+    // Crear un div para el formulario
+    const formDiv = document.createElement('div');
+    formDiv.style.textAlign = 'center';
 
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '1';
+    input.max = '5';
+    input.value = '1';
+    input.style.cssText = 'padding: 5px; margin: 10px 0; width: 100px; text-align: center;';
+    formDiv.appendChild(input);
+
+    // Mostrar el modal con el input
+    let modalOverlay = document.getElementById('modalOverlay');
+    if (!modalOverlay) {
+        modalOverlay = document.createElement('div');
+        modalOverlay.id = 'modalOverlay';
+        modalOverlay.className = 'modal-overlay';
+        document.body.appendChild(modalOverlay);
+    }
+
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal';
+
+    const title = document.createElement('h3');
+    title.style.marginBottom = '15px';
+    title.appendChild(document.createTextNode('Introdueix l\'ID del client (1-5)'));
+    modalContent.appendChild(title);
+
+    modalContent.appendChild(formDiv);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '15px';
+
+    const acceptButton = document.createElement('button');
+    acceptButton.className = 'modal-button';
+    acceptButton.appendChild(document.createTextNode('Acceptar'));
+    acceptButton.onclick = () => {
+        const clienteIdInput = input.value;
+        modalOverlay.style.display = 'none';
+        
+        if (clienteIdInput && !isNaN(clienteIdInput)) {
+            const id = parseInt(clienteIdInput);
+            if (typeof Client !== 'undefined') {
+                const cliente = Client.find(c => c.id === id);
+                if (cliente) {
+                    simularLogin(id);
+                } else {
+                    showModal('Client no trobat');
+                }
+            }
+        }
+    };
+    buttonContainer.appendChild(acceptButton);
+
+    const cancelButton = document.createElement('button');
+    cancelButton.className = 'modal-button modal-button-cancel';
+    cancelButton.appendChild(document.createTextNode('Cancel·lar'));
+    cancelButton.onclick = () => {
+        modalOverlay.style.display = 'none';
+    };
+    buttonContainer.appendChild(cancelButton);
+
+    modalContent.appendChild(buttonContainer);
+
+    modalOverlay.textContent = '';
+    modalOverlay.appendChild(modalContent);
+    modalOverlay.style.display = 'flex';
+
+    // Enfocar el input
+    input.focus();
+}
 
 // Función principal para mostrar el carrito y gestionar las acciones
 function mostrarCarret() {
@@ -128,12 +207,14 @@ function mostrarCarret() {
     document.getElementById('carretBuit').style.display = 'none';
     document.getElementById('contingutCarret').style.display = 'block';
 
-    elementsCarret.textContent = '';
+    while (elementsCarret.firstChild) {
+        elementsCarret.removeChild(elementsCarret.firstChild);
+    }
     const fragment = document.createDocumentFragment();
 
     carret.forEach((p, i) => {
         const div = document.createElement('div');
-
+        div.style.cssText = 'display: flex; align-items: center; gap: 15px; padding: 15px; border: 1px solid #ddd; margin-bottom: 10px; border-radius: 5px;';
 
         const productImg = Productimage ? Productimage.find(img => img.product_id === p.id) : null;
         const img = document.createElement("img");
@@ -205,11 +286,14 @@ function mostrarCarret() {
         fragment.appendChild(div);
     });
 
-
     elementsCarret.appendChild(fragment);
     // Calcula el total del carrito sumando el precio por cantidad de cada producto
     total = carret.reduce((s, p) => s + p.price * p.quantity, 0);
-    totalSpan.textContent = `${total.toFixed(2)} €`;
+    const totalText = document.createTextNode(`${total.toFixed(2)} €`);
+    while (totalSpan.firstChild) {
+        totalSpan.removeChild(totalSpan.firstChild);
+    }
+    totalSpan.appendChild(totalText);
 }
 
 // Funciones para modificar el carrito
@@ -219,7 +303,7 @@ function sumar(index) {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
     carret[index].quantity++;
     localStorage.setItem('carret', JSON.stringify(carret));
-    mostrarCarret(); // Se actualiza la vista del carrito
+    mostrarCarret();
 }
 
 // Disminuye en 1 la cantidad del producto seleccionado (siempre que sea mayor a 1)
@@ -228,45 +312,73 @@ function restar(index) {
     if (carret[index].quantity > 1) {
         carret[index].quantity--;
         localStorage.setItem('carret', JSON.stringify(carret));
-        mostrarCarret(); // Se actualiza la vista del carrito
+        mostrarCarret();
     }
 }
 
 // Elimina completamente el producto seleccionado del carrito
 function eliminar(index) {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
-    carret.splice(index, 1); // Quita el elemento del array
+    carret.splice(index, 1);
     localStorage.setItem('carret', JSON.stringify(carret));
-    mostrarCarret(); // Se actualiza la vista del carrito
+    mostrarCarret();
 }
 
-//Simular login de un cliente (para pruebas)
+// Simular login de un cliente (para pruebas)
 function simularLogin(clienteId) {
     localStorage.setItem('clienteId', clienteId);
     mostrarInfoCliente();
-    alert('Login simulat per al client ID: ' + clienteId);
+    showModal('Login simulat per al client ID: ' + clienteId);
 }
 
-//Cerrar sesión
+// Cerrar sesión
 function cerrarSesion() {
     localStorage.removeItem('clienteId');
     mostrarInfoCliente();
-    alert('Sessió tancada');
+    showModal('Sessió tancada');
 }
 
 // Función para finalizar la compra
 function finalitzarComanda() {
     const carret = JSON.parse(localStorage.getItem('carret')) || [];
 
+    // Verificar si el carrito está vacío
     if (!carret.length) {
-        alert('El carret està buit!');
+        showModal('El carret està buit!');
         return;
     }
 
     // Verificar si hay un cliente logueado
     const clienteId = localStorage.getItem('clienteId');
+    
     if (!clienteId) {
-        alert('Has d\'iniciar sessió per finalitzar la compra.\n\nSi us plau, registra\'t o inicia sessió per continuar.');
+        // Mostrar mensaje más detallado y preguntar si quiere hacer login
+        showModal(
+            'Has d\'iniciar sessió per finalitzar la compra.\n\n' +
+            'Vols iniciar sessió ara?',
+            () => {
+                // Este código se ejecutará cuando el usuario pulse Acceptar
+                mostrarFormularioLogin(() => {
+                    // Este código se ejecutará después de un login exitoso
+                    procesarFinalizacionCompra();
+                });
+            },
+            true // Mostrar botón de Cancel·lar
+        );
+        return;
+    }
+
+    // Si ya hay un cliente logueado, proceder directamente
+    procesarFinalizacionCompra();
+}
+
+// Función auxiliar para procesar la finalización de la compra
+function procesarFinalizacionCompra() {
+    const carret = JSON.parse(localStorage.getItem('carret')) || [];
+    const clienteId = localStorage.getItem('clienteId');
+
+    // Verificar que seguimos teniendo un cliente y productos
+    if (!clienteId || !carret.length) {
         return;
     }
 
@@ -301,7 +413,64 @@ function finalitzarComanda() {
     // Vaciar el carrito
     localStorage.removeItem('carret');
 
-    // Redirigir a la página de confirmación
-    window.location.href = 'confirmacio.html';
+    // Mostrar mensaje de éxito y luego redirigir
+    showModal('Comanda processada correctament!', () => {
+        window.location.href = 'finalitzar.html';
+    });
 }
 
+// Función para mostrar el modal
+function showModal(message, onAccept = null, showCancel = false) {
+    // Crear o reutilizar el overlay del modal
+    let modalOverlay = document.getElementById('modalOverlay');
+    if (!modalOverlay) {
+        modalOverlay = document.createElement('div');
+        modalOverlay.id = 'modalOverlay';
+        modalOverlay.className = 'modal-overlay';
+        document.body.appendChild(modalOverlay);
+    }
+
+    // Crear el contenido del modal
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal';
+
+    const messageP = document.createElement('p');
+    messageP.className = 'modal-message';
+    messageP.appendChild(document.createTextNode(message));
+    modalContent.appendChild(messageP);
+
+    // Contenedor para los botones
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.justifyContent = 'center';
+    buttonContainer.style.marginTop = '15px';
+
+    // Botón Acceptar
+    const acceptButton = document.createElement('button');
+    acceptButton.className = 'modal-button';
+    acceptButton.appendChild(document.createTextNode('Acceptar'));
+    acceptButton.onclick = () => {
+        modalOverlay.style.display = 'none';
+        if (onAccept) onAccept();
+    };
+    buttonContainer.appendChild(acceptButton);
+
+    // Botón Cancel·lar (opcional)
+    if (showCancel) {
+        const cancelButton = document.createElement('button');
+        cancelButton.className = 'modal-button modal-button-cancel';
+        cancelButton.appendChild(document.createTextNode('Cancel·lar'));
+        cancelButton.onclick = () => {
+            modalOverlay.style.display = 'none';
+        };
+        buttonContainer.appendChild(cancelButton);
+    }
+
+    modalContent.appendChild(buttonContainer);
+
+    // Limpiar y mostrar el modal
+    modalOverlay.textContent = '';
+    modalOverlay.appendChild(modalContent);
+    modalOverlay.style.display = 'flex';
+}
