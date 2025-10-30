@@ -220,7 +220,7 @@ let Client = [
     "taxidtype": "DNI",
     "taxid": "23456789D",
     "name": "Carlos",
-    "surname": "Díaz",Favo
+    "surname": "Díaz",
     "email": "carlos@example.com",
     "password": "123456",
     "phone": "+34600777888",
