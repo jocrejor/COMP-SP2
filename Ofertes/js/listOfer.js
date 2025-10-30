@@ -1,14 +1,20 @@
 document.addEventListener("DOMContentLoaded", main);
 
+// Funció principal que inicialitza la llista d'ofertes
+// Gestiona la visualització de les ofertes en una taula paginada
 function main() {
     const cosTaula = document.getElementById('tableBody');
     const contenidorPaginacio = document.createElement('div');
     contenidorPaginacio.className = 'pagination';
 
+    // Obtindre les dades guardades en localStorage o inicialitzar un array buit
     let dades = JSON.parse(localStorage.getItem("formData")) || [];
     let paginaActual = 1;
     const elementsPerPagina = 10;
 
+    // Funció per a carregar les ofertes des de la base de dades
+    // Si existeixen en localStorage, les retorna
+    // Si no, utilitza les dades predefinides de 'Sale' si estan disponibles
     function carregarOfertesBbdd() {
         const local = localStorage.getItem("Sale");
         if (local) return JSON.parse(local);
@@ -34,10 +40,14 @@ function main() {
         }
     }
 
+    // Funció per a guardar les dades en localStorage
+    // Actualitza l'emmagatzematge local amb l'estat actual de les ofertes
     function guardarDadesLocalStorage() {
         localStorage.setItem("formData", JSON.stringify(dades));
     }
 
+    // Funció per a eliminar una oferta específica
+    // Demana confirmació abans d'eliminar i actualitza la vista
     function eliminarDada(index) {
         if (confirm("Estàs segur que vols eliminar aquesta oferta?")) {
             dades.splice(index, 1);
@@ -46,6 +56,9 @@ function main() {
         }
     }
 
+    // Funció principal per a mostrar les ofertes en la taula
+    // Gestiona la paginació i la visualització de totes les ofertes
+    // Si no hi ha ofertes, mostra un missatge indicant-ho
     function renderitzarTaula() {
         if (!cosTaula) return;
 
@@ -126,6 +139,9 @@ function main() {
         renderitzarPaginacio();
     }
 
+    // Funció per a crear i mostrar els controls de paginació
+    // Crea els botons de navegació i mostra informació sobre la pàgina actual
+    // Inclou botons "Anterior" i "Següent", números de pàgina i comptador d'ofertes
     function renderitzarPaginacio() {
         const totalPagines = Math.ceil(dades.length / elementsPerPagina);
 

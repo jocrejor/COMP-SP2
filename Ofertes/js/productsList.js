@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
+// Funció per a carregar les ofertes des de la base de dades local
+// Si existeixen en localStorage, les retorna; si no, utilitza les dades predefinides de 'Sale'
 function carregarOfertesBbdd() {
     const local = localStorage.getItem("Sale");
     if (local) return JSON.parse(local);
@@ -10,13 +12,14 @@ function carregarOfertesBbdd() {
     return [];
 }
 
+// Funció principal que inicialitza l'aplicació i gestiona la visualització dels productes d'una oferta
 function main() {
-    const tableBody = document.getElementById('tableBody');
-    const pageTitle = document.getElementById('pageTitle');
-    const paginationInfo = document.getElementById('paginationInfo');
+    const tableBody        = document.getElementById('tableBody');
+    const pageTitle        = document.getElementById('pageTitle');
+    const paginationInfo   = document.getElementById('paginationInfo');
     const addProductButton = document.getElementById('addProductButton');
     
-    const params = new URLSearchParams(window.location.search);
+    const params   = new URLSearchParams(window.location.search);
     const ofertaId = params.get('oferta');
     
     const data = JSON.parse(localStorage.getItem("formData")) || [];
@@ -55,8 +58,8 @@ function guardarProductSale(productSale) {
     localStorage.setItem('productSaleData', JSON.stringify(productSale));
 }
 
-// Funció principal que carrega i mostra els productes aplicats a una oferta específica
-// Utilitza buscarProductosAplicados per obtindre els productes i després els mostra en la taula
+// Funció que carrega i mostra els productes associats a una oferta específica
+// Si no hi ha productes aplicats, mostra un missatge indicant-ho
 function cargarProductosAplicados(ofertaId) {
     const productosAplicados = buscarProductosAplicados(ofertaId);
     
@@ -108,7 +111,8 @@ function buscarProductosAplicados(ofertaId) {
 }
 
 // Funció que renderitza la taula amb els productes
-// S'encarrega de netejar la taula i mostrar els productes amb les seues accions
+// Neteja la taula existent i crea noves files per a cada producte
+// Inclou informació del producte i un botó per a eliminar-lo de l'oferta
 function renderTable(productos, ofertaId) {
     if (!tableBody) return;
     
@@ -151,8 +155,8 @@ function renderTable(productos, ofertaId) {
     });
 }
 
-// Funció que mostra un modal amb els productes disponibles per a afegir a l'oferta
-// Crea dinàmicament el modal amb tots els seus components i controls
+// Funció per a mostrar un modal amb la llista de productes disponibles
+// Crea dinàmicament una finestra emergent que permet seleccionar productes per a l'oferta
 function mostrarModalProductos(ofertaId) {
     const modal     = document.createElement("div");
     modal.className = 'modal';
@@ -170,9 +174,9 @@ function mostrarModalProductos(ofertaId) {
     productList.className = 'product-list';
     
     if (productosDisponibles.length === 0) {
-        const noProductsMsg = document.createElement("div");
-        noProductsMsg.className = 'no-data';
-        noProductsMsg.style.padding = '20px';
+        const noProductsMsg           = document.createElement("div");
+        noProductsMsg.className       = 'no-data';
+        noProductsMsg.style.padding   = '20px';
         noProductsMsg.style.textAlign = 'center';
         noProductsMsg.appendChild(document.createTextNode("No hi ha més productes disponibles per afegir"));
         productList.appendChild(noProductsMsg);
@@ -258,8 +262,9 @@ function obtenerProductosDisponibles(ofertaId) {
     return productosDisponibles;
 }
 
-// Funció per a afegir un producte a una oferta
-// Comprova si ja existeix la relació i si no, la crea i guarda en localStorage
+// Funció per a afegir un producte a una oferta específica
+// Comprova si ja existeix la relació i, si no, la crea i la guarda en localStorage
+// Retorna true si s'ha afegit correctament, false si ja existia
 function afegirProducteAOferta(ofertaId, productId) {
     const productSale      = obtenerProductSale();
     const saleIdAproximado = parseInt(ofertaId) + 1;
@@ -308,6 +313,9 @@ function eliminarProductoDeOferta(ofertaId, productId) {
     }
 }
 
+// Funció per a mostrar missatges temporals a l'usuari
+// Crea una notificació que es mostra durant 3 segons i després desapareix
+// El tipus pot ser "success" o "error" per a diferents estils visuals
 function mostrarMensaje(texto, tipo = "success") {
     const mensaje     = document.createElement("div");
     mensaje.className = `notification ${tipo}`;
@@ -320,6 +328,8 @@ function mostrarMensaje(texto, tipo = "success") {
     }, 3000);
 }
 
+// Funció per a mostrar missatges d'error en la taula
+// Crea una fila amb un missatge d'error que ocupa totes les columnes
 function mostrarError(mensaje) {
     if (!tableBody) return;
     
@@ -332,6 +342,8 @@ function mostrarError(mensaje) {
     tableBody.appendChild(row);
 }
 
+// Funció per a mostrar un missatge quan no hi ha productes
+// Mostra un missatge informatiu en la taula indicant que l'oferta no té productes assignats
 function mostrarNoProductos() {
     if (!tableBody) return;
     

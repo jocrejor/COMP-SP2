@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
+// Funció principal que gestiona l'edició d'ofertes
+// Inicialitza el formulari i configura tots els esdeveniments necessaris
 function main() {
     const formulari = document.getElementById('formOferta');
     const entradaOferta = document.getElementById('ofertaInput');
@@ -22,6 +24,8 @@ function main() {
         entradaDataFi.value = element.dataFi || "";
     }
 
+    // Funció per a mostrar missatges a l'usuari
+    // Crea o actualitza un element per a mostrar missatges d'error o èxit
     function mostrarMissatge(text, tipus = "error") {
         let missatge = document.getElementById("mensaje");
         if (!missatge) {
@@ -42,6 +46,9 @@ function main() {
         }
     }
 
+    // Funció per a validar el camp d'oferta
+    // Comprova que el camp no estiga buit i tinga almenys 2 caràcters
+    // Retorna un missatge d'error si la validació falla, o una cadena buida si és correcta
     function validarOferta() {
         const valor = entradaOferta.value.trim();
         if (!valor) {

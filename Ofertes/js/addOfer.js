@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
+
+// Funció principal que gestiona l'alta de noves ofertes
+// Inicialitza el formulari i configura la validació en temps real
 function main() {
     const formulari = document.getElementById('formOferta');
     const entradaOferta = document.getElementById('ofertaInput');
@@ -7,6 +10,9 @@ function main() {
     const entradaDataInici = document.getElementById('dataIniciInput');
     const entradaDataFi = document.getElementById('datafiInput');
 
+    // Funció per a crear els elements que mostraran els missatges d'error
+    // Crea un div per a cada camp del formulari on es mostraran els errors
+    // Els elements es creen només si no existeixen ja en el DOM
     function crearElementsError() {
         const camps = ['oferta', 'percentaje', 'coupon', 'dataInici', 'datafi'];
         camps.forEach(function(camp) {
@@ -59,6 +65,8 @@ function main() {
         }
     }
 
+    // Funció per a mostrar o amagar errors en els camps
+    // Si no hi ha missatge, neteja l'error del camp
     function mostrarErrorCamp(campId, missatge) {
         const campError = document.getElementById(campId + 'Error');
         const camp = document.getElementById(campId + 'Input');
@@ -76,6 +84,8 @@ function main() {
         }
     }
 
+    // Funció principal de validació del formulari
+    // Comprova tots els camps obligatoris i les seues restriccions
     function validarFormulari() {
         let esValid = true;
 
