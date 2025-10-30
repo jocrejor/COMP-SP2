@@ -1,45 +1,46 @@
+let client = null;
+
 document.addEventListener("DOMContentLoaded", main);
 
-let client = null;
-let clients = [];
-
 function main(){
-    // Carreguem els usuaris del localstorage
-    clients = JSON.parse(localStorage.getItem ("clients") || []);
+    // Carrega el client del localStorage
+    client = JSON.parse(localStorage.getItem("client") || "null");
 
-    client = clients[0];
-
-    if(client){
-        carregaDades ();
+    if (client) {
+        carregaDades();
+    } else {
+        console.log("No hay cliente en localStorage");
     }
 
+    // Botón modificar 
     document.getElementById("modificar").addEventListener("click", () => {
-    const clients = JSON.parse(localStorage.getItem("clients") || "[]");
+        if (!client) {
+            alert("No hay ningún cliente registrado.");
+            return;
+        }
 
-    if (clients.length === 0) {
-        alert("No hi ha cap client registrat.");
-        return;
-    }
+        localStorage.setItem("modificar", JSON.stringify(client));
+        window.location.href = "./registreModificar.html";
+    });
 
-    const client = clients[clients.length - 1];
-    localStorage.setItem("modificar", JSON.stringify(client));
-
-    window.location.href = "./registreModificar.html";
-})
+    // Botón "Torna"
+    document.getElementById("torna").addEventListener("click", () => {
+        window.location.href = "../registreCrear.html";
+    });
 }
 
 function carregaDades(){
-    // Inputs normals
-    document.getElementById("id").value = client.id;
-    document.getElementById("name").value = client.name;
-    document.getElementById("surname").value = client.surname;
-    document.getElementById("taxidtype_display").value = client.taxidtype;
-    document.getElementById("taxid").value = client.taxid;
-    document.getElementById("birth_date").value = client.birth_date;
-    document.getElementById("phone").value = client.phone;
-    document.getElementById("email").value = client.email;
-    document.getElementById("address").value = client.address;
-    document.getElementById("cp").value = client.cp;
+    // Inputs normales
+    document.getElementById("id").value = client.id || "";
+    document.getElementById("name").value = client.name || "";
+    document.getElementById("surname").value = client.surname || "";
+    document.getElementById("taxidtype_display").value = client.taxidtype || "";
+    document.getElementById("taxid").value = client.taxid || "";
+    document.getElementById("birth_date").value = client.birth_date || "";
+    document.getElementById("phone").value = client.phone || "";
+    document.getElementById("email").value = client.email || "";
+    document.getElementById("address").value = client.address || "";
+    document.getElementById("cp").value = client.cp || "";
 
     // Selects
     // País
@@ -65,7 +66,4 @@ function carregaDades(){
             break;
         }
     }
-
 }
-
-

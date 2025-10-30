@@ -4,6 +4,12 @@ function main() {
   carregarLocation();
   const formulari = document.getElementById("formClient");
   formulari.addEventListener("submit", validar, false);
+
+  // Botó per anar a l'àrea personal
+  const btnArea = document.getElementById("area");
+  btnArea.addEventListener("click", () => {
+    window.location.href = "./registre/registreAreaPersonal.html"; 
+  });
 }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -245,6 +251,27 @@ function validar(e) {
 }
 
 
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// FUNCIONS AUXILIARS
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function error(element, missatge) {
+  let miss = document.createTextNode(missatge);
+  document.getElementById("missatgeError").appendChild(miss);
+  element.classList.add("error");
+  element.focus();
+}
+
+
+function esborrarError() {
+  document.getElementById("missatgeError").textContent = "";
+  let formulari = document.forms[0];
+  for (let i = 0; i < formulari.elements.length; i++) {
+    formulari.elements[i].classList.remove("error");
+  }
+}
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // FUNCIÓ PER GUARDAR EL NOU USUARI AL LOCALSTORAGE
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -271,27 +298,6 @@ function guardaNouClient() {
   localStorage.setItem("client", JSON.stringify(client));
 
   alert("Client guardat correctament!");
-}
-
-
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// FUNCIONS AUXILIARS
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function error(element, missatge) {
-  let miss = document.createTextNode(missatge);
-  document.getElementById("missatgeError").appendChild(miss);
-  element.classList.add("error");
-  element.focus();
-}
-
-
-function esborrarError() {
-  document.getElementById("missatgeError").textContent = "";
-  let formulari = document.forms[0];
-  for (let i = 0; i < formulari.elements.length; i++) {
-    formulari.elements[i].classList.remove("error");
-  }
 }
 
 
@@ -343,7 +349,7 @@ function carregarLocation() {
     // Creem una opció per defecte
     let optionProvince = document.createElement("option");
     optionProvince.value = "";
-    let textProvince = document.createTextNode("--Selecciona un país--");
+    let textProvince = document.createTextNode("--Selecciona una provincia--");
     optionProvince.appendChild(textProvince);
 
     // Afegim l'opció al select
