@@ -108,12 +108,17 @@ button, #limpiar, #enviar{
     min-width: 70px;
 }
 
-button:hover, #enviar:hover {
+button:hover, #limpiar:hover {
     background-color: #db2231;
 }
 
-#limpiar:hover {
-    background-color: #9c820f;
+#enviar {
+    color: black;
+    background-color: #ffd620;
+}
+
+#enviar:hover {
+    background-color: #ffe368;
 }
 
 #botoContrasenya {

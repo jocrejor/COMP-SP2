@@ -99,8 +99,8 @@ function afegirRol(e) {
         rols.push(rolObj);
         guardarRols();
         mostrarRols();
-        document.getElementById('nouRol').value = ''; // Netejar el camp
-        alert(`Rol "${nouRol}" afegit correctament.`);
+        document.getElementById("nouRol").setAttribute("value", ""); // Netejar el camp
+        alert(`Rol ${nouRol} afegit correctament.`);
     } else if (rols.includes(nouRol)) {
         alert('Aquest rol ja existeix.');
     }
@@ -116,12 +116,12 @@ function eliminarRol(idRol) {
         return;
     }
 
-    if (confirm(`Estàs segur que vols eliminar el rol "${rol.name}}"?`)) {
+    if (confirm(`Estàs segur que vols eliminar el rol ${rol.name}?`)) {
         // Filtrar l'array per eliminar el rol especificat
         rols.splice(idRol, 1);
         guardarRols();
         mostrarRols();
-        alert(`Rol "${rol.name}" eliminat correctament.`);
+        alert(`Rol ${rol.name} eliminat correctament.`);
     }
 }
 

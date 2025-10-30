@@ -17,6 +17,7 @@ function main () {
 
     // Configuració dels event listeners per als botons
     document.getElementById("formulariUsuari").addEventListener("submit", validar);
+    document.getElementById("formulariUsuari").addEventListener("reset", limpiar);
     document.getElementById("botoContrasenya").addEventListener("click", mostrarContrasenya, false);
     
     // Carreguem els usuaris
@@ -52,7 +53,7 @@ function actualitzarSelectorRolsHTML() {
     // Afegir tots els rols disponibles dinàmicament
     rols.forEach(rol => {
         const option = document.createElement("option");
-        option.value = rol.id;
+        option.setAttribute("value", rol.id);
         option.appendChild(document.createTextNode(rol.name));
         selectorRol.appendChild(option);
     });
@@ -134,7 +135,7 @@ function validar(e) {
     esborrarError();
     
     // Validar tots els camps i demanar confirmació
-    if (validarNom() && validarnomUsuari() && validarCorreu() && validarContrasenya()) {
+    if (validarnomUsuari() && validarNom() && validarCorreu() && validarContrasenya()) {
         if (confirm("Confirma si vols enviar el formulari")) {
             // Decidir si afegir nou usuari o actualitzar existent
             if (editantId) {
@@ -146,6 +147,17 @@ function validar(e) {
         }
     }
     return false;
+}
+
+function limpiar(e) {
+    e.preventDefault(); // Evita l'enviament tradicional del formulari
+    esborrarError();
+
+    document.getElementById("nomUsuari").setAttribute("value", "");
+    document.getElementById("nom").setAttribute("value", "");
+    document.getElementById("correu").setAttribute("value", "");
+    document.getElementById("contrasenya").setAttribute("value", "");
+    document.getElementById("rol").setAttribute("value", "");
 }
 
 // Funció per a afegir un nou Usuari.
@@ -198,19 +210,19 @@ function editarIdUsuari(id) {
     const usuari = usuaris.find(u => u.id === id);
     if (usuari) {
         // Emplenar el formulari amb les dades de l'usuari existent.
-        document.getElementById("nom").value = usuari.name;
-        document.getElementById("correu").value = usuari.email;
-        document.getElementById("nomUsuari").value = usuari.nickname;
-        document.getElementById("contrasenya").value = usuari.password;
+        document.getElementById("nom").setAttribute("value", usuari.name);
+        document.getElementById("correu").setAttribute("value", usuari.email);
+        document.getElementById("nomUsuari").setAttribute("value", usuari.nickname);
+        document.getElementById("contrasenya").setAttribute("value", usuari.password);
         
         // Assegurar-se que el selector de rols està actualitzat.
         actualitzarSelectorRolsHTML();
         
         // Establir el rol de l'usuari.
-        document.getElementById("rol").value = usuari.rol_id;
+        document.getElementById("rol").setAttribute("value", usuari.rol_id);
         
         // Canviar el text del botó per indicar que s'està editant.
-        document.getElementById("enviar").value = "Actualitzar";
+        document.getElementById("enviar").setAttribute("value", "Actualitzar");
     }
 }
 
