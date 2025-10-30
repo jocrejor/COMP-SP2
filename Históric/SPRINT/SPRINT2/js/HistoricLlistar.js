@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             //Cel·la de Client -> mostrar el nom en lloc del nº
             const linkClient = document.createElement("a");
-            linkClient.href = 'extra/Visualitzar_Client.html?id=${registre.client_id}';
+            linkClient.href = `extra/Visualitzar_Client.html?id=${registre.client_id}`;
             linkClient.textContent = (clientNom ? clientNom.name : "Desconegut") + " →"; //Nom + fletxa
 
             const camps = [
