@@ -12,10 +12,12 @@
     <h1>Login</h1>
     <form id="loginForm">
         <label for="login_user">Usuari:</label>
-        <input type="text" id="login_user" required placeholder="Usuari"><br><br>
+        <input type="text" id="login_user" required minlength="3" pattern="^[A-Za-zÀ-ÿ0-9]+$" placeholder="Usuari"><br>
+        <span class="error" id="error_login_user"></span><br><br>
 
         <label for="login_pass">Contrasenya:</label>
-        <input type="password" id="login_pass" required placeholder="Contrasenya"><br><br>
+        <input type="password" id="login_pass" minlength="5" required pattern="^\d{5,}$" placeholder="Contrasenya">
+        <span class="error" id="error_login_pass"></span><br><br>
 
         <button type="button" id="login">Iniciar Sessió</button>
     </form>

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <title>Alta de clients</title>
     <script  type="text/javascript"  src="../BBDD/Location.js" defer></script>
-    <script src="../../BBDD/TendaFakeDades.js" defer></script>
     <script src="./registreCrear.js" defer></script>
     <link rel="stylesheet" href="./registreCrear.css">
     
@@ -15,7 +14,7 @@
     <h2>Alta de clients</h2>
     <input type="hidden" id="index" value="-1">
 
-    <form action="#" method="" id="formClient">
+    <form action="#" method="" id="formClient" novalidate>
         <label for="id">Id:</label><br>
         <input type="number" id="id"><br><br>
 
@@ -77,13 +76,13 @@
 
 
         <label for="password">Contrasenya:</label><br>
-        <input type="password" id="password" minlength="8" required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$"><br>
+        <input type="password" id="password" minlength="6" required pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{6,}$"><br>
 
         <label for="repetir_password">Repetir contrasenya:</label><br>
         <input type="password" id="repetir_password" required><br>
 
 
-        <button id="alta" type="submit">Alta</button>
+        <button id="alta" name="alta" type="submit">Alta</button>
         <button id="area" type="button">Àrea personal</button>
         <p id="missatgeError"></p>
 
