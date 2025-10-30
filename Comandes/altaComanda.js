@@ -1,204 +1,259 @@
-// Quan el document estigui completament carregat, s'executa la funció main()
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    // Assigna els esdeveniments principals del formulari i botons
-    document.getElementById("pedidoForm").addEventListener("submit", validar, false); // Validar formulari
-    document.querySelector(".addProduct").addEventListener("click", afegirProducte, false); // Afegir producte
-    document.getElementById("llista").addEventListener("click", () => location.href = "comandesLlistar.html"); // Anar a la pàgina de llistat
-    // Carrega clients i productes al carregar la pàgina
+    document.getElementById("pedidoForm").addEventListener("submit", validarFormulari, false);
+    document.querySelector(".addProduct").addEventListener("click", afegirProducte, false);
+    document.getElementById("llista").addEventListener("click", () => location.href = "comandesLlistar.html");
+
     carregarClients();
     carregarProductes();
+    mostrarProductes(JSON.parse(localStorage.getItem("productesActuals")) || []);
 }
 
 //  CARREGAR CLIENTS I PRODUCTES 
-// Omple el select de clients amb les dades de l’array Client
 function carregarClients() {
     let select = document.getElementById("client");
-    select.innerHTML = '<option value="">Selecciona un client...</option>';
+    select.replaceChildren();
+    select.appendChild(new Option("Selecciona un client...", ""));
+
     Client.forEach(c => {
-        let opt = document.createElement("option");
-        opt.value = c.id;
-        opt.textContent = `${c.name} ${c.surname}`;
-        select.appendChild(opt);
+        select.appendChild(new Option(`${c.name} ${c.surname}`, c.id));
     });
 }
 
-// Omple tots els selects de productes amb les dades de l’array Product
 function carregarProductes() {
     document.querySelectorAll(".productSelect").forEach(select => {
-        select.innerHTML = '<option value="">Selecciona un producte...</option>';
-        Product.forEach(p => {
-            let opt = document.createElement("option");
-            opt.value = p.id;
-            opt.textContent = p.name;
-            select.appendChild(opt);
-        });
+        select.replaceChildren();
+        select.appendChild(new Option("Selecciona un producte...", ""));
+        Product.forEach(p => select.appendChild(new Option(p.name, p.id)));
     });
 }
 
 //  VALIDACIÓ 
-// Valida el formulari abans d’enviar-lo
-function validar(e) {
-    e.preventDefault(); // Evita l’enviament per defecte del formulari
-    esborrarError(); // Neteja errors anteriors
-
-    // Llista de camps obligatoris amb els seus missatges d’error
-    let camps = [
-        { id: "date", msg: "Has d’introduir una data." },
-        { id: "payment", msg: "Selecciona una forma de pagament." },
-        { id: "shipping", msg: "Introdueix un valor vàlid per les despeses d’enviament." },
-        { id: "client", msg: "Has de seleccionar un client." }
-    ];
-
-    // Comprova si cada camp és vàlid
-    for (let c of camps) {
-        let el = document.getElementById(c.id);
-        if (!el.value || (c.id === "shipping" && el.value < 0)) {
-            return error(el, c.msg); // Mostra l’error i atura la validació
-        }
+function validarPagament() {
+    let el = document.getElementById("payment");
+    if (!el.checkValidity()) {
+        if (el.validity.valueMissing) error(el, "Selecciona una forma de pagament.");
+        return false;
     }
-
-    // Si tot és correcte, envia el formulari
-    enviarFormulari();
+    return true;
 }
 
-// Mostra missatges d’error i marca el camp corresponent
-function error(element, msg) {
-    let err = document.getElementById("missatgeError");
-    let p = document.createElement("p");
-    p.textContent = msg;
-    err.appendChild(p);
-    element.classList.add("error");
-    element.focus();
+function validarEnviament() {
+    let el = document.getElementById("shipping");
+    if (!el.checkValidity() || el.value < 0) {
+        if (el.validity.valueMissing) error(el, "Introdueix despeses d’enviament.");
+        else error(el, "Les despeses d’enviament no poden ser negatives.");
+        return false;
+    }
+    return true;
+}
+
+function validarClient() {
+    let el = document.getElementById("client");
+    if (!el.checkValidity() || !el.value) {
+        error(el, "Has de seleccionar un client.");
+        return false;
+    }
+    return true;
+}
+
+function validarProductes() {
+    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+    if (llista.length === 0) {
+        let cont = document.getElementById("missatgeError");
+        let p = document.createElement("p");
+        p.textContent = "Has d’afegir almenys un producte.";
+        cont.appendChild(p);
+        return false;
+    }
+
+    let valid = true;
+    llista.forEach((p, i) => {
+        if (!p.producte) {
+            let cont = document.getElementById("missatgeError");
+            let msg = document.createElement("p");
+            msg.textContent = `El producte de la línia ${i + 1} no és vàlid.`;
+            cont.appendChild(msg);
+            valid = false;
+        }
+        if (p.quantitat <= 0) {
+            let cont = document.getElementById("missatgeError");
+            let msg = document.createElement("p");
+            msg.textContent = `La quantitat del producte de la línia ${i + 1} ha de ser major que 0.`;
+            cont.appendChild(msg);
+            valid = false;
+        }
+    });
+    return valid;
+}
+
+function validarFormulari(e) {
+    e.preventDefault();
+    esborrarError();
+
+    if (validarPagament() && validarEnviament() && validarClient() && validarProductes()) {
+        enviarFormulari();
+        return true;
+    }
+
     return false;
 }
 
-// Esborra els errors visuals i els missatges del formulari
-function esborrarError() {
-    for (let el of document.forms[0].elements) el.classList.remove("error");
-    let err = document.getElementById("missatgeError");
-    while (err.firstChild) err.removeChild(err.firstChild);
+//  FUNCIONS D'ERROR 
+// Funció d'error millorada per mostrar el missatge al costat del camp
+function error(element, missatge) {
+    // Marquem el camp com a error
+    element.classList.add("error");
+
+    // Eliminem missatges anteriors d'aquest element
+    let existing = element.parentElement.querySelector(".error-msg");
+    if (existing) existing.remove();
+
+    // Creem un nou missatge d'error
+    let span = document.createElement("span");
+    span.className = "error-msg";
+    span.style.color = "red";
+    span.textContent = missatge;
+
+    // Afegim el missatge al costat del camp
+    element.parentElement.appendChild(span);
+
+    // Posar focus en el primer camp amb error
+    element.focus();
 }
-//  PRODUCTES 
-// Afegeix un nou producte a la llista temporal (localStorage)
+
+// Esborrar tots els errors inline
+function esborrarError() {
+    let formulari = document.forms[0];
+    for (let el of formulari.elements) el.classList.remove("error");
+    document.querySelectorAll(".error-msg").forEach(span => span.remove());
+    // També podem esborrar missatges generals
+    document.getElementById("missatgeError").replaceChildren();
+}
+ 
+
+//  AFEGIR PRODUCTE 
 function afegirProducte() {
+    esborrarError();
     let fila = document.querySelector(".product-line");
     let quant = fila.querySelector("[name='quantity[]']");
     let preu = fila.querySelector("[name='price[]']");
-    
-    // Validació de quantitat i preu
-    if (!quant.value || !preu.value) {
-        alert("Has d'introduir una quantitat i un preu vàlids abans d'afegir el producte.");
-        return;
+    let productSelect = fila.querySelector("[name='product_id[]']");
+    let descompte = fila.querySelector("[name='discount[]']");
+
+    let valid = true;
+
+    if (!productSelect.value) {
+        error(productSelect, "Selecciona un producte.");
+        valid = false;
+    }
+    if (!quant.value || quant.value <= 0) {
+        error(quant, "Introdueix una quantitat vàlida.");
+        valid = false;
+    }
+    if (!preu.value || preu.value <= 0) {
+        error(preu, "Introdueix un preu vàlid.");
+        valid = false;
     }
 
-    // Elimina el requeriment per evitar errors posteriors
-    quant.removeAttribute("required");
-    preu.removeAttribute("required");
+    if (!valid) return;
 
-    // Crea un objecte amb les dades del producte
     let nou = {
-        producte: fila.querySelector("[name='product_id[]']").value,
+        producte: productSelect.value,
         quantitat: +quant.value,
         preu: +preu.value,
-        descompte: +(fila.querySelector("[name='discount[]']").value || 0)
+        descompte: +(descompte.value || 0)
     };
 
-    // Guarda la llista de productes al localStorage
-    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
-    llista.push(nou);
-    localStorage.setItem("productesActuals", JSON.stringify(llista));
+   // let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+   // llista.push(nou);
+   // localStorage.setItem("productesActuals", JSON.stringify(llista));
 
-    // Mostra els productes afegits a la interfície
     mostrarProductes(llista);
 
-    // Neteja els camps
-    quant.value = preu.value = fila.querySelector("[name='discount[]']").value = "";
+    quant.value = preu.value = descompte.value = "";
+    productSelect.value = "";
 }
 
-// Mostra en una taula els productes afegits
+//  MOSTRAR PRODUCTES 
 function mostrarProductes(productes) {
     let cont = document.getElementById("productesAfegits");
-    while (cont.firstChild) cont.removeChild(cont.firstChild);
-
-    let h4 = document.createElement("h4");
-    h4.textContent = "Productes a afegint-se";
-    cont.appendChild(h4);
+    cont.replaceChildren();
 
     if (productes.length === 0) return;
 
-    // Crea una taula amb els productes
+    let h4 = document.createElement("h4");
+    h4.textContent = "Productes a afegir-se";
+    cont.appendChild(h4);
+
     let caps = ["Producte", "Quantitat", "Preu", "Descompte"];
     let taula = document.createElement("table");
     taula.border = "1";
     taula.cellPadding = "4";
     taula.cellSpacing = "0";
 
-    // Capçalera de la taula
-    let cap = document.createElement("tr");
-    for (let t of caps) {
+    let trCap = document.createElement("tr");
+    caps.forEach(t => {
         let th = document.createElement("th");
         th.textContent = t;
-        cap.appendChild(th);
-    }
-    taula.appendChild(cap);
+        trCap.appendChild(th);
+    });
+    taula.appendChild(trCap);
 
-    // Files amb dades dels productes
-    for (let p of productes) {
+    productes.forEach(p => {
         let tr = document.createElement("tr");
-        [p.producte, p.quantitat, p.preu.toFixed(2), p.descompte.toFixed(2)]
-            .forEach(v => {
-                let td = document.createElement("td");
-                td.textContent = v;
-                tr.appendChild(td);
-            });
+        let prodObj = Product.find(x => Number(x.id) === Number(p.producte));
+        let nomProducte = prodObj ? prodObj.name : "Desconegut";
+
+        [nomProducte, p.quantitat, p.preu.toFixed(2), p.descompte.toFixed(2)].forEach(v => {
+            let td = document.createElement("td");
+            td.textContent = v;
+            tr.appendChild(td);
+        });
+
         taula.appendChild(tr);
-    }
+    });
+
     cont.appendChild(taula);
 }
 
-//  GUARDAR FORMULARI 
-// Desa tota la comanda al localStorage
+//  ENVIAR FORMULARI 
 function enviarFormulari() {
     let clientSelect = document.getElementById("client");
-    let clientNom = clientSelect.options[clientSelect.selectedIndex].textContent;
+    let clientNom = clientSelect.options[clientSelect.selectedIndex].text;
 
-    // Recupera els productes afegits anteriorment
     let productesGuardats = JSON.parse(localStorage.getItem("productesActuals")) || [];
-
-    // Substitueix els IDs per noms reals dels productes
     let productesAmbNom = productesGuardats.map(p => {
-        let prod = Product.find(x => x.id == p.producte);
+        let prod = Product.find(x => Number(x.id) === Number(p.producte));
         return {
-            producte: prod ? prod.name : `Producte ${p.producte}`,
+            producte: prod ? prod.name : "Desconegut",
             quantitat: p.quantitat,
             preu: p.preu,
             descompte: p.descompte
         };
     });
 
-    // Crea l’objecte comanda
+    let dataRaw = document.getElementById("datetime").value;
+    let dataFormatada = dataRaw.replace("T", " ");
+
     let comanda = {
-        id: Date.now(), 
-        data: document.getElementById("date").value,
+        id: Date.now(),
+        data: dataFormatada,
         pagament: document.getElementById("payment").value,
         enviament: +document.getElementById("shipping").value,
         client: clientNom,
         productes: productesAmbNom
     };
 
-    // Desa la comanda al localStorage
     let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
     comandes.push(comanda);
     localStorage.setItem("comandes", JSON.stringify(comandes));
-    localStorage.removeItem("productesActuals"); // Neteja la llista temporal
+    localStorage.removeItem("productesActuals");
 
-    // Neteja el formulari i mostra un missatge de confirmació
     document.forms[0].reset();
-    let cont = document.getElementById("productesAfegits");
-    while (cont.firstChild) cont.removeChild(cont.firstChild);
+    document.getElementById("productesAfegits").replaceChildren();
     let msg = document.createElement("p");
-    msg.textContent = "✅ Comanda guardada correctament.";
-    cont.appendChild(msg);
+    msg.textContent = "Comanda guardada correctament.";
+    document.getElementById("productesAfegits").appendChild(msg);
 }

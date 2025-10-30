@@ -13,7 +13,7 @@ function eliminarPedido(index) {
   // Creem un missatge de confirmació amb detalls de la comanda
   let mensaje = `Estàs segur/segura que vols eliminar aquesta comanda?\n\n` +
                 `ID: ${pedido.id}\n` +
-                `Data: ${pedido.date}\n` +
+                `Data: ${pedido.datetime}\n` +
                 `Client: ${pedido.client}\n` +
                 `Total: ${pedido.total.toFixed(2)}€\n\n` +
                 `Esta acció no es pot desfer.`;
@@ -66,7 +66,7 @@ function mostrarPedidos() {
 
     // Cel·la amb la data
     let celData = document.createElement("td");
-    celData.appendChild(document.createTextNode(pedido.date));
+    celData.appendChild(document.createTextNode(pedido.datetime));
 
     // Cel·la amb el nom del client
     let celClient = document.createElement("td");
