@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Alta de clients</title>
+    <script  type="text/javascript"  src="../BBDD/Location.js" defer></script>
     <script src="../../BBDD/TendaFakeDades.js" defer></script>
-    <script src="./location.js" defer></script>
     <script src="./registreCrear.js" defer></script>
     <link rel="stylesheet" href="./registreCrear.css">
     
@@ -20,9 +20,7 @@
         <input type="number" id="id"><br><br>
 
         <label for="name">Nom:</label><br>
-        <input type="text" id="name" required pattern="^[A-Za-zÀ-ÿ\s]{3,100}$"><br>
-        <span class="error" id="error_name"></span><br>
-
+        <input type="text" id="name" name="name" maxlength="15" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,15}$" title="Introdueix entre 3 i 15 lletres"><br>
 
         <label for="surname">Cognoms:</label><br>
         <input type="text" id="surname" maxlength="100" required><br>
@@ -101,6 +99,7 @@
 
         <button id="alta" type="submit">Alta</button>
         <button id="area" type="button">Àrea personal</button>
+        <p id="missatgeError"></p>
 
     </form>
 

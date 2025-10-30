@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", main);
 let clients = [];
 
 function main() {
-    carregaSelect();
+  
+  carregaSelect();
 
     const formulari = document.getElementById("formClient");
     formulari.addEventListener("submit", (event)=>{
@@ -82,6 +83,20 @@ function guardarClient() {
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Part de les validacions
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function validarNom (){
+  let element = document.getElementById("name");
+    if(!element.checkValidity()){
+      if (element.validity.valueMissing){
+        error(element, "Deus d'introduïr un nom");
+      }
+      if(element.validity.patternMismatch){
+        error(element, "El nom ha de tindre entre 3 y 15 caracters");
+      }
+      return false;
+    }
+    return true;
+}
 
 // Funció per fer les validacions del formulari generals
 function validarFormulari() {
