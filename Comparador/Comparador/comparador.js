@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", main)
 let compare = localStorage.getItem('comparar') ? JSON.parse(localStorage.getItem('comparar')) : {};
 let compareProduct = localStorage.getItem('compararProductes') ? JSON.parse(localStorage.getItem('compararProductes')) : [];
 let productes = localStorage.getItem('productes') ? JSON.parse(localStorage.getItem('productes')) : [];
+let productesMesAtributs = localStorage.getItem('productesAtributs') ? JSON.parse(localStorage.getItem('productesAtributs')) : [];
+let productAtribut  = localStorage.getItem('productAtribut') ? JSON.parse(localStorage.getItem('productAtribut')) : Productattribute;
 
 function main() {
     // Obtenir l'index del producte a través de la URL
@@ -56,6 +58,22 @@ function main() {
     mostrarComparador();
 
 }
+
+
+
+function arrayMesAtribut(){
+
+    productes.forEach((product, index) => {
+     
+        if (product.id) {
+            productesAtributs[product.id] = product;
+        }
+    });
+    
+
+    localStorage.setItem('productesAtributs', JSON.stringify(productesAtributs));
+}
+
 
 //Crear un ID de sessió aleatori
 function obtindreSessionId() {
