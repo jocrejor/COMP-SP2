@@ -912,6 +912,23 @@ const ProductSale = [
   { sale_id: 30, product_id: 28 }
 ];
 
+let Favorites = [
+  { "id": 1, "name": "Portátiles Gaming" },
+  { "id": 2, "name": "Monitores 4K" },
+  { "id": 3, "name": "Ratones Inalámbricos" },
+  { "id": 4, "name": "Teclados Mecánicos RGB" },
+  { "id": 5, "name": "Mini PCs Compactos" },
+  { "id": 6, "name": "Sobremesas para Oficina" },
+  { "id": 7, "name": "Auriculares con Micrófono" },
+  { "id": 8, "name": "Impresoras Láser" },
+  { "id": 9, "name": "Tarjetas Gráficas NVIDIA" },
+  { "id": 10, "name": "SSD de Alta Velocidad" },
+  { "id": 11, "name": "Monitores Gaming Curvos" },
+  { "id": 12, "name": "Ordenadores Todo en Uno" },
+  { "id": 13, "name": "Accesorios para Streaming" },
+  { "id": 14, "name": "Equipos de Edición de Video" },
+  { "id": 15, "name": "Componentes de Alto Rendimiento" }
+];
 
 
 
