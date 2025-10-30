@@ -1,16 +1,11 @@
 // Iniciem l'aplicació quan el DOM estiga completament carregat
 document.addEventListener("DOMContentLoaded", main);
-let countryArray;
-let llista = new Array(); // Array on guardarem la llista de països
+let countryArray = [];
 let accio = "Afegir";     // Estat actual del botó (Afegir o Actualitzar)
 
 async function main() {
-
-    countryArray =  JSON.parse(localStorage.getItem("localitzacioPais")) || localStorage.setItem("localitzacioPais",JSON.stringify(Country)); 
-    
-    console.log(countryArray);
-    
-    
+    // Carreguem les dades de Location.js i les sincronitzem amb localStorage
+    carregarDades();
     
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
@@ -19,7 +14,7 @@ async function main() {
 
     // Si encara no existeix un ID automàtic al localStorage, el creem
     if (!localStorage.getItem("countryLastId")) {
-        localStorage.setItem("countryLastId", 0);
+        localStorage.setItem("countryLastId", "0");
     }
 
     // Listener del botó Afegir/Modificar
@@ -47,6 +42,31 @@ async function main() {
     });
 }
 
+// Funció per carregar i sincronitzar les dades
+function carregarDades() {
+    // Intentem carregar de localStorage
+    const dadesLocalStorage = localStorage.getItem("localitzacioPais");
+    
+    if (dadesLocalStorage) {
+        countryArray = JSON.parse(dadesLocalStorage);
+    } else {
+        // Si no hi ha dades a localStorage, carreguem de Location.js
+        // Asumim que Location.js defineix una variable global 'Country'
+        if (typeof Country !== 'undefined') {
+            countryArray = [...Country]; // Fem una còpia
+            localStorage.setItem("localitzacioPais", JSON.stringify(countryArray));
+            
+            // Establim l'ID màxim basat en les dades de Location.js
+            if (countryArray.length > 0) {
+                const maxId = Math.max(...countryArray.map(pais => pais.id));
+                localStorage.setItem("countryLastId", maxId.toString());
+            }
+        } else {
+            countryArray = [];
+        }
+    }
+}
+
 // Funció per crear un nou país i guardar-lo al localStorage
 function crearPais() {
     const country = document.getElementById("country").value;
@@ -56,34 +76,37 @@ function crearPais() {
     }
 
     // Recuperem l'últim ID i incrementem-lo per assignar un ID únic
-    let nuevoCountry = Number(localStorage.getItem("countryLastId")) || 0;
-    nuevoCountry++;
+    let nuevoId = Number(localStorage.getItem("countryLastId")) + 1;
 
     // Objecte que representa un país amb ID i nom
     let objetoCountry = {
-        id: nuevoCountry,
-        country: country,
+        id: nuevoId,
+        name: country, // Canviat de 'country' a 'name' per consistència
     };
 
     // Afegim el país a l'array i l'actualitzem al localStorage
-    llista.push(objetoCountry);
-    localStorage.setItem("localitzacioPais", JSON.stringify(llista));
-    localStorage.setItem("countryLastId", nuevoCountry);
+    countryArray.push(objetoCountry);
+    localStorage.setItem("localitzacioPais", JSON.stringify(countryArray));
+    localStorage.setItem("countryLastId", nuevoId.toString());
 }
 
-// Funció per actualitzar un país existent
+// Actualitzar país existent
 function actualitzarPais() {
-    const country = document.getElementById("country").value;
-    const index = document.getElementById("index").value;
+    const countryName = document.getElementById("country").value.trim();
+    const index = parseInt(document.getElementById("index").value, 10);
 
-    // Actualitzem el país a la posició indicada pel camp ocult "index"
-    // Mantenim l'ID original per no perdre'l
-    llista[index] = { 
-        id: llista[index].id, 
-        country: country 
-    };
-    localStorage.setItem("localitzacioPais", JSON.stringify(llista));
+    // Comprovem que l'índex sigui vàlid
+    if (index >= 0 && index < countryArray.length) {
+        // Actualitzem el nom del país
+        countryArray[index].name = countryName;
+
+        // Guardem l’array actualitzat a localStorage
+        localStorage.setItem("localitzacioPais", JSON.stringify(countryArray));
+    } else {
+        console.error("Índex de país invàlid:", index);
+    }
 }
+
 
 // Funció per mostrar la llista de països a la pàgina
 function mostrarLlista() {
@@ -95,14 +118,14 @@ function mostrarLlista() {
     countryArray.forEach((item, index) => {
         aux +=
             "<li><button onclick='esborrarPais(" +
-            item.id +
+            index +
             ")'>🗑️ Esborrar</button><button onclick='actualitzar(" +
-            item.id +
+            index +
             ")'>✏️ Modificar</button>" +
             item.name +
             "<a href='./provincia/provinciaLocalitzacio.html?id=" + 
             item.id + "&country=" + encodeURIComponent(item.name) + 
-            "'><button>Provincia</button></a>"
+            "'><button>Provincia</button></a></li>";
 
     });
 
@@ -112,9 +135,8 @@ function mostrarLlista() {
 
 // Carrega el país seleccionat per a modificar-lo
 function actualitzar(index) {
-    console.log(llista[index]);
     document.getElementById("index").value = index; // Guardem l'índex actual
-    document.getElementById("country").value = llista[index].country; // Mostrem el valor al camp de text
+    document.getElementById("country").value = countryArray[index].name; // Mostrem el valor al camp de text
     accio = "Actualitzar"; // Canviem l'estat del botó
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
@@ -122,9 +144,11 @@ function actualitzar(index) {
 
 // Funció per eliminar un país de la llista
 function esborrarPais(index) {
-    llista.splice(index, 1); // Eliminem 1 element en la posició indicada
-    localStorage.setItem("localitzacioPais", JSON.stringify(llista)); // Guardem la nova llista
-    mostrarLlista(); // Actualitzem la vista
+    if (confirm("Estàs segur que vols eliminar aquest país?")) {
+        countryArray.splice(index, 1); // Eliminem 1 element en la posició indicada
+        localStorage.setItem("localitzacioPais", JSON.stringify(countryArray)); // Guardem la nova llista
+        mostrarLlista(); // Actualitzem la vista
+    }
 }
 
 // Funció per validar el nom del país abans d'afegir o modificar
@@ -132,7 +156,7 @@ function validarNomPais() {
     let country = document.getElementById("country");
 
     // Eliminem espais i convertim a minúscules per evitar duplicats amb majúscules diferents
-    let countrySenseEspai = country.value.trim().toLowerCase();
+    let countrySenseEspai = country.value.trim();
 
     // Validem que el camp no estiga buit
     if (countrySenseEspai === "") {
@@ -144,14 +168,15 @@ function validarNomPais() {
     // Validem que complisca amb el patró
     if (country.validity.patternMismatch) {
         document.getElementById("mensajeError").textContent =
-            "Ha de tindre una mida de 3 a 30 caracters";
+            "Ha de tindre una mida de 3 a 30 caracters i només lletres";
         return false;
     }
 
-    // Comprovem que el país no estiga duplicat
+    // Comprovem que el país no estiga duplicat (ignorant majúscules/minúscules)
     let indexActual = document.getElementById("index").value;
-    for (let i = 0; i < llista.length; i++) {
-        if (i != indexActual && llista[i].country.toLowerCase() === countrySenseEspai) {
+    for (let i = 0; i < countryArray.length; i++) {
+        if (i != indexActual && 
+            countryArray[i].name.toLowerCase() === countrySenseEspai.toLowerCase()) {
             document.getElementById("mensajeError").textContent =
                 "El país ja està a la llista";
             return false;
