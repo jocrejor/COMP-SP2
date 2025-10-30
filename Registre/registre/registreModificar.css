@@ -33,20 +33,31 @@ label {
 }
 
 /* Inputs i selects */
-input, select {
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="password"],
+select {
     width: 100%;
     padding: 8px;
     margin-top: 4px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
-    font-size: 1em;
 }
 
-/* Inputs en error */
-input.error, select.error {
-    border-color: #e74c3c;
-    background-color: #fceae9;
+/* Inputs amb error */
+.error {
+    border-color: red;
+}
+
+/* Missatges d'error */
+#missatgeError {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
 }
 
 /* Botons */
@@ -60,31 +71,22 @@ button {
     color: #fff;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease;
 }
 
 button:hover {
     background-color: #005fa3;
 }
 
-/* Botó "Àrea personal" diferenciat */
-button#area {
+/* Botó torna diferenciat */
+button#torna {
     background-color: #aaa;
 }
 
-button#area:hover {
+button#torna:hover {
     background-color: #888;
 }
 
-/* Missatge d’error */
-#missatgeError {
-    margin-top: 10px;
-    color: #e74c3c;
-    font-weight: bold;
-    min-height: 1.2em;
-}
-
-/* Espais entre elements */
+/* Petits espais entre els elements */
 br {
     line-height: 1.5em;
 }

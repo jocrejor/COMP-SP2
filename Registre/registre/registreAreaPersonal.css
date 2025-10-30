@@ -1,4 +1,3 @@
-
 /* Cos general */
 body {
     font-family: Arial, sans-serif;
@@ -43,17 +42,30 @@ input, select {
     font-size: 1em;
 }
 
-/* Inputs en error */
+/* Inputs només lectura */
+input[readonly] {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+/* Inputs amb error */
 input.error, select.error {
     border-color: #e74c3c;
     background-color: #fceae9;
 }
 
+/* Contenidor per als botons */
+.buttons {
+    max-width: 500px;
+    margin: 20px auto 0 auto;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start; 
+}
+
 /* Botons */
 button {
     padding: 10px 20px;
-    margin-top: 15px;
-    margin-right: 10px;
     border: none;
     border-radius: 5px;
     background-color: #007acc;
@@ -67,24 +79,11 @@ button:hover {
     background-color: #005fa3;
 }
 
-/* Botó "Àrea personal" diferenciat */
-button#area {
+/* Botó secundari */
+button#torna {
     background-color: #aaa;
 }
 
-button#area:hover {
+button#torna:hover {
     background-color: #888;
-}
-
-/* Missatge d’error */
-#missatgeError {
-    margin-top: 10px;
-    color: #e74c3c;
-    font-weight: bold;
-    min-height: 1.2em;
-}
-
-/* Espais entre elements */
-br {
-    line-height: 1.5em;
 }

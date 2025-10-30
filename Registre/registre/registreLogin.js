@@ -51,6 +51,79 @@ function main() {
     });
 }
 
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// VALIDACIONS
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function validarUser() {
+  let element = document.getElementById("login_user");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr un nom");
+    }
+    return false;
+  }
+  return true;
+}
+
+
+function validarContrasenya() {
+  const element = document.getElementById("login_pass");
+
+  // Validem el primer camp (password)
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduir una contrasenya");
+    }
+    return false;
+  }
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// FUNCIÓ PRINCIPAL VALIDAR
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function validar(e) {
+  esborrarError();
+
+  if (
+    validarUser() &&
+    validarContrasenya() &&
+    confirm("Confirma si vols enviar el formulari")) {
+    return true;
+  } else {
+    e.preventDefault();
+    return false;
+  }
+}
+
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// FUNCIONS AUXILIARS
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function error(element, missatge) {
+  let miss = document.createTextNode(missatge);
+  document.getElementById("missatgeError").appendChild(miss);
+  element.classList.add("error");
+  element.focus();
+}
+
+
+function esborrarError() {
+  document.getElementById("missatgeError").textContent = "";
+  let formulari = document.forms[0];
+  for (let i = 0; i < formulari.elements.length; i++) {
+    formulari.elements[i].classList.remove("error");
+  }
+}
+
+/*
 function validarUser() {
     const user = document.getElementById("login_user");
     const error = document.getElementById("error_login_user");
@@ -100,4 +173,4 @@ function validarContrasenya() {
 
     errorPwd.textContent = "";
     return true;
-}
+}*/

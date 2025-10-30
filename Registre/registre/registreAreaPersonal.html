@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../../BBDD/Location.js" defer></script>
     <script src="./registreAreaPersonal.js"></script>
+    <link rel="stylesheet" href="./registreAreaPersonal.css">
     <title>Àrea personal</title>
-    <style>
-        input[readonly] {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-        }
-    </style>
+
 </head>
 <body>
     <h2>Àrea personal</h2>
@@ -64,12 +60,11 @@
         <label for="city_id">Ciutat:</label><br>
         <input type="text" id="city_display" readonly>
         <select id="city_id" name="city_id" style="display:none;"></select><br><br>
+
+        <button type="button" id="modificar">Modificar</button>
+        <button type="button" id="torna">Torna</button>
+
     </form>
-
-    <button type="button" id="modificar">Modificar</button>
-    <button type="button" id="torna">Torna</button>
-
-
 
 </body>
 </html>
