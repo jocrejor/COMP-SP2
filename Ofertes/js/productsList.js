@@ -1,7 +1,19 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const tableBody        = document.getElementById('tableBody');
-    const pageTitle        = document.getElementById('pageTitle');
-    const paginationInfo   = document.getElementById('paginationInfo');
+document.addEventListener("DOMContentLoaded", main);
+
+function carregarOfertesBbdd() {
+    const local = localStorage.getItem("Sale");
+    if (local) return JSON.parse(local);
+    if (typeof Sale !== "undefined" && Array.isArray(Sale)) {
+        localStorage.setItem("Sale", JSON.stringify(Sale));
+        return Sale.slice();
+    }
+    return [];
+}
+
+function main() {
+    const tableBody = document.getElementById('tableBody');
+    const pageTitle = document.getElementById('pageTitle');
+    const paginationInfo = document.getElementById('paginationInfo');
     const addProductButton = document.getElementById('addProductButton');
     
     const params = new URLSearchParams(window.location.search);
@@ -22,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     
     cargarProductosAplicados(ofertaId);
-});
+}
 
 // Funció per a obtindre ProductSale des de localStorage o utilitzar l'original
 // Si no existeix en localStorage, torna un array buit

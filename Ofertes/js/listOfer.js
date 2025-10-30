@@ -1,189 +1,195 @@
-// Arxiu principal per a llistar les ofertes
-// Gestiona la taula d'ofertes amb paginació i accions CRUD
-document.addEventListener("DOMContentLoaded", function () {
-    const tableBody               = document.getElementById('tableBody');
-    const paginationContainer     = document.createElement('div');
-    paginationContainer.className = 'pagination';
+document.addEventListener("DOMContentLoaded", main);
 
-    let data = JSON.parse(localStorage.getItem("formData")) || [];
-    let currentPage = 1;
-    const itemsPerPage = 10;
+function main() {
+    const cosTaula = document.getElementById('tableBody');
+    const contenidorPaginacio = document.createElement('div');
+    contenidorPaginacio.className = 'pagination';
 
-    // Solo cargar datos de TendaFakeDades si NO hay datos en localStorage
-    if (data.length === 0 && typeof Sale !== 'undefined' && Sale.length > 0) {
-        console.log("Cargando datos iniciales de TendaFakeDades...");
-        data = Sale.map(function (sale) {
-            return {
-                oferta: sale.description,
-                percentaje: sale.discount_percent,
-                dataInici: sale.start_date.split(' ')[0],
-                dataFi: sale.end_date.split(' ')[0],
-                coupon: sale.coupon || ""
-            };
-        });
-        localStorage.setItem("formData", JSON.stringify(data));
-    } else if (data.length > 0) {
-        console.log("Usando datos existentes de localStorage:", data.length, "ofertas");
+    let dades = JSON.parse(localStorage.getItem("formData")) || [];
+    let paginaActual = 1;
+    const elementsPerPagina = 10;
+
+    function carregarOfertesBbdd() {
+        const local = localStorage.getItem("Sale");
+        if (local) return JSON.parse(local);
+        if (typeof Sale !== "undefined" && Array.isArray(Sale)) {
+            localStorage.setItem("Sale", JSON.stringify(Sale));
+            return Sale.slice();
+        }
+        return [];
+    }
+    if (dades.length === 0) {
+        const ofertesBbdd = carregarOfertesBbdd();
+        if (ofertesBbdd.length > 0) {
+            dades = ofertesBbdd.map(function (venda) {
+                return {
+                    oferta: venda.description,
+                    percentaje: venda.discount_percent,
+                    dataInici: venda.start_date.split(' ')[0],
+                    dataFi: venda.end_date.split(' ')[0],
+                    coupon: venda.coupon || ""
+                };
+            });
+            localStorage.setItem("formData", JSON.stringify(dades));
+        }
     }
 
-    // Guarda les dades actualitzades en el localStorage
-    // S'utilitza després de qualsevol modificació en les ofertes
-    function saveDataToLocalStorage() {
-        localStorage.setItem("formData", JSON.stringify(data));
+    function guardarDadesLocalStorage() {
+        localStorage.setItem("formData", JSON.stringify(dades));
     }
 
-    function deleteData(index) {
+    function eliminarDada(index) {
         if (confirm("Estàs segur que vols eliminar aquesta oferta?")) {
-            data.splice(index, 1);
-            saveDataToLocalStorage();
-            renderTable();
+            dades.splice(index, 1);
+            guardarDadesLocalStorage();
+            renderitzarTaula();
         }
     }
 
-    // Funció principal per a mostrar la taula d'ofertes
-    // Gestiona la paginació i mostra les dades amb les seues accions
-    function renderTable() {
-        if (!tableBody) return;
+    function renderitzarTaula() {
+        if (!cosTaula) return;
 
-        while (tableBody.firstChild) {
-            tableBody.removeChild(tableBody.firstChild);
+        while (cosTaula.firstChild) {
+            cosTaula.removeChild(cosTaula.firstChild);
         }
 
-        if (data.length === 0) {
-            const row = document.createElement("tr");
-            const cell = document.createElement("td");
-            cell.setAttribute("colspan", "8");
-            cell.className = 'no-data';
-            cell.appendChild(document.createTextNode("No hi ha ofertes registrades"));
-            row.appendChild(cell);
-            tableBody.appendChild(row);
+        if (dades.length === 0) {
+            const fila = document.createElement("tr");
+            const celda = document.createElement("td");
+            celda.setAttribute("colspan", "8");
+            celda.className = 'no-data';
+            celda.appendChild(document.createTextNode("No hi ha ofertes registrades"));
+            fila.appendChild(celda);
+            cosTaula.appendChild(fila);
             return;
         }
 
-        const startIndex   = (currentPage - 1) * itemsPerPage;
-        const endIndex     = startIndex + itemsPerPage;
-        const currentItems = data.slice(startIndex, endIndex);
+        const indexInici = (paginaActual - 1) * elementsPerPagina;
+        const indexFi = indexInici + elementsPerPagina;
+        const elementsActuals = dades.slice(indexInici, indexFi);
 
-        currentItems.forEach(function (item, index) {
-            const globalIndex    = startIndex + index;
-            const row            = document.createElement("tr");
-            const idCell         = document.createElement("td");
-            const ofertaCell     = document.createElement("td");
-            const percentajeCell = document.createElement("td");
-            const dataIniciCell  = document.createElement("td");
-            const dataFiCell     = document.createElement("td");
-            const couponCell     = document.createElement("td");
-            const actionCell     = document.createElement("td");
-            const productsCell   = document.createElement("td");
+        elementsActuals.forEach(function (element, index) {
+            const indexGlobal = indexInici + index;
+            const fila = document.createElement("tr");
+            const celdaId = document.createElement("td");
+            const celdaOferta = document.createElement("td");
+            const celdaPercentatge = document.createElement("td");
+            const celdaDataInici = document.createElement("td");
+            const celdaDataFi = document.createElement("td");
+            const celdaCupo = document.createElement("td");
+            const celdaAccio = document.createElement("td");
+            const celdaProductes = document.createElement("td");
 
-            const editButton     = document.createElement("button");
-            const deleteButton   = document.createElement("button");
-            const addProductSale = document.createElement("button");
+            const botoEditar = document.createElement("button");
+            const botoEliminar = document.createElement("button");
+            const botoProductesAplicats = document.createElement("button");
 
-            idCell.appendChild(document.createTextNode(globalIndex + 1));
-            ofertaCell.appendChild(document.createTextNode(item.oferta));
-            percentajeCell.appendChild(document.createTextNode(item.percentaje + "%"));
-            dataIniciCell.appendChild(document.createTextNode(item.dataInici));
-            dataFiCell.appendChild(document.createTextNode(item.dataFi));
-            couponCell.appendChild(document.createTextNode(item.coupon || "-"));
+            celdaId.appendChild(document.createTextNode(indexGlobal + 1));
+            celdaOferta.appendChild(document.createTextNode(element.oferta));
+            celdaPercentatge.appendChild(document.createTextNode(element.percentaje + "%"));
+            celdaDataInici.appendChild(document.createTextNode(element.dataInici));
+            celdaDataFi.appendChild(document.createTextNode(element.dataFi));
+            celdaCupo.appendChild(document.createTextNode(element.coupon || "-"));
 
-            editButton.appendChild(document.createTextNode("Editar"));
-            deleteButton.appendChild(document.createTextNode("Eliminar"));
-            addProductSale.appendChild(document.createTextNode("Productes aplicats"));
+            botoEditar.appendChild(document.createTextNode("Editar"));
+            botoEliminar.appendChild(document.createTextNode("Eliminar"));
+            botoProductesAplicats.appendChild(document.createTextNode("Productes aplicats"));
 
-            editButton.addEventListener("click", function () {
-                window.location.href = `edit.html?edit=${globalIndex}`;
+            botoEditar.addEventListener("click", function () {
+                editarDada(indexGlobal);
             });
 
-            deleteButton.addEventListener("click", function () {
-                deleteData(globalIndex);
+            botoEliminar.addEventListener("click", function () {
+                eliminarDada(indexGlobal);
             });
 
-            addProductSale.addEventListener("click", function () {
-                window.location.href = `productsList.html?oferta=${globalIndex}`;
+            botoProductesAplicats.addEventListener("click", function () {
+                anarAProductes(indexGlobal);
             });
 
-            actionCell.appendChild(editButton);
-            actionCell.appendChild(deleteButton);
-            productsCell.appendChild(addProductSale);
+            celdaAccio.appendChild(botoEditar);
+            celdaAccio.appendChild(botoEliminar);
+            celdaProductes.appendChild(botoProductesAplicats);
 
-            row.appendChild(idCell);
-            row.appendChild(ofertaCell);
-            row.appendChild(percentajeCell);
-            row.appendChild(dataIniciCell);
-            row.appendChild(dataFiCell);
-            row.appendChild(couponCell);
-            row.appendChild(actionCell);
-            row.appendChild(productsCell);
+            fila.appendChild(celdaId);
+            fila.appendChild(celdaOferta);
+            fila.appendChild(celdaPercentatge);
+            fila.appendChild(celdaDataInici);
+            fila.appendChild(celdaDataFi);
+            fila.appendChild(celdaCupo);
+            fila.appendChild(celdaAccio);
+            fila.appendChild(celdaProductes);
 
-            tableBody.appendChild(row);
+            cosTaula.appendChild(fila);
         });
 
-        renderPagination();
+        renderitzarPaginacio();
     }
 
-    // Crea i actualitza els controls de paginació
-    // Inclou botons anterior/següent i informació de pàgines
-    function renderPagination() {
-        const totalPages = Math.ceil(data.length / itemsPerPage);
+    function renderitzarPaginacio() {
+        const totalPagines = Math.ceil(dades.length / elementsPerPagina);
 
-        while (paginationContainer.firstChild) {
-            paginationContainer.removeChild(paginationContainer.firstChild);
+        while (contenidorPaginacio.firstChild) {
+            contenidorPaginacio.removeChild(contenidorPaginacio.firstChild);
         }
 
-        if (totalPages <= 1) return;
+        if (totalPagines <= 1) return;
 
-        // Botón Anterior
-        const prevButton = document.createElement("button");
-        prevButton.appendChild(document.createTextNode("« Anterior"));
-        prevButton.disabled = currentPage === 1;
-        prevButton.addEventListener("click", function () {
-            if (currentPage > 1) {
-                currentPage--;
-                renderTable();
+        const botoAnterior = document.createElement("button");
+        botoAnterior.appendChild(document.createTextNode("« Anterior"));
+        botoAnterior.disabled = paginaActual === 1;
+        botoAnterior.addEventListener("click", function () {
+            if (paginaActual > 1) {
+                paginaActual--;
+                renderitzarTaula();
             }
         });
-        paginationContainer.appendChild(prevButton);
+        contenidorPaginacio.appendChild(botoAnterior);
 
-        // Números de página
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement("button");
-            pageButton.appendChild(document.createTextNode(i));
-            if (i === currentPage) {
-                pageButton.className = 'active';
+        for (let i = 1; i <= totalPagines; i++) {
+            const botoPagina = document.createElement("button");
+            botoPagina.appendChild(document.createTextNode(i));
+            if (i === paginaActual) {
+                botoPagina.className = 'active';
             }
-            pageButton.addEventListener("click", function () {
-                currentPage = i;
-                renderTable();
+            botoPagina.addEventListener("click", function () {
+                paginaActual = i;
+                renderitzarTaula();
             });
-            paginationContainer.appendChild(pageButton);
+            contenidorPaginacio.appendChild(botoPagina);
         }
 
-        // Botón Siguiente
-        const nextButton = document.createElement("button");
-        nextButton.appendChild(document.createTextNode("Següent »"));
-        nextButton.disabled = currentPage === totalPages;
-        nextButton.addEventListener("click", function () {
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderTable();
+        const botoSegüent = document.createElement("button");
+        botoSegüent.appendChild(document.createTextNode("Següent »"));
+        botoSegüent.disabled = paginaActual === totalPagines;
+        botoSegüent.addEventListener("click", function () {
+            if (paginaActual < totalPagines) {
+                paginaActual++;
+                renderitzarTaula();
             }
         });
-        paginationContainer.appendChild(nextButton);
+        contenidorPaginacio.appendChild(botoSegüent);
 
-        // Información de paginación
         const info = document.createElement("span");
         info.className = 'pagination-info';
         info.appendChild(document.createTextNode(
-            `Pàgina ${currentPage} de ${totalPages} - ${data.length} ofertes`
+            `Pàgina ${paginaActual} de ${totalPagines} - ${dades.length} ofertes`
         ));
-        paginationContainer.appendChild(info);
+        contenidorPaginacio.appendChild(info);
 
-        // Añadir paginación al DOM si no está ya
-        if (!paginationContainer.parentNode) {
-            tableBody.parentNode.parentNode.appendChild(paginationContainer);
+        if (!contenidorPaginacio.parentNode) {
+            cosTaula.parentNode.parentNode.appendChild(contenidorPaginacio);
         }
     }
 
-    renderTable();
-});
+    function anarAProductes(index) {
+        window.location.href = `productsList.html?oferta=${index}`;
+    }
+
+    function editarDada(index) {
+        window.location.href = `edit.html?edit=${index}`;
+    }
+
+    renderitzarTaula();
+}
+
