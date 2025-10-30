@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(oPrice.length > 0){
     const oferta = oPrice[0]; // Tomamos la primera oferta activa
     const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.textContent = `Precio: ${priceWithDiscount.toFixed(2)}$ (Antes: ${product.price.toFixed(2)}$) - ${oferta.description}`;
+    pPrice.textContent = `Precio: ${priceWithDiscount.toFixed(2)}$ - ${oferta.discount_percent}% (${oferta.description})`;
     pPrice.style.color = "red";
   } else {
     pPrice.textContent = `Precio: $${product.price.toFixed(2)}`;
