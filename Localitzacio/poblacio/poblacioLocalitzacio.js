@@ -1,162 +1,156 @@
-// Iniciem l'aplicació quan el DOM estiga carregat
+// Esperem que el DOM estiga carregat
 document.addEventListener("DOMContentLoaded", main);
 
-let llista = new Array();
 let accio = "Afegir";
+let countryId = null;
+let provinceId = null;
+let countryName = "";
+let provinceName = "";
+let ciutatsFiltrades = [];
 
-let nombreCountry = "";
-let nombreProvince = "";
-let nombreCity = "";
-
-// Funció principal: s'executa al carregar la pàgina
 function main() {
-  // Obtenim la URL actual i n'extraiem els paràmetres
-  let urlProvince = window.location.href;
-  let separaParts = urlProvince.split("?");
-  let parametrosCity = separaParts[1].split("&");
+  // Llegim els paràmetres de la URL
+  const params = new URLSearchParams(window.location.search);
+  countryId = Number(params.get("country_id")) || null;
+  provinceId = Number(params.get("province_id")) || null;
+  provinceName = params.get("province") ? decodeURIComponent(params.get("province")) : "(Desconeguda)";
 
-  // Guardem país i província
-  nombreCountry = decodeURIComponent(parametrosCity[0].split("=")[1]);
-  nombreProvince = decodeURIComponent(parametrosCity[1].split("=")[1]);
+  // Busquem el nom del país (per mostrar-lo)
+  if (countryId) {
+    const paisTrobat = Country.find(c => c.id === countryId);
+    if (paisTrobat) countryName = paisTrobat.name;
+  }
 
-  // Mostrem país i província seleccionats al títol
-  document.getElementById("id_country").textContent =
-    "País seleccionat: " + nombreCountry;
-  document.getElementById("id_province").textContent =
-    "Provincia seleccionada: " + nombreProvince;
+  // Mostrem els títols
+  document.getElementById("id_country").textContent = "País seleccionat: " + (countryName || "(Desconegut)");
+  document.getElementById("id_province").textContent = "Província seleccionada: " + provinceName;
 
-  // Botó per tornar a la pàgina de províncies
-  let botoTorna = document.getElementById("torna");
-  botoTorna.addEventListener("click", () => {
-    window.location.href =
-      "../provincia/provinciaLocalitzacio.html?country=" + encodeURIComponent(nombreCountry);
-  });
+  // Si no tenim provinceId, parem
+  if (!provinceId) {
+    alert("No s'ha pogut determinar la província seleccionada.");
+    return;
+  }
 
-  // Inicialitzem el botó Afegir / Actualitzar
+  // Filtrar les ciutats de la província seleccionada
+  ciutatsFiltrades = City.filter(c => c.province_id === provinceId);
+
+  mostrarLlista(ciutatsFiltrades);
+
   const afegirButton = document.getElementById("afegir");
   afegirButton.textContent = accio;
 
-  // Recuperem la llista de poblacions del localStorage o en creem una nova
-  llista = localStorage.getItem("localitzacioPoblacio")
-    ? JSON.parse(localStorage.getItem("localitzacioPoblacio"))
-    : [];
-
-  // Mostrem les dades inicials
-  mostrarLlista();
-
-  // Event per al botó d'afegir/actualitzar
+  // Listener per al botó Afegir / Actualitzar
   afegirButton.addEventListener("click", () => {
-    let validar = validarCiutat();
-    if (validar === false) return;
+    if (!validarCiutat()) return;
 
-    if (accio === "Afegir") {
-      crearPoblacio();
-    } else {
+    if (accio === "Afegir") crearPoblacio();
+    else {
       actualitzarPoblacio();
       accio = "Afegir";
       afegirButton.textContent = accio;
     }
 
-    // Buidem els camps i refresquem la llista
     document.getElementById("city").value = "";
     document.getElementById("index").value = "-1";
-    mostrarLlista();
+    mostrarLlista(ciutatsFiltrades);
   });
+  // 🔍 Filtre en temps real amb la lupa
+    const buscarInput = document.getElementById("buscar");
+    buscarInput.addEventListener("input", () => {
+        const text = buscarInput.value.toLowerCase();
+        const filtrades = ciutatsFiltrades.filter(p => p.name.toLowerCase().includes(text));
+        mostrarLlista(filtrades);
+    });
 }
 
-// Funció per crear una nova població
-function crearPoblacio() {
-  const city = document.getElementById("city").value;
-  if (city === "") {
-    alert("El país no pot estar buit");
-    return;
-  }
-
-  // Afegim l'objecte amb país, província i ciutat
-  llista.push({ country: nombreCountry, province: nombreProvince, city: city });
-  localStorage.setItem("localitzacioPoblacio", JSON.stringify(llista));
-}
-
-// Funció per actualitzar una població existent
-function actualitzarPoblacio() {
-  const city = document.getElementById("city").value;
-
-  // Actualitzem la posició corresponent de la llista
-  llista[document.getElementById("index").value] = {
-    country: nombreCountry,
-    province: nombreProvince,
-    city: city,
-  };
-  localStorage.setItem("localitzacioPoblacio", JSON.stringify(llista));
-}
-
-// Mostra totes les poblacions del país i província actuals
-function mostrarLlista() {
+// Mostrar la llista de ciutats filtrades
+function mostrarLlista(array) {
   const visualitzarLlista = document.getElementById("llista");
   visualitzarLlista.innerHTML = "";
-  let aux = "";
 
-  // Recorrem totes les entrades i filtrem per país i província
-  llista.forEach((item, index) => {
-    if (item.country === nombreCountry && item.province === nombreProvince) {
-      aux +=
-        "<li>" +
-        "<button onclick='esborrarPoblacio(" + index + ")'>Esborrar</button>" +
-        "<button onclick='actualitzar(" + index + ")'>Modificar</button>" +
-        item.city +
-        "</li>";
-    }
+  let html = "";
+  array.forEach((city, index) => {
+    html += `
+      <li>
+        <button onclick="esborrarPoblacio(${index})">🗑️</button>
+        <button onclick="prepararActualitzar(${index})">✏️</button>
+        ${city.name}
+      </li>
+    `;
   });
 
-  visualitzarLlista.innerHTML = aux;
+  visualitzarLlista.innerHTML = html;
 }
 
-// Carrega una població al formulari per poder modificar-la
-function actualitzar(index) {
-  document.getElementById("index").value = index;
-  document.getElementById("city").value = llista[index].city;
-  accio = "Actualitzar";
-  const afegirButton = document.getElementById("afegir");
-  afegirButton.textContent = accio;
+// Crear una nova població dins de la província actual
+function crearPoblacio() {
+  const cityName = document.getElementById("city").value.trim();
+  let newId = City.length ? Math.max(...City.map(c => c.id)) + 1 : 1;
+
+  const novaCity = {
+    id: newId,
+    province_id: provinceId,
+    name: cityName
+  };
+
+  City.push(novaCity);
+  ciutatsFiltrades.push(novaCity);
+  localStorage.setItem("City", JSON.stringify(City));
 }
 
-// Elimina una població de la llista
+// Actualitzar una població existent
+function actualitzarPoblacio() {
+  const index = document.getElementById("index").value;
+  const cityName = document.getElementById("city").value.trim();
+
+  ciutatsFiltrades[index].name = cityName;
+  const cityId = ciutatsFiltrades[index].id;
+
+  const cityGeneral = City.find(c => c.id === cityId);
+  if (cityGeneral) cityGeneral.name = cityName;
+
+  localStorage.setItem("City", JSON.stringify(City));
+}
+
+// Esborrar una població
 function esborrarPoblacio(index) {
-  llista.splice(index, 1);
-  localStorage.setItem("localitzacioPoblacio", JSON.stringify(llista));
-  mostrarLlista();
+  const idAEliminar = ciutatsFiltrades[index].id;
+  const idxGeneral = City.findIndex(c => c.id === idAEliminar);
+  if (idxGeneral !== -1) City.splice(idxGeneral, 1);
+  ciutatsFiltrades.splice(index, 1);
+
+  localStorage.setItem("City", JSON.stringify(City));
+  mostrarLlista(ciutatsFiltrades);
 }
 
-// Validacions de la ciutat abans d'afegir o actualitzar
+// Quan cliquem “Modificar”
+function prepararActualitzar(index) {
+  document.getElementById("index").value = index;
+  document.getElementById("city").value = ciutatsFiltrades[index].name;
+  accio = "Actualitzar";
+  document.getElementById("afegir").textContent = accio;
+}
+
+// Validar el nom de la ciutat
 function validarCiutat() {
   let city = document.getElementById("city");
-  let senseEspai = city.value.trim().toLowerCase();
+  let nom = city.value.trim().toLowerCase();
 
-  // Comprovem que no estiga buit
-  if (senseEspai === "") {
-    document.getElementById("mensajeError").textContent =
-      "Has d'introduïr una ciutat.";
+  if (nom === "") {
+    document.getElementById("mensajeError").textContent = "Has d’introduïr una ciutat.";
     return false;
   }
 
-  // Comprovem el patró del camp HTML
   if (city.validity.patternMismatch) {
-    document.getElementById("mensajeError").textContent =
-      "Ha de tindre una mida de 3 a 30 caracters";
+    document.getElementById("mensajeError").textContent = "Ha de tindre una mida de 3 a 30 caràcters.";
     return false;
   }
 
-  // Comprovem que no estiga duplicada
-  let indexActual = document.getElementById("index").value;
-  for (let i = 0; i < llista.length; i++) {
-    if (i != indexActual && llista[i].city.toLowerCase() === senseEspai) {
-      document.getElementById("mensajeError").textContent =
-        "La ciutat ja està a la llista";
-      return false;
-    }
+  if (ciutatsFiltrades.some(c => c.name.toLowerCase() === nom)) {
+    document.getElementById("mensajeError").textContent = "La ciutat ja existeix en esta província.";
+    return false;
   }
 
-  // Si tot està bé, netegem els errors
   document.getElementById("mensajeError").textContent = "";
   return true;
 }
