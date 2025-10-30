@@ -19,7 +19,7 @@ function main() {
 
     const btnVolver = document.getElementById("btnVolver");
     btnVolver.addEventListener("click", () => {
-        window.location.href = `imagenes.html?id=${productId}`;
+        window.location.href = `indexImg.html?id=${productId}`;
     });
 }
 
@@ -92,5 +92,5 @@ function guardarCambios(productId, imageId) {
 
     guardarImagenes(imagenes);
     alert("Imatge actualitzada correctament");
-    window.location.href = `imagenes.html?id=${productId}`;
+    window.location.href = `indexImg.html?id=${productId}`;
 }

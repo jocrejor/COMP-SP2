@@ -16,7 +16,7 @@ function main() {
 
     const btnVolver = document.getElementById("btnVolver");
     btnVolver.addEventListener("click", () => {
-        window.location.href = `imagenes.html?id=${id}`;
+        window.location.href = `indexImg.html?id=${id}`;
     });
 }
 

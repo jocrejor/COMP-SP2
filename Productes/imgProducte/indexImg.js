@@ -4,7 +4,7 @@ function main() {
     const id = obtenerIdDeUrl();
     if (!id) {
         alert("ID de producte no especificat.");
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
         return;
     }
 
@@ -12,12 +12,12 @@ function main() {
 
     const btnAnadir = document.getElementById("btnAnadir");
     btnAnadir.addEventListener("click", () => {
-        window.location.href = `crearImagen.html?id=${id}`;
+        window.location.href = `crearImg.html?id=${id}`;
     });
 
     const btnVolver = document.getElementById("btnVolver");
     btnVolver.addEventListener("click", () => {
-        window.location.href = "index.html";
+        window.location.href = "../index.html";
     });
 }
 
@@ -118,7 +118,7 @@ function cargarImagenesProducto(id) {
         btnEditar.textContent = "Editar";
         btnEditar.classList.add("btn", "btn-edit");
         btnEditar.addEventListener("click", () => {
-            editarImagen(id, img.id);
+            window.location.href = `editarImg.html?productId=${id}&imageId=${img.id}`;
         });
 
         const btnEliminar = document.createElement("button");

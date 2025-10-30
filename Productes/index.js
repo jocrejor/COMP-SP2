@@ -192,14 +192,15 @@ function cargarProductos() {
     document.querySelectorAll(".btn-images").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `imagenes.html?id=${id}`;
+            window.location.href = `imgProducte/indexImg.html?id=${id}`;
+
         });
     });
 
     document.querySelectorAll(".btn-details").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `detalles.html?id=${id}`;
+            window.location.href = `detalls.html?id=${id}`;
         });
     });
 
@@ -220,7 +221,7 @@ function cargarProductos() {
     document.querySelectorAll(".btn-attributes").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `atributos.html?id=${id}`;
+            window.location.href = `atributs.html?id=${id}`;
         });
     });
 
