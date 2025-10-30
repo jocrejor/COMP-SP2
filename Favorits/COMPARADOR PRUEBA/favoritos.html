@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Favoritos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="favoritos.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Mis Comparaciones Favoritas</h1>
+    
+    <div class="buttons">
+        <button onclick="window.location.href='comparador.html'" class="btn-comparador">
+            Volver al Comparador
+        </button>
+        <button onclick="cerrarSesion()" class="btn-cerrar-sesion">
+            Cerrar Sesión
+        </button>
+    </div>
+
+    <div id="listaFavoritos" class="favoritos-container"></div>
+</body>
+</html>

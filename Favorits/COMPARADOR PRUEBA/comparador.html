@@ -4,19 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparador</title>
-    <script type="text/javascript"   src="/../BBDD/TendaFakeDades.js"></script>   
-    <script type="text/javascript" src="comparador.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="../BBDD/TendaFakeDades.js"></script>
+    <script src="comparador.js"></script>
 </head>
 <body>
-    <h1>Comparador de productes</h1>
-    <!-- Botó per a tornar a la llista de productes -->
-    <button onclick="window.location.href='productesLlistar.html'">
-        Home
-    </button>
-    <br><br>
-    <!-- Div per a mostrar els productes a comparar -->
-    <div id="compararDiv" style=" display: flex;">
+    <h1>Comparador de productos</h1>
+    
+    <div class="buttons">
+        <button onclick="window.location.href='productesLlistar.html'" class="btn-home">
+            Home
+        </button>
+        <button id="btnGuardarFavorito" class="btn-favorito">
+            Añadir a favoritos
+        </button>
+        <button onclick="window.location.href='favoritos.html'" class="btn-ver-favoritos">
+            Ver favoritos
+        </button>
+    </div>
 
+    <div id="compararDiv" class="comparador-container"></div>
+
+    <!-- Modal para guardar favoritos -->
+    <div id="modalFavoritos" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Guardar comparación como favorito</h2>
+            <div class="form-group">
+                <label for="nombreFavorito">Nombre de la comparación:</label>
+                <input type="text" id="nombreFavorito" required>
+            </div>
+            <button onclick="guardarComparacionFavoritos()" class="btn-guardar">
+                Guardar
+            </button>
+        </div>
     </div>
 </body>
 </html>

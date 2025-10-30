@@ -1,20 +1,19 @@
-
-// Función para cargar los datos del cliente
+// Función para cargar los datos del cliente desde TendaFakeDades
 async function cargarDatosCliente() {
     try {
-        return Client; 
+        // Retorna directamente el objeto Client que viene de TendaFakeDades.js
+        return Client;
     } catch (error) {
-        console.error('Error cargando datos:', error);
+        console.error('Error al cargar datos:', error);
         return [];
     }
 }
 
-// Función para verificar el login
+// Función para verificar las credenciales del usuario
 async function iniciarSesion(email, password) {
     try {
-        const Cliente = await cargarDatosCliente();
-        
-        const usuario = Cliente.find(cliente => cliente.email === email);
+        const clientes = await cargarDatosCliente();
+        const usuario = clientes.find(cliente => cliente.email === email);
         
         if (usuario) {
             if (usuario.password === password) {
@@ -31,13 +30,13 @@ async function iniciarSesion(email, password) {
     }
 }
 
-// Función para guardar datos de sesión
+// Función para guardar los datos de la sesión
 function guardarSesion(usuario) {
     localStorage.setItem('usuarioActual', JSON.stringify(usuario));
     localStorage.setItem('sesionIniciada', 'true');
 }
 
-// Función para verificar si el usuario está logueado
+// Función para verificar si hay una sesión activa
 function verificarSesion() {
     return localStorage.getItem('sesionIniciada') === 'true';
 }
@@ -45,11 +44,11 @@ function verificarSesion() {
 // Función para redirigir si ya está logueado
 function redirigirSiLogueado() {
     if (verificarSesion()) {
-        window.location.href = 'favoritos.html';
+        window.location.href = 'COMPARADOR PRUEBA/productesLlistar.html';
     }
 }
 
-// Manejar el envío del formulario
+// Configuración inicial cuando el documento está listo
 document.addEventListener('DOMContentLoaded', function() {
     redirigirSiLogueado();
     
@@ -69,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (resultado.exito) {
             guardarSesion(resultado.usuario);
-            window.location.replace('favoritos.html'); 
+            window.location.href = 'COMPARADOR PRUEBA/productesLlistar.html';
         } else {
             divMensaje.style.color = 'red';
             divMensaje.textContent = resultado.mensaje;
@@ -81,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function cerrarSesion() {
     localStorage.removeItem('usuarioActual');
     localStorage.removeItem('sesionIniciada');
-    window.location.href = 'login.html';
+    window.location.href = '../login.html';
     console.log('Sesión cerrada');
 }
 

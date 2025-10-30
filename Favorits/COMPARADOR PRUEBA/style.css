@@ -1,0 +1,197 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Botones generales */
+.buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Selector de usuario */
+.user-select {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#userSelect {
+    padding: 8px;
+    width: 200px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* Tabla de productos */
+.products-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.products-table th,
+.products-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.products-table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.products-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Comparador */
+.comparador-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.producto-comparar {
+    flex: 1;
+    min-width: 250px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: black;
+}
+
+.form-group {
+    margin: 15px 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Favoritos */
+.favoritos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.favorito-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.favorito-item h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.productos-favorito {
+    margin: 10px 0;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* Botones específicos */
+.btn-home { background-color: #2196F3; }
+.btn-comparador { background-color: #4CAF50; }
+.btn-favoritos { background-color: #FFC107; color: black; }
+.btn-favorito { background-color: #9C27B0; }
+.btn-ver-favoritos { background-color: #FF5722; }
+.btn-cerrar-sesion { background-color: #f44336; }
+.btn-guardar { background-color: #4CAF50; width: 100%; margin-top: 15px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+    }
+    
+    .products-table {
+        font-size: 14px;
+    }
+    
+    .comparador-container {
+        flex-direction: column;
+    }
+}

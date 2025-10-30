@@ -1,70 +1,131 @@
+// Verificar sesión antes de cargar la página
+    (function() {
+        const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
+        if (!usuario) {
+            window.location.href = '../login.html';
+        }
+    })();
 
+// Variables globales
 let productos = localStorage.getItem('productes') ? JSON.parse(localStorage.getItem('productes')) : Product;
-let families  = localStorage.getItem('families') ? JSON.parse(localStorage.getItem('families')) : Family;
+let families = localStorage.getItem('families') ? JSON.parse(localStorage.getItem('families')) : Family;
 
 
 
-document.addEventListener("DOMContentLoaded", main)
+// Inicialización cuando el documento está listo
+document.addEventListener("DOMContentLoaded", function() {
+    verificarSesion();
+    main();
+    cargarUsuarios();
+});
 
-function main(){
-    const productListTable = document.getElementById('productListTable')
-
-    while (productListTable.firstChild) {
-        productListTable.removeChild(productListTable.firstChild);
+// Función para verificar si hay sesión activa
+function verificarSesion() {
+    const usuario = JSON.parse(localStorage.getItem('usuarioActual'));
+    if (!usuario) {
+        window.location.href = '../login.html';
+        return;
     }
+}
 
-    let storedProducts = localStorage.getItem('productes')
-        ? JSON.parse(localStorage.getItem('productes'))
-        : Product;
-    localStorage.setItem('productes', JSON.stringify(storedProducts));
-
-    storedProducts.forEach( (product, index) => {
-        const tr = document.createElement('tr');
-
-        const tdBtn = document.createElement('td');
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.textContent = 'Comp';
-        btn.addEventListener('click', () => obrirComparador(index));
-        tdBtn.appendChild(btn);
-        tr.appendChild(tdBtn);
-
-        const tdIndex = document.createElement('td');
-        tdIndex.textContent = index + 1;
-        tr.appendChild(tdIndex);
-
-        const tdName = document.createElement('td');
-        tdName.textContent = product.name || '';
-        tr.appendChild(tdName);
+// Función para cargar el selector de usuarios
+function cargarUsuarios() {
+    const selectUsuario = document.getElementById('userSelect');
+    limpiarElemento(selectUsuario);
+    
+    const opcionDefault = document.createElement('option');
+    opcionDefault.value = "";
+    opcionDefault.textContent = "Seleccione un usuario";
+    selectUsuario.appendChild(opcionDefault);
+    
+    Client.forEach(cliente => {
+        const opcion = document.createElement('option');
+        opcion.value = cliente.id;
+        opcion.textContent = `${cliente.name} ${cliente.surname}`;
         
-
-        const tdPrice = document.createElement('td');
-        tdPrice.textContent = (product.price != null) ? product.price : '';
-        tr.appendChild(tdPrice);
-
-
-        const tdDesc = document.createElement('td');
-        tdDesc.textContent = product.description || product.descripton || '';
-        tr.appendChild(tdDesc);
+        const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
+        if (usuarioActual && usuarioActual.id === cliente.id) {
+            opcion.selected = true;
+        }
         
-        const tdFam = document.createElement('td');
-        tdFam.textContent = voreFamilia(product.family_id) || product.family_id || '';
-        tr.appendChild(tdFam);
+        selectUsuario.appendChild(opcion);
+    });
+    
+    selectUsuario.addEventListener('change', manejarCambioUsuario);
+}
 
-        productListTable.appendChild(tr);
+// Manejador de cambio de usuario
+function manejarCambioUsuario(e) {
+    const idSeleccionado = e.target.value;
+    if (idSeleccionado) {
+        const usuarioSeleccionado = Client.find(c => c.id === parseInt(idSeleccionado));
+        if (usuarioSeleccionado) {
+            localStorage.setItem('usuarioActual', JSON.stringify(usuarioSeleccionado));
+            localStorage.setItem('sesionIniciada', 'true');
+        }
+    }
+}
+
+// Función principal
+function main() {
+    const tabla = document.getElementById('tablaProductos');
+    limpiarElemento(tabla);
+    
+    productos.forEach((producto, index) => {
+        const fila = crearFilaProducto(producto, index);
+        tabla.appendChild(fila);
     });
 }
 
-function obrirComparador(index){
-   window.location.href = "comparador.html?index="+index;
+// Crear fila de producto
+function crearFilaProducto(producto, index) {
+    const fila = document.createElement('tr');
+    
+    // Celda de acciones
+    const celdaAcciones = document.createElement('td');
+    const botonComparar = document.createElement('button');
+    botonComparar.textContent = 'Comparar';
+    botonComparar.onclick = () => abrirComparador(index);
+    celdaAcciones.appendChild(botonComparar);
+    fila.appendChild(celdaAcciones);
+    
+    // Celda de ID
+    const celdaId = document.createElement('td');
+    celdaId.textContent = producto.id;
+    fila.appendChild(celdaId);
+    
+    // Celda de nombre
+    const celdaNombre = document.createElement('td');
+    celdaNombre.textContent = producto.name;
+    fila.appendChild(celdaNombre);
+    
+    // Celda de descripción
+    const celdaDescripcion = document.createElement('td');
+    celdaDescripcion.textContent = producto.description;
+    fila.appendChild(celdaDescripcion);
+    
+    // Celda de precio
+    const celdaPrecio = document.createElement('td');
+    celdaPrecio.textContent = `${producto.price}€`;
+    fila.appendChild(celdaPrecio);
+    
+    return fila;
 }
 
-function voreFamilia(id){
+// Función para abrir el comparador
+function abrirComparador(index) {
+    window.location.href = "comparador.html?index=" + index;
+}
 
-    for (const family of families) {
-            if (family.id == id) {
-                return family.name;
-            }
-        }
-        return null;
+// Función para obtener el nombre de la familia
+function obtenerNombreFamilia(id) {
+    const familia = families.find(f => f.id === id);
+    return familia ? familia.name : 'Desconocida';
+}
+
+// Utilidad para limpiar elementos
+function limpiarElemento(elemento) {
+    while (elemento.firstChild) {
+        elemento.removeChild(elemento.firstChild);
     }
+}
