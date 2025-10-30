@@ -56,7 +56,8 @@ function main() {
             //Cel·la de Client -> mostrar el nom en lloc del nº
             const linkClient = document.createElement("a");
             linkClient.href = `extra/Visualitzar_Client.html?id=${registre.client_id}`;
-            linkClient.textContent = (clientNom ? clientNom.name : "Desconegut") + " "+ (clientNom ? clientNom.surname : "") + " →"; //Nom i cognom + fletxa
+            linkClient.textContent = (clientNom ? clientNom.name : "Desconegut") + " " +
+                (clientNom ? clientNom.surname : "") + " →"; //Nom i cognom + fletxa
 
             const camps = [
                 registre.session_id,
