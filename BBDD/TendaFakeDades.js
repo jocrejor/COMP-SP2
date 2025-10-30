@@ -912,8 +912,42 @@ const ProductSale = [
   { sale_id: 30, product_id: 28 }
 ];
 
+let Favorite = [
+  { "id": 1, "name": "Portátiles Gaming" },
+  { "id": 2, "name": "Monitores 4K" },
+  { "id": 3, "name": "Ratones Inalámbricos" },
+  { "id": 4, "name": "Teclados Mecánicos RGB" },
+  { "id": 5, "name": "Mini PCs Compactos" },
+  { "id": 6, "name": "Sobremesas para Oficina" },
+  { "id": 7, "name": "Auriculares con Micrófono" },
+  { "id": 8, "name": "Impresoras Láser" },
+  { "id": 9, "name": "Tarjetas Gráficas NVIDIA" },
+  { "id": 10, "name": "SSD de Alta Velocidad" },
+  { "id": 11, "name": "Monitores Gaming Curvos" },
+  { "id": 12, "name": "Ordenadores Todo en Uno" },
+  { "id": 13, "name": "Accesorios para Streaming" },
+  { "id": 14, "name": "Equipos de Edición de Video" },
+  { "id": 15, "name": "Componentes de Alto Rendimiento" }
+];
 
 
+let Comparator = [
+  { "id": 1, "session_id": "sess_001", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "client_id": 1 },
+  { "id": 2, "session_id": "sess_002", "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_3)", "client_id": 2 },
+  { "id": 3, "session_id": "sess_003", "user_agent": "Mozilla/5.0 (Linux; Android 12; SM-G991B)", "client_id": 3 },
+  { "id": 4, "session_id": "sess_004", "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X)", "client_id": 4 },
+  { "id": 5, "session_id": "sess_005", "user_agent": "Mozilla/5.0 (Windows NT 11.0; Win64; x64)", "client_id": 5 },
+  { "id": 6, "session_id": "sess_006", "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64)", "client_id": 1 },
+  { "id": 7, "session_id": "sess_007", "user_agent": "Mozilla/5.0 (Linux; Android 11; Pixel 6)", "client_id": 2 },
+  { "id": 8, "session_id": "sess_008", "user_agent": "Mozilla/5.0 (iPad; CPU OS 15_4 like Mac OS X)", "client_id": 3 },
+  { "id": 9, "session_id": "sess_009", "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; rv:109.0) Gecko/20100101 Firefox/117.0", "client_id": 4 },
+  { "id": 10, "session_id": "sess_010", "user_agent": "Mozilla/5.0 (Linux; Android 10; SM-A505F)", "client_id": 5 },
+  { "id": 11, "session_id": "sess_011", "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0)", "client_id": 1 },
+  { "id": 12, "session_id": "sess_012", "user_agent": "Mozilla/5.0 (Windows NT 10.0; WOW64)", "client_id": 2 },
+  { "id": 13, "session_id": "sess_013", "user_agent": "Mozilla/5.0 (Linux; Android 13; OnePlus 10)", "client_id": 3 },
+  { "id": 14, "session_id": "sess_014", "user_agent": "Mozilla/5.0 (X11; Fedora; Linux x86_64)", "client_id": 4 },
+  { "id": 15, "session_id": "sess_015", "user_agent": "Mozilla/5.0 (Windows NT 11.0; Win64; x64; Edge/120.0)", "client_id": 5 }
+];
 
   
 
