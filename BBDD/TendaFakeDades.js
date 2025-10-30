@@ -155,20 +155,20 @@ let Productimage = [
 ]
 
 let Order = [
-  { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 101 },
-  { "id": 2, "date": "2025-10-05 09:15", "payment": "PayPal", "total_amount": 75.99, "shipping_amount": 0.00, "client_id": 102 },
-  { "id": 3, "date": "2025-10-07 18:45", "payment": "Bizum", "total_amount": 230.00, "shipping_amount": 10.00, "client_id": 103 },
-  { "id": 4, "date": "2025-10-09 11:00", "payment": "Bank Transfer", "total_amount": 150.75, "shipping_amount": 7.50, "client_id": 104 },
-  { "id": 5, "date": "2025-10-11 16:20", "payment": "Credit Card", "total_amount": 89.90, "shipping_amount": 0.00, "client_id": 105 },
-  { "id": 6, "date": "2025-10-12 19:05", "payment": "PayPal", "total_amount": 300.00, "shipping_amount": 15.00, "client_id": 106 }
+  { "id": 1, "date": "2025-10-01 14:30", "payment": "Credit Card", "total_amount": 120.50, "shipping_amount": 5.00, "client_id": 1 },
+  { "id": 2, "date": "2025-10-05 09:15", "payment": "PayPal", "total_amount": 75.99, "shipping_amount": 0.00, "client_id": 1 },
+  { "id": 3, "date": "2025-10-07 18:45", "payment": "Bizum", "total_amount": 230.00, "shipping_amount": 10.00, "client_id": 2 },
+  { "id": 4, "date": "2025-10-09 11:00", "payment": "Bank Transfer", "total_amount": 150.75, "shipping_amount": 7.50, "client_id": 3 },
+  { "id": 5, "date": "2025-10-11 16:20", "payment": "Credit Card", "total_amount": 89.90, "shipping_amount": 0.00, "client_id": 4 },
+  { "id": 6, "date": "2025-10-12 19:05", "payment": "PayPal", "total_amount": 300.00, "shipping_amount": 15.00, "client_id": 4 }
 ];
 
 let Orderdetail = [
-  { "id": 1, "order_id": 1, "product_id": 201, "discount": 0.00, "quantity": 2, "price": 25.00 },
-  { "id": 2, "order_id": 1, "product_id": 202, "discount": 5.00, "quantity": 1, "price": 75.50 },
-  { "id": 3, "order_id": 2, "product_id": 203, "discount": 0.00, "quantity": 3, "price": 20.00 },
-  { "id": 4, "order_id": 3, "product_id": 201, "discount": 10.00, "quantity": 5, "price": 25.00 },
-  { "id": 5, "order_id": 3, "product_id": 204, "discount": 0.00, "quantity": 2, "price": 50.00 }
+  { "id": 1, "order_id": 1, "product_id": 1, "discount": 0.00, "quantity": 2, "price": 25.00 },
+  { "id": 2, "order_id": 1, "product_id": 2, "discount": 5.00, "quantity": 1, "price": 75.50 },
+  { "id": 3, "order_id": 2, "product_id": 9, "discount": 0.00, "quantity": 3, "price": 20.00 },
+  { "id": 4, "order_id": 2, "product_id": 4, "discount": 10.00, "quantity": 5, "price": 25.00 },
+  { "id": 5, "order_id": 3, "product_id": 10, "discount": 0.00, "quantity": 2, "price": 50.00 }
 ];
 
 

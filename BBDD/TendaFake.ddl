@@ -281,3 +281,79 @@ CREATE TABLE Register_Product(
     source ENUM('csv', 'api', 'manual', 'scraping') NOT NULL DEFAULT 'manual',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );*/
+
+
+ const Comparator = [
+    {
+      "id": 1,
+      "session_id": "sess_abc123",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0)",
+      "client_id": 1
+    },
+    {
+      "id": 2,
+      "session_id": "sess_def456",
+      "user_agent": "Mozilla/5.0 (Macintosh)",
+      "client_id": 1
+    },
+    {
+      "id": 3,
+      "session_id": "sess_ghi789",
+      "user_agent": "Mozilla/5.0 (Linux; Android 10)",
+      "client_id": 2
+    },
+    {
+      "id": 4,
+      "session_id": "sess_jkl012",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iOS 17)",
+      "client_id": 2
+    },
+    {
+      "id": 5,
+      "session_id": "sess_mno345",
+      "user_agent": "Mozilla/5.0 (X11; Ubuntu)",
+      "client_id": 1
+    },
+    {
+      "id": 6,
+      "session_id": "sess_pqr678",
+      "user_agent": "Mozilla/5.0 (Windows 11)",
+      "client_id": 3
+    },
+    {
+      "id": 7,
+      "session_id": "sess_stu901",
+      "user_agent": "Mozilla/5.0 (Android 13)",
+      "client_id": 3
+    },
+    {
+      "id": 8,
+      "session_id": "sess_vwx234",
+      "user_agent": "Mozilla/5.0 (MacBook Air M2)",
+      "client_id": 
+    },
+    {
+      "id": 9,
+      "session_id": "sess_yza567",
+      "user_agent": "Mozilla/5.0 (iPad; iOS 16)",
+      "client_id": 
+    },
+    {
+      "id": 10,
+      "session_id": "sess_bcd890",
+      "user_agent": "Mozilla/5.0 (ChromeOS)",
+      "client_id": 5
+    }
+  ],
+  const Comparator_Product = [
+    { "comparator_id": 1, "product_id": 1 },
+    { "comparator_id": 1, "product_id": 2 },
+    { "comparator_id": 2, "product_id": 3 },
+    { "comparator_id": 2, "product_id": 4 },
+    { "comparator_id": 3, "product_id": 5 },
+    { "comparator_id": 4, "product_id": 6 },
+    { "comparator_id": 5, "product_id": 7 },
+    { "comparator_id": 5, "product_id": 8 },
+    { "comparator_id": 5, "product_id": 15 },
+    { "comparator_id": 5, "product_id": 18 }
+  ]
