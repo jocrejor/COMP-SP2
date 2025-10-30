@@ -152,7 +152,7 @@ let Productimage = [
 { "id": 13,"name":"gaming_laptop_MSI_katana_front", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/1528-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16.jpg","order": 1,"product_id": 5},
 { "id": 14,"name":"gaming_laptop_MSI_katana_side", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/285-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16-comprar.jpg","order": 2,"product_id": 5},
 { "id": 15,"name":"gaming_laptop_MSI_katana_back", "url":"https://thumb.pccomponentes.com/w-530-530/articles/1081/10810260/6336-msi-raider-ge68-hx-14vgg-267xes-intel-core-i9-14900hx-32gb-1tb-ssd-rtx-4070-16-opiniones.jpg","order": 3,"product_id": 5}
-]
+];
 
 
 let Order = [
