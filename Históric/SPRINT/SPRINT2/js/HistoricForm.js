@@ -28,6 +28,7 @@ carregarSelects(ClientArray);
     return [];
   }
 
+  //Afegir els demés SELECTS
   function carregarSelects(clients) {
     const clientSelect = document.getElementById("client_id");
     clients.forEach(client => {
