@@ -11,10 +11,11 @@ function main() {
   console.log(FavoriteArray);
 
   // Carregar Comparadors
-  //let ComparatorArray = JSON.parse(localStorage.getItem("Comparator")) || Comparator;
+  let ComparatorArray = JSON.parse(localStorage.getItem("Comparator")) || Comparator;
+  console.log(ComparatorArray);
 
 
-  carregarSelects(ClientArray);
+  carregarSelects(ClientArray, FavoriteArray, ComparatorArray);
 
 
   const form = document.getElementById("formRegistre");
@@ -31,11 +32,14 @@ function main() {
     return [];
   }
 
-  //Funció per carregar les dades de la BBDD - Clients, Favorit i Comparador
+  //Funció per carregar les dades de la BBDD o localStrorage - Clients, Favorit i Comparador
   // Afegir els demés SELECTS
-  function carregarSelects(clients) {
+  function carregarSelects(clients, favorits, comparadors) {
     const clientSelect = document.getElementById("client_id");
+    const favSelect = document.getElementById("favorite_id");
+    const compSelect = document.getElementById("comparator_id");
 
+    // --- Cleints ---
     clients.forEach(client => {
       const option = document.createElement("option");
       option.setAttribute("value", client.id);
@@ -43,6 +47,25 @@ function main() {
       option.appendChild(nomClient);
       clientSelect.appendChild(option);
     });
+
+    // --- Favorits ---
+    favorits.forEach(fav => {
+      const option = document.createElement("option");
+      option.setAttribute("value", fav.id);
+      const text = document.createTextNode(`${fav.id} - ${fav.product_name || "Favorit"}`);
+      option.appendChild(text);
+      favSelect.appendChild(option);
+    });
+
+    // --- Comparadors ---
+    comparadors.forEach(comp => {
+      const option = document.createElement("option");
+      option.setAttribute("value", comp.id);
+      const text = document.createTextNode(`${comp.id} - ${comp.name || "Comparador"}`);
+      option.appendChild(text);
+      compSelect.appendChild(option);
+    });
+
   }
 
 
@@ -57,8 +80,8 @@ function main() {
     const registre = registres[editIndex];
     if (registre) {
       document.getElementById("client_id").value = String(registre.client_id);
-      document.getElementById("comparator_id").value = registre.comparator_id;
-      document.getElementById("favorite_id").value = registre.favorite_id;
+      document.getElementById("comparator_id").value = String(registre.comparator_id);
+      document.getElementById("favorite_id").value = String(registre.favorite_id);
       document.getElementById("date_start").value = registre.date_start;
       document.getElementById("date_end").value = registre.date_end;
     }
