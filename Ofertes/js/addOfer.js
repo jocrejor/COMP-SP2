@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const dataIniciInput  = document.getElementById('dataIniciInput');
     const datafiInput     = document.getElementById('datafiInput');
 
+    document.getElementById('dataIniciInput').setAttribute("min", new Date().toISOString().split("T")[0]);
+
+
     const params    = new URLSearchParams(window.location.search);
     const editIndex = params.get('edit');
 
