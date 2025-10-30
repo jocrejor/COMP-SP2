@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
         phone: missatge.phone,
         email: missatge.email,
         subject: missatge.subject,
-        message: missatge.message,
         date: missatge.date
       }));
     } catch (error) {
@@ -194,10 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <span class="detail-label">Assumpte</span>
         <div class="detail-value">${contacteActual.subject}</div>
       </div>
-      <div class="detail-field">
-        <span class="detail-label">Missatge</span>
-        <div class="detail-value">${contacteActual.message || 'No hi ha missatge'}</div>
-      </div>
     `;
 
     detailModal.style.display = 'block';
@@ -212,7 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('editEmail').value = contacteActual.email;
     document.getElementById('editPhone').value = contacteActual.phone || '';
     document.getElementById('editSubject').value = contacteActual.subject;
-    document.getElementById('editMessage').value = contacteActual.message || '';
 
     detailModal.style.display = 'none';
     editModal.style.display = 'block';
@@ -228,7 +222,6 @@ document.addEventListener("DOMContentLoaded", () => {
       email: document.getElementById('editEmail').value.trim(),
       phone: document.getElementById('editPhone').value.trim(),
       subject: document.getElementById('editSubject').value.trim(),
-      message: document.getElementById('editMessage').value.trim(),
       date: contacteActual.date // Mantener la fecha original
     };
 

@@ -40,9 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("email").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
 
-    if (!name || !email || !subject || !message) {
+    if (!name || !email || !subject) {
       alert("Tots els camps obligatoris han d'estar emplenats.");
       return;
     }
@@ -66,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
       email,
       phone: phone || '',
       subject,
-      message,
       date: new Date().toISOString()
     };
     
