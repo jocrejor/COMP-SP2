@@ -1,4 +1,19 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", main )
+
+
+function main () {
+  // carregar dades de la BBDD o del LocalStorage
+  let ClientArray = JSON.parse(localStorage.getItem("Client")) || Client;
+  console.log( ClientArray);
+  // Carregar Favorits
+  let FavoriteArray = JSON.parse(localStorage.getItem("Favorite")) || Favorite;
+  // Carregar Comparadors
+  //let ComparatorArray = JSON.parse(localStorage.getItem("Comparator")) || Comparator;
+
+
+carregarSelects(ClientArray);
+
+
   const form = document.getElementById("formRegistre");
   const btnCancelar = document.getElementById("cancelar");
 
@@ -12,6 +27,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return [];
   }
+
+  function carregarSelects(clients) {
+    const clientSelect = document.getElementById("client_id");
+    clients.forEach(client => {
+      const option = document.createElement("option");
+      option.setAttribute("value",client.id);
+      const nomClient = document.createTextNode(`${client.name} ${client.surname}`);
+      option.appendChild(nomClient);
+      clientSelect.appendChild(option);
+    });
+  }
+
 
   function guardarLocal(regs) {
     localStorage.setItem("Register", JSON.stringify(regs));
@@ -85,4 +112,4 @@ document.addEventListener("DOMContentLoaded", function () {
     sessionStorage.removeItem("editIndex");
     window.location.href = "./HistoricLlistar.html";
   });
-});
+}
