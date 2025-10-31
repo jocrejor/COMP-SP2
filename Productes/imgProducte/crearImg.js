@@ -44,7 +44,7 @@ function añadirImagen(productId) {
     }
 
     const imagenes = obtenerImagenes();
-    
+
     // Generar nou ID per a la imatge
     let newImageId = 1;
     if (imagenes.length > 0) {
@@ -68,5 +68,5 @@ function añadirImagen(productId) {
     imagenes.push(nuevaImagen);
     guardarImagenes(imagenes);
     alert("Imatge afegida correctament");
-    window.location.href = `imagenes.html?id=${productId}`;
+    window.location.href = `indexImg.html?id=${productId}`;
 }
