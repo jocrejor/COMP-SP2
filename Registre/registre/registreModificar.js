@@ -114,6 +114,7 @@ function validarNom() {
   return true;
 }
 
+
 function validarCognom() {
   let element = document.getElementById("surname");
 
@@ -129,6 +130,7 @@ function validarCognom() {
   return true;
 }
 
+
 function validarTaxidType() {
   const element = document.getElementById("taxidtype");
 
@@ -140,6 +142,7 @@ function validarTaxidType() {
   }
   return true;
 }
+
 
 function validarTaxid() {
   let element = document.getElementById("taxid");
@@ -155,6 +158,7 @@ function validarTaxid() {
   }
   return true;
 }
+
 
 function validarDataNeixement() {
   let element = document.getElementById("birth_date");
@@ -173,6 +177,7 @@ function validarDataNeixement() {
   return true;
 }
 
+
 function validarTelefon() {
   let element = document.getElementById("phone");
 
@@ -187,6 +192,7 @@ function validarTelefon() {
   }
   return true;
 }
+
 
 function validarEmail() {
   let element = document.getElementById("email");
@@ -218,6 +224,7 @@ function validarAddress() {
   return true;
 }
 
+
 function validarCp() {
   let element = document.getElementById("cp");
 
@@ -233,6 +240,7 @@ function validarCp() {
   return true;
 }
 
+
 function validarCountry() {
   const element = document.getElementById("country_id");
 
@@ -244,6 +252,7 @@ function validarCountry() {
   }
   return true;
 }
+
 
 function validarProvince() {
   const element = document.getElementById("province_id");
@@ -257,6 +266,7 @@ function validarProvince() {
   return true;
 }
 
+
 function validarCity() {
   const element = document.getElementById("city_id");
 
@@ -268,6 +278,7 @@ function validarCity() {
   }
   return true;
 }
+
 
 function validarContrasenya() {
   const element = document.getElementById("password");

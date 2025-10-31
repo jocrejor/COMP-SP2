@@ -12,7 +12,7 @@ function main(){
         console.log("No hay cliente en localStorage");
     }
 
-    // Botón modificar 
+    // Botó modificar 
     document.getElementById("modificar").addEventListener("click", () => {
         if (!client) {
             alert("No hay ningún cliente registrado.");
@@ -30,7 +30,7 @@ function main(){
 }
 
 function carregaDades(){
-    // Inputs normales
+    // Inputs normals
     document.getElementById("id").value = client.id || "";
     document.getElementById("name").value = client.name || "";
     document.getElementById("surname").value = client.surname || "";
