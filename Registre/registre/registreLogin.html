@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="../../BBDD/TendaFakeDades.js" defer></script>
     <script src="./registreLogin.js" defer></script>
     <link rel="stylesheet" href="./registreLogin.css">
 </head>
 
 <body>
-  
-    <form id="loginForm" novalidate>  
+
+    <form id="formLogin" novalidate>  
         <h1>Login</h1>
         <label for="login_user">Usuari:</label>
-        <input type="text" id="login_user" required minlength="3" pattern="^[A-Za-zÀ-ÿ0-9]+$" placeholder="Usuari"><br>
+        <input type="email" id="login_user" required minlength="3" placeholder="Usuari"><br>
 
         <label for="login_pass">Contrasenya:</label>
-        <input type="password" id="login_pass" minlength="5" required pattern="^\d{5,}$" placeholder="Contrasenya">
+        <input type="password" id="login_pass" minlength="5" required pattern="^.{5,}$" placeholder="Contrasenya">
 
         <button type="submit" id="login">Iniciar Sessió</button>
         <p id="missatgeError"></p>

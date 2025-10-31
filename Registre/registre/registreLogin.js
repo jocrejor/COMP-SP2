@@ -1,67 +1,54 @@
 document.addEventListener("DOMContentLoaded", main);
 
-function main() {
-    // Dos usuaris per defecte
-    const defaultClients = [
-        { user_name: "admin", password: "solsolet@123" },
-        { user_name: "user", password: "llunalluneta@123" }
-    ];
+let clients = [];        
+let clientActiu = null;  
 
-    // Guardar al localStorage si no hi ha clients
-    if (!localStorage.getItem("client")) {
-        localStorage.setItem("client", JSON.stringify(defaultClients));
-    }
+function main() {  
+  carregaClients();  
+  comprovarSessio();
 
-    // Event per iniciar sessió
-    const loginBtn = document.getElementById("login");
-    loginBtn.addEventListener("click", () => {
-
-        if (!validarUser() || !validarContrasenya()) {
-            return;
-        }
-
-        const user = document.getElementById("login_user").value.trim();
-        const pass = document.getElementById("login_pass").value.trim();
-
-        // Recuperar llista d'usuaris
-        const clients = JSON.parse(localStorage.getItem("client") || "[]");
-
-        // Comprovar usuari i contrasenya
-        for (let i = 0; i < clients.length; i++) {
-            if (clients[i].user_name === user && clients[i].password === pass) {
-                usuari = clients[i]; 
-            break;
-            }
-        }
-        
-        if (usuari) {
-            // Guardar el usuario activo en localStorage
-            localStorage.setItem("clientActiu", JSON.stringify(usuari));
-
-            // Limpiar errores
-            document.getElementById("error_login_user").textContent = "";
-            document.getElementById("error_login_pass").textContent = "";
-
-            alert("Sessió iniciada correctament!");
-            window.location.href = "./registreLogout.html";
-        } else {
-            const error = document.getElementById("error_login_user");
-            error.textContent = "Usuari o contrasenya incorrectes!";
-        }
-    });
+  const formulari = document.getElementById("formLogin");
+  formulari.addEventListener("submit", validar, false);
 }
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// CARREGA CLIENTS I COMPROVA SESSIÓ
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+function carregaClients() {
+  // Si no existeix res al localStorage, ho creem
+  if (!localStorage.getItem("clients")) {
+    localStorage.setItem("clients", JSON.stringify(Client));
+  }
+
+  clients = JSON.parse(localStorage.getItem("clients")) || [];
+  console.log("Clients carregats:", clients);
+}
+
+// Guardem el client Actiu al localstorage
+function comprovarSessio() {
+  clientActiu = JSON.parse(localStorage.getItem("clientActiu"));
+  if (clientActiu) {
+    window.location.href = "./registreLogout.html";
+  }
+}
+
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // VALIDACIONS
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Validem l'usuari
 function validarUser() {
   let element = document.getElementById("login_user");
 
   if (!element.checkValidity()) {
     if (element.validity.valueMissing) {
-      error(element, "Has d'introduïr un nom");
+      error(element, "Has d'introduïr un usuari (email)");
+    } else if (element.validity.typeMismatch) {
+      error(element, "El format del email no és vàlid");
     }
     return false;
   }
@@ -69,38 +56,78 @@ function validarUser() {
 }
 
 
-function validarContrasenya() {
-  const element = document.getElementById("login_pass");
+// Validem la contrasenya
+function validarPass() {
+  let element = document.getElementById("login_pass");
 
-  // Validem el primer camp (password)
   if (!element.checkValidity()) {
     if (element.validity.valueMissing) {
-      error(element, "Has d'introduir una contrasenya");
+      error(element, "Has d'introduïr una contrasenya");
+    } else if (element.validity.tooShort) {
+      error(element, "La contrasenya ha de tindre almenys 5 números");
     }
     return false;
   }
+  return true;
 }
 
 
+// Validem el login
+function validarLogin() {
+  const emailInput = document.getElementById("login_user").value.trim();
+  const passwordInput = document.getElementById("login_pass").value.trim();
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-// FUNCIÓ PRINCIPAL VALIDAR
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  let clientTrobat = clients.find(
+    (c) => c.email === emailInput && c.password === passwordInput
+  );
 
-function validar(e) {
-  esborrarError();
-
-  if (
-    validarUser() &&
-    validarContrasenya() &&
-    confirm("Confirma si vols enviar el formulari")) {
-    return true;
+  if (clientTrobat) {
+    localStorage.setItem("clientActiu", JSON.stringify(clientTrobat));
+    window.location.href = "./registreLogout.html";
   } else {
-    e.preventDefault();
-    return false;
+    error(document.getElementById("login_user"), "Usuari o contrasenya incorrectes");
   }
 }
 
+
+
+function validar(e) {
+  e.preventDefault(); 
+  esborrarError();
+
+  // Comprovem que els camps siguen vàlids
+  if (!validarUser() || !validarPass()) {
+    return false;
+  }
+
+  // Si els camps són vàlids comprovem les credencials
+  const emailInput = document.getElementById("login_user").value.trim();
+  const passwordInput = document.getElementById("login_pass").value.trim();
+
+  let clientTrobat = null;
+
+  for (let i = 0; i < clients.length; i++) {
+    const c = clients[i];
+
+    if (c.email === emailInput && c.password === passwordInput) {
+      clientTrobat = c;
+      break; 
+    }
+  }
+
+  if (!clientTrobat) {
+    error(document.getElementById("login_user"), "Usuari o contrasenya incorrectes");
+    return false;
+  }
+
+  
+  if (confirm("Confirma si vols iniciar sessió?")) {
+    localStorage.setItem("clientActiu", JSON.stringify(clientTrobat));
+    window.location.href = "./registreLogout.html";
+  }
+
+  return true;
+}
 
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,55 +149,3 @@ function esborrarError() {
     formulari.elements[i].classList.remove("error");
   }
 }
-
-/*
-function validarUser() {
-    const user = document.getElementById("login_user");
-    const error = document.getElementById("error_login_user");
-    const userSenseEspai = user.value.trim();
-
-    if (userSenseEspai === "") {
-        error.textContent = "L'usuari és obligatori";
-        return false;
-    }
-
-    if (userSenseEspai.length < 3) {
-        error.textContent = "L'usuari ha de tenir al menys 3 caràcters";
-        return false;
-    }
-
-    const regex = /^[A-Za-zÀ-ÿ0-9]+$/;
-    if (!regex.test(userSenseEspai)) {
-        error.textContent = "L'usuari només pot contenir lletres i nombres";
-        return false;
-    }
-
-    error.textContent = "";
-    return true;
-}
-
-function validarContrasenya() {
-    const pwd = document.getElementById("login_pass");
-    const errorPwd = document.getElementById("error_login_pass");
-
-    const valorPwd = pwd.value.trim();
-
-    if (valorPwd === "") {
-        errorPwd.textContent = "La contrasenya és obligatoria";
-        return false;
-    }
-
-    if (valorPwd.length < 5) {
-        errorPwd.textContent = "La contrasenya ha de tenir almenys 8 caràcters";
-        return false;
-    }
-
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{5,}$/;
-    if (!regex.test(valorPwd)) {
-        errorPwd.textContent = "La contrasenya ha de tenir lletra, número i símbol";
-        return false;
-    }
-
-    errorPwd.textContent = "";
-    return true;
-}*/
