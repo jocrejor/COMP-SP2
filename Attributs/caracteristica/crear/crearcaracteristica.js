@@ -120,7 +120,7 @@ function guardarEnLocalStorage(e) {
   let atributoExistente = attributes.find(a => a.name === name && a.family_id == familiaId);
 
   if (!atributoExistente) {
-    let nuevoAttrId = comprobarid(attributes);
+    let nuevoAttrId = comprobarId(attributes);
     let nuevoAtributo = {
       id: nuevoAttrId,
       name: name,
