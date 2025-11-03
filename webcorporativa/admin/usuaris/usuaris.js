@@ -186,7 +186,7 @@ function actualitzarUsuari(index) {
     const rol = document.getElementById("rolUsuari").value;
     
     // Validacions
-    if (!validarFormulari(nom, email, password)) {
+    if (!validarFormulari()) {
         return;
     }
     
@@ -257,26 +257,32 @@ function netejarFormulari() {
 }
 
 // Validar formulari
-function validarFormulari(nom, email, password, rol) {
+function validarFormulari() {
     // Validar nom
-    if (nom.length < 2) {
-        mostrarError("El nom ha de tenir almenys 2 caràcters.");
-        return false;
+    const nom =document.getElementById("nomUsuari");
+    if(!nom.checkValidity()) {
+        mostrarError("El nom ha de contindre com a mínim 2 caràcters")
     }
     
     // Validar email
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regexEmail.test(email)) {
-        mostrarError("Format de correu electrònic invàlid.");
-        return false;
+    const email = document.getElementById(emailUsuari);
+    if(!email.checkValidity) {
+        if(email.validity.patternMismatch) {
+        mostrarError("El correu electrònic no és vàlid");
+        }
+        else if (email.validity.valueMissing) {
+            mostrarError("El correu electrònic és obligatori.");
+        }
     }
-    
     // Validar password
-    const regexcontrasenya = /^.{5,20}$/;
-    if (regexcontrasenya.test(password)) {
-        mostrarError("La contrasenya ha de tenir entre 8 i 20 caràcters.");
-        return false;
-    }
+    const contrasenya = document.getElementById("passwordUsuari")
+
+    if(contrasenya.validity.patternMismatch) {
+        mostrarError("La contrasenya ha de tindre entre 5 i 20 caràcters");
+        }
+        else if (email.validity.valueMissing) {
+            mostrarError("El correu electrònic és obligatori.")
+        }
     // Validar rol
     if (rol!="admin" || rol!="editor") {
         mostrarError("No ha assignat cap rol al usuari");

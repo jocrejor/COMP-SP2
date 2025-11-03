@@ -23,21 +23,21 @@
             
             <div class="camp-formulari">
                 <label for="nomUsuari">Nom complet:</label>
-                <input type="text" id="nomUsuari" placeholder="Ex: Joan Garcia" required>
+                <input type="text" id="nomUsuari" placeholder="Ex: Joan Garcia" required minlength="2">
             </div>
             
             <div class="camp-formulari">
                 <label for="emailUsuari">Correu electrònic:</label>
-                <input type="email" id="emailUsuari" placeholder="Ex: joan.garcia@example.com" required>
+                <input type="email" id="emailUsuari" placeholder="Ex: joan.garcia@example.com" required pattern="/^[^\s@]+@[^\s@]+\.[^\s@]+$/;">
             </div>
             
             <div class="camp-formulari¡">
                 <label for="passwordUsuari">Contrasenya:</label>
-                <input type="password" id="passwordUsuari" placeholder="Mínim 8 caràcters" minlength="8" maxlength="20" required>
+                <input type="password" id="passwordUsuari" placeholder="Mínim 8 caràcters" minlength="8" maxlength="20" required pattern="">
             </div>
             <div>
                 <label for="rolUsuari">Rol del Usuari</label>
-                <select>
+                <select id="rolUsuari">
                 <option value="">Trieu un rol</option>
                 <option value="editor">Editor</option>
                 <option value="admin">Administrador</option>
