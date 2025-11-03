@@ -36,7 +36,7 @@ function obtenirUsuaris() {
 }
 
 // Guardar usuaris a localStorage
-function guardarUsuaris(usuaris) {mostrarError
+function guardarUsuaris(usuaris) {
     localStorage.setItem("usuaris", JSON.stringify(usuaris));
 }
 
