@@ -13,7 +13,6 @@ function iniciar() {
 function anarcrear() {
   window.location.href = "../crear/crearcaracteristica.html";
 }
-
 function carregarDadesLocal() {
   if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
     localStorage.setItem("Family", JSON.stringify(Family));
@@ -23,13 +22,13 @@ function carregarDadesLocal() {
     localStorage.setItem("Attribute", JSON.stringify(Attribute));
   }
 
-  window.families = JSON.parse(localStorage.getItem("Family")) || [];
-  window.attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-
   mostrarPagina();
 }
 
 function mostrarPagina() {
+  let families = JSON.parse(localStorage.getItem("Family")) || [];
+  let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
+
   let cos = document.getElementById("cuerpoTabla");
   cos.textContent = "";
 
@@ -38,9 +37,9 @@ function mostrarPagina() {
     return;
   }
 
-  const inici = (currentPage - 1) * maxim;
-  const final = inici + maxim;
-  const paginaAtributos = attributes.slice(inici, final);
+  let inici = (currentPage - 1) * maxim;
+  let final = inici + maxim;
+  let paginaAtributos = attributes.slice(inici, final);
 
   paginaAtributos.forEach(caracteristica => {
     let familia = families.find(f => f.id === caracteristica.family_id);
@@ -79,23 +78,28 @@ function mostrarPagina() {
     cos.appendChild(fila);
   });
 
-  crearPaginacion();
+ crearPaginacion(attributes);
 }
 
-function crearPaginacion() {
+
+function crearPaginacion(attributes) {
   const totalPages = Math.ceil(attributes.length / maxim);
   const pagContainer = document.getElementById("pagination");
-
   if (!pagContainer) return;
   pagContainer.textContent = "";
 
+  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
+  // Boto anterior
   let liPrev = document.createElement("li");
-  liPrev.className = "page-item" + (startPage === 1 ? " disabled" : "");
-  let aPrev = document.createElement("a");
-  aPrev.className = "page-link";
-  aPrev.setAttribute("href", "#");
-  aPrev.appendChild(document.createTextNode("«"));
-  aPrev.addEventListener("click", (e) => {
+  liPrev.setAttribute("class", "page-item" + (startPage === 1 ? " disabled" : ""));
+  
+  let linkprevi = document.createElement("a");
+  linkprevi.setAttribute("class", "page-link");
+  linkprevi.setAttribute("href", "#");
+  linkprevi.appendChild(document.createTextNode("«"));
+
+  linkprevi.addEventListener("click", function (e) {
     e.preventDefault();
     if (startPage > 1) {
       startPage -= pagesPerGroup;
@@ -103,33 +107,39 @@ function crearPaginacion() {
       mostrarPagina();
     }
   });
-  liPrev.appendChild(aPrev);
+
+  liPrev.appendChild(linkprevi);
   pagContainer.appendChild(liPrev);
 
-  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+  // Pagines numerades
   for (let i = startPage; i <= endPage; i++) {
     let li = document.createElement("li");
-    li.className = "page-item" + (i === currentPage ? " active" : "");
+    li.setAttribute("class", "page-item" + (i === currentPage ? " active" : ""));
+    
     let a = document.createElement("a");
-    a.className = "page-link";
+    a.setAttribute("class", "page-link");
     a.setAttribute("href", "#");
     a.appendChild(document.createTextNode(i));
-    a.addEventListener("click", (e) => {
+
+    a.addEventListener("click", function (e) {
       e.preventDefault();
       currentPage = i;
       mostrarPagina();
     });
+
     li.appendChild(a);
     pagContainer.appendChild(li);
   }
-
+  // Boto seguent
   let liNext = document.createElement("li");
-  liNext.className = "page-item" + (endPage >= totalPages ? " disabled" : "");
+  liNext.setAttribute("class", "page-item" + (endPage >= totalPages ? " disabled" : ""));
+  
   let siguiente = document.createElement("a");
-  siguiente.className = "page-link";
+  siguiente.setAttribute("class", "page-link");
   siguiente.setAttribute("href", "#");
   siguiente.appendChild(document.createTextNode("»"));
-  siguiente.addEventListener("click", (e) => {
+
+  siguiente.addEventListener("click", function (e) {
     e.preventDefault();
     if (endPage < totalPages) {
       startPage += pagesPerGroup;
@@ -137,6 +147,7 @@ function crearPaginacion() {
       mostrarPagina();
     }
   });
+
   liNext.appendChild(siguiente);
   pagContainer.appendChild(liNext);
 }
