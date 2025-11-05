@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Contacto - Efecto LED</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Formulario de contacto</h1>
+    <p>Rellena el formulario o modifica un contacto existente:</p>
+
+    <form id="contactForm">
+      <input type="hidden" id="contactId">
+      <label>Nombre:</label>
+      <input type="text" id="name" required>
+
+      <label>Teléfono:</label>
+      <input type="text" id="phone" required>
+
+      <label>Email:</label>
+      <input type="email" id="email" required>
+
+      <label>Mensaje:</label>
+      <textarea id="subject" rows="4" required></textarea>
+
+      <label>Fecha:</label>
+      <input type="datetime-local" id="date" required>
+
+      <button type="submit">Guardar</button>
+      <button type="button" id="cancelEdit">Cancelar</button>
+    </form>
+
+    <h2>Lista de contactos</h2>
+    <div id="contactList"></div>
+
+    <br>
+    <a href="home.html">⬅️ Volver al inicio</a>
+  </div>
+
+  <script src="js/contact.js"></script>
+</body>
+</html>

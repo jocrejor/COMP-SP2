@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicio - Efecto LED</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Bienvenido a Selectio</h1>
+    <p>Descubre nuestros productos LED destacados:</p>
+    
+    <div class="filter-container">
+      <label for="familyFilter">Filtrar por familia:</label>
+      <select id="familyFilter">
+        <option value="all">Todas las familias</option>
+      </select>
+    </div>
+
+    <div id="productList" class="product-grid">
+      <!-- Los productos se cargarán dinámicamente aquí -->
+    </div>
+
+    <hr>
+    <a href="contact.html">📞 Ir a la página de contacto</a>
+  </div>
+
+  <script src="js/home.js"></script>
+</body>
+</html>
