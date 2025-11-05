@@ -192,7 +192,8 @@ function cargarProductos() {
     document.querySelectorAll(".btn-images").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `imgProducte/indexImg.html?id=${id}`;
+            window.location.href = `./ProductesImg/ProducteImg.html?id=${id}`;
+
 
         });
     });
