@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", main);
 function main() {
     const btnCrear = document.getElementById("btnCrear");
     btnCrear.addEventListener("click", () => {
-        window.location.href = "crear.html";
+        window.location.href = "ProducteAlta.html";
     });
 
     inicializarDades();
@@ -65,7 +65,7 @@ function cargarProductos() {
     const productos = obtenerProductos();
     const familias = obtenerFamilias();
     const imagenes = obtenerImagenes();
-    
+
     const tbody = document.querySelector("#productsTable tbody");
     tbody.innerHTML = "";
 
@@ -200,14 +200,14 @@ function cargarProductos() {
     document.querySelectorAll(".btn-details").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `detalls.html?id=${id}`;
+            window.location.href = `ProductesVisualitzar.html?id=${id}`;
         });
     });
 
     document.querySelectorAll(".btn-edit").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
-            window.location.href = `editar.html?id=${id}`;
+            window.location.href = `ProducteModificar.html?id=${id}`;
         });
     });
 

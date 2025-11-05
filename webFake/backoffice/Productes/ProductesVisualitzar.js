@@ -46,7 +46,7 @@ function cargarDetallesProducto(id) {
             break;
         }
     }
-    
+
     if (!producto) {
         alert("Producte no trobat.");
         window.location.href = "index.html";
@@ -71,7 +71,7 @@ function cargarDetallesProducto(id) {
             imagenesProducto.push(imagenes[i]);
         }
     }
-    
+
     // Ordenar imatges per ordre
     for (let i = 0; i < imagenesProducto.length - 1; i++) {
         for (let j = i + 1; j < imagenesProducto.length; j++) {
@@ -94,7 +94,7 @@ function cargarDetallesProducto(id) {
 
     const contenedor = document.getElementById("detallesProducto");
     contenedor.innerHTML = ''; // Netejar contenidor
-    
+
     // Crear elements principals
     const h2 = document.createElement("h2");
     h2.textContent = producto.name;
@@ -128,20 +128,20 @@ function cargarDetallesProducto(id) {
 
         imagenesProducto.forEach(img => {
             const divImg = document.createElement("div");
-            
+
             const imagen = document.createElement("img");
             imagen.src = img.url;
             imagen.alt = img.name;
             imagen.classList.add("imagen-producto");
-            
+
             const pImg = document.createElement("p");
             pImg.textContent = `${img.name} (Ordre: ${img.order})`;
-            
+
             divImg.appendChild(imagen);
             divImg.appendChild(pImg);
             divImagenes.appendChild(divImg);
         });
-        
+
         contenedor.appendChild(divImagenes);
     } else {
         const pNoImagenes = document.createElement("p");
@@ -155,7 +155,7 @@ function cargarDetallesProducto(id) {
     if (atributosProducto.length > 0) {
         const divAtributos = document.createElement("div");
         divAtributos.classList.add("atributos");
-        
+
         const h3Atributos = document.createElement("h3");
         h3Atributos.textContent = "Atributs";
         divAtributos.appendChild(h3Atributos);
@@ -169,20 +169,20 @@ function cargarDetallesProducto(id) {
                     break;
                 }
             }
-            
+
             const divAtributo = document.createElement("div");
             divAtributo.classList.add("atributo");
-            
+
             const strong = document.createElement("strong");
             strong.textContent = `${atributoInfo ? atributoInfo.name : 'Atribut'}: `;
-            
+
             const textoValor = document.createTextNode(attr.value);
-            
+
             divAtributo.appendChild(strong);
             divAtributo.appendChild(textoValor);
             divAtributos.appendChild(divAtributo);
         });
-        
+
         contenedor.appendChild(divAtributos);
     }
 }

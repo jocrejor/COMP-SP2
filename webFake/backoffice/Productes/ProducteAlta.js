@@ -77,8 +77,8 @@ function agregarValidacionEnTiempoReal() {
         const price = parseFloat(this.value);
         if (isNaN(price)) {
             mostrarError(this, "El preu ha de ser un número vàlid");
-        } else if (price <= 0) {  
-            mostrarError(this, "El preu no pot ser zero o negatiu");  
+        } else if (price <= 0) {
+            mostrarError(this, "El preu no pot ser zero o negatiu");
         } else if (price > 1000000) {
             mostrarError(this, "El preu no pot ser major a 1.000.000");
         } else {
@@ -170,7 +170,7 @@ function validarFormulario() {
     if (isNaN(price)) {
         mostrarError(document.getElementById("price"), "El preu ha de ser un número vàlid");
         esValido = false;
-    } else if (price <= 0) { 
+    } else if (price <= 0) {
         mostrarError(document.getElementById("price"), "El preu no pot ser zero o negatiu");
         esValido = false;
     } else if (price > 1000000) {

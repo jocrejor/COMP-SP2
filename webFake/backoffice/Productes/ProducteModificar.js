@@ -208,7 +208,7 @@ function validarFormulario(productoId) {
         mostrarError(document.getElementById("price"), "El preu ha de ser un número vàlid");
         esValido = false;
     } else if (price <= 0) {
-        mostrarError(document.getElementById("price"), "El preu no pot ser zero o negatiu");  
+        mostrarError(document.getElementById("price"), "El preu no pot ser zero o negatiu");
         esValido = false;
     } else if (price > 1000000) {
         mostrarError(document.getElementById("price"), "El preu no pot ser major a 1.000.000");
