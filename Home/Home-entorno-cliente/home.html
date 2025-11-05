@@ -3,44 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <title>Inicio -Efecto LED</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="/BBDD/TendaFakeDades.js"></script>
+  <script src="js/home.js"></script>
+
 </head>
 <body>
-  <h1>Bienvenido a Selectio </h1>
-  <p>Descubre nuestros productos LED destacados:</p>
-
-  <div id="productList">
-    <!-- Producto 1 -->
-    <div>
-      <img src="img/strip.jpg" alt="Tira LED RGB" width="150">
-      <h2>Tira LED RGB</h2>
-      <p><strong>Precio:</strong> $19.99</p>
-      <p>Tira flexible RGB perfecta para decorar habitaciones.</p>
-      <a href="product.html?id=1">Ver producto</a>
+  <header class="header"> <!--carret i registre-->
+    <div class="containerTitul">
+      <img src="./img/Logo1.png" class="logoHome">
+      <h1 class="titulHome">Benvinguts a la tenda fake</h1>
     </div>
-    <hr>
-
-    <!-- Producto 2 -->
-    <div>
-      <img src="img/bulb.jpg" alt="Bombilla LED cálida" width="150">
-      <h2>Bombilla LED cálida</h2>
-      <p><strong>Precio:</strong> $9.99</p>
-      <p>Bombilla LED de bajo consumo con luz cálida.</p>
-      <a href="product.html?id=2">Ver producto</a>
+    <div class="containerBotons">
+      <button class="utilBotons"><a href="/Usuaris/altaUsuaris.html">Inici sessio</a></button>
+      <button class="utilBotons"><a href="/Carret/carret.html">Carret</a></button>
     </div>
-    <hr>
+  </header>
+  <main class="main">
+    <aside class="aside"> <!--Select box per a les families-->
+      <h4>Filtrar per familia:</h4>
+      <select id="familia">
+        <option id="" value="" >Totes les families</option>
+        <option id="1" value="1">Equips informatics</option>
+        <option id="2" value="2">Ordinadors</option>
+        <option id="3" value="3">Periferics</option>
+        <option id="4" value="4">Portatils</option>
+        <option id="5" value="5">Sobretaula</option>
+        <option id="6" value="6">Ratolins</option>
+        <option id="7" value="7">Teclats</option>
+        <option id="8" value="8">Monitors</option>
+        <option id="9" value="9">Gaming Laptop</option>
+        <option id="10" value="10">Mini PC</option>
+      </select>
 
-    <!-- Producto 3 -->
-    <div>
-      <img src="img/panel.jpg" alt="Panel LED blanco" width="150">
-      <h2>Panel LED blanco</h2>
-      <p><strong>Precio:</strong> $29.99</p>
-      <p>Panel LED ultrafino con luz blanca brillante.</p>
-      <a href="product.html?id=3">Ver producto</a>
+      <!--Botones utiles-->
+      <div class="botonsUtilAside">
+        <button><a href="contact.html"> Pagina de contacte</a></button>
+        <button><a href="#">Veure perfil</a></button>
+      </div>
+    </aside>
+  
+    <div id="productList" class="productList">  <!-- Los productos se cargarán aquí mediante JavaScript -->
+     
+
     </div>
-  </div>
+    
+  </main>
 
-  <hr>
-  <a href="contact.html">📞 Ir a la página de contacto</a>
+  <footer class="footer">
+
+    <p>&copy; 2025 Efecto LED. Tots els drets reservats.</p>
+
+  </footer>
 
 </body>
 </html>
