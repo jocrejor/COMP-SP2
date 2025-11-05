@@ -9,6 +9,7 @@
     <script type="text/javascript" src="../BBDD/TendaFakeDades.js"></script>
     <script type="text/javascript" src="usuaris.js"></script>
     <script type="text/javascript" src="logout.js"></script>
+    <script src="https://kit.fontawesome.com/f653e778a0.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -57,6 +58,13 @@
         <!-- El JavaScript usuaris.js s'encarregarà d'omplir aquest contenidor -->
         <div id="llistaUsuaris">
             <!-- Ací es mostraran els usuaris afegits -->
+        </div>
+
+        <div id="pagines">
+            <p>Pagina: </p>
+            <i id="paginaAnterior" class="fa-solid fa-arrow-left"></i>
+            <input id="pagina" value="1" type="text" readonly>
+            <i id="paginaSeguent" class="fa-solid fa-arrow-right"></i>
         </div>
     </section>
 </body>

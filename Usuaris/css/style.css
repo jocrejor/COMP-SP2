@@ -225,3 +225,22 @@ button:hover, #limpiar:hover {
 #entrar:hover {
     background-color: #db2231;
 }
+
+/* Numeració de les pagines del usuaris */
+
+#pagines {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 10px;
+    margin-top: 2%;
+}
+
+#pagines i {
+    color: #931621;
+}
+
+#pagina {
+    width: 2.5%;
+    text-align: center;
+}

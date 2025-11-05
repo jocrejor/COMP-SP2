@@ -3,12 +3,16 @@ document.addEventListener("DOMContentLoaded", main);
 // Array per emmagatzemar els usuaris.
 let usuaris = [];
 let rols = [];
+let paginaActual;
 
 // Funció per iniciar els esdeveniments de la pàgina
 function main() { 
 
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
+    const paginaAnterior= document.getElementById("paginaAnterior");
+    const paginaSeguent= document.getElementById("paginaSeguent");
+    const pagina = document.getElementById("pagina");
 
     // Configuració del botó per a tornar al formulari d'altaUsuaris
     usuarisButton.addEventListener("click", (e) => {
@@ -18,6 +22,14 @@ function main() {
     // Configuració del botó per a tornar al formulari d'usuarisRols
     rolsButton.addEventListener("click", (e) => {
         window.location.href='rols.html';
+    });
+
+    paginaAnterior.addEventListener("click", (e) => {
+        paginaActual -= paginaActual;
+    });
+
+    paginaSeguent.addEventListener("click", (e) => {
+        paginaActual += paginaActual;
     });
 
     rols = JSON.parse(localStorage.getItem('rols')) || Rol;
