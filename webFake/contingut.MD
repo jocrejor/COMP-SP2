@@ -7,5 +7,3 @@ En aquest apartat tindrem:
 5. Registre
 7. Logout
 8. Altra informació de la web Footer, Header, css comú, etc.
-
-

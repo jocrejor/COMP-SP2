@@ -914,21 +914,16 @@ const ProductSale = [
 ];
 
 let Favorite = [
-  { "id": 1, "name": "Portátiles Gaming" },
-  { "id": 2, "name": "Monitores 4K" },
-  { "id": 3, "name": "Ratones Inalámbricos" },
-  { "id": 4, "name": "Teclados Mecánicos RGB" },
-  { "id": 5, "name": "Mini PCs Compactos" },
-  { "id": 6, "name": "Sobremesas para Oficina" },
-  { "id": 7, "name": "Auriculares con Micrófono" },
-  { "id": 8, "name": "Impresoras Láser" },
-  { "id": 9, "name": "Tarjetas Gráficas NVIDIA" },
-  { "id": 10, "name": "SSD de Alta Velocidad" },
-  { "id": 11, "name": "Monitores Gaming Curvos" },
-  { "id": 12, "name": "Ordenadores Todo en Uno" },
-  { "id": 13, "name": "Accesorios para Streaming" },
-  { "id": 14, "name": "Equipos de Edición de Video" },
-  { "id": 15, "name": "Componentes de Alto Rendimiento" }
+  { "id": 1, "name": "Portátiles Gaming", "client_id ": 1, "comparator_id": 1 },
+  { "id": 2, "name": "Monitores 4K", "client_id ": 2, "comparator_id": 2 },
+  { "id": 3, "name": "Ratones Inalámbricos", "client_id ": 3, "comparator_id": 3 },
+  { "id": 4, "name": "Teclados Mecánicos RGB", "client_id ": 4, "comparator_id": 4 },
+  { "id": 5, "name": "Mini PCs Compactos", "client_id ": 5, "comparator_id": 5 },
+  { "id": 6, "name": "Sobremesas para Oficina", "client_id ": 1, "comparator_id": 6 },
+  { "id": 7, "name": "Auriculares con Micrófono", "client_id ": 2, "comparator_id": 7 },
+  { "id": 8, "name": "Impresoras Láser", "client_id ": 3, "comparator_id": 8 },
+  { "id": 9, "name": "Tarjetas Gráficas NVIDIA", "client_id ": 4, "comparator_id": 9 },
+  { "id": 10, "name": "SSD de Alta Velocidad",  "client_id ": 5, "comparator_id": 10 }
 ];
 
 
