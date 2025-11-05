@@ -44,12 +44,18 @@
     <section>
         <h1>Llista d'Usuaris</h1>
         
-        <div>
-            <!-- Botó per anar al formulari d'alta d'usuaris -->
-            <button id="afegirUsuari">Afegir Usuari</button>
-            
-            <!-- Botó per gestionar els rols dels usuaris -->
-            <button id="gestionarRols">Gestionar Rols</button>
+        <div id="opcions">
+            <div>
+                <!-- Botó per anar al formulari d'alta d'usuaris -->
+                <button id="afegirUsuari">Afegir Usuari</button>
+                
+                <!-- Botó per gestionar els rols dels usuaris -->
+                <button id="gestionarRols">Gestionar Rols</button>
+            </div>
+            <div>
+                <input id="" type="text" placeholder="Introdueix un nom">
+                <button id="gestionarRols">Buscar</button>
+            </div>
         </div>
 
         <br>
@@ -60,11 +66,22 @@
             <!-- Ací es mostraran els usuaris afegits -->
         </div>
 
-        <div id="pagines">
-            <p>Pagina: </p>
-            <i id="paginaAnterior" class="fa-solid fa-arrow-left"></i>
-            <input id="pagina" value="1" type="text" readonly>
-            <i id="paginaSeguent" class="fa-solid fa-arrow-right"></i>
+        <div id="opcions_inferiors">
+            <div id="filtre">
+                <select name="" id="">
+                    <option value="">Admin</option>
+                    <option value="">Usuari</option>
+                </select>
+                <button id="filtrar_rols">Filtrar</button>
+            </div>
+
+            <div id="pagines">
+                <i class="fa-solid fa-angles-left"></i>
+                <i id="paginaAnterior" class="fa-solid fa-angle-left"></i>
+                <input id="pagina" value="1" type="text">
+                <i id="paginaSeguent" class="fa-solid fa-angle-right"></i>
+                <i class="fa-solid fa-angles-right"></i>
+            </div>
         </div>
     </section>
 </body>

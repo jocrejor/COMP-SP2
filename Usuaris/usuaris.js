@@ -10,6 +10,8 @@ function main() {
 
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
+
+    // Obtencio dels botons de les pàgines
     const paginaAnterior= document.getElementById("paginaAnterior");
     const paginaSeguent= document.getElementById("paginaSeguent");
     const pagina = document.getElementById("pagina");
@@ -24,6 +26,7 @@ function main() {
         window.location.href='rols.html';
     });
 
+    // COnfiguració de les pàgines
     paginaAnterior.addEventListener("click", (e) => {
         paginaActual -= paginaActual;
     });

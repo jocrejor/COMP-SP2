@@ -78,7 +78,7 @@ h1, h2 {
 }
 
 #taula_usuaris, #taula_rols {
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
 }
@@ -231,9 +231,8 @@ button:hover, #limpiar:hover {
 #pagines {
     display: flex;
     align-items: center;
-    justify-content: left;
-    gap: 10px;
-    margin-top: 2%;
+    justify-content: right;
+    gap: 5px;
 }
 
 #pagines i {
@@ -241,6 +240,24 @@ button:hover, #limpiar:hover {
 }
 
 #pagina {
-    width: 2.5%;
+    width: 8%;
     text-align: center;
 }
+
+#opcions_inferiors {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 25px;
+}
+
+#opcions {
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+}
+
+#filtre {
+    display: flex;
+    gap: 10px;
+}
+
