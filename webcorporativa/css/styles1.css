@@ -1,0 +1,741 @@
+/* styles1.css - Estilos específicos para la página */
+
+/* Variables de colores */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --text-color: #333;
+    --light-gray: #f5f5f5;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #777;
+    --white: #fff;
+}
+
+.col-5-equal {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+/*Saber borde de los cols*/
+/* .col-2{
+    border: rgb(250, 0, 0) 1px solid;
+} */
+
+/* .col-8{
+    border: rgb(252, 0, 0) 1px solid;
+} */
+
+/* .col-7{
+    border: rgb(252, 0, 0) 1px solid;
+} */
+
+/* .col-3{
+    border: rgb(252, 0, 0) 1px solid;
+} */
+
+/* .col-4{
+    border: rgb(252, 0, 0) 1px solid;
+} */
+
+
+
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.hamburger {
+    display: none;
+}
+
+/* Header */
+.header {
+    background-color: var(--white);
+    border-bottom: 1px solid black;
+    padding: 16px 0;
+    position: sticky;
+}
+
+.logo img {
+    height: 90px;
+    width: auto;
+
+}
+
+.main-nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.navLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1.9px solid #000000;
+    border-radius: 15px;
+    /* Bordes redondeados */
+    overflow: hidden;
+    /* Importante: para que los bordes internos respeten el radius */
+}
+
+.navLink div {
+    padding: 13px 25px;
+    border-right: 1px solid rgb(143, 143, 143);
+}
+
+/* .main-nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    border: black 1px solid;
+    padding: 0px; 
+}
+
+.main-nav li {
+    border-right: black 1px solid;
+    padding: 12px 25px 12px 25px;
+} */
+
+/*padding Top Right Bottom Left*/
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 19px;
+}
+
+/* ESTADO ACTIVO PERMANENTE */
+.navLink div:focus-within {
+    background-color: #8AB3CF !important;
+    outline: none;
+}
+
+.navLink div:focus-within a {
+    color: var(--white) !important;
+}
+
+/* HOVER - aplicado al div completo */
+.navLink div:hover {
+    background-color: #8AB3CF;
+}
+
+.navLink div:hover a {
+    color: var(--white) !important;
+}
+
+.navLink a:focus {
+    outline: none;
+}
+
+
+.main-ico ul {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+}
+
+.main-ico li {
+    margin-left: 20px;
+}
+
+.main-ico i {
+    font-size: 25px;
+}
+
+/* Main Content */
+.main-content {
+    padding: 12px 0;
+}
+
+.main-content p {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid rgb(230, 230, 230);
+    color: black;
+    padding: 20px 0 20px;
+}
+
+.footer .row {
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 1280px;
+    /* Ajusta este valor según necesites */
+}
+
+.footer h3 {
+    font-size: 1.1rem;
+
+}
+
+.footer h3::after {
+    background-color: black;
+}
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* .footer li {
+    
+} */
+
+.footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 30px;
+    max-width: 210px;
+}
+
+.footer li {
+    display: flex;
+    justify-content: flex-start;
+    /* Separa el texto y el icono */
+    align-items: center;
+    /* Alinea verticalmente */
+}
+
+.footer a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s;
+    font-size: 18px;
+}
+
+.footer a:hover {
+    color: rgb(124, 124, 124);
+}
+
+.footer i {
+    color: black;
+    font-size: 1rem;
+    flex-shrink: 0;
+    /* Evita que el icono se reduzca */
+    margin-left: auto;
+    /* Empuja el icono hacia la derecha */
+}
+
+.social-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 40px !important;
+}
+
+.social-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 35px;
+    /* Espacio entre iconos */
+    margin-bottom: 10px;
+    /* Espacio entre filas */
+    padding: 0;
+}
+
+/* Versión minimalista */
+.social-row a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    text-decoration: none;
+    color: #6c757d;
+    transition: all 0.3s ease;
+}
+
+.social-row a:hover {
+    color: #007bff;
+    transform: translateY(-2px);
+}
+
+.social-row i {
+    font-size: 1.7rem;
+    margin: 0;
+}
+
+
+.payment-methods {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 50px !important;
+    margin-left: 10px !important;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    /* Espacio entre iconos */
+    padding: 0;
+}
+
+.payment-row a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 60px;
+    text-decoration: none;
+    padding: 4px;
+    background-color: transparent;
+    border: none;
+}
+
+.payment-row img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.copyright-container {
+    margin-top: 35px;
+    border-top: 1px solid rgb(0, 0, 0);
+}
+
+.copyright {
+    text-align: center;
+    color: black;
+    font-size: 19px;
+}
+
+/* Utilidades */
+.align-center {
+    align-items: center;
+}
+
+/* Responsive */
+@media only screen and (max-width: 767px) {
+    .header {
+        padding: 10px 0;
+    }
+
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .main-nav li {
+        margin-left: 0;
+        margin-bottom: 8px;
+    }
+
+    .footer {
+        padding: 30px 0 15px;
+    }
+
+    .footer .col-3 {
+        margin-bottom: 20px;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE PERSONALIZADO POR RANGOS
+   ========================================================= */
+
+/* === 1200px a 1320px === */
+@media only screen and (min-width: 1200px) and (max-width: 1320px) {
+
+    /* --- Ajuste de contenedores --- */
+    .container {
+        max-width: 1180px;
+    }
+
+    .footer .row {
+        max-width: 1180px;
+    }
+
+    .hamburger {
+        display: none;
+        /* Esconder el icono de la hamburguesa */
+    }
+
+    /* --- Header / Nav --- */
+    .navLink {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navLink div {
+        padding: 10px 18px;
+    }
+
+    .main-nav a {
+        font-size: 17px;
+    }
+
+    .logo img {
+        height: 80px;
+    }
+
+    .main-ico i {
+        font-size: 22px;
+    }
+
+    /* --- Footer --- */
+    .footer h3 {
+        font-size: 1.05rem;
+    }
+
+    .footer a {
+        font-size: 17px;
+    }
+
+    .social-row i {
+        font-size: 1.5rem;
+    }
+
+    .payment-row img {
+        height: 55px;
+    }
+
+    .copyright {
+        font-size: 17px;
+    }
+}
+
+
+
+/* === 1600px a 1760px === */
+@media only screen and (min-width: 1600px) and (max-width: 1760px) {
+
+    /* --- Contenedores --- */
+    .container {
+        max-width: 1580px;
+    }
+
+    .footer .row {
+        max-width: 1580px;
+    }
+
+    .hamburger {
+        display: none;
+        /* Esconder el icono de la hamburguesa */
+    }
+
+    /* --- Header / Nav --- */
+    .navLink {
+        justify-content: space-between;
+    }
+
+    .navLink div {
+        padding: 14px 32px;
+    }
+
+    .main-nav a {
+        font-size: 19px;
+    }
+
+    .logo img {
+        height: 100px;
+    }
+
+    .main-ico i {
+        font-size: 26px;
+    }
+
+    /* --- Footer --- */
+    .footer h3 {
+        font-size: 1.2rem;
+    }
+
+    .footer a {
+        font-size: 19px;
+    }
+
+    .social-row i {
+        font-size: 1.7rem;
+    }
+
+    .payment-row img {
+        height: 65px;
+    }
+
+    .copyright {
+        font-size: 19px;
+    }
+}
+
+/* =========================================================
+   AJUSTES DE SEGURIDAD PARA QUE EL MENÚ NUNCA SE CORTE
+   ========================================================= */
+@media only screen and (max-width: 1320px) {
+    .main-nav .navLink {
+        flex-wrap: wrap;
+        /* Permite saltar de línea */
+        justify-content: center;
+        gap: 4px;
+    }
+
+    .navLink div {
+        padding: 9px 16px;
+    }
+
+    .main-nav a {
+        font-size: 16px;
+    }
+}
+
+/* ========== MODO MÓVIL ========== */
+/* ======== HEADER MÓVIL ALINEADO ======== */
+@media only screen and (max-width: 767px) {
+
+    /* Reestructuramos las columnas */
+    .header .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    /* Oculta el menú central (col-8) */
+    .header .col-8 {
+        display: contents;
+        /* Deja de afectar al layout, pero mantiene .main-nav accesible */
+    }
+
+    /* Asegura que las col-2 de los extremos tengan espacio */
+    .header .col-2 {
+        flex: 0 0 auto;
+        width: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Alinea hamburguesa y logo juntos */
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .hamburger {
+        display: block;
+        cursor: pointer;
+        font-size: 37px;
+        color: #000;
+    }
+
+    .logo img {
+        height: 50px;
+        width: auto;
+    }
+
+    /* Iconos del header: mismos alto y posición */
+    .main-ico {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .main-ico ul {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-ico li {
+        margin-left: 14px;
+    }
+
+    .main-ico i {
+        font-size: 27px;
+    }
+
+    /* ===== Menú desplegable ===== */
+    .main-nav {
+        display: none;
+        /* Menú oculto por defecto */
+    }
+
+    .main-nav.mobile-active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 90%;
+        /* Justo debajo del header */
+        width: 190px;
+        /* Ancho reducido para hacer el menú más estrecho */
+        background: #fff;
+        z-index: 1000;
+        animation: dropdown 0.3s ease forwards;
+        border: 1px solid black;
+    }
+
+    @keyframes dropdown {
+        from {
+            opacity: 0;
+            transform: translateX(-100%);
+        }
+
+        /* Empieza desde fuera de la pantalla a la izquierda */
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Se mueve a su lugar */
+    }
+
+    /* Eliminar bordes en el menú móvil */
+    .main-nav .navLink div {
+        border: none;
+        /* Elimina el borde derecho en móvil */
+        padding: 12px 0;
+        text-align: left;
+        /* Alinea el texto a la izquierda */
+        width: 100%;
+        /* Asegura que cada opción ocupe todo el ancho disponible dentro del menú */
+    }
+
+    .navLink {
+        border-radius: 0;
+        border: none;
+    }
+
+    .navLink div:focus-within {
+        background-color: #8AB3CF !important;
+        outline: none;
+    }
+
+    .navLink div:focus-within a {
+        color: var(--white) !important;
+    }
+
+    /* Alineación de los enlaces */
+    .main-nav a {
+        font-size: 18px;
+        color: #000;
+        text-decoration: none;
+        display: block;
+        /* Hace que cada enlace ocupe toda la fila */
+        text-align: left;
+        /* Alinea los enlaces a la izquierda */
+        padding: 0 15px;
+        /* Añade un poco de espacio entre los bordes y el texto */
+    }
+
+    /* Ajuste del header */
+    .header {
+        position: relative;
+        padding: 10px 15px;
+        border-bottom: 1px solid #000;
+    }
+
+        /* Reestructuramos las columnas */
+    .footer .row {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Alinea los elementos al centro */
+    }
+
+    /* Aseguramos que cada sección se apile en columnas */
+    .footer h3 {
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 10px;
+        background-color: #f5f5f5;
+        width: 100%; /* Hace que el título ocupe todo el ancho */
+        text-align: left; /* Alinea el texto a la izquierda */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Cambia el color de fondo cuando el apartado se expande */
+    .footer h3.active {
+        background-color: #e0e0e0;
+    }
+
+    /* Submenú: ocultamos el contenido por defecto */
+    .footer .footer-toggle + ul {
+        display: none;
+        list-style: none;
+        padding-left: 20px;
+        margin: 0;
+        transition: max-height 0.3s ease;
+    }
+
+    /* Cuando el título tiene la clase .active, mostramos el submenú */
+    .footer .footer-toggle.active + ul {
+        display: block;
+    }
+
+    /* Mostrar icono de flecha */
+    .footer h3::after {
+        content: '\25BC'; /* Flecha hacia abajo */
+        float: right;
+    }
+
+    /* Cambia la flecha cuando el apartado está expandido */
+    .footer h3.active::after {
+        content: '\25B2'; /* Flecha hacia arriba */
+    }
+
+    /* Redes sociales apiladas en columna */
+    .social-links {
+        padding: 0;
+        list-style: none;
+        margin-top: 10px;
+    }
+
+    .social-row {
+        display: flex;
+        flex-direction: column;
+        gap: 15px; /* Espacio entre los iconos */
+    }
+
+    .social-row a {
+        font-size: 1.7rem;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .social-row a:hover {
+        color: #007bff;
+    }
+
+    /* Métodos de pago apilados de 3 en 3 */
+    .payment-methods {
+        padding: 0;
+        list-style: none;
+        margin-top: 20px;
+    }
+
+    .payment-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .payment-row a {
+        width: 30%; /* Ajusta el ancho de los iconos de pago */
+        margin-bottom: 15px;
+    }
+
+    .payment-row img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .col-5-equal {
+        width: 100%;
+    }
+
+}
