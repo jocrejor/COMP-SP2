@@ -1,0 +1,542 @@
+/*Estilos universales*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+
+button{
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+/*Estilos del header*/
+.header{
+    width: 100%;
+    height: auto;
+    background-color: blueviolet;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.30);
+}
+
+.logoHome{
+    width: 5rem;
+    height: auto;
+
+}
+
+.containerTitul{
+    display: flex;
+    align-items: center;
+}
+
+.titulHome{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.containerBotons{
+    display: flex;
+    gap: 1rem;
+}
+
+.utilBotons {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.utilBotons:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/*Estilos del main*/
+.main{
+    display: flex;
+}
+
+.aside {
+    width: 15%;
+    background-color: white;
+    padding: 1.5rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.aside h4 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+#familia {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+    background-color: white;
+    font-size: 1rem;
+}
+
+.botonsUtilAside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.botonsUtilAside button {
+    color: white;
+    padding: 0.7rem;
+    font-weight: 500;
+}
+
+.botonsUtilAside button:hover {
+    background-color:  rgba(68, 4, 77, 0.315);
+    transform: translateY(-2px);
+}
+
+.productList{
+    width: 85%;
+    height: auto;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2%;
+    padding: 20px;
+}
+
+/*Estilos del footer*/
+.footer{
+    width: 100%;
+    height: auto;
+
+    background-color: blueviolet;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Estilos de la pagina de detalles de producto*/
+.headerProductes{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+/*Estilos productDetalle.js*/
+/* Contenedor principal del detalle */
+.contenidor-detall-producte {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Título del producto */
+.titol-producte {
+  margin: 0 0 20px 0;
+}
+
+/* Carrusel de imágenes */
+.contenidor-carrusel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+}
+
+.imatge-carrusel {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Botones del carrusel */
+.boto-carrusel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px;
+  background: rgba(255, 255, 255, 1);
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.boto-carrusel-anterior {
+  left: 10px;
+}
+
+.boto-carrusel-seguent {
+  right: 10px;
+}
+
+/* Precio */
+.preu-producte {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 15px 0;
+}
+
+.preu-producte-descompte {
+  color: red;
+}
+
+.preu-producte-normal {
+  color: black;
+}
+
+/* Sección de atributos */
+.titol-atributs {
+  text-align: left;
+  margin: 20px 0 10px 0;
+}
+
+.llista-atributs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item-atribut {
+  text-align: left;
+  margin-bottom: 4px;
+}
+
+/* Descripción */
+.titol-descripcio {
+  text-align: left;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+}
+
+.text-descripcio {
+  text-align: left;
+  line-height: 1.6;
+}
+
+/* Botones de acción */
+.boto-afegir-carret {
+  margin-top: 1rem;
+  margin-right: 1rem;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.boto-tornar-inici {
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Mensaje de error */
+.missatge-error {
+  text-align: center;
+  color: #d32f2f;
+  font-size: 1.2rem;
+}
+
+/*Estilos home.js*/
+/* Contenedor de producto en lista */
+.targeta-producte {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+}
+
+/* Título del producto */
+.titol-targeta-producte {
+  margin: 0 0 10px 0;
+}
+
+/* Imagen del producto */
+.imatge-targeta-producte {
+  width: 50%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Precio del producto */
+.preu-targeta-producte {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.preu-targeta-producte-descompte {
+  color: red;
+}
+
+.preu-targeta-producte-normal {
+  color: black;
+}
+
+/* Descripción del producto */
+.descripcio-targeta-producte {
+  margin-top: 0.5rem;
+}
+
+/* Botón ver producto */
+.boto-veure-producte {
+  margin-top: 0.5rem;
+  margin-right: 10px;
+  width: 120px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* Botón añadir al carrito */
+.boto-afegir-carret {
+  width: 120px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+/* Separador */
+.targeta-producte hr {
+  margin-top: 15px;
+}
+
+/* Estilos del formulari de contacte */
+.contenidor-contacte {
+  max-width: 800px;
+  margin: 20px auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.capsalera-contacte {
+  background-color: blueviolet;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.titol-principal {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.subtitol-contacte {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.seccio-formulari-contacte {
+  padding: 30px;
+}
+
+.formulari-contacte {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.grup-camp-contacte {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grup-camp-contacte label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.camp-entrada-contacte,
+.camp-textarea-contacte {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.camp-entrada-contacte:focus,
+.camp-textarea-contacte:focus {
+  outline: none;
+  border-color: blueviolet;
+  box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
+}
+
+.camp-textarea-contacte {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.missatge-error-camp {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  display: none;
+}
+
+.missatge-error-camp.actiu {
+  display: block;
+}
+
+.botons-formulari-contacte {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.boto-guardar-contacte,
+.boto-cancelar-contacte {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.boto-guardar-contacte {
+  background-color: blueviolet;
+  color: white;
+}
+
+.boto-guardar-contacte:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+}
+
+.boto-cancelar-contacte {
+  background-color: #e0e0e0;
+  color: #555;
+}
+
+.boto-cancelar-contacte:hover {
+  background-color: #d0d0d0;
+}
+
+.seccio-llista-contactes {
+  padding: 30px;
+  background-color: #f8f9fa;
+}
+
+.titol-llista-contactes {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid blueviolet;
+}
+
+.llista-contactes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.item-contacte-llista {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-contacte-llista:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.capsalera-item-contacte {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.nom-contacte-llista {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: blueviolet;
+}
+
+.accions-contacte-llista {
+  display: flex;
+  gap: 8px;
+}
+
+.boto-editar-contacte,
+.boto-eliminar-contacte {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.boto-editar-contacte {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.boto-editar-contacte:hover {
+  background-color: #45a049;
+}
+
+.boto-eliminar-contacte {
+  background-color: #f44336;
+  color: white;
+}
+
+.boto-eliminar-contacte:hover {
+  background-color: #da190b;
+}
+
+.info-contacte-llista {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.peu-contacte {
+  padding: 20px 30px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 8px 8px;
+}
+
+.enllac-tornar-contacte {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: blueviolet;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.enllac-tornar-contacte:hover {
+  color: #764ba2;
+  transform: translateX(-5px);
+}

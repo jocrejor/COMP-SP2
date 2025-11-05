@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Listado de Clientes</title>  
+</head>
+
+<body>
+
+  <h1>Clientes</h1>
+
+  <!-- Enlace para navegar a la página de creación de nuevos clientes -->
+  <a href="crear.html">➕ Crear nuevo cliente</a>
+
+  <!-- 
+    Tabla que mostrará el listado de clientes
+    id="tablaClientes" - Identificador único para manipular la tabla con JavaScript
+  -->
+  <table border="1" id="tablaClientes">
+    <!-- Cabecera de la tabla - define las columnas -->
+    <thead>
+      <!-- Fila de encabezados -->
+      <tr>
+        <!-- th = Table Header - Celdas de encabezado -->
+        <th>ID</th>                    <!-- Identificador único del cliente -->
+        <th>Tipo ID</th>               <!-- Tipo de identificación (DNI, NIE, CIF, Pasaporte) -->
+        <th>ID Fiscal</th>             <!-- Número de identificación fiscal -->
+        <th>Nombre</th>                <!-- Nombre del cliente -->
+        <th>Apellidos</th>             <!-- Apellidos del cliente -->
+        <th>Email</th>                 <!-- Correo electrónico -->
+        <th>Teléfono</th>              <!-- Número de teléfono -->
+        <th>Fecha Nacimiento</th>      <!-- Fecha de nacimiento (opcional) -->
+        <th>CP</th>                    <!-- Código Postal -->
+        <th>Dirección</th>             <!-- Dirección completa -->
+        <th>País</th>                  <!-- País de residencia -->
+        <th>Provincia</th>             <!-- Provincia/Estado/Región -->
+        <th>Ciudad</th>                <!-- Ciudad/Municipio -->
+        <th>Acciones</th>              <!-- Columna para botones de Editar/Eliminar -->
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- 
+        Esta área se poblará dinámicamente con JavaScript:
+        - Si hay clientes: se crearán filas <tr> con los datos de cada cliente
+        - Si no hay clientes: se mostrará un mensaje "No hay clientes registrados"
+      -->
+    </tbody>
+  </table>
+
+  <!-- 
+    Inclusión del archivo JavaScript que proporciona la funcionalidad:
+    - Carga los clientes desde localStorage
+    - Renderiza la tabla dinámicamente
+    - Maneja la eliminación de clientes
+    - Gestiona la navegación a editar.html
+  -->
+  <script src="index.js"></script>
+</body>
+
+</html>
