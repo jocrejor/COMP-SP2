@@ -70,10 +70,10 @@ function mostrarLlista(array) {
             <li>
                 <button onclick="esborrarProvincia(${index})">🗑️ Esborrar</button>
                 <button onclick="prepararActualitzar(${index})">✏️ Modificar</button>
-                ${prov.name}
-                <a href="../poblacio/poblacio.html?country_id=${countryId}&province_id=${prov.id}&province=${encodeURIComponent(prov.name)}">
+                <a href="./poblacio.html?country_id=${countryId}&province_id=${prov.id}&province=${encodeURIComponent(prov.name)}">
                     <button>Poblacions</button>
                 </a>
+                ${prov.name}
             </li>
         `;
     });

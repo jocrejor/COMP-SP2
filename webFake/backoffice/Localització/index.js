@@ -63,10 +63,10 @@ function mostrarLlista(array) {
             <li>
                 <button onclick="esborrarPais(${index})">🗑️ Esborrar</button>
                 <button onclick="prepararActualitzar(${index})">✏️ Modificar</button>
-                ${pais.name}
                 <a href="./provincia.html?id=${pais.id}&country=${encodeURIComponent(pais.name)}">
-                    <button>Províncies</button>
+                    <button>🏙️ Províncies</button>
                 </a>
+                ${pais.name}
             </li>
         `;
     });
@@ -108,14 +108,29 @@ function actualitzarPais() {
 
 // Esborrar país
 function esborrarPais(index) {
-    const idAEliminar = paisosFiltrats[index].id;
-    const idxGeneral = Country.findIndex(p => p.id === idAEliminar);
-    if (idxGeneral !== -1) Country.splice(idxGeneral, 1);
-    paisosFiltrats.splice(index, 1);
+    const paisNom = paisosFiltrats[index].name;
 
-    localStorage.setItem("Country", JSON.stringify(Country));
-    mostrarLlista(paisosFiltrats);
+    // Finestra emergent de confirmació
+    const confirmar = confirm(`Vols eliminar el país "${paisNom}"?`);
+
+    if (confirmar) {
+        // Si l'usuari prem "Acceptar", eliminem
+        const idAEliminar = paisosFiltrats[index].id;
+        const idxGeneral = Country.findIndex(p => p.id === idAEliminar);
+        if (idxGeneral !== -1) Country.splice(idxGeneral, 1);
+        paisosFiltrats.splice(index, 1);
+
+        localStorage.setItem("Country", JSON.stringify(Country));
+        mostrarLlista(paisosFiltrats);
+
+        // Mostrem alerta de confirmació
+        alert(`El país "${paisNom}" s'ha eliminat correctament.`);
+    } else {
+        // Si prem "Cancel·lar", no fem res
+        alert(`S'ha cancel·lat l'eliminació de "${paisNom}".`);
+    }
 }
+
 
 // Quan cliquem "Modificar"
 function prepararActualitzar(index) {
