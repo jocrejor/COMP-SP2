@@ -14,7 +14,7 @@ function inicialitzarUsuaris() {
     const sessioiniciada = sessionStorage.getItem("usuariActual");
     const usuarisGuardats = localStorage.getItem("usuaris");
     if(!sessioiniciada) {
-        window.location.href='../login.html'
+        window.location.href='../login.html';
     }
     if (!usuarisGuardats) {
         // Si localStorage està buit, copiar l'array User si existeix
@@ -66,20 +66,44 @@ function llistaUsuaris() {
         usuaris.forEach((usuari, index) => {
             const fila = document.createElement("tr");
             
+            // Crear cel·les
+            const tdId = document.createElement("td");
+            tdId.textContent = usuari.id;
             
+            const tdNom = document.createElement("td");
+            tdNom.textContent = usuari.name || usuari.nom || '';
             
-            fila.innerHTML = `
-                <td>${usuari.id}</td>
-                <td>${usuari.name || usuari.nom || ''}</td>
-                <td>${usuari.email || ''}</td>
-                <td>${usuari.rol || ''}</td>
-                <td>
-                    <div class="accions">
-                        <button class="btn-editar" onclick="editarUsuari(${index})">Editar</button>
-                        <button class="btn-eliminar" onclick="eliminarUsuari(${index})">Eliminar</button>
-                    </div>
-                </td>
-            `;
+            const tdEmail = document.createElement("td");
+            tdEmail.textContent = usuari.email || '';
+            
+            const tdRol = document.createElement("td");
+            tdRol.textContent = usuari.rol || '';
+            
+            const tdAccions = document.createElement("td");
+            const divAccions = document.createElement("div");
+            divAccions.className = "accions";
+            
+            // Crear botons amb data attributes
+            const btnEditar = document.createElement("button");
+            btnEditar.className = "btn-editar";
+            btnEditar.textContent = "Editar";
+            btnEditar.dataset.index = index;
+            
+            const btnEliminar = document.createElement("button");
+            btnEliminar.className = "btn-eliminar";
+            btnEliminar.textContent = "Eliminar";
+            btnEliminar.dataset.index = index;
+            
+            divAccions.appendChild(btnEditar);
+            divAccions.appendChild(btnEliminar);
+            tdAccions.appendChild(divAccions);
+            
+            // Afegir cel·les a la fila
+            fila.appendChild(tdId);
+            fila.appendChild(tdNom);
+            fila.appendChild(tdEmail);
+            fila.appendChild(tdRol);
+            fila.appendChild(tdAccions);
             
             tbody.appendChild(fila);
         });
@@ -90,6 +114,7 @@ function llistaUsuaris() {
 function configurarEventListeners() {
     const formulari = document.getElementById("formulariUsuari");
     const btnCancelar = document.getElementById("btnCancelar");
+    const tbody = document.getElementById("llistaUsuaris");
     
     // Submit del formulari
     formulari.addEventListener("submit", function(e) {
@@ -108,6 +133,25 @@ function configurarEventListeners() {
     btnCancelar.addEventListener("click", function() {
         cancelarEdicio();
     });
+    
+    // Event delegation per als botons de la taula
+    tbody.addEventListener("click", function(e) {
+        if (e.target.classList.contains("btn-editar")) {
+            const index = parseInt(e.target.dataset.index);
+            editarUsuari(index);
+        } else if (e.target.classList.contains("btn-eliminar")) {
+            const index = parseInt(e.target.dataset.index);
+            eliminarUsuari(index);
+        }
+    });
+    
+    // Event listener per al botó de tancar sessió si existeix
+    const btnTancarSessio = document.getElementById("btnTancarSessio");
+    if (btnTancarSessio) {
+        btnTancarSessio.addEventListener("click", function() {
+            tancarSessio();
+        });
+    }
 }
 
 // Afegir nou usuari
@@ -115,7 +159,7 @@ function afegirUsuari() {
     const nom = document.getElementById("nomUsuari").value.trim();
     const email = document.getElementById("emailUsuari").value.trim();
     const password = document.getElementById("passwordUsuari").value;
-    const rol = document.getElementById("rolUsuari");
+    const rol = document.getElementById("rolUsuari").value;
     
     // Validacions
     if (!validarFormulari(nom, email, password, rol)) {
@@ -138,7 +182,7 @@ function afegirUsuari() {
         name: nom,
         password: password,
         email: email,
-        rol:rol
+        rol: rol
     };
     
     // Afegir a l'array i guardar
@@ -163,7 +207,7 @@ function editarUsuari(index) {
     document.getElementById("nomUsuari").value = usuari.name || usuari.nom || '';
     document.getElementById("emailUsuari").value = usuari.email || '';
     document.getElementById("passwordUsuari").value = usuari.password || '';
-    document.getElementById("rolUsuari").value = usuari.rol||'';
+    document.getElementById("rolUsuari").value = usuari.rol || '';
     
     // Canviar títol i botons
     document.getElementById("titolFormulari").textContent = "Editar Usuari";
@@ -186,7 +230,7 @@ function actualitzarUsuari(index) {
     const rol = document.getElementById("rolUsuari").value;
     
     // Validacions
-    if (!validarFormulari(nom, email, password)) {
+    if (!validarFormulari(nom, email, password, rol)) {
         return;
     }
     
@@ -205,7 +249,7 @@ function actualitzarUsuari(index) {
         name: nom,
         email: email,
         password: password,
-        rol:rol
+        rol: rol
     };
     
     // Guardar canvis
@@ -271,17 +315,19 @@ function validarFormulari(nom, email, password, rol) {
         return false;
     }
     
-    // Validar password
-    const regexcontrasenya = /^.{5,20}$/;
-    if (regexcontrasenya.test(password)) {
+    // Validar password - FIXED: Changed logic from ! to standard check
+    const regexcontrasenya = /^.{8,20}$/;
+    if (!regexcontrasenya.test(password)) {
         mostrarError("La contrasenya ha de tenir entre 8 i 20 caràcters.");
         return false;
     }
-    // Validar rol
-    if (rol!="admin" || rol!="editor") {
-        mostrarError("No ha assignat cap rol al usuari");
+    
+    // Validar rol - FIXED: Changed || to && for proper validation
+    if (rol !== "admin" && rol !== "editor") {
+        mostrarError("No ha assignat cap rol vàlid al usuari");
         return false;
     }
+    
     return true;
 }
 
@@ -316,10 +362,9 @@ function netejarMissatges() {
     document.getElementById("missatgeError").style.display = "none";
     document.getElementById("missatgeExit").style.display = "none";
 }
+
 // Tancar Sessió
 function tancarSessio() {
     sessionStorage.clear();
-    window.location.href='../login.html'
+    window.location.href = '../login.html';
 }
-
-
