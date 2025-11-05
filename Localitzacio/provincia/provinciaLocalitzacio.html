@@ -4,27 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../BBDD/Location.js"></script>
+    <!-- Fitxer JavaScript amb les províncies -->
     <script src="./provinciaLocalitzacio.js"></script>
+
+    <!-- Full d'estil específic per a la pàgina de províncies -->
+    <link rel="stylesheet" href="/Localitzacio/css/provinciaStyle.css">
+
     <title>Llistat de provincies</title>
 </head>
 
 <body>
-
+    <!-- Títol principal -->
     <h1>Llistat de provincies</h1>
+
+    <!-- Mostra el país seleccionat -->
     <h2 id="id">País seleccionat:</h2>
 
-        <input type="text" id="province" placeholder="Alacant" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
-        <span id="mensajeError" style="color:red"></span>
+    <!-- Botó per tornar a la pàgina principal (llistat de països) -->
+    <a href="../index.html">
+        <button id="torna">⬅️ Torna</button>
+    </a>
 
-        <button id="afegir"></button>
+    <!-- Camp de text per introduir una província nova -->
+    <input type="text" id="province" placeholder="Anyadir nova Provincia" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
 
-    <ol id="llista">
+    <!-- Span per mostrar missatges d'error de validació -->
+    <span id="mensajeError" style="color:red"></span>
+
+    <!-- Botó per afegir o modificar una província -->
+    <button id="afegir"></button>
+
+    <!-- Cercador amb una lupa -->
+    <input type="text" id="buscar" placeholder="🔍 Buscar província">
+
+    <!-- Llista ordenada on es mostraran les províncies -->
+    <ol id="llista"></ol>
+
         <!-- Ací ensenyem els països -->
     </ol>
 
+    <!-- Input ocult per guardar l'índex de la província que s'està editant -->
     <input type="hidden" id="index" value="-1">
-    <a href="../indexLocalitzacio.html"><button id="torna">Torna</button></a>
 
+    
 </body>
-
 </html>
