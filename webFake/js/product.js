@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnVol.className = "boto-tornar-inici";
   btnVol.appendChild(document.createTextNode("Tornar a la pagina principal"));
   btnVol.onclick = () => {
-    window.location.href = "home.html";
+    window.location.href = "index.html";
   };
   div.appendChild(btnVol);
   
