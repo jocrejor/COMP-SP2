@@ -96,6 +96,9 @@ function obtindreSessionId() {
 function mostrarComparador() {
     const compararDiv = document.getElementById('compararDiv');
     compararDiv.innerHTML = ""; // Limpiar contenido anterior
+    
+    const taulaDiv = document.getElementById('taulaDiv');
+    taulaDiv.innerHTML = ""; // Limpiar contenido de la tabla
 
     if (!compareProduct || compareProduct.length === 0) {
         alert("No tens productes per a comparar");
@@ -142,13 +145,9 @@ function mostrarComparador() {
 }
 
 
-//Esta part esta treta amb ia i sera modifica i adapta, pero es lo que fa falta asi agafem de la array producteMesatribut 
-//agafem el id del producte com a clau i la id del atribut com a valor dins de esta funció generem la array todosAtributos de esta manera asosiem els productes en els atributs 
-//esta taula dibuixa com a columnes de la clau producte el nom i de columnes de la clau id_product la fila el contingut de la celda es el valor del producte 
-//que esta en la array todosAtributos
 // Crear tabla de comparación de atributos
 function crearTaulaComparacio() {
-    const compararDiv = document.getElementById('compararDiv');
+    const taulaDiv = document.getElementById('taulaDiv');
     
     // Crear el contenedor de la tabla
     const tableContainer = document.createElement('div');
@@ -272,7 +271,7 @@ function crearTaulaComparacio() {
     
     table.appendChild(tbody);
     tableContainer.appendChild(table);
-    compararDiv.appendChild(tableContainer);
+    taulaDiv.appendChild(tableContainer);
 }
 
 function eliminarProducteComparador(index) {
