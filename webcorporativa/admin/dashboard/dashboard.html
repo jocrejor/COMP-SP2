@@ -4,12 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administració noticies</title>
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <script src="dashboard.js"></script>
 </head>
 <body>
-<ul>
-    <li><a href="../noticies/noticies.html">Gestió noticies</a></li>
-    <li><a href="../usuaris/usuaris.html">Gestió usuaris</a></li>
-    <li><a href="../categories/categories.html">Gestió categories</a></li>
-</ul>    
+    <div class="container">
+        <h1>Administració noticies</h1>
+        
+        <div class="button-list">
+            <a href="../noticies/noticies.html" class="nav-button">Gestió noticies</a>
+            <a href="../usuaris/usuaris.html" class="nav-button">Gestió usuaris</a>
+            <a href="../../categories/categories.html" class="nav-button">Gestió categories</a>
+        </div>
+        
+        <button class="logout-button" onclick="tancarSessio()">Tancar Sessió</button>
+    </div>
 </body>
 </html>
