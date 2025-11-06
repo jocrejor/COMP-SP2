@@ -413,6 +413,15 @@ body {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
+.filter_input:invalid {
+    border-color: #dc3545;
+}
+
+.filter_input:invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
 .filter-buttons {
     display: flex;
     gap: 10px;
@@ -440,6 +449,10 @@ body {
 .filter-button.clear {
     background-color: #6c757d;
     color: white;
+}
+
+.filter-button.clear:hover {
+    background-color: #545b62;
 }
 
 @media (max-width: 768px) {
@@ -487,5 +500,22 @@ body {
     
     .filter_input {
         flex: 1;
+    }
+}
+
+@media (min-width: 992px) {
+    .filters-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .filters-container h3 {
+        grid-column: 1 / -1;
+    }
+    
+    .filter-buttons {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
     }
 }

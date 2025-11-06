@@ -3,22 +3,24 @@ document.addEventListener("DOMContentLoaded", main);
 // Funció principal que inicialitza la llista d'ofertes
 // Gestiona la visualització de les ofertes en una taula paginada
 function main() {
-    const cosTaula                = document.getElementById('tableBody');
-    const contenidorPaginacio     = document.createElement('div');
+    const cosTaula = document.getElementById('tableBody');
+    const contenidorPaginacio = document.createElement('div');
     contenidorPaginacio.className = 'pagination';
 
     // Obtindre les dades guardades en localStorage o inicialitzar un array buit
     let dades = JSON.parse(localStorage.getItem("formData")) || [];
-    let dadesFiltrades = [...dades];
+    let dadesFiltrades = [...dades]; // Copia para filtrar
     let paginaActual = 1;
     const elementsPerPagina = 10;
 
     // Elementos de filtro
-    const filterName      = document.getElementById('filterName');
+    const filterName = document.getElementById('filterName');
+    const filterPercentMin = document.getElementById('filterPercentMin');
+    const filterPercentMax = document.getElementById('filterPercentMax');
     const filterDateStart = document.getElementById('filterDateStart');
-    const filterDateEnd   = document.getElementById('filterDateEnd');
-    const applyFilter     = document.getElementById('applyFilter');
-    const clearFilter     = document.getElementById('clearFilter');
+    const filterDateEnd = document.getElementById('filterDateEnd');
+    const applyFilter = document.getElementById('applyFilter');
+    const clearFilter = document.getElementById('clearFilter');
 
     // Funció per a carregar les ofertes des de la base de dades
     // Si existeixen en localStorage, les retorna
@@ -54,7 +56,7 @@ function main() {
     // Actualitza l'emmagatzematge local amb l'estat actual de les ofertes
     function guardarDadesLocalStorage() {
         localStorage.setItem("formData", JSON.stringify(dades));
-        dadesFiltrades = [...dades];
+        dadesFiltrades = [...dades]; // Resetear datos filtrados
     }
 
     // Funció per a eliminar una oferta específica
@@ -69,13 +71,26 @@ function main() {
 
     // Funció per a aplicar filtros
     function aplicarFiltres() {
-        const nomFiltre       = filterName.value.toLowerCase().trim();
+        const nomFiltre = filterName.value.toLowerCase().trim();
+        const percentMin = filterPercentMin.value ? parseInt(filterPercentMin.value) : null;
+        const percentMax = filterPercentMax.value ? parseInt(filterPercentMax.value) : null;
         const dataIniciFiltre = filterDateStart.value;
-        const dataFiFiltre    = filterDateEnd.value;
+        const dataFiFiltre = filterDateEnd.value;
 
         dadesFiltrades = dades.filter(function(oferta) {
             // Filtrar por nombre
             if (nomFiltre && !oferta.oferta.toLowerCase().includes(nomFiltre)) {
+                return false;
+            }
+
+            // Filtrar por porcentaje mínimo
+            const percentatgeOferta = parseInt(oferta.percentaje);
+            if (percentMin !== null && percentatgeOferta < percentMin) {
+                return false;
+            }
+
+            // Filtrar por porcentaje máximo
+            if (percentMax !== null && percentatgeOferta > percentMax) {
                 return false;
             }
 
@@ -92,18 +107,44 @@ function main() {
             return true;
         });
 
-        paginaActual = 1;
+        paginaActual = 1; // Resetear a la primera página
         renderitzarTaula();
     }
 
     // Función para limpiar filtros
     function netejarFiltres() {
-        filterName.value      = '';
+        filterName.value = '';
+        filterPercentMin.value = '';
+        filterPercentMax.value = '';
         filterDateStart.value = '';
-        filterDateEnd.value   = '';
-        dadesFiltrades        = [...dades];
-        paginaActual          = 1;
+        filterDateEnd.value = '';
+        dadesFiltrades = [...dades];
+        paginaActual = 1;
         renderitzarTaula();
+    }
+
+    // Validación en tiempo real para los porcentajes
+    function validarPercentatges() {
+        const percentMin = filterPercentMin.value ? parseInt(filterPercentMin.value) : null;
+        const percentMax = filterPercentMax.value ? parseInt(filterPercentMax.value) : null;
+
+        if (percentMin !== null && (percentMin < 1 || percentMin > 100)) {
+            filterPercentMin.setCustomValidity('El percentatge mínim ha de ser entre 1 i 100');
+        } else {
+            filterPercentMin.setCustomValidity('');
+        }
+
+        if (percentMax !== null && (percentMax < 1 || percentMax > 100)) {
+            filterPercentMax.setCustomValidity('El percentatge màxim ha de ser entre 1 i 100');
+        } else {
+            filterPercentMax.setCustomValidity('');
+        }
+
+        if (percentMin !== null && percentMax !== null && percentMin > percentMax) {
+            filterPercentMax.setCustomValidity('El percentatge màxim no pot ser menor que el mínim');
+        } else {
+            filterPercentMax.setCustomValidity('');
+        }
     }
 
     // Event listeners para filtros
@@ -113,6 +154,17 @@ function main() {
 
     if (clearFilter) {
         clearFilter.addEventListener('click', netejarFiltres);
+    }
+
+    // Validación en tiempo real para los campos de porcentaje
+    if (filterPercentMin) {
+        filterPercentMin.addEventListener('input', validarPercentatges);
+        filterPercentMin.addEventListener('change', validarPercentatges);
+    }
+
+    if (filterPercentMax) {
+        filterPercentMax.addEventListener('input', validarPercentatges);
+        filterPercentMax.addEventListener('change', validarPercentatges);
     }
 
     // También permitir filtrar con Enter en el campo de nombre
@@ -135,7 +187,7 @@ function main() {
         }
 
         if (dadesFiltrades.length === 0) {
-            const fila  = document.createElement("tr");
+            const fila = document.createElement("tr");
             const celda = document.createElement("td");
             celda.setAttribute("colspan", "8");
             celda.className = 'no-data';
@@ -156,19 +208,19 @@ function main() {
         const elementsActuals = dadesFiltrades.slice(indexInici, indexFi);
 
         elementsActuals.forEach(function (element, index) {
-            const indexGlobal      = dades.indexOf(element);
-            const fila             = document.createElement("tr");
-            const celdaId          = document.createElement("td");
-            const celdaOferta      = document.createElement("td");
+            const indexGlobal = dades.indexOf(element); // Usar índice original para editar/eliminar
+            const fila = document.createElement("tr");
+            const celdaId = document.createElement("td");
+            const celdaOferta = document.createElement("td");
             const celdaPercentatge = document.createElement("td");
-            const celdaDataInici   = document.createElement("td");
-            const celdaDataFi      = document.createElement("td");
-            const celdaCupo        = document.createElement("td");
-            const celdaAccio       = document.createElement("td");
-            const celdaProductes   = document.createElement("td");
+            const celdaDataInici = document.createElement("td");
+            const celdaDataFi = document.createElement("td");
+            const celdaCupo = document.createElement("td");
+            const celdaAccio = document.createElement("td");
+            const celdaProductes = document.createElement("td");
 
-            const botoEditar            = document.createElement("button");
-            const botoEliminar          = document.createElement("button");
+            const botoEditar = document.createElement("button");
+            const botoEliminar = document.createElement("button");
             const botoProductesAplicats = document.createElement("button");
 
             celdaId.appendChild(document.createTextNode(indexGlobal + 1));
@@ -260,7 +312,7 @@ function main() {
         });
         contenidorPaginacio.appendChild(botoSegüent);
 
-        const info     = document.createElement("span");
+        const info = document.createElement("span");
         info.className = 'pagination-info';
         info.appendChild(document.createTextNode(
             `Pàgina ${paginaActual} de ${totalPagines} - ${dadesFiltrades.length} ofertes (${dades.length} totals)`
