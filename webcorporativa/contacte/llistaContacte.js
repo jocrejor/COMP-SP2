@@ -67,15 +67,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Funció per combinar contactes de webCorporativaDades.js i localStorage
+  // Funció per combinar contactes de WebCorporativaDades.js i localStorage
   function obtenirTotsElsContactes() {
-    // Contactes inicials del archivo webCorporativaDades.js
+    // Contactes inicials del archivo WebCorporativaDades.js
     const contactesInicials = typeof Contact !== 'undefined' ? [...Contact] : [];
-    
+
     // Contactes de localStorage
     let contactesLocalStorage = [];
     try {
-      const missatgesGuardats = JSON.parse(localStorage.getItem("missatges")) || [];
+      const missatgesGuardats = JSON.parse(localStorage.getItem("contactes")) || [];
       contactesLocalStorage = missatgesGuardats.map(missatge => ({
         id: missatge.id,
         name: missatge.name,
@@ -87,8 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error obtenint contactes de localStorage:", error);
     }
-    
-    // Combinar i eliminar duplicats
+
+    // Combinar y eliminar duplicados
     const totsElsContactes = [...contactesInicials];
     contactesLocalStorage.forEach(contacte => {
       const existeix = totsElsContactes.some(c => c.id === contacte.id);
@@ -96,12 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
         totsElsContactes.push(contacte);
       }
     });
-    
-    // Ordenar per data (més nous primer)
+
+    // Ordenar por fecha (más nuevos primero)
     return totsElsContactes.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
 
-  // Funció per carregar i mostrar els contactes
+  // Función para cargar y mostrar los contactos
   function carregarContactes(contactesFiltrats = null) {
     contactes = contactesFiltrats || obtenirTotsElsContactes();
     contactesList.innerHTML = '';
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Funció per crear una targeta de contacte
+  // Función para crear una tarjeta de contacto
   function crearContacteCard(contacte) {
     const card = document.createElement('div');
     card.className = 'contacte-card';
@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return card;
   }
 
-  // Funció per mostrar detalls d'un contacte
+  // Función para mostrar los detalles de un contacto
   function mostrarDetallsContacte(id) {
     contacteActual = contactes.find(c => c.id == id);
     if (!contacteActual) return;
@@ -198,93 +198,20 @@ document.addEventListener("DOMContentLoaded", () => {
     detailModal.style.display = 'block';
   }
 
-  // Funció per obrir el modal d'edició
-  function obrirModalEditar() {
-    if (!contacteActual) return;
-
-    // Rellenar el formulario con los datos actuales
-    document.getElementById('editName').value = contacteActual.name;
-    document.getElementById('editEmail').value = contacteActual.email;
-    document.getElementById('editPhone').value = contacteActual.phone || '';
-    document.getElementById('editSubject').value = contacteActual.subject;
-
-    detailModal.style.display = 'none';
-    editModal.style.display = 'block';
-  }
-
-  // Funció per guardar les edicions
-  function guardarEdicio(e) {
-    e.preventDefault();
-
-    const dadesActualitzades = {
-      id: contacteActual.id,
-      name: document.getElementById('editName').value.trim(),
-      email: document.getElementById('editEmail').value.trim(),
-      phone: document.getElementById('editPhone').value.trim(),
-      subject: document.getElementById('editSubject').value.trim(),
-      date: contacteActual.date // Mantener la fecha original
-    };
-
-    // Validaciones básicas
-    if (!dadesActualitzades.name || !dadesActualitzades.email || !dadesActualitzades.subject) {
-      alert('Els camps nom, email i assumpte són obligatoris.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(dadesActualitzades.email)) {
-      alert('El correu electrònic no és vàlid.');
-      return;
-    }
-
-    // Actualizar el contacto
-    actualitzarContacte(contacteActual.id, dadesActualitzades);
-    editModal.style.display = 'none';
-    carregarContactes();
-  }
-
-  // Funció per actualitzar un contacte
-  function actualitzarContacte(id, novesDades) {
-    // Actualizar en localStorage
-    let missatges = JSON.parse(localStorage.getItem("missatges")) || [];
-    const index = missatges.findIndex(m => m.id == id);
-    
-    if (index !== -1) {
-      missatges[index] = { ...missatges[index], ...novesDades };
-      localStorage.setItem("missatges", JSON.stringify(missatges));
-    }
-
-    // Actualizar en la lista global Contact si existe
-    if (typeof Contact !== 'undefined') {
-      const contactIndex = Contact.findIndex(c => c.id == id);
-      if (contactIndex !== -1) {
-        Contact[contactIndex] = { ...Contact[contactIndex], ...novesDades };
-      }
-    }
-
-    alert('Contacte actualitzat correctament.');
-  }
-
-  // Funció per obrir el modal de confirmació d'eliminació
-  function obrirModalConfirmacio() {
-    detailModal.style.display = 'none';
-    confirmModal.style.display = 'block';
-  }
-
-  // Funció per eliminar un contacte
+  // Función para eliminar un contacto
   function eliminarContacte() {
     if (!contacteActual) return;
 
     // Eliminar de localStorage
-    let missatges = JSON.parse(localStorage.getItem("missatges")) || [];
-    const missatgesActualitzats = missatges.filter(m => m.id != contacteActual.id);
-    localStorage.setItem("missatges", JSON.stringify(missatgesActualitzats));
+    let contactes = JSON.parse(localStorage.getItem("contactes")) || [];
+    contactes = contactes.filter(contacte => contacte.id !== contacteActual.id);
+    localStorage.setItem("contactes", JSON.stringify(contactes));
 
     // Eliminar de la lista global Contact si existe
     if (typeof Contact !== 'undefined') {
-      const contactIndex = Contact.findIndex(c => c.id == contacteActual.id);
-      if (contactIndex !== -1) {
-        Contact.splice(contactIndex, 1);
+      const index = Contact.findIndex(c => c.id === contacteActual.id);
+      if (index !== -1) {
+        Contact.splice(index, 1);
       }
     }
 
@@ -293,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert('Contacte eliminat correctament.');
   }
 
-  // Funció per cercar contactes
+  // Función para buscar contactos
   function cercarContactes() {
     const query = searchInput.value.toLowerCase().trim();
     const totsElsContactes = obtenirTotsElsContactes();
@@ -313,13 +240,13 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarContactes(contactesFiltrats);
   }
 
-  // Funció per netejar la cerca
+  // Función para limpiar la búsqueda
   function netejarCerca() {
     searchInput.value = '';
     carregarContactes();
   }
 
-  // Funció per tancar tots els modals
+  // Función para cerrar todos los modals
   function tancarTotsModals() {
     detailModal.style.display = 'none';
     editModal.style.display = 'none';

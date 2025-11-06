@@ -1,38 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contactForm");
 
-  // Funció per afegir nous contactes des de localStorage a la llista global
-  function carregarContactesDeLocalStorage() {
-    try {
-      const missatgesGuardats = JSON.parse(localStorage.getItem("missatges")) || [];
-      
-      // Si no existeix la variable Contact, la creem
-      if (typeof Contact === 'undefined') {
-        window.Contact = [];
-      }
-      
-      missatgesGuardats.forEach(missatge => {
-        // Verificar si el missatge ja existeix per evitar duplicats
-        const existeix = Contact.some(contacte => contacte.id === missatge.id);
-        if (!existeix) {
-          Contact.push({
-            id: missatge.id,
-            name: missatge.name,
-            phone: missatge.phone,
-            email: missatge.email,
-            subject: missatge.subject,
-            date: missatge.date
-          });
-        }
-      });
-    } catch (error) {
-      console.error("Error carregant contactes de localStorage:", error);
-    }
-  }
-
-  // Carregar contactes existents de localStorage al cargar la página
-  carregarContactesDeLocalStorage();
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -41,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const phone = document.getElementById("phone").value.trim();
     const subject = document.getElementById("subject").value.trim();
 
+    // Validaciones
     if (!name || !email || !subject) {
       alert("Tots els camps obligatoris han d'estar emplenats.");
       return;
@@ -57,37 +26,24 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Guardar en localStorage
-    let missatges = JSON.parse(localStorage.getItem("missatges")) || [];
+    // Crear un nuevo mensaje con la información del formulario
     const nouMissatge = {
-      id: Date.now(), // ID únic basat en el timestamp
+      id: Date.now(), // ID único basado en el timestamp
       name,
       email,
       phone: phone || '',
       subject,
       date: new Date().toISOString()
     };
-    
-    missatges.push(nouMissatge);
-    localStorage.setItem("missatges", JSON.stringify(missatges));
 
-    // Actualitzar la llista global Contact
-    if (typeof Contact !== 'undefined') {
-      // Verificar si ja existeix per evitar duplicats
-      const existeix = Contact.some(contacte => contacte.id === nouMissatge.id);
-      if (!existeix) {
-        Contact.push({
-          id: nouMissatge.id,
-          name: nouMissatge.name,
-          phone: nouMissatge.phone,
-          email: nouMissatge.email,
-          subject: nouMissatge.subject,
-          date: nouMissatge.date
-        });
-      }
-    }
+    // Obtener los mensajes guardados en localStorage (si existen)
+    let contactes = JSON.parse(localStorage.getItem("contactes")) || [];
+    // Agregar el nuevo mensaje al array de contactos
+    contactes.push(nouMissatge);
+    // Guardar el array actualizado en localStorage
+    localStorage.setItem("contactes", JSON.stringify(contactes));
 
     alert("Missatge enviat correctament! Ens posarem en contacte aviat.");
-    form.reset();
+    form.reset(); // Limpiar el formulario después de enviar
   });
 });
