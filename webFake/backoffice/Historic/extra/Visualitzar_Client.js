@@ -1,10 +1,10 @@
-document.addEventListener("DOMContentLoaded", main)
+document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    const tbody = document.querySelector("#taulaClient tbody");
+    const infoDiv = document.querySelector("#infoClient");
 
-    // Carregar clients de la BBDD
-    function carregarClientBbdd() {
+    // Carregar Clients de la BBDD
+    function carregarClientsBbdd() {
         if (typeof Client !== "undefined" && Array.isArray(Client)) {
             return Client;
         }
@@ -15,53 +15,50 @@ function main() {
     const params = new URLSearchParams(window.location.search);
     const clientId = params.get("id");
 
-    function mostrarTaula() {
-        const clients = carregarClientBbdd();
+    function mostrarInfo() {
+        const clients = carregarClientsBbdd();
 
-        // Netejar tbody
-        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+        // Netejar contingut anterior
+        while (infoDiv.firstChild) infoDiv.removeChild(infoDiv.firstChild);
 
-        // Buscar client
+        // Buscar el client
         const client = clients.find(c => c.id == clientId);
 
         if (!client) {
-            const tr = document.createElement("tr");
-            const td = document.createElement("td");
-            td.colSpan = 14;
-            td.textContent = "Client no trobat.";
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+            const pError = document.createElement("p");
+            pError.appendChild(document.createTextNode("ERROR. Client no trobat."));
+            infoDiv.appendChild(pError);
             return;
         }
 
-        //Mostrar camps a la taula
-        const tr = document.createElement("tr");
+        // Informació del client
+        const dades = {
+            "ID": client.id,
+            "Tipus d'identificació": client.taxidtype,
+            "Identificador": client.taxid,
+            "Nom": client.name,
+            "Cognom": client.surname,
+            "Email": client.email,
+            "Contrasenya": client.password,
+            "Telèfon": client.phone,
+            "Aniversari": client.birth_date,
+            "Adreça": client.address,
+            "CP": client.cp,
+            "ID País": client.country_id,
+            "ID Província": client.province_id,
+            "ID Ciutat": client.city_id
+        };
 
-        const camps = [
-            client.id,
-            client.taxidtype,
-            client.taxid,
-            client.name,
-            client.surname,
-            client.email,
-            client.password,
-            client.phone,
-            client.birth_date,
-            client.address,
-            client.cp,
-            client.country_id,
-            client.province_id,
-            client.city_id
-        ];
-
-        camps.forEach(valor => {
-            const td = document.createElement("td");
-            td.textContent = valor ?? "-";
-            tr.appendChild(td);
-        });
-
-        tbody.appendChild(tr);
+        for (const [clau, valor] of Object.entries(dades)) {
+            const p = document.createElement("p");
+            const strong = document.createElement("strong");
+            strong.appendChild(document.createTextNode(clau + ": "));
+            const textNode = document.createTextNode(valor ?? "-");
+            p.appendChild(strong);
+            p.appendChild(textNode);
+            infoDiv.appendChild(p);
+        }
     }
 
-    mostrarTaula();
+    mostrarInfo();
 }

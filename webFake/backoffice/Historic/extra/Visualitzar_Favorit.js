@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-  const tbody = document.querySelector("#taulaFavorit tbody");
+  const infoDiv = document.querySelector("#infoFavorit");
 
   // Carregar Favorits de la BBDD
   function carregarFavoritsBbdd() {
@@ -11,40 +11,41 @@ function main() {
     return [];
   }
 
-  // Agafar ID de la URL
+  // Obtener ID de la URL
   const params = new URLSearchParams(window.location.search);
   const favoritId = params.get("id");
 
-  function mostrarTaula() {
+  function mostrarInfo() {
     const favorits = carregarFavoritsBbdd();
 
-    // Netejar tbody
-    while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+    //netejar
+    while (infoDiv.firstChild) infoDiv.removeChild(infoDiv.firstChild);
 
     // Buscar el favorit
     const favorit = favorits.find(f => f.id == favoritId);
 
     if (!favorit) {
-      const tr = document.createElement("tr");
-      const td = document.createElement("td");
-      td.colSpan = 2;
-      td.textContent = "Favorit no trobat.";
-      tr.appendChild(td);
-      tbody.appendChild(tr);
+      const pError = document.createElement("p");
+      pError.appendChild(document.createTextNode("ERROR. Favorit no trobat."));
+      infoDiv.appendChild(pError);
       return;
     }
 
-    const tr = document.createElement("tr");
-    const camps = [favorit.id, favorit.name];
+    // Informació del favorit
+    const dades = {
+      "ID": favorit.id,
+      "Nom": favorit.name
+    };
 
-    camps.forEach(valor => {
-      const td = document.createElement("td");
-      td.textContent = valor ?? "-";
-      tr.appendChild(td);
-    });
-
-    tbody.appendChild(tr);
+    for (const [clau, valor] of Object.entries(dades)) {
+      const p = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.appendChild(document.createTextNode(clau + ": "));
+      const textNode = document.createTextNode(valor ?? "-");
+      p.appendChild(strong);
+      p.appendChild(textNode);
+      infoDiv.appendChild(p);
+    }
   }
-
-  mostrarTaula();
+  mostrarInfo();
 }
