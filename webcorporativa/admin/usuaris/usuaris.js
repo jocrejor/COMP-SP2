@@ -1,3 +1,6 @@
+//Variables paginació
+let paginaActual = 1;
+const usuarisPerPagina = 10; 
 document.addEventListener("DOMContentLoaded", function() {
     // Inicialitzar localStorage amb usuaris si no existeix
     inicialitzarUsuaris();
@@ -120,9 +123,11 @@ function configurarEventListeners() {
     const textMostrant = document.getElementById('textMostrant');
     //Eventlisteners per a paginació
     botoAnterior.addEventListener('ciick', () => {
+        paginaAnterior();
 
     });
     botoSeguent.addEventListener('ciick', () => {
+        paginaSeguent();
 
     });    
     // Submit del formulari
@@ -300,6 +305,47 @@ function cancelarEdicio() {
     document.getElementById("btnAfegir").style.display = "inline-block";
     document.getElementById("btnActualitzar").style.display = "none";
     document.getElementById("btnCancelar").classList.add("ocult");
+}
+// Actualitzar controls de paginació
+function actualitzarControlsPaginacio(totalUsuaris) {
+    const totalPagines = Math.ceil(totalUsuaris / usuarisPerPagina);
+    const botoAnterior = document.getElementById('botoAnterior');
+    const botoSeguent = document.getElementById('botoSeguent');
+    const textMostrant = document.querySelector('.botons-paginacio p');
+    
+    // Calcular rang d'usuaris mostrats
+    const indexInicial = (paginaActual - 1) * usuarisPerPagina + 1;
+    const indexFinal = Math.min(paginaActual * usuarisPerPagina, totalUsuaris);
+    
+    // Actualitzar text informatiu
+    textMostrant.textContent = `S'estan mostrant ${indexInicial}-${indexFinal} de ${totalUsuaris}`;
+    
+    // Habilitar/deshabilitar botons
+    botoAnterior.disabled = paginaActual === 1;
+    botoSeguent.disabled = paginaActual >= totalPagines;
+}
+
+// Anar a pàgina anterior
+function paginaAnterior() {
+    if (paginaActual > 1) {
+        paginaActual--;
+        llistaUsuaris();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+// Anar a pàgina següent
+function paginaSeguent() {
+    const usuaris = obtenirUsuaris();
+    //Traguem matemàticament el total de pàgines que es generen
+    const totalPagines = Math.ceil(usuaris.length / usuarisPerPagina);
+    
+    if (paginaActual < totalPagines) {
+        paginaActual++;
+        llistaUsuaris();
+        //Portem l'usuari dalt de tot
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 }
 
 // Netejar formulari
