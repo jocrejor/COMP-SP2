@@ -1,0 +1,91 @@
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Capçalera */
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #333;
+}
+
+/* Botó afegir */
+button#afegirNou {
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button#afegirNou:hover {
+    background-color: #0056b3;
+}
+
+/* Taula */
+table {
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+thead {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    word-break: break-word;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Botons d'acció */
+button.accio {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin: 2px;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+button.editar {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.editar:hover {
+    background-color: #1e7e34;
+}
+
+button.eliminar {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button.eliminar:hover {
+    background-color: #a71d2a;
+}

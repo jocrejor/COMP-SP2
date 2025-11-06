@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formulari Registre</title>
+    <script src="../../../BBDD/TendaFakeDades.js"></script>
+    <script src="./js/HistoricForm.js"></script>
+    <link rel="stylesheet" href="./css/HistoricForm.css">
+  </head>
+
+  <body>
+    <h2>Formulari de Registre</h2>
+    <form id="formRegistre">
+      <label for="client_id">Client ID:</label>
+
+      <select id="client_id" name="client_id" required>
+        <option value>-- Selecciona un client --</option>
+      </select>
+      <br />
+
+      <label for="comparator_id">Comparador ID:</label>
+      <select id="comparator_id" name="comparator_id" required>
+        <option value>-- Selecciona un comparador --</option>
+      </select>
+      <br />
+
+      <label for="favorite_id">Favorit ID:</label>
+      <select id="favorite_id" name="favorite_id" required>
+        <option value>-- Selecciona un favorit --</option>
+      </select>
+      <br />
+
+      <label for="date_start">Data inici:</label>
+      <input type="datetime-local" id="date_start" name="date_start" />
+      <br />
+
+      <label for="date_end">Data fi:</label>
+      <input type="datetime-local" id="date_end" name="date_end" />
+      <br />
+
+      <button type="submit">Guardar</button>
+      <button type="button" id="btnCancelar" name="btnCancelar">Cancel·lar</button>
+    </form>
+    
+  </body>
+
+</html>
