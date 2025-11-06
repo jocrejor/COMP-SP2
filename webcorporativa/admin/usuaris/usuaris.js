@@ -115,6 +115,7 @@ function configurarEventListeners() {
     const formulari = document.getElementById("formulariUsuari");
     const btnCancelar = document.getElementById("btnCancelar");
     const tbody = document.getElementById("llistaUsuaris");
+    const botoAnterior = document.getElementById('')
     
     // Submit del formulari
     formulari.addEventListener("submit", function(e) {
