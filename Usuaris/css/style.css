@@ -83,6 +83,10 @@ h1, h2 {
     border: 1px solid black;
 }
 
+#taula_usuaris tr:nth-child(odd), #taula_rols tr:nth-child(odd){
+  background-color: #eee;
+}
+
 #taula_rols {
     width: 20%;
 }

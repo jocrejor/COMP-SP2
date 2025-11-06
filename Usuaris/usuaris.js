@@ -7,9 +7,17 @@ let paginaActual;
 
 // Funció per iniciar els esdeveniments de la pàgina
 function main() { 
-
+    // Botons per a accedir a altaUsuaris i rols
     const usuarisButton= document.getElementById("afegirUsuari");
     const rolsButton= document.getElementById("gestionarRols");
+
+    // Filtre per nom
+    const buscarNomInput = document.getElementById("buscarNomInput");
+    const botoBuscarNom = document.getElementById("buscarNom");
+
+    // Filtre per rol
+    const filtreRol = document.getElementById("filtreRol");
+    const botoFiltrarRol = document.getElementById("filtrar_rols");
 
     // Obtencio dels botons de les pàgines
     const paginaAnterior= document.getElementById("paginaAnterior");
@@ -21,12 +29,12 @@ function main() {
         window.location.href='altaUsuaris.html';
     });
 
-    // Configuració del botó per a tornar al formulari d'usuarisRols
+    // Configuració del botó per a tornar al formulari de rols
     rolsButton.addEventListener("click", (e) => {
         window.location.href='rols.html';
     });
 
-    // COnfiguració de les pàgines
+    // Configuració de les pàgines
     paginaAnterior.addEventListener("click", (e) => {
         paginaActual -= paginaActual;
     });
@@ -37,18 +45,57 @@ function main() {
 
     rols = JSON.parse(localStorage.getItem('rols')) || Rol;
     usuaris = JSON.parse(localStorage.getItem('usuaris')) || User;
+    
+    carregarRolsSelect();
+
+    // Filtre per nom
+    botoBuscarNom.addEventListener("click", () => {
+        const text = buscarNomInput.value.toLowerCase();
+        mostrarUsuaris(usuaris.filter(u => u.name.toLowerCase().includes(text)));
+    });
+
+    // Filtre per rol
+    botoFiltrarRol.addEventListener("click", () => {
+        const rolSeleccionat = filtreRol.value;
+        if (rolSeleccionat === "") {
+            mostrarUsuaris(usuaris);
+        } else {
+            mostrarUsuaris(usuaris.filter(u => u.rol_id == rolSeleccionat));
+        }
+    });
+    
     mostrarUsuaris();
 }
 
+// Funció que s'encarrega de carregar el select amb els rols per a filtrar
+function carregarRolsSelect() {
+    const filtreRol = document.getElementById("filtreRol");
+    filtreRol.replaceChildren(); // Netejar per si de cas
+
+    // Opció per mostrar tots
+    const optTots = document.createElement("option");
+    optTots.value = "";
+    optTots.textContent = "Tots";
+    filtreRol.appendChild(optTots);
+
+    // Afegim cada rol real
+    rols.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.id;          // Guardem la ID del rol
+        opt.textContent = r.name;  // Mostrem el nom del rol
+        filtreRol.appendChild(opt);
+    });
+}
+
 // Funció per mostrar tots els usuaris en una taula HTML.
-function mostrarUsuaris() {
+function mostrarUsuaris(llistaFiltrada = usuaris) {
     const llista = document.getElementById('llistaUsuaris');
 
     // Buidar contingut anterior
     llista.replaceChildren();
 
     // Si no hi ha usuaris
-    if (usuaris.length === 0) {
+    if (llistaFiltrada.length === 0) {
         const missatge = document.createElement('p');
         missatge.appendChild(document.createTextNode('No hi ha usuaris registrats'));
         llista.appendChild(missatge);
@@ -70,7 +117,7 @@ function mostrarUsuaris() {
     taula.appendChild(header);
 
     // Crear files per a cada usuari
-    usuaris.forEach(usuari => {
+    llistaFiltrada.forEach(usuari => {
         const fila = document.createElement('tr');
 
         // Camps bàsics (adaptats a les claus en anglès)
