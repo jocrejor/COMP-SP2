@@ -134,11 +134,11 @@ function configurarEventListeners() {
     const botoSeguent = document.getElementById('botoSeguent');
     const textMostrant = document.getElementById('textMostrant');
     //Eventlisteners per a paginació
-    botoAnterior.addEventListener('ciick', () => {
+    botoAnterior.addEventListener('click', () => {
         paginaAnterior();
 
     });
-    botoSeguent.addEventListener('ciick', () => {
+    botoSeguent.addEventListener('click', () => {
         paginaSeguent();
 
     });    
