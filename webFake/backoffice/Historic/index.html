@@ -5,10 +5,25 @@
         <title>Llistat d'Històrics</title>
         <script src="../../../BBDD/TendaFakeDades.js"></script>
         <script src="./js/index.js" defer></script>
-        <link rel="stylesheet" href="./css/index.css">
+        <link rel="stylesheet" href="./css/index.css" />
     </head>
     <body>
         <h2>Llistat de Registres</h2>
+
+        <div id="filtres">
+            <label for="filtreClient">Client:</label>
+            <input type="text" id="filtreClient" placeholder="Nom o cognom" />
+
+            <label for="dataDesde">Data inici:</label>
+            <input type="date" id="dataDesde" />
+
+            <label for="dataFins">Data fi:</label>
+            <input type="date" id="dataFins" />
+
+            <button id="btnFiltrar">Filtrar</button>
+            <button id="btnReset">Reiniciar</button>
+        </div>
+
         <button id="afegirNou">Afegir nou registre</button>
         <br /><br />
         <table border="1" id="taulaResultat">
@@ -26,5 +41,5 @@
             </thead>
             <tbody></tbody>
         </table>
-    </body>  
-</html> 
+    </body>
+</html>
