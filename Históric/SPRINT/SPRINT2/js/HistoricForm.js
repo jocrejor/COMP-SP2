@@ -34,7 +34,7 @@ function main() {
 
   //Funció per carregar les dades de la BBDD o localStrorage - Clients, Favorit i Comparador
   // Afegir els demés SELECTS
-  function carregarSelects(clients, favoritsN, comparadors) {
+  function carregarSelects(clients, favorits, comparadors) {
     const clientSelect = document.getElementById("client_id");
     const favSelect = document.getElementById("favorite_id");
     const compSelect = document.getElementById("comparator_id");
@@ -49,7 +49,7 @@ function main() {
     });
 
     // --- Favorits ---
-    favoritsN.forEach(fav => {
+    favorits.forEach(fav => {
       const option = document.createElement("option");
       option.setAttribute("value", fav.id);
       const text = document.createTextNode(`${fav.id} - ${fav.product_name || "Favorit"}`);
