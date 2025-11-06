@@ -19,7 +19,7 @@ function main() {
 
 
   const form = document.getElementById("formRegistre");
-  const btnCancelar = document.getElementById("cancelar");
+  const btnCancelar = document.getElementById("btnCancelar");
 
   //Carregar registres del LocalStorage si hi ha, si no de la BBDD
   function carregarRegistresBbdd() {
@@ -49,7 +49,7 @@ function main() {
     });
 
     // --- Favorits ---
-    favorits.forEach(fav => {
+    favoritsN.forEach(fav => {
       const option = document.createElement("option");
       option.setAttribute("value", fav.id);
       const text = document.createTextNode(`${fav.id} - ${fav.product_name || "Favorit"}`);
@@ -137,7 +137,8 @@ function main() {
     window.location.href = "./HistoricLlistar.html";
   });
 
-  btnCancelar.addEventListener("click", () => {
+  btnCancelar.addEventListener("click", (e) => {
+    e.preventDefault();
     sessionStorage.removeItem("editIndex");
     window.location.href = "./HistoricLlistar.html";
   });
