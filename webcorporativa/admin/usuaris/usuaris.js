@@ -115,8 +115,16 @@ function configurarEventListeners() {
     const formulari = document.getElementById("formulariUsuari");
     const btnCancelar = document.getElementById("btnCancelar");
     const tbody = document.getElementById("llistaUsuaris");
-    const botoAnterior = document.getElementById('')
-    
+    const botoAnterior = document.getElementById('botoAnterior');
+    const botoSeguent = document.getElementById('botoSeguent');
+    const textMostrant = document.getElementById('textMostrant');
+    //Eventlisteners per a paginació
+    botoAnterior.addEventListener('ciick', () => {
+
+    });
+    botoSeguent.addEventListener('ciick', () => {
+
+    });    
     // Submit del formulari
     formulari.addEventListener("submit", function(e) {
         e.preventDefault();
