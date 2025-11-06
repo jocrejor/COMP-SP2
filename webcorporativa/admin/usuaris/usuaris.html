@@ -7,41 +7,111 @@
     <script src="usuaris.js"></script>
     <link rel="stylesheet" href="../../css/usuaris.css">
     <title>Gestió d'Usuaris</title>
-    
 </head>
 <body>
-    <h1>Gestió d'Usuaris</h1>
-    <div class="botoLogout">
-        <button onclick="tancarSessio">Tancar Sessió</button>
-    </div>
+    <!-- Barra de navegació -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h2>Administració</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="../dashboard/dashboard.html" class="nav-link">
+                        <span class="nav-icon">🏠</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../noticies/noticies.html" class="nav-link">
+                        <span class="nav-icon">📰</span>
+                        Gestió noticies
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../usuaris/usuaris.html" class="nav-link active">
+                        <span class="nav-icon">👥</span>
+                        Gestió usuaris
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="../../categories/categories.html" class="nav-link">
+                        <span class="nav-icon">📁</span>
+                        Gestió categories
+                    </a>
+                </li>
+            </ul>
+            <div class="nav-actions">
+                <div class="user-info">
+                    <span class="user-icon">👤</span>
+                    <span class="user-name" id="currentUserName">Usuari</span>
+                </div>
+                <button class="btn-logout" onclick="tancarSessio()">
+                    <span class="nav-icon">🚪</span>
+                    Tancar Sessió
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Contingut principal -->
+    <div class="main-content">
+        <h1>Gestió d'Usuaris</h1>
     
     <!-- Formulari per afegir/editar usuaris -->
     <div class="formulari-usuari">
         <h2 id="titolFormulari">Afegir Nou Usuari</h2>
-        <form id="formulariUsuari">
+        <form id="formulariUsuari" novalidate>
             <input type="hidden" id="indexUsuari" value="-1">
             
             <div class="camp-formulari">
                 <label for="nomUsuari">Nom complet:</label>
-                <input type="text" id="nomUsuari" placeholder="Ex: Joan Garcia" required minlength="2">
+                <input 
+                    type="text" 
+                    id="nomUsuari" 
+                    placeholder="Ex: Joan Garcia" 
+                    required 
+                    minlength="2"
+                    maxlength="100"
+                    pattern="[A-Za-zÀ-ÿ\s]{2,100}"
+                    title="El nom ha de tenir entre 2 i 100 lletres (poden incloure espais)">
+                <span class="error-message" id="nomUsuariError"></span>
             </div>
             
             <div class="camp-formulari">
                 <label for="emailUsuari">Correu electrònic:</label>
-                <input type="email" id="emailUsuari" placeholder="Ex: joan.garcia@example.com" required>
+                <input 
+                    type="email" 
+                    id="emailUsuari" 
+                    placeholder="Ex: joan.garcia@example.com" 
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    title="Introdueix un correu electrònic vàlid">
+                <span class="error-message" id="emailUsuariError"></span>
             </div>
             
             <div class="camp-formulari">
                 <label for="passwordUsuari">Contrasenya:</label>
-                <input type="password" id="passwordUsuari" placeholder="Mínim 5 caràcters" minlength="5" maxlength="20" required pattern=".{5,20}">
+                <input 
+                    type="password" 
+                    id="passwordUsuari" 
+                    placeholder="Entre 8 i 20 caràcters" 
+                    minlength="8" 
+                    maxlength="20" 
+                    required 
+                    pattern=".{8,20}"
+                    title="La contrasenya ha de tenir entre 8 i 20 caràcters">
+                <span class="error-message" id="passwordUsuariError"></span>
             </div>
-            <div>
-                <label for="rolUsuari">Rol del Usuari</label>
-                <select id="rolUsuari">
-                <option value="">Trieu un rol</option>
-                <option value="editor">Editor</option>
-                <option value="admin">Administrador</option>
-            </select>
+            
+            <div class="camp-formulari">
+                <label for="rolUsuari">Rol del Usuari:</label>
+                <select id="rolUsuari" required>
+                    <option value="">Trieu un rol</option>
+                    <option value="editor">Editor</option>
+                    <option value="admin">Administrador</option>
+                </select>
+                <span class="error-message" id="rolUsuariError"></span>
             </div>
             
             <div class="botons-formulari">
@@ -51,13 +121,14 @@
             </div>
         </form>
         
-        <div id="missatgeError"></div>
-        <div id="missatgeExit"></div>
+        <div id="missatgeError" class="missatge-error"></div>
+        <div id="missatgeExit" class="missatge-exit"></div>
     </div>
     
     <!-- Contador d'usuaris -->
     <div class="contador-usuaris">
         Total d'usuaris: <span id="totalUsuaris">0</span>
+        <span id="infoPaginacio" class="info-paginacio-header"></span>
     </div>
     
     <!-- Taula d'usuaris -->
@@ -78,18 +149,14 @@
         </table>
         <div id="senseUsuaris" class="sense-usuaris" style="display: none;">
             No hi ha usuaris registrats. Afegeix el primer usuari utilitzant el formulari superior.
+        </div>
+        
+        <!-- Controls de paginació -->
+        <div id="paginacio" class="paginacio" style="display: none;">
+            <!-- Els controls de paginació es generaran aquí dinàmicament -->
+        </div>
     </div>
-    <div class="filtre-rol">
-    <select id="filtreRol">
-        <option value="">--- Trieu un rol per filtrar---</option>
-        <option value="admin">Administrador</option>
-        <option value="editor">Editor</option>
-    </select>
-</div>
-    <div class="botons-paginacio">
-    <p>S'estan mostrant 0-0 de 0</p>
-    <button id="botoAnterior">Pàgina anterior</button>
-    <button id="botoSeguent">Pàgina següent</button>
-</div>
+    
+    </div> <!-- Tanca main-content -->
 </body>
 </html>
