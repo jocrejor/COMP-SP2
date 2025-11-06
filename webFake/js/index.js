@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded",main);
 
   // ==================== CREAR LISTA DE FAMILIAS DINÁMICAMENTE ====================
   const opcioTotes = document.createElement("li");
-  opcioTotes.textContent = "Totes les famílies";
+  opcioTotes.textContent = "Tots els equips";
   opcioTotes.classList.add("familia-item", "activa");
   llistaFamilies.appendChild(opcioTotes);
 
