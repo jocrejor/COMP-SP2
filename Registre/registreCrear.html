@@ -15,8 +15,6 @@
     <input type="hidden" id="index" value="-1">
 
     <form action="#" method="" id="formClient" novalidate>
-        <label for="id">Id:</label><br>
-        <input type="number" id="id"><br><br>
 
         <label for="name">Nom:</label><br>
         <input type="text" id="name" name="name" maxlength="15" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,15}$" title="Introdueix entre 3 i 15 caracters"><br>
@@ -81,10 +79,10 @@
         <label for="repetir_password">Repetir contrasenya:</label><br>
         <input type="password" id="repetir_password" required><br>
 
-
+        <p id="missatgeError"></p>
         <button id="alta" name="alta" type="submit">Alta</button>
         <button id="area" type="button">Àrea personal</button>
-        <p id="missatgeError"></p>
+
 
     </form>
 

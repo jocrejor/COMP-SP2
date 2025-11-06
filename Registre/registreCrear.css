@@ -1,90 +1,90 @@
+/* -------- ESTILS GENERALS -------- */
 
-/* Cos general */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
     margin: 0;
-    padding: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: #f5f5f5;
 }
 
-/* Títol */
 h2 {
+    color: #931621;
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
+    margin-top: 30px;
 }
 
-/* Formulari */
+/* -------- FORMULARI -------- */
+
 form {
-    background-color: #fff;
-    padding: 20px;
-    max-width: 500px;
-    margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background-color: white;
+    width: 400px;
+    margin: 30px auto;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    font-weight: bold;
 }
 
-/* Labels */
 label {
     display: block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: #555;
+    margin-top: 15px;
+    color: #1d1d1d;
 }
 
-/* Inputs i selects */
 input, select {
     width: 100%;
     padding: 8px;
-    margin-top: 4px;
-    border: 1px solid #ccc;
+    margin-top: 5px;
+    border: 1px solid #931621;
     border-radius: 5px;
     box-sizing: border-box;
-    font-size: 1em;
+    font-family: inherit;
 }
 
-/* Inputs en error */
-input.error, select.error {
-    border-color: #e74c3c;
-    background-color: #fceae9;
+input:focus, select:focus {
+    outline: none;
+    border-color: #db2231;
+    box-shadow: 0 0 5px rgba(219,34,49,0.4);
 }
 
-/* Botons */
+/* -------- BOTONS -------- */
+
 button {
-    padding: 10px 20px;
-    margin-top: 15px;
-    margin-right: 10px;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
     border: none;
-    border-radius: 5px;
-    background-color: #007acc;
-    color: #fff;
+    min-width: 100px;
+    margin-top: 20px;
+    margin-right: 10px;
     cursor: pointer;
-    font-size: 1em;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #005fa3;
+/* Botó d'Alta */
+#alta {
+    background-color: #e67e22; /* taronja suau */
 }
 
-/* Botó "Àrea personal" diferenciat */
-button#area {
-    background-color: #aaa;
+#alta:hover {
+    background-color: #f39c12; /* un to més viu al passar el ratolí */
 }
 
-button#area:hover {
-    background-color: #888;
+/* Botó Àrea personal */
+#area {
+    background-color: #34495e; /* blau grisós fosc */
 }
 
-/* Missatge d’error */
+#area:hover {
+    background-color: #2c3e50; /* un to més fosc al passar el ratolí */
+}
+
+
+/* -------- MISSATGE D’ERROR -------- */
+
 #missatgeError {
-    margin-top: 10px;
-    color: #e74c3c;
+    color: red;
     font-weight: bold;
-    min-height: 1.2em;
-}
-
-/* Espais entre elements */
-br {
-    line-height: 1.5em;
+    text-align: center;
+    margin-top: 15px;
 }
