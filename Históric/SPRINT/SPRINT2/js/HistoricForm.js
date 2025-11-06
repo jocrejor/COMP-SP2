@@ -61,7 +61,7 @@ function main() {
     comparadors.forEach(comp => {
       const option = document.createElement("option");
       option.setAttribute("value", comp.id);
-      const text = document.createTextNode(`${comp.id} - ${comp.name || "Comparador"}`);
+      const text = document.createTextNode(`${comp.id} - ${comp.session_id} - ${comp.user_agent} - ${comp.client_id || "Comparador"}`);
       option.appendChild(text);
       compSelect.appendChild(option);
     });
