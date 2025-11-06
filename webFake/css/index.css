@@ -154,6 +154,15 @@ ul > li{
   box-shadow: 0 5px 15px rgba(0,0,0,0.15);
 }
 
+.targeta-producte h2 {
+  color: #000;
+  transition: 0.3s;
+}
+
+.targeta-producte.oferta h2 {
+  color: #d90429;
+}
+
 .targeta-producte img {
   width: 80%;
   height: auto;
