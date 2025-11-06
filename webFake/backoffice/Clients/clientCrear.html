@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Nou Client</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="../../../BBDD/Location.js"></script>
+    <script src="../../../BBDD/TendaFakeDades.js"></script>
+    <script src="clientCrear.js"></script>
+</head>
+<body>
+    <h1>Nou Client</h1>
+
+    <form id="formCrear">
+        <label for="taxidtype">Tipus de document:</label>
+        <select id="taxidtype" required>
+            <option value="DNI">DNI</option>
+            <option value="NIE">NIE</option>
+            <option value="PASS">Passaport</option>
+        </select><br>
+
+        <label for="taxid">Número de document:</label><br>
+        <input type="text" id="taxid" required><br>
+
+        <label for="name">Nom:</label><br>
+        <input type="text" id="name" required><br>
+
+        <label for="surname">Cognoms:</label><br>
+        <input type="text" id="surname" required><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" required><br>
+
+        <label for="phone">Telèfon:</label><br>
+        <input type="text" id="phone" pattern="[0-9]{9}" required><br>
+
+        <label for="birth_date">Data de naixement:</label><br>
+        <input type="date" id="birth_date"><br>
+
+        <label for="address">Adreça:</label><br>
+        <input type="text" id="address" required><br>
+
+        <label for="cp">Codi Postal:</label><br>
+        <input type="text" id="cp" required><br>
+
+        <label for="country">País:</label><br>
+        <select id="country" required></select><br>
+
+        <label for="province">Província:</label><br>
+        <select id="province" required></select><br>
+
+        <label for="city">Ciutat:</label><br>
+        <select id="city" required></select><br><br>
+
+        <button type="submit">💾 Crear Client</button>
+        <button type="button" onclick="window.location.href='clientLlistar.html'">Cancel·lar</button>
+    </form>
+</body>
+</html>
+
