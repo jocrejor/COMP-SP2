@@ -1,3 +1,4 @@
+/* Estructura bàsica */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f5f5f5;
@@ -10,47 +11,30 @@ body {
     min-height: 100vh;
 }
 
-/* Capçalera */
-h2 {
-    margin-top: 40px;
-    margin-bottom: 20px;
-    font-size: 2em;
-    color: #333;
-    text-align: center;
-}
-
-/* Taula */
-table {
-    border-collapse: collapse;
-    background-color: #fff;
+/* ---------- ESTILS PER A VISUALITZAR DETALL (tickets) ---------- */
+.infoClient, .infoFavorit {
+    background-color: #ffffff;
+    border: 2px dashed #007BFF;
+    border-radius: 10px;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    width: 95%;        
-    min-width: 1200px; 
+    line-height: 1.6;
+    margin-top: 20px;
+    font-size: 1.5em;
 }
 
-thead {
-    background-color: #007BFF;
-    color: #fff;
+.infoClient p, .infoFavorit p {
+    margin: 8px 0;
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: center;
-    word-break: break-word;
-    white-space: nowrap; 
+.infoClient strong, .infoFavorit strong {
+    color: #007BFF;
 }
 
-tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+/* ---------- BOTONS ---------- */
 
-tbody tr:hover {
-    background-color: #e0e0e0;
-}
-
-/* Botó de tornar */
 button {
     padding: 10px 20px;
     border-radius: 6px;
@@ -59,14 +43,12 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-top: 20px;
-}
-
-
-button[onclick] {
     background-color: #6c757d;
     color: #fff;
 }
 
-button[onclick]:hover {
+button:hover {
     background-color: #215e8d;
 }
+
+/* ---------- DECORACIÓ PER AL COMPARADOR ---------- */
