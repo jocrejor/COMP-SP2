@@ -69,45 +69,81 @@ function configurarAutoPreu() {
     });
 }
 
-//  VALIDACIÓ 
+//-----------------------------------------------------------------------------------------
+// VALIDACIÓ DE PAGAMENT, ENVIAMENT, CLIENT I PRODUCTES
+//-----------------------------------------------------------------------------------------
+
 function validarPagament() {
-    let el = document.getElementById("payment");
-    if (!el.checkValidity()) { errorMissatge("Selecciona una forma de pagament."); return false; }
-    return true;
+  const element = document.getElementById("payment");
+
+  if (!element.checkValidity()) {
+    if (element.validity.valueMissing) {
+      error(element, "Has de seleccionar una forma de pagament");
+    }
+    return false;
+  }
+  return true;
 }
 
 function validarEnviament() {
-    let el = document.getElementById("shipping");
-    if (!el.checkValidity() || el.value < 0) {
-        if (el.validity.valueMissing) errorMissatge("Introdueix despeses d’enviament.");
-        else errorMissatge("Les despeses d’enviament no poden ser negatives.");
-        return false;
+  const element = document.getElementById("shipping");
+
+  if (!element.checkValidity() || element.value < 0) {
+    if (element.validity.valueMissing) {
+      error(element, "Has d'introduïr les despeses d’enviament");
+    } else if (element.value < 0) {
+      error(element, "Les despeses d’enviament no poden ser negatives");
     }
-    return true;
+    return false;
+  }
+  return true;
 }
 
 function validarClient() {
-    let el = document.getElementById("client");
-    if (!el.checkValidity() || !el.value) { errorMissatge("Has de seleccionar un client."); return false; }
-    return true;
+  const element = document.getElementById("client");
+
+  if (!element.checkValidity() || !element.value) {
+    if (element.validity.valueMissing || !element.value) {
+      error(element, "Has de seleccionar un client");
+    }
+    return false;
+  }
+  return true;
 }
 
 function validarProductes() {
-    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
-    if (llista.length === 0) { errorMissatge("Has d’afegir almenys un producte."); return false; }
-    return true;
+  const element = document.getElementById("productes");
+  const llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+
+  if (llista.length === 0) {
+    error(element, "Has d’afegir almenys un producte");
+    return false;
+  }
+  return true;
 }
 
+//-----------------------------------------------------------------------------------------
+// FUNCIÓ PRINCIPAL VALIDAR FORMULARI
+//-----------------------------------------------------------------------------------------
+
 function validarFormulari(e) {
-    e.preventDefault(); // Evita enviament per defecte
-    esborrarError();
-    if (validarPagament() && validarEnviament() && validarClient() && validarProductes()) {
-        enviarFormulari();
-    } else {
-        // Desplaçament a l'error
-        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-    }
+  esborrarError();
+
+  if (
+    validarPagament() &&
+    validarEnviament() &&
+    validarClient() &&
+    validarProductes() &&
+    confirm("Confirma si vols enviar el formulari")
+  ) {
+    enviarFormulari();
+    return true;
+  } else {
+    e.preventDefault();
+    return false;
+  }
 }
+
 
 //  ERROR HANDLERS 
 function errorMissatge(msg) {
@@ -241,7 +277,7 @@ function enviarFormulari() {
     if (productesGuardats.length === 0) { errorMissatge("No hi ha productes a enviar."); return; }
 
     // Convertim data a format correcte
-    let dataRaw = document.getElementById("datetime").value;
+    let dataRaw = document.getElementById("date").value;
     let dataFormatada = dataRaw.replace("T", " ");
 
     // Creem objecte de comanda
