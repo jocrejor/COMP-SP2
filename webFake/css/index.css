@@ -15,6 +15,13 @@ button{
     border: none;
     border-radius: 5px;
 }
+
+ul > li{
+  list-style: none;
+  margin: 5%;
+  cursor: pointer;
+}
+
 /*Estilos del header*/
 .header{
     width: 100%;
@@ -116,7 +123,19 @@ button{
   padding: 20px;
 }
 
+.activa{
+  color: blueviolet;
+}
 
+.btn-veure{
+  padding: 3%;
+  margin-top: 20px;
+  margin-right: 20px;
+}
+
+.btn-afegir{
+  padding: 3%;
+}
 .targeta-producte {
   flex: 0 0 45%;
   max-width: 45%;
