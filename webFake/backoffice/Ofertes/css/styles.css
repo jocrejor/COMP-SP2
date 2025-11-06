@@ -1,0 +1,406 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.crud_title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.crud_add-button {
+    display: inline-block;
+    background: #3498db;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.crud_add-button:hover {
+    background: #2980b9;
+}
+
+.table-container {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.crud_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.crud_table thead {
+    background: #34495e;
+    color: white;
+}
+
+.crud_table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.crud_table td {
+    padding: 10px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.crud_table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.crud_table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.crud_table button {
+    padding: 6px 12px;
+    margin: 2px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.crud_table button:nth-child(1) {
+    background: #f39c12;
+    color: white;
+}
+
+.crud_table button:nth-child(1):hover {
+    background: #e67e22;
+}
+
+.crud_table button:nth-child(2) {
+    background: #e74c3c;
+    color: white;
+}
+
+.crud_table button:nth-child(2):hover {
+    background: #c0392b;
+}
+
+.crud_table button:nth-child(3) {
+    background: #27ae60;
+    color: white;
+}
+
+.crud_table button:nth-child(3):hover {
+    background: #229954;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 5px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #bdc3c7;
+    background: white;
+    color: #34495e;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.pagination button.active {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+}
+
+.pagination button:disabled {
+    background: #ecf0f1;
+    color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    margin: 0 15px;
+    color: #7f8c8d;
+}
+
+.crud_form {
+    background: white;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.form_input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+.form_input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: #229954;
+}
+
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #3498db;
+    text-decoration: none;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+#mensaje {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.no-data {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 40px;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-title {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.product-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.product-item {
+    padding: 10px;
+    border: 1px solid #ecf0f1;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.product-name {
+    font-weight: bold;
+}
+
+.product-details {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
+.modal-add-button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.modal-add-button:hover {
+    background: #229954;
+}
+
+.modal-close-button {
+    width: 100%;
+    padding: 10px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.modal-close-button:hover {
+    background: #7f8c8d;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    color: white;
+    border-radius: 3px;
+    z-index: 1001;
+}
+
+.notification.success {
+    background: #27ae60;
+}
+
+.notification.error {
+    background: #e74c3c;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.form_input:invalid {
+    border-color: #e74c3c;
+}
+
+.form_input:valid {
+    border-color: #27ae60;
+}
+
+.form_input:focus:invalid {
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+}
+
+.form_input:focus:valid {
+    border-color: #27ae60;
+    box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.1);
+}
+
+.form_input:required:not(:placeholder-shown):invalid {
+    border-color: #e74c3c;
+}
+
+.form_input:required:valid {
+    border-color: #27ae60;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .crud_table {
+        font-size: 14px;
+    }
+
+    .crud_table th,
+    .crud_table td {
+        padding: 8px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+    }
+
+    .crud_form {
+        padding: 20px;
+    }
+
+    .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .modal-add-button {
+        align-self: flex-end;
+    }
+}
