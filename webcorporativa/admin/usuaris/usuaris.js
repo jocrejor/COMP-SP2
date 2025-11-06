@@ -44,13 +44,14 @@ function guardarUsuaris(usuaris) {
 }
 
 // Llistar tots els usuaris a la taula
+// Llistar tots els usuaris a la taula amb paginació
 function llistaUsuaris() {
     const usuaris = obtenirUsuaris();
     const tbody = document.getElementById("llistaUsuaris");
     const divSenseUsuaris = document.getElementById("senseUsuaris");
     const contadorUsuaris = document.getElementById("totalUsuaris");
     
-    // Actualitzar contador
+    // Actualitzar contador total
     contadorUsuaris.textContent = usuaris.length;
     
     // Netejar taula
@@ -60,13 +61,21 @@ function llistaUsuaris() {
         // Mostrar missatge si no hi ha usuaris
         divSenseUsuaris.style.display = "block";
         document.getElementById("taulaUsuaris").style.display = "none";
+        document.querySelector(".botons-paginacio").style.display = "none";
     } else {
         // Ocultar missatge i mostrar taula
         divSenseUsuaris.style.display = "none";
         document.getElementById("taulaUsuaris").style.display = "table";
+        document.querySelector(".botons-paginacio").style.display = "block";
         
-        // Afegir cada usuari a la taula
-        usuaris.forEach((usuari, index) => {
+        // Calcular índexs per a la paginació
+        const indexInicial = (paginaActual - 1) * usuarisPerPagina;
+        const indexFinal = indexInicial + usuarisPerPagina;
+        const usuarisPagina = usuaris.slice(indexInicial, indexFinal);
+        
+        // Afegir cada usuari de la pàgina actual a la taula
+        usuarisPagina.forEach((usuari, indexRelativa) => {
+            const indexAbsoluta = indexInicial + indexRelativa;
             const fila = document.createElement("tr");
             
             // Crear cel·les
@@ -86,16 +95,16 @@ function llistaUsuaris() {
             const divAccions = document.createElement("div");
             divAccions.className = "accions";
             
-            // Crear botons amb data attributes
+            // Crear botons amb data attributes (usar índex absolut)
             const btnEditar = document.createElement("button");
             btnEditar.className = "btn-editar";
             btnEditar.textContent = "Editar";
-            btnEditar.dataset.index = index;
+            btnEditar.dataset.index = indexAbsoluta;
             
             const btnEliminar = document.createElement("button");
             btnEliminar.className = "btn-eliminar";
             btnEliminar.textContent = "Eliminar";
-            btnEliminar.dataset.index = index;
+            btnEliminar.dataset.index = indexAbsoluta;
             
             divAccions.appendChild(btnEditar);
             divAccions.appendChild(btnEliminar);
@@ -110,6 +119,9 @@ function llistaUsuaris() {
             
             tbody.appendChild(fila);
         });
+        
+        // Actualitzar controls de paginació
+        actualitzarControlsPaginacio(usuaris.length);
     }
 }
 
