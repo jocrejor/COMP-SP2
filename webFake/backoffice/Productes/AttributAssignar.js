@@ -90,13 +90,17 @@ function carregarAtributs() {
   select.textContent = "";
 
   let attributes = JSON.parse(localStorage.getItem("Attribute")) || [];
-
+  let productoId = parseInt(localStorage.getItem("productoSeleccionado"));
+  let productos = JSON.parse(localStorage.getItem("Product")) || [];
+  
+  let producto = productos.find(p => p.id === productoId);
   let opcionInicial = document.createElement("option");
   opcionInicial.setAttribute("value", "");
   opcionInicial.appendChild(document.createTextNode("Selecciona un atribut"));
   select.appendChild(opcionInicial);
 
-  attributes.forEach(attr => {
+  let atributosFiltrados = attributes.filter(a => a.family_id === producto.family_id);
+  atributosFiltrados.forEach(attr => {
     if (attr && attr.name) {
       let option = document.createElement("option");
       option.setAttribute("value", attr.id);
@@ -165,9 +169,6 @@ function guardarProductAttribute(e) {
   document.getElementById("atributo").value = "";
   document.getElementById("valor").value = "";
 }
-
-
-
 
 
 function error(element, missatge) {
