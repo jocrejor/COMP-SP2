@@ -1,52 +1,69 @@
 <!DOCTYPE html>
 <html lang="ca">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <title>Llistat de poblacions</title>
+    
+    <!-- Enllaços a fitxers externs -->
     <script src="../../BBDD/Location.js"></script>
     <!-- Fitxer JavaScript amb les poblacions -->
     <script src="./poblacio.js"></script>
-
+    
     <!-- Full d'estil específic per a la pàgina de poblacions -->
     <link rel="stylesheet" href="./css/style.css">
-
-    <title>Llistat de poblacions</title>
 </head>
 
 <body>
-    <!-- Títol principal -->
-    <h1>Llistat de poblacions</h1>
+    <!-- Capçalera principal -->
+    <header>
+        <h1>Llistat de poblacions</h1>
+    </header>
 
-    <!-- Mostra el país seleccionat -->
-    <h2 id="id_country">País seleccionat:</h2>
+    <!-- Secció d'informació del context -->
+    <section id="seccio-context">
+        <!-- Mostra el país seleccionat -->
+        <h2 id="id_country">País seleccionat:</h2>
+        
+        <!-- Mostra la província seleccionada -->
+        <h2 id="id_province">Provincia seleccionada:</h2>
+    </section>
 
-    <!-- Mostra la província seleccionada -->
-    <h2 id="id_province">Provincia seleccionada:</h2>
+    <!-- Secció de navegació -->
+    <section id="seccio-navegacio">
+        <!-- Botó per tornar a la pàgina anterior -->
+        <a href="./index.html">
+            <button id="torna">⬅️ Torna</button>
+        </a>
+    </section>
 
-    <!-- Botó per tornar a la pàgina anterior -->
-    <a href="./index.html">
-        <button id="torna">⬅️ Torna</button>
-    </a>
+    <!-- Secció per afegir noves poblacions -->
+    <section id="seccio-afegir">
+        <!-- Camp de text per introduir una població nova -->
+        <input type="text" id="city" placeholder="Afegir nova Població" 
+               maxlength="30" minlength="3" required 
+               pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+        
+        <!-- Missatge d'error per validacions -->
+        <span id="mensajeError"></span>
+        
+        <!-- Botó per afegir o modificar una població -->
+        <button id="afegir"></button>
+    </section>
 
-    <!-- Camp de text per introduir una població nova -->
-    <input type="text" id="city" placeholder="Afegir nova Població" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+    <!-- Secció de cerca -->
+    <section id="seccio-cerca">
+        <!-- Cercador de poblacions -->
+        <input type="text" id="buscar" placeholder="🔍 Buscar població">
+    </section>
 
-    <!-- Span per mostrar missatges d'error de validació -->
-    <span id="mensajeError" style="color:red"></span>
+    <!-- Secció del llistat de poblacions -->
+    <section id="seccio-llistat">
+        <!-- Llista ordenada on es mostraran les poblacions -->
+        <ol id="llista"></ol>
+    </section>
 
-    <!-- Botó per afegir o modificar una població -->
-    <button id="afegir"></button>
-
-    <!-- Cercador amb una lupa -->
-    <input type="text" id="buscar" placeholder="🔍 Buscar població">
-
-    <!-- Llista ordenada on es mostraran les poblacions -->
-    <ol id="llista"></ol>
-
-    <!-- Input ocult per guardar l'índex de la població que s'està editant -->
+    <!-- Element ocult per guardar l'índex en mode edició -->
     <input type="hidden" id="index" value="-1">
 </body>
-
 </html>

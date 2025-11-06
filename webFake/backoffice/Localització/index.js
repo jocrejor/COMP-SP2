@@ -1,23 +1,40 @@
 // Esperem que el DOM estiga carregat
 document.addEventListener("DOMContentLoaded", main);
 
+// Variables globals
 let accio = "Afegir";
 let paisosFiltrats = [];
 
+// Funció principal que s'executa quan es carrega la pàgina
 async function main() {
-    // --- Carreguem dades inicials ---
+    // --- Carreguem les dades inicials des de localStorage ---
+    carregarDadesInicials();
+
+    // Inicialitzem la llista de països filtrats
+    paisosFiltrats = [...Country];
+    mostrarLlista(paisosFiltrats);
+
+    // Configurem el botó d'afegir/actualitzar
+    configurarBotoAfegir();
+
+    // Configurem el cercador (si existeix)
+    configurarCercador();
+}
+
+// --- FUNCIONS D'INICIALITZACIÓ ---
+
+// Carrega les dades inicials des de localStorage
+function carregarDadesInicials() {
     if (localStorage.getItem("Country")) {
         Country = JSON.parse(localStorage.getItem("Country"));
     } else if (typeof Country === "undefined") {
         Country = [];
         localStorage.setItem("Country", JSON.stringify(Country));
     }
+}
 
-    // Inicialitzem la llista de països filtrats
-    paisosFiltrats = [...Country];
-    mostrarLlista(paisosFiltrats);
-
-    // Botó Afegir / Actualitzar
+// Configura el botó d'afegir/actualitzar
+function configurarBotoAfegir() {
     const afegirButton = document.getElementById("afegir");
     afegirButton.textContent = accio;
 
@@ -32,14 +49,14 @@ async function main() {
             afegirButton.textContent = accio;
         }
 
-        // Netejar camps
-        document.getElementById("country").value = "";
-        document.getElementById("index").value = "-1";
-
+        // Netejar camps després de l'acció
+        netejarCamps();
         mostrarLlista(paisosFiltrats);
     });
+}
 
-    // 🔍 Cercador en temps real (opcional)
+// Configura el cercador de països
+function configurarCercador() {
     const buscarInput = document.getElementById("buscar");
     if (buscarInput) {
         buscarInput.addEventListener("input", () => {
@@ -52,7 +69,9 @@ async function main() {
     }
 }
 
-// Mostrar la llista de països
+// --- FUNCIONS DE GESTIÓ DE PAÏSOS ---
+
+// Mostra la llista de països a la pàgina
 function mostrarLlista(array) {
     const visualitzarLlista = document.getElementById("llista");
     visualitzarLlista.innerHTML = "";
@@ -74,7 +93,7 @@ function mostrarLlista(array) {
     visualitzarLlista.innerHTML = html;
 }
 
-// Crear nou país
+// Crea un nou país
 function crearPais() {
     const nomPais = document.getElementById("country").value.trim();
     const nouId = Country.length ? Math.max(...Country.map(p => p.id)) + 1 : 1;
@@ -91,7 +110,7 @@ function crearPais() {
     mostrarLlista(paisosFiltrats);
 }
 
-// Actualitzar país
+// Actualitza un país existent
 function actualitzarPais() {
     const index = document.getElementById("index").value;
     const nomPais = document.getElementById("country").value.trim();
@@ -106,7 +125,7 @@ function actualitzarPais() {
     mostrarLlista(paisosFiltrats);
 }
 
-// Esborrar país
+// Esborra un país
 function esborrarPais(index) {
     const paisNom = paisosFiltrats[index].name;
 
@@ -131,8 +150,7 @@ function esborrarPais(index) {
     }
 }
 
-
-// Quan cliquem "Modificar"
+// Prepara la interfície per actualitzar un país
 function prepararActualitzar(index) {
     document.getElementById("index").value = index;
     document.getElementById("country").value = paisosFiltrats[index].name;
@@ -140,7 +158,9 @@ function prepararActualitzar(index) {
     document.getElementById("afegir").textContent = accio;
 }
 
-// Validar país
+// --- FUNCIONS AUXILIARS ---
+
+// Valida el país abans d'afegir-lo o actualitzar-lo
 function validarPais() {
     let input = document.getElementById("country");
     let nom = input.value.trim().toLowerCase();
@@ -162,4 +182,10 @@ function validarPais() {
 
     document.getElementById("mensajeError").textContent = "";
     return true;
+}
+
+// Neteja els camps del formulari
+function netejarCamps() {
+    document.getElementById("country").value = "";
+    document.getElementById("index").value = "-1";
 }
