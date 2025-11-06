@@ -7,7 +7,7 @@ function iniciar() {
 }
 
 function cancelar() {
-  window.location.href = "../llistar/llistarcaracteristica.html";
+  window.location.href = "./Atributs.html";
 }
 
 function carregarFamilies() {
@@ -135,5 +135,5 @@ function guardarEnLocalStorage(e) {
   document.getElementById("nom").value = "";
   document.getElementById("familia").value = "";
 
-  window.location.href = "../llistar/llistarcaracteristica.html";
+  window.location.href = "./Atributs.html";
 }

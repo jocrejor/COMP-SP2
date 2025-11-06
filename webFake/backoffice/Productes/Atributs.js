@@ -11,7 +11,7 @@ function iniciar() {
 }
 
 function anarcrear() {
-  window.location.href = "../crear/crearcaracteristica.html";
+  window.location.href = "./AtributsAlta.html";
 }
 function carregarDadesLocal() {
   if (typeof Family !== "undefined" && Array.isArray(Family) && !localStorage.getItem("Family")) {
@@ -60,7 +60,7 @@ function mostrarPagina() {
     btnEditar.className = "btn btn-warning me-2";
     btnEditar.addEventListener("click", () => {
       localStorage.setItem("atributoAEditar", caracteristica.id);
-      window.location.href = "../modificar/modificarcaracteristica.html";
+      window.location.href = "./AtributsModificar.html";
     });
 
     let btnEliminar = document.createElement("button");

@@ -7,7 +7,7 @@ function iniciar() {
 }
 
 function cancelar() {
-    window.location.href = "../llistar/llistarcaracteristica.html";
+    window.location.href = "./Atributs.html";
 }
 
 function carregarDades() {
@@ -124,5 +124,5 @@ function guardarEnLocalStorage(e) {
 
     localStorage.setItem("Attribute", JSON.stringify(attributes));
     alert("Característica modificada correctament!");
-    window.location.href = "../llistar/llistarcaracteristica.html";
+    window.location.href = "./Atributs.html";
 }
