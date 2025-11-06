@@ -22,7 +22,7 @@ function main() {
     const params   = new URLSearchParams(window.location.search);
     const ofertaId = params.get('oferta');
     
-    const data = JSON.parse(localStorage.getItem("formData")) || [];
+    const data   = JSON.parse(localStorage.getItem("formData")) || [];
     const oferta = data[ofertaId];
     
     if (!oferta) {
@@ -80,7 +80,7 @@ function cargarProductosAplicados(ofertaId) {
 // Retorna un array amb els productes trobats
 function buscarProductosAplicados(ofertaId) {
     const productosAplicados = [];
-    const productSale = obtenerProductSale();
+    const productSale        = obtenerProductSale();
     
     productSale.forEach(function(relacion) {
         const saleIdAproximado = parseInt(ofertaId) + 1;
@@ -269,13 +269,13 @@ function afegirProducteAOferta(ofertaId, productId) {
     const productSale      = obtenerProductSale();
     const saleIdAproximado = parseInt(ofertaId) + 1;
     
-    // Buscar si ya existe la relación
+    // Buscar si ya exisix la relacio
     const existeRelacion = productSale.find(function(rel) {
         return rel.sale_id === saleIdAproximado && rel.product_id === productId;
     });
     
     if (!existeRelacion) {
-        // Crear nueva relación con ID único
+        // Crear nova relacio amb id unic
         const nuevoId = Math.max(...productSale.map(r => r.id || 0), 0) + 1;
         
         const nuevaRelacion = {

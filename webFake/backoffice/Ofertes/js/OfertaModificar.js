@@ -3,25 +3,25 @@ document.addEventListener("DOMContentLoaded", main);
 // Funció principal que gestiona l'edició d'ofertes
 // Inicialitza el formulari i configura tots els esdeveniments necessaris
 function main() {
-    const formulari = document.getElementById('formOferta');
-    const entradaOferta = document.getElementById('ofertaInput');
+    const formulari          = document.getElementById('formOferta');
+    const entradaOferta      = document.getElementById('ofertaInput');
     const entradaPercentatge = document.getElementById('percentajeInput');
-    const entradaCupo = document.getElementById('couponInput');
-    const entradaDataInici = document.getElementById('dataIniciInput');
-    const entradaDataFi = document.getElementById('datafiInput');
+    const entradaCupo        = document.getElementById('couponInput');
+    const entradaDataInici   = document.getElementById('dataIniciInput');
+    const entradaDataFi      = document.getElementById('datafiInput');
 
-    const parametres = new URLSearchParams(window.location.search);
+    const parametres  = new URLSearchParams(window.location.search);
     const indexEditar = parametres.get('edit');
 
     let dades = JSON.parse(localStorage.getItem("formData")) || [];
 
     if (indexEditar !== null && !isNaN(indexEditar) && dades[indexEditar]) {
-        const element = dades[indexEditar];
-        entradaOferta.value = element.oferta || "";
+        const element            = dades[indexEditar];
+        entradaOferta.value      = element.oferta || "";
         entradaPercentatge.value = element.percentaje || "";
-        entradaCupo.value = element.coupon || "";
-        entradaDataInici.value = element.dataInici || "";
-        entradaDataFi.value = element.dataFi || "";
+        entradaCupo.value        = element.coupon || "";
+        entradaDataInici.value   = element.dataInici || "";
+        entradaDataFi.value      = element.dataFi || "";
     }
 
     // Funció per a mostrar missatges a l'usuari
@@ -86,7 +86,7 @@ function main() {
             return "La data d'inici és obligatòria.";
         }
         const dataInici = new Date(entradaDataInici.value);
-        const avui = new Date();
+        const avui      = new Date();
         avui.setHours(0, 0, 0, 0);
         
         if (dataInici < avui) {
@@ -105,7 +105,7 @@ function main() {
     function validarDates() {
         if (entradaDataFi.value && entradaDataInici.value) {
             const dataInici = new Date(entradaDataInici.value);
-            const dataFi = new Date(entradaDataFi.value);
+            const dataFi    = new Date(entradaDataFi.value);
             
             if (dataInici >= dataFi) {
                 return "La data d'inici ha de ser anterior a la data de fi.";

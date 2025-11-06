@@ -3,12 +3,12 @@ document.addEventListener("DOMContentLoaded", main);
 // Funció principal que gestiona l'alta de noves ofertes
 // Inicialitza el formulari i configura la validació en temps real
 function main() {
-    const formulari = document.getElementById('formOferta');
-    const entradaOferta = document.getElementById('ofertaInput');
+    const formulari          = document.getElementById('formOferta');
+    const entradaOferta      = document.getElementById('ofertaInput');
     const entradaPercentatge = document.getElementById('percentajeInput');
-    const entradaCupo = document.getElementById('couponInput');
-    const entradaDataInici = document.getElementById('dataIniciInput');
-    const entradaDataFi = document.getElementById('datafiInput');
+    const entradaCupo        = document.getElementById('couponInput');
+    const entradaDataInici   = document.getElementById('dataIniciInput');
+    const entradaDataFi      = document.getElementById('datafiInput');
 
     // Funció per a crear els elements que mostraran els missatges d'error
     // Crea un div per a cada camp del formulari on es mostraran els errors
@@ -27,22 +27,22 @@ function main() {
         });
     }
 
-    const avui = new Date().toISOString().split('T')[0];
+    const avui           = new Date().toISOString().split('T')[0];
     entradaDataInici.min = avui;
-    entradaDataFi.min = avui;
+    entradaDataFi.min    = avui;
 
-    const parametres = new URLSearchParams(window.location.search);
+    const parametres  = new URLSearchParams(window.location.search);
     const indexEditar = parametres.get('edit');
 
     let dades = JSON.parse(localStorage.getItem("formData")) || [];
 
     if (indexEditar !== null && !isNaN(indexEditar) && dades[indexEditar]) {
-        const element = dades[indexEditar];
-        entradaOferta.value = element.oferta || "";
+        const element            = dades[indexEditar];
+        entradaOferta.value      = element.oferta || "";
         entradaPercentatge.value = element.percentaje || "";
-        entradaCupo.value = element.coupon || "";
-        entradaDataInici.value = element.dataInici || "";
-        entradaDataFi.value = element.dataFi || "";
+        entradaCupo.value        = element.coupon || "";
+        entradaDataInici.value   = element.dataInici || "";
+        entradaDataFi.value      = element.dataFi || "";
     }
 
     function mostrarMissatge(text, tipus = "error") {
@@ -69,17 +69,17 @@ function main() {
     // Si no hi ha missatge, neteja l'error del camp
     function mostrarErrorCamp(campId, missatge) {
         const campError = document.getElementById(campId + 'Error');
-        const camp = document.getElementById(campId + 'Input');
+        const camp      = document.getElementById(campId + 'Input');
         
         if (campError && camp) {
             if (missatge) {
-                campError.textContent = missatge;
+                campError.textContent   = missatge;
                 campError.style.display = 'block';
-                camp.style.borderColor = '#e74c3c';
+                camp.style.borderColor  = '#e74c3c';
             } else {
-                campError.textContent = '';
+                campError.textContent   = '';
                 campError.style.display = 'none';
-                camp.style.borderColor = '';
+                camp.style.borderColor  = '';
             }
         }
     }
@@ -125,7 +125,7 @@ function main() {
 
         if (entradaDataInici.value && entradaDataFi.value) {
             const dataInici = new Date(entradaDataInici.value);
-            const dataFi = new Date(entradaDataFi.value);
+            const dataFi    = new Date(entradaDataFi.value);
             
             if (dataInici >= dataFi) {
                 mostrarErrorCamp('datafi', 'La data de fi ha de ser posterior a la data d\'inici');

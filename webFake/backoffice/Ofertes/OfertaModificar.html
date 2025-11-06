@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,25 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/OfertaModificar.js"></script>
 </head>
+
 <body>
     <div class="container">
         <a href="index.html" class="crud_add-button">Tornar a Ofertes</a>
         <form id="formOferta" class="crud_form" novalidate>
             <h2 class="form-title">EDITAR OFERTA</h2>
             <p id="mensaje"></p>
-            
+
             <div class="form-group">
                 <label for="ofertaInput">Nom de l'Oferta</label>
-                <input type="text" placeholder="Nom de l'oferta" id="ofertaInput" class="form_input" required minlength="2" maxlength="100" />
+                <input type="text" placeholder="Nom de l'oferta" id="ofertaInput" class="form_input" required
+                    minlength="2" maxlength="100" />
                 <div class="error-message" id="ofertaError"></div>
             </div>
 
             <div class="form-group">
                 <label for="percentajeInput">Percentatge de Descompte</label>
-                <input type="number" placeholder="Percentatge" id="percentajeInput" class="form_input" required min="1" max="100" step="1" />
+                <input type="number" placeholder="Percentatge" id="percentajeInput" class="form_input" required min="1"
+                    max="100" step="1" />
                 <div class="error-message" id="percentajeError"></div>
             </div>
 
@@ -49,4 +53,5 @@
         </form>
     </div>
 </body>
+
 </html>

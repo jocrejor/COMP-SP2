@@ -15,6 +15,26 @@
         <h1 class="crud_title">Llista d'Ofertes</h1>
         <a href="OfertaAlta.html" class="crud_add-button">Afegir Nova Oferta</a>
 
+        <div class="filters-container">
+            <h3>Filtres</h3>
+            <div class="filter-group">
+                <label for="filterName">Nom de l'Oferta:</label>
+                <input type="text" id="filterName" placeholder="Cerca per nom..." class="filter_input">
+            </div>
+            <div class="filter-group">
+                <label for="filterDateStart">Data Inici:</label>
+                <input type="date" id="filterDateStart" class="filter_input">
+            </div>
+            <div class="filter-group">
+                <label for="filterDateEnd">Data Fi:</label>
+                <input type="date" id="filterDateEnd" class="filter_input">
+            </div>
+            <div class="filter-buttons">
+                <button id="applyFilter" class="filter-button apply">Aplicar Filtres</button>
+                <button id="clearFilter" class="filter-button clear">Netejar Filtres</button>
+            </div>
+        </div>
+
         <div class="table-container">
             <table class="crud_table">
                 <thead>
