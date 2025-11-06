@@ -111,15 +111,29 @@ function actualitzarProvincia() {
     localStorage.setItem("Province", JSON.stringify(Province));
 }
 
-// Esborrar província
+
 function esborrarProvincia(index) {
     const idAEliminar = provinciesFiltrades[index].id;
-    const idxGeneral = Province.findIndex(p => p.id === idAEliminar);
-    if (idxGeneral !== -1) Province.splice(idxGeneral, 1);
-    provinciesFiltrades.splice(index, 1);
 
-    localStorage.setItem("Province", JSON.stringify(Province));
-    mostrarLlista(provinciesFiltrades);
+    // Finestra emergent de confirmació
+    const confirmar = confirm(`Vols eliminar la provincia "${idAEliminar}"?`);
+
+    if (confirmar) {
+        // Si l'usuari prem "Acceptar", eliminem
+        const idAEliminar = provinciesFiltrades[index].id;
+        const idxGeneral = Country.findIndex(p => p.id === idAEliminar);
+        if (idxGeneral !== -1) Country.splice(idxGeneral, 1);
+        provinciesFiltrades.splice(index, 1);
+
+        localStorage.setItem("Country", JSON.stringify(Country));
+        mostrarLlista(provinciesFiltrades);
+
+        // Mostrem alerta de confirmació
+        alert(`La provincia "${idAEliminar}" s'ha eliminat correctament.`);
+    } else {
+        // Si prem "Cancel·lar", no fem res
+        alert(`S'ha cancel·lat l'eliminació de "${idAEliminar}".`);
+    }
 }
 
 // Quan cliquem "Modificar"

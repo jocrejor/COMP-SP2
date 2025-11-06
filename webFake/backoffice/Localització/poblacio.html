@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="ca">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-     <script src="../../BBDD/Location.js"></script>
+    <script src="../../BBDD/Location.js"></script>
     <!-- Fitxer JavaScript amb les poblacions -->
     <script src="./poblacio.js"></script>
 
-    <!-- Full d'estil per donar format a la pàgina de poblacions -->
+    <!-- Full d'estil específic per a la pàgina de poblacions -->
     <link rel="stylesheet" href="./css/style.css">
 
     <title>Llistat de poblacions</title>
 </head>
+
 <body>
     <!-- Títol principal -->
-    <h1 class="titul">Llistat de poblacions</h1>
+    <h1>Llistat de poblacions</h1>
 
     <!-- Mostra el país seleccionat -->
     <h2 id="id_country">País seleccionat:</h2>
 
-    <!-- Mostra la província seleccionada  -->
+    <!-- Mostra la província seleccionada -->
     <h2 id="id_province">Provincia seleccionada:</h2>
 
-    <!-- Botó per tornar a la pàgina principal (llistat de països) -->
+    <!-- Botó per tornar a la pàgina anterior -->
     <a href="./index.html">
         <button id="torna">⬅️ Torna</button>
     </a>
 
-    <!-- Camp de text per introduir el nom d'una població-->
-    <input type="text" id="city" placeholder="Pego" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+    <!-- Camp de text per introduir una població nova -->
+    <input type="text" id="city" placeholder="Afegir nova Població" maxlength="30" minlength="3" required pattern="^[A-Za-zÀ-ÿ\s]{3,30}$">
+
+    <!-- Span per mostrar missatges d'error de validació -->
+    <span id="mensajeError" style="color:red"></span>
 
     <!-- Botó per afegir o modificar una població -->
     <button id="afegir"></button>
 
-    <!-- Espai per mostrar missatges d'error de validació -->
-    <span id="mensajeError" style="color: red;"></span>
-
     <!-- Cercador amb una lupa -->
-    <input type="text" id="buscar" placeholder="🔍 Buscar província">
+    <input type="text" id="buscar" placeholder="🔍 Buscar població">
 
-    <!--Llista ordenada on es mostraran les poblacions introduïdes-->
-    <ol id="llista">
-        <!-- Ací ensenyem els països -->
-    </ol>
+    <!-- Llista ordenada on es mostraran les poblacions -->
+    <ol id="llista"></ol>
 
-    <!--Input ocult per guardar l'índex de la població que s'està editant-->
+    <!-- Input ocult per guardar l'índex de la població que s'està editant -->
     <input type="hidden" id="index" value="-1">
-
-    
 </body>
+
 </html>
