@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="../BBDD/TendaFakeDades.js" defer></script>
+    <script src="./js/Login.js" defer></script>
+    <link rel="stylesheet" href="./css/Login.css">
+</head>
+
+<body>
+
+    <form id="formLogin" novalidate>  
+        <h1>Login</h1>
+        <label for="login_user">Usuari:</label>
+        <input type="email" id="login_user" required minlength="3" placeholder="Usuari"><br>
+
+        <label for="login_pass">Contrasenya:</label>
+        <input type="password" id="login_pass" minlength="5" required pattern="^.{5,}$" placeholder="Contrasenya">
+
+        <button type="submit" id="login">Iniciar Sessió</button>
+        <p id="missatgeError"></p>
+    </form>
+</body>
+
+</html>

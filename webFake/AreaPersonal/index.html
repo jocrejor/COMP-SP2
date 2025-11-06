@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../BBDD/Location.js" defer></script>
+    <script src="./index.js"></script>
+    <link rel="stylesheet" href="./index.css">
+    <title>Àrea personal</title>
+
+</head>
+<body>
+    <h2>Àrea personal</h2>
+
+    <form action="#" method="" id="formClient">
+
+        <label for="id">Id:</label><br>
+        <input type="number" id="id" readonly><br><br>
+
+        <label for="name">Nom:</label><br>
+        <input type="text" id="name" readonly><br><br>
+
+        <label for="surname">Cognoms:</label><br>
+        <input type="text" id="surname" readonly><br><br>
+
+        <label for="taxidtype">Tipus de document:</label><br>
+        <input type="text" id="taxidtype_display" readonly>
+        <select id="taxidtype" name="taxidtype" style="display:none;">
+            <option value="DNI">DNI</option>
+            <option value="Passaport">Passaport</option>
+            <option value="NIE">NIE</option>
+        </select><br><br>
+
+        <label for="taxid">Número de document:</label><br>
+        <input type="text" id="taxid" name="taxid" readonly><br><br>
+
+        <label for="birth_date">Aniversari:</label><br>
+        <input type="date" id="birth_date" readonly><br><br>
+
+        <label for="phone">Telèfon:</label><br>
+        <input type="tel" id="phone" readonly><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" readonly><br><br>
+
+        <label for="address">Adreça:</label><br>
+        <input type="text" id="address" name="address" readonly><br><br>
+
+        <label for="cp">Codi Postal:</label><br>
+        <input type="text" id="cp" name="cp" readonly><br><br>
+
+        <label for="country_id">País:</label><br>
+        <input type="text" id="country_display" readonly>
+        <select id="country_id" name="country_id" style="display:none;"></select><br><br>
+
+        <label for="province_id">Província:</label><br>
+        <input type="text" id="province_display" readonly>
+        <select id="province_id" name="province_id" style="display:none;"></select><br><br>
+        
+        <label for="city_id">Ciutat:</label><br>
+        <input type="text" id="city_display" readonly>
+        <select id="city_id" name="city_id" style="display:none;"></select><br><br>
+
+        <button type="button" id="modificar">Modificar</button>
+        <button type="button" id="torna">Torna</button>
+
+    </form>
+
+</body>
+</html>
