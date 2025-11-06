@@ -34,7 +34,7 @@ function main() {
 
   //Funció per carregar les dades de la BBDD o localStrorage - Clients, Favorit i Comparador
   // Afegir els demés SELECTS
-  function carregarSelects(clients, favorits, comparadors) {
+  function carregarSelects(clients, favoritsN, comparadors) {
     const clientSelect = document.getElementById("client_id");
     const favSelect = document.getElementById("favorite_id");
     const compSelect = document.getElementById("comparator_id");
