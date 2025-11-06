@@ -134,12 +134,12 @@ function main() {
     }
     // Guardar al localStorage y tornar al llistat
     guardarLocal(registres);
-    window.location.href = "./HistoricLlistar.html";
+    window.location.href = "./index.html";
   });
 
   btnCancelar.addEventListener("click", (e) => {
     e.preventDefault();
     sessionStorage.removeItem("editIndex");
-    window.location.href = "./HistoricLlistar.html";
+    window.location.href = "./index.html";
   });
 }
