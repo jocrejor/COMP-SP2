@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-const selectFamilia = document.getElementById("familia");
-const container = document.getElementById("productList");
+  const selectFamilia = document.getElementById("familia");
+  const container = document.getElementById("productList");
+  const paginacioContainer = document.getElementById("paginacio");
 
-  // Obtenir i guardar les dades en localStorage per a la seua manipulació
+  // Obtindre i guardar les dades en localStorage per a la seua manipulació
   let productsLS = localStorage.getItem("products");
   let ProductData = productsLS ? JSON.parse(productsLS) : Product;
   if (!productsLS) localStorage.setItem("products", JSON.stringify(ProductData));
@@ -23,104 +24,139 @@ const container = document.getElementById("productList");
   let ProductSaleData = productSalesLS ? JSON.parse(productSalesLS) : ProductSale;
   if (!productSalesLS) localStorage.setItem("productSales", JSON.stringify(ProductSaleData));
 
-// Funció per a mostrar productes
-function mostrarProductos(productosFiltrados) {
-  // Netejar el contenidor
-  container.replaceChildren();
+  // Variables per a fer la paginació
+  let pagActual = 1;
+  const productesPerPagina = 6;
+  let productesActuals = ProductData;
 
-  // Recórrer cada producte filtrat
-  productosFiltrados.forEach(product => {
-    // Contenidor del producte
-    const div = document.createElement("div");
-    div.className = "targeta-producte";
-
-    // Nom del producte
-    const h2 = document.createElement("h2");
-    h2.className = "titol-targeta-producte";
-    h2.appendChild(document.createTextNode(product.name));
-    div.appendChild(h2);
-
-    // Imatge del producte
-    const productImg = ProductimageData.find(img => img.product_id === product.id);
-    const img = document.createElement("img");
-    img.className = "imatge-targeta-producte";
-    img.src = productImg ? productImg.url : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
-    img.alt = product.name;
-    div.appendChild(img);
-
-    // Preu i ofertes
-    const now = new Date();
-
-    // Obtenir els IDs de les ofertes associades a este producte
-    const saleIds = [];
-    ProductSaleData.forEach(ps => {
-      if (ps.product_id === product.id) {
-        saleIds.push(ps.sale_id);
-      }
-    });
-
-  // Filtrar les ofertes actives segons la data
-  const oPrice = SaleData.filter(s => 
-  saleIds.includes(s.id) &&
-  new Date(s.start_date) <= now &&
-  now <= new Date(s.end_date)
-  );
-
-  const pPrice = document.createElement("p");
-  pPrice.className = "preu-targeta-producte";
-
-  // Mostrar preu amb descompte si hi ha oferta activa
-  if(oPrice.length > 0){
-    const oferta = oPrice[0]; 
-    const priceWithDiscount = product.price * (1 - oferta.discount_percent / 100);
-    pPrice.classList.add("preu-targeta-producte-descompte");
-    pPrice.appendChild(document.createTextNode(`Preu: ${priceWithDiscount.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`));
-  } else {
-    pPrice.classList.add("preu-targeta-producte-normal");
-    pPrice.appendChild(document.createTextNode(`Preu: ${product.price.toFixed(2)} €`));
+  // Mostrar els productes d’una pàgina
+  function mostrarPagina(pagina, productes) {
+    const inici = (pagina - 1) * productesPerPagina;
+    const fi = inici + productesPerPagina;
+    const productesPagina = productes.slice(inici, fi);
+    mostrarProductes(productesPagina);
+    mostrarBotonsPaginacio(productes);
   }
 
-  div.appendChild(pPrice);
+  // Crear botons de paginació
+  function mostrarBotonsPaginacio(productes) {
+    paginacioContainer.replaceChildren();
+    const totalPagines = Math.ceil(productes.length / productesPerPagina);
 
-    // Descripció del producte
-    const pDesc = document.createElement("p");
-    pDesc.className = "descripcio-targeta-producte";
-    pDesc.appendChild(document.createTextNode(product.description));
-    div.appendChild(pDesc);
+    if (totalPagines <= 1) return;
 
-    // Botó per a veure el producte
-    const aVer = document.createElement("button");
-    aVer.className = "boto-veure-producte";
-    aVer.appendChild(document.createTextNode("Veure producte"));
-    aVer.onclick = () => {
-      window.location.href = `product.html?id=${product.id}`;
+    const prevBtn = document.createElement("button");
+    prevBtn.textContent = "⟨ Anterior";
+    prevBtn.disabled = pagActual === 1;
+    prevBtn.onclick = () => {
+      pagActual--;
+      mostrarPagina(pagActual, productesActuals);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    div.appendChild(aVer);
+    paginacioContainer.appendChild(prevBtn);
 
-    // Botó per a afegir al carret
-    const aCar = document.createElement("button");
-    aCar.className = "boto-afegir-carret";
-    aCar.appendChild(document.createTextNode("Afexir al carret"));
-    div.appendChild(aCar);
+    const pageInfo = document.createElement("span");
+    pageInfo.textContent = `Pàgina ${pagActual} de ${totalPagines}`;
+    paginacioContainer.appendChild(pageInfo);
 
-    const hr = document.createElement("hr");
-    div.appendChild(hr);
-
-    container.appendChild(div);
-  });
-}
-
-// Mostrar tots els productes a l'inici
-mostrarProductos(ProductData);
-
-// Filtrar per familia quan canvie el select
-selectFamilia.addEventListener("change", function() {
-  const familiaId = parseInt(this.value);
-  if (isNaN(familiaId)) {
-    mostrarProductos(ProductData);
-  } else {
-    const filtrados = ProductData.filter(p => p.family_id === familiaId);
-    mostrarProductos(filtrados);
+    const nextBtn = document.createElement("button");
+    nextBtn.textContent = "Següent ⟩";
+    nextBtn.disabled = pagActual === totalPagines;
+    nextBtn.onclick = () => {
+      pagActual++;
+      mostrarPagina(pagActual, productesActuals);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+    paginacioContainer.appendChild(nextBtn);
   }
-});
+
+  // Funció per a mostrar productes
+  function mostrarProductes(productesFiltrats) {
+    container.replaceChildren();
+
+    productesFiltrats.forEach(producte => {
+      const div = document.createElement("div");
+      div.className = "targeta-producte";
+
+      const h2 = document.createElement("h2");
+      h2.className = "titol-targeta-producte";
+      h2.appendChild(document.createTextNode(producte.name));
+      div.appendChild(h2);
+
+      const productImg = ProductimageData.find(img => img.product_id === producte.id);
+      const img = document.createElement("img");
+      img.className = "imatge-targeta-producte";
+      img.src = productImg
+        ? productImg.url
+        : "https://png.pngtree.com/png-vector/20221125/ourmid/pngtree-no-image-available-icon-flatvector-illustration-pic-design-profile-vector-png-image_40966566.jpg";
+      img.alt = producte.name;
+      div.appendChild(img);
+
+      const ara = new Date();
+      const idOfertes = [];
+      ProductSaleData.forEach(ps => {
+        if (ps.product_id === producte.id) idOfertes.push(ps.sale_id);
+      });
+
+      const ofertesActives = SaleData.filter(
+        s =>
+          idOfertes.includes(s.id) &&
+          new Date(s.start_date) <= ara &&
+          ara <= new Date(s.end_date)
+      );
+
+      const pPreu = document.createElement("p");
+      pPreu.className = "preu-targeta-producte";
+
+      if (ofertesActives.length > 0) {
+        const oferta = ofertesActives[0];
+        const preuAmbDescompte = producte.price * (1 - oferta.discount_percent / 100);
+        pPreu.classList.add("preu-targeta-producte-descompte");
+        pPreu.appendChild(
+          document.createTextNode(
+            `Preu: ${preuAmbDescompte.toFixed(2)} € - ${oferta.discount_percent}% (${oferta.description})`
+          )
+        );
+      } else {
+        pPreu.classList.add("preu-targeta-producte-normal");
+        pPreu.appendChild(document.createTextNode(`Preu: ${producte.price.toFixed(2)} €`));
+      }
+      div.appendChild(pPreu);
+
+      const pDesc = document.createElement("p");
+      pDesc.className = "descripcio-targeta-producte";
+      pDesc.appendChild(document.createTextNode(producte.description));
+      div.appendChild(pDesc);
+
+      const btnVeure = document.createElement("button");
+      btnVeure.className = "boto-veure-producte";
+      btnVeure.appendChild(document.createTextNode("Veure producte"));
+      btnVeure.onclick = () => {
+        window.location.href = `product.html?id=${producte.id}`;
+      };
+      div.appendChild(btnVeure);
+
+      const btnCarret = document.createElement("button");
+      btnCarret.className = "boto-afegir-carret";
+      btnCarret.appendChild(document.createTextNode("Afegir al carret"));
+      div.appendChild(btnCarret);
+
+      container.appendChild(div);
+    });
+  }
+
+  // Mostrar tots els productes a l'inici
+  mostrarPagina(pagActual, productesActuals);
+
+  // Filtrar per família
+  selectFamilia.addEventListener("change", function() {
+    const familiaId = parseInt(this.value);
+    if (isNaN(familiaId)) {
+      productesActuals = ProductData;
+    } else {
+      productesActuals = ProductData.filter(p => p.family_id === familiaId);
+    }
+    pagActual = 1; // Reiniciar a la primera pàgina
+    mostrarPagina(pagActual, productesActuals);
+  });
 });

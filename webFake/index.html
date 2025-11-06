@@ -1,61 +1,68 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
   <meta charset="UTF-8">
-  <title>Inicio -Efecto LED</title>
+  <title>Inici - Efecte LED</title>
   <link rel="stylesheet" href="./css/index.css">
   <script src="./BBDD/TendaFakeDades.js"></script>
-  <script src="js/index.js"></script>
-
+  <script src="./js/index.js" defer></script>
 </head>
+
 <body>
-  <header class="header"> <!--carret i registre-->
+  <!-- Capçalera -->
+  <header class="header">
     <div class="containerTitul">
-      <img src="./img_copy/Logo1.png" class="logoHome">
-      <h1 class="titulHome">Benvinguts a la tenda fake</h1>
+      <img src="./img_copy/Logo1.png" class="logoHome" alt="Logo Efecte LED">
+      <h1 class="titulHome">Benvinguts a la Tenda Fake</h1>
     </div>
+
     <div class="containerBotons">
-      <button class="utilBotons"><a href="/Usuaris/altaUsuaris.html">Inici sessio</a></button>
-      <button class="utilBotons"><a href="/Carret/carret.html">Carret</a></button>
+      <button class="utilBotons">
+        <a href="/Usuaris/altaUsuaris.html">Inicia sessió</a>
+      </button>
+      <button class="utilBotons">
+        <a href="/Carret/carret.html">Carret</a>
+      </button>
     </div>
   </header>
+
+  <!-- Cos principal -->
   <main class="main">
-    <aside class="aside"> <!--Select box per a les families-->
-      <h4>Filtrar per familia:</h4>
+    <!-- Aside: filtres -->
+    <aside class="aside">
+      <h4>Filtrar per família:</h4>
       <select id="familia">
-        <option id="" value="" >Totes les families</option>
-        <option id="1" value="1">Equips informatics</option>
-        <option id="2" value="2">Ordinadors</option>
-        <option id="3" value="3">Periferics</option>
-        <option id="4" value="4">Portatils</option>
-        <option id="5" value="5">Sobretaula</option>
-        <option id="6" value="6">Ratolins</option>
-        <option id="7" value="7">Teclats</option>
-        <option id="8" value="8">Monitors</option>
-        <option id="9" value="9">Gaming Laptop</option>
-        <option id="10" value="10">Mini PC</option>
+        <option value="">Totes les famílies</option>
+        <option value="1">Equips informàtics</option>
+        <option value="2">Ordinadors</option>
+        <option value="3">Perifèrics</option>
+        <option value="4">Portàtils</option>
+        <option value="5">Sobremesa</option>
+        <option value="6">Ratolins</option>
+        <option value="7">Teclats</option>
+        <option value="8">Monitors</option>
+        <option value="9">Portàtils Gaming</option>
+        <option value="10">Mini PC</option>
       </select>
 
-      <!--Botones utiles-->
       <div class="botonsUtilAside">
-        <button><a href="contact.html"> Pagina de contacte</a></button>
+        <button><a href="contact.html">Pàgina de contacte</a></button>
         <button><a href="#">Veure perfil</a></button>
       </div>
     </aside>
-  
-    <div id="productList" class="productList">  <!-- Los productos se cargarán aquí mediante JavaScript -->
-     
 
-    </div>
-    
+    <!-- Llistat de productes -->
+    <section id="productList" class="productList">
+      <!-- Els productes es carregaran ací amb JavaScript -->
+    </section>
+
+
   </main>
-
+    <!-- Contenidor de paginació -->
+    <div id="paginacio" class="paginacio"></div>
+  <!-- Peu de pàgina -->
   <footer class="footer">
-
-    <p>&copy; 2025 Efecto LED. Tots els drets reservats.</p>
-
+    <p>&copy; 2025 Efecte LED. Tots els drets reservats.</p>
   </footer>
-
 </body>
 </html>
-
