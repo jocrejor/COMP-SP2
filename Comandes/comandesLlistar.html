@@ -20,37 +20,41 @@
   <h1>Llista Comandes</h1>
 
   <h3>Filtres per:</h3>
+
+<div class="filtres-container">
   <h5>Filtra per Data:</h5>
-  <input type="datetime-local">
+  <label>Des de:</label>
+  <input type="date" id="data_desde">
+  <label>Fins a:</label>
+  <input type="date" id="data_fins">
+
   <h5>Filtra per Client:</h5>
-  <input type="text">
+  <input type="text" id="filtrar_client" placeholder="Escriu el nom del client">
+
   <h5>Filtra per Pagament:</h5>
-  <input type="number">
+  <select id="payment" name="payment">
+    <option value="">Tots</option>
+    <option value="Credit Card">Targeta de Crèdit</option>
+    <option value="bizum">Bizum</option>
+    <option value="paypal">PayPal</option>
+    <option value="bank transfer">Transferència Bancària</option>
+  </select>
+
+  <br>
+  <button id="aplicarFiltres" type="button">Filtrar</button>
+</div>
+
+<button class="afegirPedido" id="afegirPedido">Nova Comanda</button>
+
+<div id="listaPedidos"></div>
+
   <br>
   <br>
-  <button class="FiltraPedido" id="FiltraPedido">Filtra Comanda</button>
 
 
   <div id="listaPedidos"></div>
-  <br>
-  <br>
-
-  <button class="afegirPedido" id="afegirPedido">Nova Comanda</button>
-  <nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link">Previous</a>
-      </li>
-      <li class="page-item active"><a class="page-link" href="#">1</a></li>
-      <li class="page-item " aria-current="page">
-        <a class="page-link" href="#">2</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item">
-        <a class="page-link" href="#">Next</a>
-      </li>
-    </ul>
-  </nav>
+  
+  
 </body>
 
 </html>

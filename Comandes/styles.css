@@ -139,3 +139,77 @@ background-color: #d32f2f;
 td button {
 margin: 0 3px;
 }
+
+/* Contenidor general */
+.filtres-container {
+  background: #f9fafc;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin: 15px 0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 950px; /* pot adaptar-se */
+}
+
+/* Títols dels filtres */
+.filtres-container h5 {
+  color: #2a3b8f;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  margin-top: 15px;
+  border-left: 3px solid #2a3b8f;
+  padding-left: 8px;
+}
+
+/* Etiquetes */
+.filtres-container label {
+  display: inline-block;
+  font-weight: 600;
+  color: #444;
+  margin-right: 6px;
+}
+
+/* Inputs i select */
+.filtres-container input[type="date"],
+.filtres-container input[type="text"],
+.filtres-container select {
+  padding: 7px 9px;
+  border: 1px solid #c9ccd1;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  margin-bottom: 8px;
+}
+
+.filtres-container input:focus,
+.filtres-container select:focus {
+  border-color: #2a3b8f;
+  box-shadow: 0 0 0 2px rgba(42, 59, 143, 0.15);
+}
+
+/* Distribució en files amb espai */
+.filtres-container div {
+  margin-bottom: 10px;
+}
+
+/* Botó de filtrar */
+#aplicarFiltres {
+  background-color: #2a3b8f;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.25s, transform 0.1s;
+  margin-top: 10px;
+}
+
+#aplicarFiltres:hover {
+  background-color: #1f2d75;
+}
+
+#aplicarFiltres:active {
+  transform: scale(0.98);
+}

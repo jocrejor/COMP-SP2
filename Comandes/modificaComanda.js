@@ -1,181 +1,229 @@
-//  EXECUTAR TOT QUAN EL DOM ESTIGUI CARREGAT 
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    //  CARREGAR PRODUCTES GLOBALS 
-    if (!window.products || !Array.isArray(window.products)) {
-        if (typeof Product !== "undefined") {
-            window.products = Product; // Assignem la llista global
-        } else {
-            console.error("No s'ha pogut carregar la llista de productes!");
-            return;
+  // Recuperar índex de la comanda a editar
+  let index = localStorage.getItem("comandaEditar");
+  if (index === null) {
+    alert("No s'ha seleccionat cap comanda per modificar.");
+    window.location.href = "comandesLlistar.html";
+    return;
+  }
+
+  // Carregar totes les comandes
+  let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+  let comanda = comandes[index];
+  if (!comanda) {
+    alert("Comanda no trobada.");
+    window.location.href = "comandesLlistar.html";
+    return;
+  }
+
+  // Carregar dades generals
+  document.getElementById("date").value = (comanda.data || "").substring(0, 10);
+  document.getElementById("payment").value = comanda.pagament || "";
+  document.getElementById("shipping").value = comanda.enviament || 0;
+
+  // Client
+  let clientSelect = document.getElementById("client");
+  while (clientSelect.firstChild) clientSelect.removeChild(clientSelect.firstChild);
+  let op = document.createElement("option");
+  op.value = comanda.client;
+  op.selected = true;
+  let txt = document.createTextNode(comanda.client);
+  op.appendChild(txt);
+  clientSelect.appendChild(op);
+
+  // Productes disponibles
+  let products = typeof Product !== "undefined" ? Product : [];
+  let tableBody = document.querySelector("#productsTable tbody");
+
+  // -------------------------------
+  // Funcions auxiliars
+  // -------------------------------
+
+  function omplirSelect(select, selectedId) {
+    while (select.firstChild) select.removeChild(select.firstChild);
+    let op0 = document.createElement("option");
+    op0.value = "";
+    op0.appendChild(document.createTextNode("Selecciona producte..."));
+    select.appendChild(op0);
+
+    for (let i = 0; i < products.length; i++) {
+      let p = products[i];
+      let op = document.createElement("option");
+      op.value = p.id;
+      if (Number(p.id) === Number(selectedId)) op.selected = true;
+      let t = document.createTextNode(p.name);
+      op.appendChild(t);
+      select.appendChild(op);
+    }
+  }
+
+  function crearFilaProducte(p) {
+    let tr = document.createElement("tr");
+    tr.className = "product-line";
+
+    // PRODUCTE
+    let tdProd = document.createElement("td");
+    let select = document.createElement("select");
+    select.name = "product_id[]";
+    select.required = true;
+
+    let producteId = null;
+    if (p && !isNaN(p.producte)) producteId = parseInt(p.producte);
+    else if (p) {
+      for (let j = 0; j < products.length; j++) {
+        if (products[j].name.toLowerCase() === (p.producte || "").toLowerCase()) {
+          producteId = products[j].id;
+          break;
         }
+      }
     }
 
-    //  RECUPERAR L’ÍNDEX DE LA COMANDA A EDITAR 
-    let index = localStorage.getItem("comandaEditar");
-    if (index === null) {
-        alert("No s'ha seleccionat cap comanda per modificar.");
-        window.location.href = "comandesLlistar.html";
-        return;
-    }
+    omplirSelect(select, producteId);
+    tdProd.appendChild(select);
+    tr.appendChild(tdProd);
 
-    //  OBTENIR COMANDA I VALIDAR 
-    let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
-    let comanda = comandes[index];
-    if (!comanda) {
-        alert("Comanda no trobada.");
-        window.location.href = "comandesLlistar.html";
-        return;
-    }
+    // QUANTITAT
+    let tdQuant = document.createElement("td");
+    let inputQuant = document.createElement("input");
+    inputQuant.type = "number";
+    inputQuant.name = "quantity[]";
+    inputQuant.min = 1;
+    inputQuant.required = true;
+    inputQuant.value = (p && p.quantitat) ? p.quantitat : 1;
+    tdQuant.appendChild(inputQuant);
+    tr.appendChild(tdQuant);
 
-    //  MOSTRAR INFORMACIÓ FIXA DE LA COMANDA 
-    document.getElementById("datetime").value = comanda.data || "";
-    document.getElementById("payment").value = comanda.pagament || "";
-    document.getElementById("shipping").value = comanda.enviament || 0;
+    // PREU
+    let tdPreu = document.createElement("td");
+    let inputPreu = document.createElement("input");
+    inputPreu.type = "number";
+    inputPreu.step = "0.01";
+    inputPreu.name = "price[]";
+    inputPreu.min = 0;
+    inputPreu.required = true;
+    inputPreu.value = (p && p.preu) ? p.preu.toFixed(2) : 0;
+    tdPreu.appendChild(inputPreu);
+    tr.appendChild(tdPreu);
 
-    //  AFEGIR CLIENT AL SELECT 
-    let clientSelect = document.getElementById("client");
-    clientSelect.replaceChildren(); // Neteja opcions existents
-    let optClient = document.createElement("option");
-    optClient.value = comanda.client;
-    optClient.appendChild(document.createTextNode(comanda.client));
-    clientSelect.appendChild(optClient);
+    // DESCOMPTE
+    let tdDesc = document.createElement("td");
+    let inputDesc = document.createElement("input");
+    inputDesc.type = "number";
+    inputDesc.step = "0.01";
+    inputDesc.name = "discount[]";
+    inputDesc.min = 0;
+    inputDesc.readOnly = true;
+    inputDesc.value = (p && p.descompte) ? p.descompte.toFixed(2) : 0;
+    tdDesc.appendChild(inputDesc);
+    tr.appendChild(tdDesc);
 
-    let productsTableBody = document.querySelector("#productsTable tbody");
+    // ACCIÓ (Eliminar)
+    let tdAccio = document.createElement("td");
+    let btn = document.createElement("button");
+    btn.type = "button";
+    let txtBtn = document.createTextNode("Eliminar");
+    btn.appendChild(txtBtn);
+    btn.addEventListener("click", function () {
+      tr.parentNode.removeChild(tr);
+    });
+    tdAccio.appendChild(btn);
+    tr.appendChild(tdAccio);
 
-    //  FUNCIONS AUXILIARS 
-    // Omplir select amb productes disponibles
-    function omplirSelect(select, producteId) {
-        select.replaceChildren();
-        let defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.appendChild(document.createTextNode("Selecciona producte..."));
-        select.appendChild(defaultOption);
+    // Quan es canvia el producte, s'actualitza el preu i descompte automàticament
+    select.addEventListener("change", function () {
+      let id = parseInt(select.value);
+      let prod = null;
+      let desc = 0;
 
-        window.products.forEach(p => {
-            let opt = document.createElement("option");
-            opt.value = p.id;
-            opt.appendChild(document.createTextNode(p.name));
-            if (Number(p.id) === Number(producteId)) opt.selected = true; // Seleccionem correctament
-            select.appendChild(opt);
-        });
-    }
+      for (let i = 0; i < products.length; i++) {
+        if (products[i].id === id) {
+          prod = products[i];
+          break;
+        }
+      }
 
-    // Crear fila de producte a la taula
-    function crearProducteRow(producteData = {}) {
-        let tr = document.createElement("tr");
-        tr.classList.add("product-line");
+      for (let k = 0; k < Orderdetail.length; k++) {
+        if (Orderdetail[k].product_id === id) {
+          desc = Orderdetail[k].discount;
+          break;
+        }
+      }
 
-        //  CEL·LA PRODUCTE 
-        let tdProducte = document.createElement("td");
-        let select = document.createElement("select");
-        select.name = "product_id[]";
-        select.required = true;
-
-        // Determinar ID del producte
-        let producteId = producteData.id 
-                        || window.products.find(p => p.name.toLowerCase() === (producteData.producte || "").toLowerCase())?.id;
-
-        if (!producteId && window.products.length > 0) producteId = window.products[0].id;
-
-        omplirSelect(select, producteId);
-        tdProducte.appendChild(select);
-        tr.appendChild(tdProducte);
-
-        //  CEL·LA QUANTITAT 
-        let tdQuantitat = document.createElement("td");
-        let inputQuantitat = document.createElement("input");
-        inputQuantitat.type = "number";
-        inputQuantitat.name = "quantity[]";
-        inputQuantitat.min = 1;
-        inputQuantitat.value = producteData.quantitat || 1;
-        inputQuantitat.required = true;
-        tdQuantitat.appendChild(inputQuantitat);
-        tr.appendChild(tdQuantitat);
-
-        //  CEL·LA PREU 
-        let tdPreu = document.createElement("td");
-        let inputPreu = document.createElement("input");
-        inputPreu.type = "number";
-        inputPreu.step = "0.01";
-        inputPreu.name = "price[]";
-        inputPreu.min = 0;
-        inputPreu.value = producteData.preu?.toFixed(2) || 0;
-        inputPreu.required = true;
-        tdPreu.appendChild(inputPreu);
-        tr.appendChild(tdPreu);
-
-        //  CEL·LA DESCOMPTE 
-        let tdDescompte = document.createElement("td");
-        let inputDescompte = document.createElement("input");
-        inputDescompte.type = "number";
-        inputDescompte.step = "0.01";
-        inputDescompte.name = "discount[]";
-        inputDescompte.min = 0;
-        inputDescompte.value = producteData.descompte?.toFixed(2) || 0;
-        tdDescompte.appendChild(inputDescompte);
-        tr.appendChild(tdDescompte);
-
-        //  CEL·LA ACCIÓ 
-        let tdAccio = document.createElement("td");
-        let btnEliminar = document.createElement("button");
-        btnEliminar.type = "button";
-        btnEliminar.appendChild(document.createTextNode("Eliminar"));
-        btnEliminar.classList.add("eliminar");
-        btnEliminar.addEventListener("click", () => tr.remove()); // Eliminem fila
-        tdAccio.appendChild(btnEliminar);
-        tr.appendChild(tdAccio);
-
-        productsTableBody.appendChild(tr); // Afegim fila a la taula
-    }
-
-    //  CARREGAR PRODUCTES EXISTENTS DE LA COMANDA 
-    (comanda.productes || []).forEach(p => crearProducteRow(p));
-
-    // BOTÓ "AFEGIR PRODUCTE" 
-    let btnAfegir = document.getElementById("afegirProducte");
-    if (btnAfegir) {
-        btnAfegir.addEventListener("click", e => {
-            e.preventDefault();
-            crearProducteRow(); // Afegim fila buida
-        });
-    }
-
-    //  GUARDAR CANVIS DE LA COMANDA 
-    let form = document.getElementById("pedidoForm");
-    form.addEventListener("submit", e => {
-        e.preventDefault();
-
-        let productes = [];
-        document.querySelectorAll(".product-line").forEach(tr => {
-            let select = tr.querySelector("select[name='product_id[]']");
-            let productId = parseInt(select.value);
-            if (!productId) return;
-
-            let productNom = window.products.find(p => p.id === productId)?.name || "";
-            let quantitat = parseFloat(tr.querySelector("input[name='quantity[]']").value) || 1;
-            let preu = parseFloat(tr.querySelector("input[name='price[]']").value) || 0;
-            let descompte = parseFloat(tr.querySelector("input[name='discount[]']").value) || 0;
-
-            productes.push({ id: productId, producte: productNom, quantitat, preu, descompte });
-        });
-
-        // Actualitzar comanda i guardar a localStorage
-        comanda.productes = productes;
-        comandes[index] = comanda;
-        localStorage.setItem("comandes", JSON.stringify(comandes));
-
-        alert(" Comanda actualitzada correctament!");
-        window.location.href = "comandesLlistar.html";
+      if (prod) inputPreu.value = prod.price.toFixed(2);
+      inputDesc.value = desc.toFixed(2);
     });
 
-    //  BOTÓ "TORNAR" 
-    let btnTornar = document.getElementById("tornar");
-    if (btnTornar) {
-        btnTornar.addEventListener("click", e => {
-            e.preventDefault();
-            window.location.href = "comandesLlistar.html";
-        });
+    tableBody.appendChild(tr);
+  }
+
+  // -------------------------------
+  // Carregar productes existents
+  // -------------------------------
+  let llista = comanda.productes || [];
+  for (let i = 0; i < llista.length; i++) {
+    crearFilaProducte(llista[i]);
+  }
+
+  // -------------------------------
+  // Afegir nou producte
+  // -------------------------------
+  let btnAfegir = document.getElementById("afegirProducte");
+  btnAfegir.addEventListener("click", function (e) {
+    e.preventDefault();
+    crearFilaProducte({});
+  });
+
+  // -------------------------------
+  // Guardar modificacions
+  // -------------------------------
+  let form = document.getElementById("pedidoForm");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let nousProductes = [];
+    let files = document.querySelectorAll(".product-line");
+
+    for (let i = 0; i < files.length; i++) {
+      let tr = files[i];
+      let prodSelect = tr.querySelector("[name='product_id[]']");
+      let quant = parseFloat(tr.querySelector("[name='quantity[]']").value) || 0;
+      let preu = parseFloat(tr.querySelector("[name='price[]']").value) || 0;
+      let desc = parseFloat(tr.querySelector("[name='discount[]']").value) || 0;
+
+      if (!prodSelect.value) continue;
+
+      // Quan prepares el nou producte per guardar
+      nousProductes.push({
+        producte: prodSelect.value,    // l'id del producte
+        quantitat: quant,              // quantitat introduïda
+        preu: preu,                    // preu unitari
+        descompte: desc,               // descompte en %
+        preuFinal: quant * preu * (1 - desc / 100) // preu total del producte
+      });
+
     }
+
+    comanda.productes = nousProductes;
+    comandes[index] = comanda;
+    localStorage.setItem("comandes", JSON.stringify(comandes));
+
+    // Eliminar bandera d’edició i redirigir
+    localStorage.removeItem("comandaEditar");
+    alert("Comanda actualitzada correctament!");
+
+    //  Redirigeix i força refresc de la pàgina llistar
+    window.location.replace("comandesLlistar.html");
+  });
+
+  // -------------------------------
+  // Botó tornar
+  // -------------------------------
+  let tornarBtn = document.getElementById("tornar");
+  tornarBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    localStorage.removeItem("comandaEditar");
+    window.location.replace("comandesLlistar.html");
+  });
 }

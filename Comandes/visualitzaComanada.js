@@ -38,9 +38,12 @@ function mostrarComanda() {
         return;
     }
 
+    //  FORMAT DE DATA (nou)
+    let dataFormatejada = formatData(comanda.data);
+
     //  INFORMACIÓ BÀSICA DE LA COMANDA 
     let infoBàsica = [
-        { label: "Data", value: comanda.data || "N/A" },
+        { label: "Data", value: dataFormatejada || "N/A" },
         { label: "Client", value: comanda.client || "N/A" },
         { label: "Tipus de pagament", value: comanda.pagament || "N/A" },
         { label: "Enviament (€)", value: (+comanda.enviament || 0).toFixed(2) }
@@ -169,4 +172,20 @@ function obtenirNomProducte(p) {
 
     // Últim recurs si no es troba el nom
     return "Nom no disponible";
+}
+
+/**
+ * Formata una data al format DD/MM/YYYY
+ */
+function formatData(dataString) {
+    if (!dataString) return "N/A";
+
+    let data = new Date(dataString);
+    if (isNaN(data)) return dataString; // si no és una data vàlida
+
+    let dia = String(data.getDate()).padStart(2, "0");
+    let mes = String(data.getMonth() + 1).padStart(2, "0");
+    let any = data.getFullYear();
+
+    return `${dia}/${mes}/${any}`;
 }

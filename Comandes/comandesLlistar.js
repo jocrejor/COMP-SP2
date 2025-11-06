@@ -1,11 +1,11 @@
 // INICI DESPRÉS DE CARREGAR EL DOM 
 document.addEventListener("DOMContentLoaded", main);
+let paginaActual = 1;
+const COMANDES_PER_PAGINA = 5;
 
-//  FUNCIONS DE GESTIÓ D’ERRORS 
+// FUNCIONS DE GESTIÓ D’ERRORS 
 function mostrarError(missatge) {
-    console.error(missatge); // Mostra l'error a la consola
-
-    // Busquem o creem un contenidor d'errors al DOM
+    console.error(missatge);
     let contError = document.getElementById("errors");
     if (!contError) {
         contError = document.createElement("div");
@@ -14,8 +14,6 @@ function mostrarError(missatge) {
         contError.style.margin = "10px 0";
         document.body.prepend(contError);
     }
-
-    // Creem un paràgraf per cada missatge i l'afegim al contenidor
     let p = document.createElement("p");
     p.appendChild(document.createTextNode(missatge));
     contError.appendChild(p);
@@ -23,33 +21,29 @@ function mostrarError(missatge) {
 
 function esborrarErrors() {
     let contError = document.getElementById("errors");
-    if (contError) contError.replaceChildren(); // Neteja tots els missatges
+    if (contError) contError.replaceChildren();
 }
 
-//  CÀRREGA DE DADES 
+// CÀRREGA DE DADES 
 function carregarDades() {
-    // Comprovem si les dades globals existeixen
     if (!Order || !Orderdetail) {
         mostrarError("Les dades Order o Orderdetail no estan disponibles.");
         return;
     }
 
-    // Transformem les dades en un format uniforme
     let comandesBase = Order.map(o => {
-        // Extraiem els productes de cada comanda
         let productes = Orderdetail
             .filter(d => d.order_id === o.id)
             .map(d => ({
-                producte: `Producte ${d.product_id}`, // Nom provisional
+                producte: `Producte ${d.product_id}`,
                 quantitat: d.quantity,
                 preu: d.price,
                 descompte: d.discount
             }));
 
-        // Obtenim el nom real del client si existeix
         let clientNom = "Client desconegut";
         if (typeof Client !== "undefined" && Array.isArray(Client)) {
-            let cli = Client.find(c => c.id === (o.client_id - 100)); // Ajust ID
+            let cli = Client.find(c => c.id === (o.client_id - 100));
             if (cli) clientNom = `${cli.name} ${cli.surname}`;
         }
 
@@ -63,23 +57,70 @@ function carregarDades() {
         };
     });
 
-    // Recuperem comandes desades prèviament a localStorage
     let comandesLocal = JSON.parse(localStorage.getItem("comandes")) || [];
     let idsBase = comandesBase.map(c => c.id);
-
-    // Combinem comandes base i locals sense duplicats
     let comandesTotals = [
         ...comandesBase,
         ...comandesLocal.filter(c => !idsBase.includes(c.id))
     ];
 
-    // Guardem la llista completa a localStorage
     localStorage.setItem("comandes", JSON.stringify(comandesTotals));
 }
 
-//  MOSTRAR COMANDES 
+// FILTRAR COMANDES PER DATA
+function filtrarPerData(comandes) {
+    let dataDesde = document.getElementById("data_desde").value;
+    let dataFins = document.getElementById("data_fins").value;
+
+    if (!dataDesde && !dataFins) return comandes;
+
+    return comandes.filter(c => {
+        let dataComanda = new Date(c.data);
+        let ok = true;
+
+        if (dataDesde) ok = ok && (dataComanda >= new Date(dataDesde));
+        if (dataFins) ok = ok && (dataComanda <= new Date(dataFins));
+
+        return ok;
+    });
+}
+// FILTRAR COMANDES PER DATA I CLIENT
+function filtrarComandes(comandes) {
+    let dataDesde = document.getElementById("data_desde").value;
+    let dataFins = document.getElementById("data_fins").value;
+    let textClient = document.getElementById("filtrar_client").value.trim().toLowerCase();
+    let pagament = document.getElementById("payment").value;
+
+    // Si no hi ha cap filtre, retornem totes
+    if (!dataDesde && !dataFins && !textClient && !pagament) return comandes;
+
+    return comandes.filter(c => {
+        let ok = true;
+
+        // Filtres independents però combinables
+        if (dataDesde || dataFins) {
+            let dataComanda = new Date(c.data);
+            if (dataDesde) ok = ok && (dataComanda >= new Date(dataDesde));
+            if (dataFins) ok = ok && (dataComanda <= new Date(dataFins));
+        }
+
+        if (textClient) {
+            let nom = (c.client || "").toLowerCase();
+            ok = ok && nom.includes(textClient);
+        }
+
+        if (pagament) {
+            ok = ok && c.pagament === pagament;
+        }
+
+        return ok;
+    });
+}
+
+
+// MOSTRAR COMANDES 
 function mostrarComandes() {
-    esborrarErrors(); // Neteja missatges previs
+    esborrarErrors();
 
     let container = document.getElementById("listaPedidos");
     if (!container) {
@@ -87,11 +128,13 @@ function mostrarComandes() {
         return;
     }
 
-    container.replaceChildren(); // Neteja contingut previ
+    container.replaceChildren();
 
     let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
 
-    // Si no hi ha comandes, mostrem un missatge
+    // 🔹 Aplicar filtres complets (data, client, pagament)
+    comandes = filtrarComandes(comandes);
+
     if (comandes.length === 0) {
         let missatge = document.createElement("p");
         missatge.appendChild(document.createTextNode("No hi ha comandes registrades."));
@@ -99,80 +142,155 @@ function mostrarComandes() {
         return;
     }
 
-    // Creem taula amb atributs de format
+    // 🔹 Paginació (5 comandes per pàgina)
+    const itemsPerPagina = 5;
+    let paginaActual = window.paginaActual || 1;
+    const totalPagines = Math.ceil(comandes.length / itemsPerPagina);
+    if (paginaActual > totalPagines) paginaActual = totalPagines;
+
+    const inici = (paginaActual - 1) * itemsPerPagina;
+    const final = inici + itemsPerPagina;
+    let comandesPaginades = comandes.slice(inici, final);
+
+    // 🔹 Crear taula
     let taula = document.createElement("table");
     taula.setAttribute("border", "1");
     taula.setAttribute("cellpadding", "5");
     taula.setAttribute("cellspacing", "0");
 
-    // Capçalera de la taula
     let cap = document.createElement("tr");
     ["#", "Data", "Client", "Forma de pagament", "Enviament (€)", "Total (€)", "Accions"].forEach(text => {
         let th = document.createElement("th");
-        th.appendChild(document.createTextNode(text)); // Sense innerHTML ni textContent
+        th.appendChild(document.createTextNode(text));
         cap.appendChild(th);
     });
     taula.appendChild(cap);
 
-    // Afegim files amb les dades de cada comanda
-    comandes.forEach((c, index) => {
+    // 🔹 Mostrar comandes de la pàgina actual
+    comandesPaginades.forEach((c, index) => {
         let fila = document.createElement("tr");
 
-        // Número seqüencial
         let tdIndex = document.createElement("td");
-        tdIndex.appendChild(document.createTextNode(index + 1));
+        tdIndex.appendChild(document.createTextNode(inici + index + 1));
         fila.appendChild(tdIndex);
 
-        // Dades bàsiques de la comanda
         let dadesText = [c.data || "N/A", c.client || "N/A", c.pagament || "N/A", (+c.enviament || 0).toFixed(2)];
         dadesText.forEach(d => {
             let td = document.createElement("td");
-            td.appendChild(document.createTextNode(d)); // Sense innerHTML ni textContent
+            td.appendChild(document.createTextNode(d));
             fila.appendChild(td);
         });
 
-        // Càlcul del total incloent productes i enviament
         let tdTotal = document.createElement("td");
         let total = 0;
         (c.productes || []).forEach(p => {
             total += p.quantitat * p.preu * (1 - (p.descompte || 0) / 100);
         });
         total += c.enviament || 0;
-        tdTotal.appendChild(document.createTextNode(total.toFixed(2))); // Text amb createTextNode
+        tdTotal.appendChild(document.createTextNode(total.toFixed(2)));
         fila.appendChild(tdTotal);
 
-        // Botons d'acció
+        // 🔹 Botons d'accions (sense canviar colors)
         let tdAccions = document.createElement("td");
         tdAccions.style.textAlign = "center";
 
-        // Creem cada botó sense innerHTML/textContent
         let botoVisualitzar = document.createElement("button");
         botoVisualitzar.appendChild(document.createTextNode("Visualitzar"));
         botoVisualitzar.classList.add("visualitzar");
-        botoVisualitzar.addEventListener("click", () => visualitzarComanda(index));
+        botoVisualitzar.addEventListener("click", () => visualitzarComanda(inici + index));
 
         let botoModificar = document.createElement("button");
         botoModificar.appendChild(document.createTextNode("Modificar"));
         botoModificar.classList.add("modificar");
-        botoModificar.addEventListener("click", () => modificarComanda(index));
+        botoModificar.addEventListener("click", () => modificarComanda(inici + index));
 
         let botoEliminar = document.createElement("button");
         botoEliminar.appendChild(document.createTextNode("Eliminar"));
         botoEliminar.classList.add("eliminar");
-        botoEliminar.addEventListener("click", () => eliminarComanda(index));
+        botoEliminar.addEventListener("click", () => eliminarComanda(inici + index));
 
-        tdAccions.append(botoVisualitzar, document.createTextNode(" "), botoModificar, document.createTextNode(" "), botoEliminar);
+        tdAccions.append(
+            botoVisualitzar, document.createTextNode(" "),
+            botoModificar, document.createTextNode(" "),
+            botoEliminar
+        );
         fila.appendChild(tdAccions);
+
         taula.appendChild(fila);
     });
 
-    container.appendChild(taula); // Inserim la taula al DOM
+    container.appendChild(taula);
+
+    // 🔹 Crear navegació de pàgines
+    let paginacio = document.createElement("nav");
+    paginacio.setAttribute("aria-label", "Page navigation");
+
+    let ul = document.createElement("ul");
+    ul.classList.add("pagination", "justify-content-center");
+
+    // Botó Previous
+    let liPrev = document.createElement("li");
+    liPrev.classList.add("page-item");
+    if (paginaActual === 1) liPrev.classList.add("disabled");
+    let aPrev = document.createElement("a");
+    aPrev.classList.add("page-link");
+    aPrev.textContent = "Previous";
+    aPrev.href = "#";
+    aPrev.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (paginaActual > 1) {
+            window.paginaActual = paginaActual - 1;
+            mostrarComandes();
+        }
+    });
+    liPrev.appendChild(aPrev);
+    ul.appendChild(liPrev);
+
+    // Números de pàgina
+    for (let i = 1; i <= totalPagines; i++) {
+        let li = document.createElement("li");
+        li.classList.add("page-item");
+        if (i === paginaActual) li.classList.add("active");
+        let a = document.createElement("a");
+        a.classList.add("page-link");
+        a.href = "#";
+        a.textContent = i;
+        a.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.paginaActual = i;
+            mostrarComandes();
+        });
+        li.appendChild(a);
+        ul.appendChild(li);
+    }
+
+    // Botó Next
+    let liNext = document.createElement("li");
+    liNext.classList.add("page-item");
+    if (paginaActual === totalPagines) liNext.classList.add("disabled");
+    let aNext = document.createElement("a");
+    aNext.classList.add("page-link");
+    aNext.textContent = "Next";
+    aNext.href = "#";
+    aNext.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (paginaActual < totalPagines) {
+            window.paginaActual = paginaActual + 1;
+            mostrarComandes();
+        }
+    });
+    liNext.appendChild(aNext);
+    ul.appendChild(liNext);
+
+    paginacio.appendChild(ul);
+    container.appendChild(paginacio);
 }
 
-//  ACCIONS SOBRE COMANDES 
+
+// ACCIONS SOBRE COMANDES 
 function visualitzarComanda(index) {
-    localStorage.setItem("comandaVisualitzar", index); // Guardem índex a localStorage
-    window.location.href = "visualitzarComanda.html"; // Redirigim
+    localStorage.setItem("comandaVisualitzar", index);
+    window.location.href = "visualitzarComanda.html";
 }
 
 function modificarComanda(index) {
@@ -182,16 +300,16 @@ function modificarComanda(index) {
 
 function eliminarComanda(index) {
     let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
-    if (!confirm("Segur que vols eliminar aquesta comanda?")) return; // Confirmació
-    comandes.splice(index, 1); // Eliminem comanda
-    localStorage.setItem("comandes", JSON.stringify(comandes)); // Guardem canvis
-    mostrarComandes(); // Actualitzem la visualització
+    if (!confirm("Segur que vols eliminar aquesta comanda?")) return;
+    comandes.splice(index, 1);
+    localStorage.setItem("comandes", JSON.stringify(comandes));
+    mostrarComandes();
 }
 
-//  MAIN 
+// MAIN 
 function main() {
-    carregarDades();    // Carreguem les dades de base i locals
-    mostrarComandes();   // Mostrem la llista de comandes
+    carregarDades();
+    mostrarComandes();
 
     // Botó per afegir nova comanda
     let botoAfegir = document.getElementById("afegirPedido");
@@ -200,4 +318,31 @@ function main() {
             window.location.href = "altaComanda.html";
         });
     }
+
+    // EVENTS DELS FILTRES
+    let dataDesde = document.getElementById("data_desde");
+    let dataFins = document.getElementById("data_fins");
+    let inputClient = document.getElementById("filtrar_client");
+    let btnFiltrar = document.getElementById("aplicarFiltres");
+
+    if (dataDesde) dataDesde.addEventListener("change", mostrarComandes);
+    if (dataFins) dataFins.addEventListener("change", mostrarComandes);
+    if (inputClient) inputClient.addEventListener("input", mostrarComandes);
+    if (btnFiltrar) btnFiltrar.addEventListener("click", mostrarComandes);
+    // --- NOU: EVENT DEL FILTRE DE CLIENT I BOTÓ FILTRAR ---
+
+    if (inputClient) {
+        // Si vols que filtre automàticament mentre escrius
+        inputClient.addEventListener("input", mostrarComandes);
+    }
+
+    if (btnFiltrar) {
+        // Evita que el botó faça submit si està dins d'un form
+        btnFiltrar.type = "button";
+        btnFiltrar.addEventListener("click", (ev) => {
+            ev.preventDefault();
+            mostrarComandes(); // Torna a renderitzar la taula amb filtres aplicats
+        });
+    }
+
 }

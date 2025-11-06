@@ -2,72 +2,116 @@
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
-    // Esborrem productes anteriors a cada recàrrega de pàgina per començar net
-    localStorage.removeItem("productesActuals");
+  // Esborrem productes anteriors a cada recàrrega de pàgina per començar net
+  localStorage.removeItem("productesActuals");
 
-    // Assignem la validació del formulari a l'esdeveniment submit
-    document.getElementById("pedidoForm").addEventListener("submit", validarFormulari);
+  // Assignem la validació del formulari a l'esdeveniment submit
+  document.getElementById("pedidoForm").addEventListener("submit", validarFormulari);
 
-    // Botó per veure la llista de comandes
-    document.getElementById("llista").addEventListener("click", () => location.href = "comandesLlistar.html");
+  // Botó per veure la llista de comandes
+  document.getElementById("llista").addEventListener("click", () => location.href = "comandesLlistar.html");
 
-    // Delegació del botó "Afegir" dins de la taula de productes
-    document.getElementById("productsTable").addEventListener("click", function(e) {
-        if (e.target.classList.contains("addProduct")) afegirProducte(e);
-    });
+  // Delegació del botó "Afegir" dins de la taula de productes
+  document.getElementById("productsTable").addEventListener("click", function (e) {
+    if (e.target.classList.contains("addProduct")) afegirProducte(e);
+  });
 
-    // Carreguem clients i productes per als selects
-    carregarClients();
-    carregarProductes();
+  carregarClients();
+  carregarProductes();
+  configurarAutoPreu();
+  configurarCalculPreuFinal();
 
-    // Configuració per actualitzar automàticament el preu en seleccionar un producte
-    configurarAutoPreu();
-
-    // Inicialment, taula de productes buida
-    mostrarProductes([]);
 }
 
 //  CARREGAR CLIENTS I PRODUCTES 
 function carregarClients() {
-    let select = document.getElementById("client");
-    select.replaceChildren(); // Neteja prèvia
-    select.appendChild(new Option("Selecciona un client...", ""));
-    Client.forEach(c => select.appendChild(new Option(`${c.name} ${c.surname}`, c.id)));
+  let select = document.getElementById("client");
+  select.replaceChildren(); // Neteja prèvia
+  select.appendChild(new Option("Selecciona un client...", ""));
+  Client.forEach(c => select.appendChild(new Option(`${c.name} ${c.surname}`, c.id)));
 }
 
 function carregarProductes() {
-    document.querySelectorAll(".productSelect").forEach(select => {
-        select.replaceChildren();
-        select.appendChild(new Option("Selecciona un producte...", ""));
-        Product.forEach(p => select.appendChild(new Option(p.name, p.id)));
-    });
+  document.querySelectorAll(".productSelect").forEach(select => {
+    select.replaceChildren();
+    select.appendChild(new Option("Selecciona un producte...", ""));
+    Product.forEach(p => select.appendChild(new Option(p.name, p.id)));
+  });
 }
 
 //  AUTO-PREU 
-function configurarAutoPreu() {
-    document.querySelectorAll(".productSelect").forEach(select => {
-        select.addEventListener("change", e => {
-            let productId = Number(e.target.value);
-            let fila = e.target.closest(".product-line");
-            let inputPreu = fila.querySelector("[name='price[]']");
-            let inputDescompte = fila.querySelector("[name='discount[]']");
+function configurarCalculPreuFinal() {
+  document.querySelectorAll(".product-line").forEach(fila => {
+    const quant = fila.querySelector("[name='quantity[]']");
+    const preu = fila.querySelector("[name='price[]']");
+    const descompte = fila.querySelector("[name='discount[]']");
+    const finalPrice = fila.querySelector("[name='finalPrice[]']");
 
-            // Si no hi ha producte seleccionat, buidem preu i descompte
-            if (!productId) {
-                inputPreu.value = "";
-                inputDescompte.value = "0";
-                return;
-            }
+    function recalcular() {
+      const q = parseFloat(quant.value) || 0;
+      const p = parseFloat(preu.value) || 0;
+      const d = parseFloat(descompte.value) || 0;
+      const total = q * p * (1 - d / 100);
+      finalPrice.value = total.toFixed(2);
+    }
 
-            // Busquem el producte seleccionat i assignem preu i descompte per defecte
-            let producte = Product.find(p => p.id === productId);
-            if (producte) {
-                inputPreu.value = producte.price.toFixed(2);
-                inputDescompte.value = (producte.discount || 0).toFixed(2);
-            }
-        });
+    // Quan es canvia qualsevol dels tres valors, recalcula
+    [quant, preu, descompte].forEach(input => {
+      input.addEventListener("input", recalcular);
     });
+  });
 }
+
+function configurarAutoPreu() {
+  document.querySelectorAll(".productSelect").forEach(select => {
+    select.addEventListener("change", function () {
+      let id = this.value;
+      let fila = this.closest(".product-line");
+      let preuInput = fila.querySelector("[name='price[]']");
+      let descInput = fila.querySelector("[name='discount[]']");
+      let finalInput = fila.querySelector("[name='finalPrice[]']");
+      let quantInput = fila.querySelector("[name='quantity[]']");
+
+      if (!id) {
+        preuInput.value = "";
+        descInput.value = "";
+        finalInput.value = "";
+        return;
+      }
+
+      //  Busquem el producte dins de la taula Product
+      let prod = Product.find(p => p.id == id);
+      if (!prod) return;
+
+      let preu = prod.price;
+
+      // Cerquem tots els descomptes que s’han aplicat a aquest producte a la BBDD (Orderdetail)
+      let descomptes = Orderdetail
+        .filter(o => o.product_id === Number(id))
+        .map(o => o.discount)
+        .filter(d => d > 0);
+
+
+      // Escollim el descompte que volem aplicar
+      // (pots canviar Math.max per Math.min o per la mitjana)
+      let descompte = 0;
+      if (descomptes.length > 0) {
+        descompte = Math.max(...descomptes); // descompte més alt aplicat
+      }
+
+      //  Assignem preu i descompte automàticament
+      preuInput.value = preu.toFixed(2);
+      descInput.value = descompte.toFixed(2);
+
+      //  Calculem el preu final segons la quantitat
+      let quant = parseFloat(quantInput.value) || 1;
+      let preuFinal = preu * quant * (1 - descompte / 100);
+      finalInput.value = preuFinal.toFixed(2);
+    });
+  });
+}
+
+
 
 //-----------------------------------------------------------------------------------------
 // VALIDACIÓ DE PAGAMENT, ENVIAMENT, CLIENT I PRODUCTES
@@ -122,9 +166,7 @@ function validarProductes() {
   return true;
 }
 
-//-----------------------------------------------------------------------------------------
 // FUNCIÓ PRINCIPAL VALIDAR FORMULARI
-//-----------------------------------------------------------------------------------------
 
 function validarFormulari(e) {
   esborrarError();
@@ -144,165 +186,172 @@ function validarFormulari(e) {
   }
 }
 
-
 //  ERROR HANDLERS 
 function errorMissatge(msg) {
-    let cont = document.getElementById("missatgeError");
-    let p = document.createElement("p");
-    p.style.color = "red";
-    p.appendChild(document.createTextNode(msg));
-    cont.appendChild(p);
+  let cont = document.getElementById("missatgeError");
+  let p = document.createElement("p");
+  p.style.color = "red";
+  p.appendChild(document.createTextNode(msg));
+  cont.appendChild(p);
 }
 
 function esborrarError() {
-    document.getElementById("missatgeError").replaceChildren();
+  document.getElementById("missatgeError").replaceChildren();
 }
 
 //  AFEGIR PRODUCTE 
 function afegirProducte(e) {
-    esborrarError();
-    let fila = e.target.closest(".product-line");
-    let quant = fila.querySelector("[name='quantity[]']");
-    let preu = fila.querySelector("[name='price[]']");
-    let productSelect = fila.querySelector("[name='product_id[]']");
-    let descompte = fila.querySelector("[name='discount[]']");
+  esborrarError();
+  let fila = e.target.closest(".product-line");
+  let quant = fila.querySelector("[name='quantity[]']");
+  let preu = fila.querySelector("[name='price[]']");
+  let productSelect = fila.querySelector("[name='product_id[]']");
+  let descompte = fila.querySelector("[name='discount[]']");
+  let finalPrice = fila.querySelector("[name='finalPrice[]']");
 
-    // Validació de dades obligatòries
-    if (!productSelect.value || !quant.value || quant.value <= 0 || !preu.value || preu.value < 0) {
-        errorMissatge("Introdueix correctament el producte, quantitat i preu."); 
-        return;
-    }
+  // Validació de dades
+  if (!productSelect.value || !quant.value || quant.value <= 0 || !preu.value || preu.value < 0) {
+    errorMissatge("Introdueix correctament el producte, quantitat i preu.");
+    return;
+  }
 
-    // Creem l'objecte del producte
-    let nou = {
-        producte: productSelect.value,
-        quantitat: +quant.value,
-        preu: +preu.value,
-        descompte: +descompte.value
-    };
+  // Calcular preu final
+  const preuFinal = (+quant.value) * (+preu.value) * (1 - (+descompte.value) / 100);
+  finalPrice.value = preuFinal.toFixed(2);
 
-    // Guardem a localStorage
-    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
-    llista.push(nou);
-    localStorage.setItem("productesActuals", JSON.stringify(llista));
+  // Objecte producte
+  let nou = {
+    producte: productSelect.value,
+    quantitat: +quant.value,
+    preu: +preu.value,
+    descompte: +descompte.value,
+    preuFinal: preuFinal
+  };
 
-    // Mostrem taula actualitzada
-    mostrarProductes(llista);
+  // Guardar a localStorage
+  let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+  llista.push(nou);
+  localStorage.setItem("productesActuals", JSON.stringify(llista));
 
-    // Neteja inputs per afegir un altre producte
-    quant.value = "1";
-    preu.value = "";
-    descompte.value = "0";
-    productSelect.value = "";
+  // Mostrar taula actualitzada
+  mostrarProductes(llista);
+
+  // Netejar inputs
+  quant.value = "1";
+  preu.value = "";
+  descompte.value = "0";
+  finalPrice.value = "";
+  productSelect.value = "";
 }
+
 
 //  MOSTRAR PRODUCTES 
 function mostrarProductes(productes) {
-    let cont = document.getElementById("productesAfegits");
-    cont.replaceChildren(); // Neteja prèvia
-    if (!productes || productes.length === 0) return;
+  let cont = document.getElementById("productesAfegits");
+  cont.replaceChildren(); // Neteja prèvia
+  if (!productes || productes.length === 0) return;
 
-    let h4 = document.createElement("h4");
-    h4.appendChild(document.createTextNode("Productes afegits"));
-    cont.appendChild(h4);
+  let h4 = document.createElement("h4");
+  h4.appendChild(document.createTextNode("Productes afegits"));
+  cont.appendChild(h4);
 
-    let taula = document.createElement("table");
-    taula.border = "1";
-    taula.cellPadding = "4";
-    taula.cellSpacing = "0";
+  let taula = document.createElement("table");
+  taula.border = "1";
+  taula.cellPadding = "4";
+  taula.cellSpacing = "0";
 
-    // Capçalera de la taula
-    let caps = ["#", "Producte", "Quantitat", "Preu", "Descompte", "Acció"];
-    let trCap = document.createElement("tr");
-    caps.forEach(t => { 
-        let th = document.createElement("th"); 
-        th.appendChild(document.createTextNode(t)); 
-        trCap.appendChild(th); 
-    });
-    taula.appendChild(trCap);
+  // Capçalera de la taula
+  let caps = ["#", "Producte", "Quantitat", "Preu", "Descompte", "Preu Final", "Acció"];
+  let trCap = document.createElement("tr");
+  caps.forEach(t => {
+    let th = document.createElement("th");
+    th.appendChild(document.createTextNode(t));
+    trCap.appendChild(th);
+  });
+  taula.appendChild(trCap);
 
-    let total = 0;
+  let total = 0;
 
-    // Afegim files amb productes
-    productes.forEach((p, i) => {
-        let tr = document.createElement("tr");
-        let prodObj = Product.find(x => x.id == p.producte);
-        let nomProducte = prodObj ? prodObj.name : "Desconegut";
+  // Afegim files amb productes
+  productes.forEach((p, i) => {
+    let tr = document.createElement("tr");
+    let prodObj = Product.find(x => x.id == p.producte);
+    let nomProducte = prodObj ? prodObj.name : "Desconegut";
 
-        [i+1, nomProducte, p.quantitat, p.preu.toFixed(2), p.descompte.toFixed(2)]
-            .forEach(v => { const td = document.createElement("td"); td.appendChild(document.createTextNode(v)); tr.appendChild(td); });
+    [i + 1, nomProducte, p.quantitat, p.preu.toFixed(2), p.descompte.toFixed(2), p.preuFinal.toFixed(2)]
+      .forEach(v => { const td = document.createElement("td"); td.appendChild(document.createTextNode(v)); tr.appendChild(td); });
 
-        // Botó eliminar
-        let tdAccio = document.createElement("td");
-        let btn = document.createElement("button");
-        btn.appendChild(document.createTextNode("Eliminar"));
-        btn.addEventListener("click", () => eliminarProducte(i));
-        tdAccio.appendChild(btn);
-        tr.appendChild(tdAccio);
+    // Botó eliminar
+    let tdAccio = document.createElement("td");
+    let btn = document.createElement("button");
+    btn.appendChild(document.createTextNode("Eliminar"));
+    btn.addEventListener("click", () => eliminarProducte(i));
+    tdAccio.appendChild(btn);
+    tr.appendChild(tdAccio);
 
-        total += p.quantitat * p.preu * (1 - p.descompte / 100);
-        taula.appendChild(tr);
-    });
+    total += p.quantitat * p.preu * (1 - p.descompte / 100);
+    taula.appendChild(tr);
+  });
 
-    // Fila preu total
-    let trTotal = document.createElement("tr");
-    let tdTotal = document.createElement("td");
-    tdTotal.colSpan = 5;
-    tdTotal.style.textAlign = "right";
-    tdTotal.appendChild(document.createTextNode("Total:"));
-    trTotal.appendChild(tdTotal);
+  // Fila preu total
+  let trTotal = document.createElement("tr");
+  let tdTotal = document.createElement("td");
+  tdTotal.colSpan = 5;
+  tdTotal.style.textAlign = "right";
+  tdTotal.appendChild(document.createTextNode("Total:"));
+  trTotal.appendChild(tdTotal);
 
-    let tdValor = document.createElement("td");
-    tdValor.appendChild(document.createTextNode(total.toFixed(2) + " €"));
-    trTotal.appendChild(tdValor);
+  let tdValor = document.createElement("td");
+  tdValor.appendChild(document.createTextNode(total.toFixed(2) + " €"));
+  trTotal.appendChild(tdValor);
 
-    taula.appendChild(trTotal);
-    cont.appendChild(taula);
+  taula.appendChild(trTotal);
+  cont.appendChild(taula);
 }
 
 //  ELIMINAR PRODUCTE 
 function eliminarProducte(index) {
-    let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
-    llista.splice(index, 1);
-    localStorage.setItem("productesActuals", JSON.stringify(llista));
-    mostrarProductes(llista);
+  let llista = JSON.parse(localStorage.getItem("productesActuals")) || [];
+  llista.splice(index, 1);
+  localStorage.setItem("productesActuals", JSON.stringify(llista));
+  mostrarProductes(llista);
 }
 
 //  ENVIAR FORMULARI 
 function enviarFormulari() {
-    let clientSelect = document.getElementById("client");
-    let clientNom = clientSelect.options[clientSelect.selectedIndex].text;
+  let clientSelect = document.getElementById("client");
+  let clientNom = clientSelect.options[clientSelect.selectedIndex].text;
 
-    let productesGuardats = JSON.parse(localStorage.getItem("productesActuals")) || [];
-    if (productesGuardats.length === 0) { errorMissatge("No hi ha productes a enviar."); return; }
+  let productesGuardats = JSON.parse(localStorage.getItem("productesActuals")) || [];
+  if (productesGuardats.length === 0) { errorMissatge("No hi ha productes a enviar."); return; }
 
-    // Convertim data a format correcte
-    let dataRaw = document.getElementById("date").value;
-    let dataFormatada = dataRaw.replace("T", " ");
+  // Convertim data a format correcte
+  let dataRaw = document.getElementById("date").value;
+  let dataFormatada = dataRaw.replace("T", " ");
 
-    // Creem objecte de comanda
-    let comanda = {
-        id: Date.now(),
-        data: dataFormatada,
-        pagament: document.getElementById("payment").value,
-        enviament: +document.getElementById("shipping").value,
-        client: clientNom,
-        productes: productesGuardats
-    };
+  // Creem objecte de comanda
+  let comanda = {
+    id: Date.now(),
+    data: dataFormatada,
+    pagament: document.getElementById("payment").value,
+    enviament: +document.getElementById("shipping").value,
+    client: clientNom,
+    productes: productesGuardats
+  };
 
-    // Guardem al localStorage
-    let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
-    comandes.push(comanda);
-    localStorage.setItem("comandes", JSON.stringify(comandes));
-    localStorage.removeItem("productesActuals");
+  // Guardem al localStorage
+  let comandes = JSON.parse(localStorage.getItem("comandes")) || [];
+  comandes.push(comanda);
+  localStorage.setItem("comandes", JSON.stringify(comandes));
+  localStorage.removeItem("productesActuals");
 
-    // Neteja formulari i taula de productes
-    document.forms[0].reset();
-    document.getElementById("productesAfegits").replaceChildren();
+  // Neteja formulari i taula de productes
+  document.forms[0].reset();
+  document.getElementById("productesAfegits").replaceChildren();
 
-    // Mostrem missatge d'èxit
-    let msg = document.createElement("p");
-    msg.style.color = "green";
-    msg.appendChild(document.createTextNode("Comanda guardada correctament."));
-    document.getElementById("missatgeError").appendChild(msg);
+  // Mostrem missatge d'èxit
+  let msg = document.createElement("p");
+  msg.style.color = "green";
+  msg.appendChild(document.createTextNode("Comanda guardada correctament."));
+  document.getElementById("missatgeError").appendChild(msg);
 }

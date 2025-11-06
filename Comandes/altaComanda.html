@@ -53,7 +53,8 @@
                     <th>Producte</th>
                     <th>Quantitat</th>
                     <th>Preu</th>
-                    <th>Descompte</th>
+                    <th>Descompte %</th>
+                    <th>Preu Final Producte</th>
                     <th>Acció</th>
                 </tr>
             </thead>
@@ -66,7 +67,8 @@
                     </td>
                     <td><input type="number" name="quantity[]" min="1" required></td>
                     <td><input type="number" step="0.01" name="price[]" min="0" required></td>
-                    <td><input type="number" step="0.01" name="discount[]" min="0" value="0.00"></td>
+                    <td><input type="number" step="0.01" name="discount[]" min="0" value="0.00" ></td>
+                    <td><input type="number" name="finalPrice[]" step="0.01" min="0" readonly></td>
                     <td><button type="button" class="addProduct">Afegir</button></td>
                 </tr>
             </tbody>
