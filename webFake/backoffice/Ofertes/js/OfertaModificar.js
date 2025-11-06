@@ -161,7 +161,7 @@ function main() {
             return;
         }
 
-        setTimeout(() => window.location.href = "listOfer.html", 1200);
+        setTimeout(() => window.location.href = "index.html", 1200);
     });
 }
 

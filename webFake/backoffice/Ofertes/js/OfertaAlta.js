@@ -164,7 +164,7 @@ function main() {
         
         localStorage.setItem("formData", JSON.stringify(dades));
 
-        setTimeout(() => window.location.href = "listOfer.html", 1200);
+        setTimeout(() => window.location.href = "index.html", 1200);
     });
 
     entradaOferta.addEventListener('input', function() {

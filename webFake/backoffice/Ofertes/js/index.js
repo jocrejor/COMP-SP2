@@ -199,11 +199,11 @@ function main() {
     }
 
     function anarAProductes(index) {
-        window.location.href = `productsList.html?oferta=${index}`;
+        window.location.href = `ProducteLlistar.html?oferta=${index}`;
     }
 
     function editarDada(index) {
-        window.location.href = `edit.html?edit=${index}`;
+        window.location.href = `OfertaModificar.html?edit=${index}`;
     }
 
     renderitzarTaula();
