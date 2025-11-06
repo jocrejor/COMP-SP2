@@ -315,14 +315,14 @@ function validarFormulari(nom, email, password, rol) {
         return false;
     }
     
-    // Validar password - FIXED: Changed logic from ! to standard check
+    // Validar password - 
     const regexcontrasenya = /^.{8,20}$/;
     if (!regexcontrasenya.test(password)) {
         mostrarError("La contrasenya ha de tenir entre 8 i 20 caràcters.");
         return false;
     }
     
-    // Validar rol - FIXED: Changed || to && for proper validation
+    // Validar rol 
     if (rol !== "admin" && rol !== "editor") {
         mostrarError("No ha assignat cap rol vàlid al usuari");
         return false;
