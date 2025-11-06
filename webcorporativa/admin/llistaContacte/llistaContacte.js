@@ -198,6 +198,66 @@ document.addEventListener("DOMContentLoaded", () => {
     detailModal.style.display = 'block';
   }
 
+
+  // Función para abrir el modal de edición
+  function obrirModalEditar() {
+    if (!contacteActual) return;
+    // Rellenar el formulario de edición con los datos del contacto
+    document.getElementById('editName').value = contacteActual.name;
+    document.getElementById('editEmail').value = contacteActual.email;
+    document.getElementById('editPhone').value = contacteActual.phone || '';
+    document.getElementById('editSubject').value = contacteActual.subject;
+    editModal.style.display = 'block';
+  }
+
+  // Función para abrir el modal de confirmación de eliminación
+  function obrirModalConfirmacio() {
+    if (!contacteActual) return;
+    confirmModal.style.display = 'block';
+  }
+
+  // Función para guardar la edición de un contacto
+function guardarEdicio(event) {
+  event.preventDefault();  // Prevenir el comportamiento por defecto del formulario
+
+  // Obtener los valores del formulario de edición
+  const name = document.getElementById('editName').value.trim();
+  const email = document.getElementById('editEmail').value.trim();
+  const phone = document.getElementById('editPhone').value.trim();
+  const subject = document.getElementById('editSubject').value.trim();
+
+  // Validar que los campos obligatorios no estén vacíos
+  if (!name || !email || !subject) {
+    alert("Tots els camps obligatoris han d'estar emplenats.");
+    return;
+  }
+
+  // Actualizar el contacto actual con los nuevos valores
+  if (contacteActual) {
+    contacteActual.name = name;
+    contacteActual.email = email;
+    contacteActual.phone = phone || '';  // Si no hay teléfono, se guarda como cadena vacía
+    contacteActual.subject = subject;
+    contacteActual.date = new Date().toISOString();  // Actualizar la fecha
+
+    // Guardar el contacto actualizado en localStorage
+    let contactes = JSON.parse(localStorage.getItem("contactes")) || [];
+    const index = contactes.findIndex(c => c.id === contacteActual.id);
+    if (index !== -1) {
+      contactes[index] = contacteActual;
+      localStorage.setItem("contactes", JSON.stringify(contactes));
+    }
+
+    // Cerrar el modal de edición
+    editModal.style.display = 'none';
+
+    // Recargar los contactos para reflejar los cambios
+    carregarContactes();
+
+    alert('Contacte actualitzat correctament.');
+  }
+}
+
   // Función para eliminar un contacto
   function eliminarContacte() {
     if (!contacteActual) return;
@@ -224,13 +284,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function cercarContactes() {
     const query = searchInput.value.toLowerCase().trim();
     const totsElsContactes = obtenirTotsElsContactes();
-    
+
     if (!query) {
       carregarContactes(totsElsContactes);
       return;
     }
 
-    const contactesFiltrats = totsElsContactes.filter(contacte => 
+    const contactesFiltrats = totsElsContactes.filter(contacte =>
       contacte.name.toLowerCase().includes(query) ||
       contacte.email.toLowerCase().includes(query) ||
       contacte.subject.toLowerCase().includes(query) ||
