@@ -84,7 +84,20 @@ function main() {
                 // Si el valor es un <a>, afegir-lo
                 if (valor && valor.tagName === "A") {
                     td.appendChild(valor);
-                } else {
+                } 
+                // Si el valor parece ser una fecha válida
+                else if (valor && !isNaN(Date.parse(valor))) {
+                const fecha = new Date(valor);
+                // Formato: dd/mm/yyyy (puedes cambiar el locale)
+                td.textContent = fecha.toLocaleDateString("es-ES", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                });
+                }  else {
                     td.textContent = valor ?? "-";
                 } fila.appendChild(td);
             });
