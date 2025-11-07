@@ -10,6 +10,16 @@ function main() {
     const btnFiltrar = document.getElementById("btnFiltrar");
     const btnReset = document.getElementById("btnReset");
 
+    // Variables per la paginació
+    let paginaActual = 1;
+    const regsPerPagina = 10;
+
+    // Afegim el contenidor de la paginació sota la taula
+    const paginacioContainer = document.createElement("div");
+    paginacioContainer.id = "paginacio";
+    paginacioContainer.style.marginTop = "15px";
+    document.body.appendChild(paginacioContainer);
+
     // -----------------------------
     // FUNCIONS AUXILIARS
     // -----------------------------
@@ -32,6 +42,51 @@ function main() {
     }
 
     // -----------------------------
+    // PAGINACIÓ
+    // -----------------------------
+    function crearPaginacio(totalRegistres) {
+        paginacioContainer.innerHTML = ""; // netegem
+
+        const totalPagines = Math.ceil(totalRegistres / regsPerPagina);
+        if (totalPagines <= 1) return; // si només hi ha una pàgina, no mostrem res
+
+        const btnAnterior = document.createElement("button");
+        btnAnterior.textContent = "« Anterior";
+        btnAnterior.disabled = paginaActual === 1;
+        btnAnterior.addEventListener("click", () => {
+            if (paginaActual > 1) {
+                paginaActual--;
+                mostrarTaula(); // recarregar
+            }
+        });
+        paginacioContainer.appendChild(btnAnterior);
+
+        // Botons numèrics
+        for (let i = 1; i <= totalPagines; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i;
+            btn.style.margin = "0 3px";
+            if (i === paginaActual) btn.disabled = true;
+            btn.addEventListener("click", () => {
+                paginaActual = i;
+                mostrarTaula();
+            });
+            paginacioContainer.appendChild(btn);
+        }
+
+        const btnSeguent = document.createElement("button");
+        btnSeguent.textContent = "Següent »";
+        btnSeguent.disabled = paginaActual === totalPagines;
+        btnSeguent.addEventListener("click", () => {
+            if (paginaActual < totalPagines) {
+                paginaActual++;
+                mostrarTaula();
+            }
+        });
+        paginacioContainer.appendChild(btnSeguent);
+    }
+
+    // -----------------------------
     // MOSTRAR TAULA
     // -----------------------------
     function mostrarTaula(filtres = {}) {
@@ -40,11 +95,11 @@ function main() {
 
         while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-        let resultats = registres;
+        let pagRegistres = registres;
 
         // ---- APLICAR FILTRES ----
         if (filtres.client || filtres.desde || filtres.fins) {
-            resultats = registres.filter((reg) => {
+            pagRegistres = registres.filter((reg) => {
                 let coincideix = true;
 
                 // Filtro client
@@ -54,7 +109,7 @@ function main() {
                     coincideix = coincideix && nomComplet.includes(filtres.client.toLowerCase());
                 }
 
-                // Filtro per data -- NO VA
+                // Filtro per data
                 if (filtres.desde || filtres.fins) {
                     const dataReg = new Date(reg.date_start);
                     if (filtres.desde) {
@@ -71,18 +126,24 @@ function main() {
             });
         }
 
-        if (!resultats || resultats.length === 0) {
+        if (!pagRegistres || pagRegistres.length === 0) {
             const tr = document.createElement("tr");
             const td = document.createElement("td");
             td.colSpan = 8;
             td.textContent = "No hi ha registres que coincideixin amb el filtre.";
             tr.appendChild(td);
             tbody.appendChild(tr);
+            paginacioContainer.innerHTML = "";
             return;
         }
 
+        //---Paginació .--------
+        const inici = (paginaActual - 1) * regsPerPagina;
+        const final = inici + regsPerPagina;
+        const registresPagina = pagRegistres.slice(inici, final);
+
         // ---- MOSTRAR FILES ----
-        resultats.forEach((registre, index) => {
+        registresPagina.forEach((registre, index) => {
             const fila = document.createElement("tr");
 
             const clientNom = clients.find((c) => c.id == registre.client_id) || null;
@@ -112,7 +173,6 @@ function main() {
 
             camps.forEach((valor) => {
                 const td = document.createElement("td");
-
                 if (valor && valor.tagName === "A") {
                     td.appendChild(valor);
                 } else if (valor && !isNaN(Date.parse(valor))) {
@@ -137,7 +197,9 @@ function main() {
             btnEditar.textContent = "Editar";
             btnEditar.classList.add("accio", "editar");
             btnEditar.addEventListener("click", () => {
-                sessionStorage.setItem("editIndex", index);
+                // Hem de calcular l’índex global del registre (no només el de la pàgina)
+                const indexGlobal = inici + index;
+                sessionStorage.setItem("editIndex", indexGlobal);
                 window.location.href = "./HistoricForm.html";
             });
 
@@ -147,9 +209,11 @@ function main() {
             btnEsborrar.addEventListener("click", () => {
                 if (!confirm("Vols esborrar aquest registre?")) return;
                 const regs = carregarRegistresBbdd();
-                regs.splice(index, 1);
+                const indexGlobal = inici + index;
+                regs.splice(indexGlobal, 1);
                 regs.forEach((r, i) => (r.id = i + 1));
                 guardarLocal(regs);
+                if ((paginaActual - 1) * regsPerPagina >= regs.length) paginaActual--;
                 mostrarTaula();
             });
 
@@ -158,6 +222,9 @@ function main() {
             fila.appendChild(tdAccions);
             tbody.appendChild(fila);
         });
+
+        //Crear o actualitzar la paginació
+        crearPaginacio(pagRegistres.length);
     }
 
     // -----------------------------
@@ -169,6 +236,7 @@ function main() {
     });
 
     btnFiltrar.addEventListener("click", () => {
+        paginaActual = 1;
         const filtres = {
             client: filtreClient.value.trim(),
             desde: dataDesde.value,
@@ -181,6 +249,7 @@ function main() {
         filtreClient.value = "";
         dataDesde.value = "";
         dataFins.value = "";
+        paginaActual = 1;
         mostrarTaula();
     });
 
