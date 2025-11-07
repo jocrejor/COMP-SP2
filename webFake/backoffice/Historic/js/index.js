@@ -109,7 +109,7 @@ function main() {
                     coincideix = coincideix && nomComplet.includes(filtres.client.toLowerCase());
                 }
 
-                // Filtro per data
+                // Filtro per data -- NO VA
                 if (filtres.desde || filtres.fins) {
                     const dataReg = new Date(reg.date_start);
                     if (filtres.desde) {
