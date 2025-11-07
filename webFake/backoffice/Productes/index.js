@@ -1,13 +1,38 @@
 document.addEventListener("DOMContentLoaded", main);
 
+// Variables globales para paginación
+let currentPage = 1;
+let pageSize = 15;
+let totalProducts = 0;
+let totalPages = 0;
+
 function main() {
     const btnCrear = document.getElementById("btnCrear");
     btnCrear.addEventListener("click", () => {
         window.location.href = "ProducteAlta.html";
     });
 
+    // Event listeners para controles de paginación
+    document.getElementById("btnFirstPage").addEventListener("click", () => goToPage(1));
+    document.getElementById("btnPrevPage").addEventListener("click", () => goToPage(currentPage - 1));
+    document.getElementById("btnNextPage").addEventListener("click", () => goToPage(currentPage + 1));
+    document.getElementById("btnLastPage").addEventListener("click", () => goToPage(totalPages));
+    
+    document.getElementById("pageSize").addEventListener("change", function() {
+        pageSize = parseInt(this.value);
+        currentPage = 1;
+        cargarProductos();
+    });
+
     inicializarDades();
     cargarProductos();
+}
+
+function goToPage(page) {
+    if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        cargarProductos();
+    }
 }
 
 function inicializarDades() {
@@ -65,11 +90,19 @@ function cargarProductos() {
     const productos = obtenerProductos();
     const familias = obtenerFamilias();
     const imagenes = obtenerImagenes();
+    
+    totalProducts = productos.length;
+    totalPages = Math.ceil(totalProducts / pageSize);
+    
+    // Calcular productos para la página actual
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalProducts);
+    const productosPagina = productos.slice(startIndex, endIndex);
 
     const tbody = document.querySelector("#productsTable tbody");
     tbody.innerHTML = "";
 
-    if (productos.length === 0) {
+    if (productosPagina.length === 0) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
         td.colSpan = 11;
@@ -79,7 +112,7 @@ function cargarProductos() {
         return;
     }
 
-    productos.forEach(producto => {
+    productosPagina.forEach(producto => {
         const tr = document.createElement("tr");
         if (!producto.active) {
             tr.classList.add('inactive');
@@ -188,13 +221,60 @@ function cargarProductos() {
         tbody.appendChild(tr);
     });
 
+    // Actualizar controles de paginación
+    actualizarPaginacion();
+    
+    // Re-asignar event listeners a los botones
+    asignarEventListeners();
+}
+
+function actualizarPaginacion() {
+    // Actualizar información de paginación
+    const startItem = (currentPage - 1) * pageSize + 1;
+    const endItem = Math.min(currentPage * pageSize, totalProducts);
+    document.getElementById("paginationInfo").textContent = 
+        `Mostrant ${startItem}-${endItem} de ${totalProducts} productes`;
+    
+    // Actualizar estado de botones
+    document.getElementById("btnFirstPage").disabled = currentPage === 1;
+    document.getElementById("btnPrevPage").disabled = currentPage === 1;
+    document.getElementById("btnNextPage").disabled = currentPage === totalPages;
+    document.getElementById("btnLastPage").disabled = currentPage === totalPages;
+    
+    // Actualizar números de página
+    const pageNumbers = document.getElementById("pageNumbers");
+    pageNumbers.innerHTML = "";
+    
+    // Mostrar máximo 5 números de página alrededor de la actual
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, currentPage + 2);
+    
+    // Ajustar si estamos cerca del inicio o final
+    if (currentPage <= 3) {
+        endPage = Math.min(5, totalPages);
+    }
+    if (currentPage >= totalPages - 2) {
+        startPage = Math.max(1, totalPages - 4);
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        const btnPage = document.createElement("button");
+        btnPage.textContent = i;
+        btnPage.classList.add("btn-pagination", "btn-page");
+        if (i === currentPage) {
+            btnPage.classList.add("active");
+        }
+        btnPage.addEventListener("click", () => goToPage(i));
+        pageNumbers.appendChild(btnPage);
+    }
+}
+
+function asignarEventListeners() {
     // Event listeners per als botons
     document.querySelectorAll(".btn-images").forEach(btn => {
         btn.addEventListener("click", () => {
             const id = parseInt(btn.getAttribute("data-id"));
             window.location.href = `./ProductesImg/ProducteImg.html?id=${id}`;
-
-
         });
     });
 

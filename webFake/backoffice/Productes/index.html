@@ -33,6 +33,27 @@
             <!-- Els productes es carregaran des del js -->
         </tbody>
     </table>
+    
+    <!-- Controles de paginación -->
+    <div class="pagination-container">
+        <div class="pagination-info" id="paginationInfo"></div>
+        <div class="pagination-controls">
+            <button id="btnFirstPage" class="btn-pagination">Primera</button>
+            <button id="btnPrevPage" class="btn-pagination">Anterior</button>
+            <div id="pageNumbers" class="page-numbers"></div>
+            <button id="btnNextPage" class="btn-pagination">Següent</button>
+            <button id="btnLastPage" class="btn-pagination">Última</button>
+        </div>
+        <div class="pagination-size">
+            <label for="pageSize">Productes per pàgina:</label>
+            <select id="pageSize">
+                <option value="10">10</option>
+                <option value="15" selected>15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+            </select>
+        </div>
+    </div>
 </body>
 
 </html>
