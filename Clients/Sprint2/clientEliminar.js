@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", main);
 
 function main() {
@@ -70,4 +71,3 @@ function showError(msg) {
     document.getElementById("contenedor").innerHTML =
         `<p style="color:red">${msg}</p><button onclick="window.location.href='clientLlistar.html'">Tornar</button>`;
 }
-

@@ -33,4 +33,3 @@ function carregarClients(clients) {
         taula.appendChild(fila);
     });
 }
-
