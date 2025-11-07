@@ -15,7 +15,7 @@ function main() {
   document.getElementById("productsTable").addEventListener("click", function (e) {
     if (e.target.classList.contains("addProduct")) afegirProducte(e);
   });
-
+  // Carrega automàticament clients i productes
   carregarClients();
   carregarProductes();
   configurarAutoPreu();
@@ -26,42 +26,49 @@ function main() {
 //  CARREGAR CLIENTS I PRODUCTES 
 function carregarClients() {
   let select = document.getElementById("client");
-  select.replaceChildren(); // Neteja prèvia
+  select.replaceChildren(); // Elimina totes les opcions anteriors del <select>
   select.appendChild(new Option("Selecciona un client...", ""));
+  // forEach() recorre tot l’array Client i executa la funció per cada element
+  // new Option(text, value) crea una nova etiqueta <option>
+  // appendChild() afegeix aquesta opció dins de l’element <select>
   Client.forEach(c => select.appendChild(new Option(`${c.name} ${c.surname}`, c.id)));
 }
 
 function carregarProductes() {
+  // querySelectorAll() agafa tots els elements amb la classe .productSelect
   document.querySelectorAll(".productSelect").forEach(select => {
     select.replaceChildren();
     select.appendChild(new Option("Selecciona un producte...", ""));
+    // forEach() recorre l’array Product i crea una opció per a cada producte
     Product.forEach(p => select.appendChild(new Option(p.name, p.id)));
   });
 }
 
-//  AUTO-PREU 
+//  CONFIGURAR AUTO-CÀLCUL DE PREU FINAL 
 function configurarCalculPreuFinal() {
   document.querySelectorAll(".product-line").forEach(fila => {
-    const quant = fila.querySelector("[name='quantity[]']");
-    const preu = fila.querySelector("[name='price[]']");
-    const descompte = fila.querySelector("[name='discount[]']");
-    const finalPrice = fila.querySelector("[name='finalPrice[]']");
+    let quant = fila.querySelector("[name='quantity[]']");
+    let preu = fila.querySelector("[name='price[]']");
+    let descompte = fila.querySelector("[name='discount[]']");
+    let finalPrice = fila.querySelector("[name='finalPrice[]']");
 
     function recalcular() {
-      const q = parseFloat(quant.value) || 0;
-      const p = parseFloat(preu.value) || 0;
-      const d = parseFloat(descompte.value) || 0;
-      const total = q * p * (1 - d / 100);
-      finalPrice.value = total.toFixed(2);
-    }
+      // parseFloat() converteix text (com "12.5") a número decimal 12.5
 
+      let q = parseFloat(quant.value) || 0;
+      let p = parseFloat(preu.value) || 0;
+      let d = parseFloat(descompte.value) || 0;
+      let total = q * p * (1 - d / 100);
+      finalPrice.value = total.toFixed(2);       // toFixed(2) limita el resultat a dos decimals (ex: 12.345 → 12.35)
+    }
     // Quan es canvia qualsevol dels tres valors, recalcula
+    // addEventListener() escolta canvis a cada input i crida "recalcular"
     [quant, preu, descompte].forEach(input => {
       input.addEventListener("input", recalcular);
     });
   });
 }
-
+// CONFIGURAR AUTO-PREU AUTOMÀTIC SEGONS PRODUCTE
 function configurarAutoPreu() {
   document.querySelectorAll(".productSelect").forEach(select => {
     select.addEventListener("change", function () {
@@ -80,12 +87,17 @@ function configurarAutoPreu() {
       }
 
       //  Busquem el producte dins de la taula Product
+      // find() busca dins l’array Product l’objecte amb un id concret
+
       let prod = Product.find(p => p.id == id);
       if (!prod) return;
 
       let preu = prod.price;
 
       // Cerquem tots els descomptes que s’han aplicat a aquest producte a la BBDD (Orderdetail)
+      // filter() selecciona només els elements que compleixen una condició
+      // map() transforma l’array, extraient només el camp “discount”
+      // filter(d > 0) elimina els descomptes que siguin 0
       let descomptes = Orderdetail
         .filter(o => o.product_id === Number(id))
         .map(o => o.discount)
@@ -96,6 +108,7 @@ function configurarAutoPreu() {
       // (pots canviar Math.max per Math.min o per la mitjana)
       let descompte = 0;
       if (descomptes.length > 0) {
+        // Math.max() agafa el valor màxim d’un conjunt de nombres
         descompte = Math.max(...descomptes); // descompte més alt aplicat
       }
 
@@ -111,12 +124,7 @@ function configurarAutoPreu() {
   });
 }
 
-
-
-//-----------------------------------------------------------------------------------------
 // VALIDACIÓ DE PAGAMENT, ENVIAMENT, CLIENT I PRODUCTES
-//-----------------------------------------------------------------------------------------
-
 function validarPagament() {
   const element = document.getElementById("payment");
 

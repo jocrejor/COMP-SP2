@@ -65,10 +65,11 @@
                             <option value="">Carregant productes...</option>
                         </select>
                     </td>
-                    <td><input type="number" name="quantity[]" min="1" required></td>
-                    <td><input type="number" step="0.01" name="price[]" min="0" required></td>
-                    <td><input type="number" step="0.01" name="discount[]" min="0" value="0.00" ></td>
-                    <td><input type="number" name="finalPrice[]" step="0.01" min="0" readonly></td>
+                    <!--El que fa els [] es si te diversos camps amb el mateix name indica tot els valors que s'envien a un array.-->
+                    <td><input type="number" name="quantity[]" min="1" value="1"></td>
+                    <td><input type="number" name="price[]" step="0.01" readonly></td>
+                    <td><input type="number" name="discount[]" step="0.01" readonly></td>
+                    <td><input type="number" name="finalPrice[]" step="0.01" readonly></td>
                     <td><button type="button" class="addProduct">Afegir</button></td>
                 </tr>
             </tbody>
